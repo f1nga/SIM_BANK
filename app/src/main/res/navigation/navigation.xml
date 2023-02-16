@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+    <fragment
+        android:id="@+id/functionsFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.FunctionsFragment"
+        android:label="fragment_functions"
+        tools:layout="@layout/fragment_functions" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/cardFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.CardFragment"
+        android:label="CardFragment" />
+</navigation>

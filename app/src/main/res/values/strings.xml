@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">SIMBANK</string>
+    <string name="email_input_text">Email</string>
+    <string name="password_input_text">Password</string>
+    <string name="nickname_input_text">Password</string>
+    <string name="login_text">Inicia sesión y disfruta!</string>
+    <string name="login_button_text">Inicia sesión!</string>
+    <string name="login_to_register_text">No estás registrado? <u>Regístrate</u></string>
+    <string name="register_text">Únete a nosotros!</string>
+    <string name="register_button_text">Regístrate</string>
+    <string name="register_to_login_text">Ya tienes una cuenta? <u>Inicia sesión</u></string>
+    <string name="first_dish">1r PLATO</string>
+    <string name="second_dish">2ndo PLATO</string>
+    <string name="third_dish">POSTRE</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="login_subtitle">Aprende a manejar tu dinero y sal al mundo real con las ideas bien claras</string>
+    <string name="login_sign_in">¿Todavía no tienes cuenta? Regístrate</string>
+    <string name="login_button_loggin">INICIAR SESIÓN</string>
+    <string name="login_hint_password">Contraseña</string>
+    <string name="login_hint_user">Usuario o correo</string>
+    <string name="login_error_mail">El email no es válido</string>
+    <string name="login_error_password">Debe contener al menos 6 caracteres</string>
+    <string name="login_footer_unselected">¿Todavía no tienes cuenta?</string>
+    <string name="login_footer_selected">Regístrate</string>
+    <string name="login_error_dialog_title">No hemos encontrado el usuario</string>
+    <string name="login_error_dialog_body">Verifique los datos o vuelva a intentarlo</string>
+    <string name="login_error_dialog_negative_action">Cancelar</string>
+    <string name="login_error_dialog_positive_action">Reintentar</string>
+
+    <string name="introduction_button_signin">Crear cuenta</string>
+
+    <string name="signin_form_real_name">Nombre completo</string>
+    <string name="signin_form_nickname">Nombre público de usuario</string>
+    <string name="signin_form_email">Correo electrónico</string>
+    <string name="signin_form_password">Contraseña</string>
+    <string name="signin_form_repeat_password">Repetir contraseña</string>
+    <string name="signin_error_mail">El email no es válido</string>
+    <string name="signin_error_nickname">Debe contener al menos 6 caracteres</string>
+    <string name="signin_error_realname">Debe contener al menos 6 caracteres</string>
+    <string name="signin_error_password">Las 2 contraseñas debes ser iguales</string>
+    <string name="signin_footer_unselected">¿Ya tienes cuenta?</string>
+    <string name="signin_footer_selected">Inicia sesión</string>
+    <string name="signin_error_dialog_title">Ha ocurrido un error</string>
+    <string name="signin_error_dialog_body">No hemos podido crear tu cuenta, inténtalo de nuevo más tarde</string>
+    <string name="signin_error_dialog_positive_action">Okey :(</string>
+
+    <string name="verification_button_go_to_login">Ahora inicia sesión!</string>
+    <string name="verification_check_mail">Para acceder a la aplicación verifica tu correo electrónico (recuerda mirar en SPAM).</string>
+
+    <string name="dialog_success_title">¡Demo completa!</string>
+    <string name="dialog_success_body">"Espero que te haya gustado este login usando buenas prácticas y buen rollo :) "</string>
+    <string name="dialog_success_positive">¡Gracias!</string>
+
+    <string name="feature_not_allowed">Feature no solicitada :)</string>
+    <string name="signin_button_createaccount">Crear mi cuenta</string>
+</resources>

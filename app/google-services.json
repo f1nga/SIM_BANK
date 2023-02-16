@@ -1,0 +1,76 @@
+{
+  "project_info": {
+    "project_number": "296384899119",
+    "project_id": "simbank-334b7",
+    "storage_bucket": "simbank-334b7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296384899119:android:570672045d721c867dbeda",
+        "android_client_info": {
+          "package_name": "com.bluemeth.simbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296384899119-um14ssd1t5fen0smll1q9t7l4euisolq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bluemeth.simbank",
+            "certificate_hash": "25a3b43d16787f82817c4b82ef1d6207647eefd4"
+          }
+        },
+        {
+          "client_id": "296384899119-to99f0bqnui938pkp3l2i9r6t9366ho8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApJewpwbGx_Ly1aStvOpuQhuFSPo0Aurs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296384899119-to99f0bqnui938pkp3l2i9r6t9366ho8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:296384899119:android:b2a75f6dce302db57dbeda",
+        "android_client_info": {
+          "package_name": "com.finga.simbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "296384899119-to99f0bqnui938pkp3l2i9r6t9366ho8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApJewpwbGx_Ly1aStvOpuQhuFSPo0Aurs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "296384899119-to99f0bqnui938pkp3l2i9r6t9366ho8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
