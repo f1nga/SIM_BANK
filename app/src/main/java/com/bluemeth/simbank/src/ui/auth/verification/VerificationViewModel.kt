@@ -28,6 +28,10 @@ class VerificationViewModel @Inject constructor(
     val showContinueButton: LiveData<Event<Boolean>>
         get() = _showContinueButton
 
+    private val _navigateToLogin = MutableLiveData<Event<Boolean>>()
+    val navigateToLogin: LiveData<Event<Boolean>>
+        get() = _navigateToLogin
+
     init {
         viewModelScope.launch { sendEmailVerificationUseCase() }
         viewModelScope.launch {
@@ -47,5 +51,9 @@ class VerificationViewModel @Inject constructor(
 
     fun onGoToDetailSelected() {
         _navigateToVerifyAccount.value = Event(true)
+    }
+
+    fun onLoginSelected() {
+        _navigateToLogin.value = Event(true)
     }
 }

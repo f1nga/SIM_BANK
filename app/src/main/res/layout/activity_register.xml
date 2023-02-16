@@ -155,6 +155,7 @@
             android:layout_height="wrap_content"
             style="@style/FormEditText"
             android:hint="Teléfono"
+            android:text="3333333"
             android:imeOptions="actionDone"
             android:inputType="phone"
             android:textColorHint="#FFFFFF" />

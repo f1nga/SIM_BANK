@@ -10,6 +10,7 @@ import com.bluemeth.simbank.databinding.ActivityVerificationBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.LoginSuccessDialog
 import com.bluemeth.simbank.src.core.ex.show
+import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -40,7 +41,7 @@ class VerificationActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        binding.btnGoToDetail.setOnClickListener { verificationViewModel.onGoToDetailSelected() }
+        binding.btnGoToDetail.setOnClickListener { verificationViewModel.onLoginSelected() }
     }
 
     private fun initObservers() {
@@ -55,6 +56,16 @@ class VerificationActivity : AppCompatActivity() {
                 binding.btnGoToDetail.isVisible = true
             }
         }
+
+        verificationViewModel.navigateToLogin.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                goToLogin()
+            }
+        }
+    }
+
+    private fun goToLogin() {
+        startActivity(LoginActivity.create(this))
     }
 
 }

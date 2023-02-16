@@ -65,9 +65,9 @@ class SignInActivity : AppCompatActivity() {
         binding.inputRepeatPasswordRegistreText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
         binding.inputRepeatPasswordRegistreText.onTextChanged { onFieldChanged() }
 
-//        binding.inputTelefonRegistreText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-//        binding.inputTelefonRegistreText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
-//        binding.inputTelefonRegistreText.onTextChanged { onFieldChanged() }
+        binding.inputTelefonRegistreText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
+        binding.inputTelefonRegistreText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+        binding.inputTelefonRegistreText.onTextChanged { onFieldChanged() }
 
         binding.txtFinal.setOnClickListener{ signInViewModel.onLoginSelected() }
 
@@ -80,7 +80,7 @@ class SignInActivity : AppCompatActivity() {
                         email = binding.inputEmailRegistreText.text.toString(),
                         password = binding.inputPasswordRegistreText.text.toString(),
                         passwordConfirmation = binding.inputRepeatPasswordRegistreText.text.toString(),
-                       // phoneNumber = binding.inputTelefonRegistreText.text.toString().toInt()
+                        phoneNumber = binding.inputTelefonRegistreText.text.toString().toInt()
                     )
                 )
             }
@@ -132,8 +132,8 @@ class SignInActivity : AppCompatActivity() {
                 if (viewState.isValidPassword) null else getString(R.string.signin_error_password)
             binding.inputRepeatPasswordRegistre.error =
                 if (viewState.isValidPassword) null else getString(R.string.signin_error_password)
-//            binding.inputTelefonRegistre.error =
-//                if (viewState.isValidPhoneNumber) null else "El teléfono no es válido"
+            binding.inputTelefonRegistre.error =
+                if (viewState.isValidPhoneNumber) null else "El teléfono no es válido"
         }
     }
 
@@ -145,7 +145,7 @@ class SignInActivity : AppCompatActivity() {
                     email = binding.inputEmailRegistreText.text.toString(),
                     password = binding.inputPasswordRegistreText.text.toString(),
                     passwordConfirmation = binding.inputRepeatPasswordRegistreText.text.toString(),
-                    //phoneNumber = binding.inputTelefonRegistreText.text.toString().toInt()
+                    phoneNumber = binding.inputTelefonRegistreText.text.toString().toInt()
                 )
             )
         }

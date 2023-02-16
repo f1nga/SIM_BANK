@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.data.network
+package com.bluemeth.simbank.src.data.providers.firebase
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore

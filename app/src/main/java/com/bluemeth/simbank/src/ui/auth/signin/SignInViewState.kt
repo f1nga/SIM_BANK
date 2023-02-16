@@ -7,5 +7,5 @@ data class SignInViewState(
     val isValidNickName: Boolean = true,
     val isValidPhoneNumber: Boolean = true
 ){
-    fun userValidated() = isValidEmail && isValidPassword && isValidNickName /*&& isValidPhoneNumber*/
+    fun userValidated() = isValidEmail && isValidPassword && isValidNickName && isValidPhoneNumber
 }

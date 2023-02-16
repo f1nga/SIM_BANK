@@ -88,7 +88,7 @@ class SignInViewModel @Inject constructor(val createAccountUseCase: CreateAccoun
             isValidEmail = isValidOrEmptyEmail(email),
             isValidPassword = isValidOrEmptyPassword(password, passwordConfirmation),
             isValidNickName = isValidName(nickName),
-            //isValidPhoneNumber = isValidPhoneNumber(phoneNumber)
+            isValidPhoneNumber = isValidPhoneNumber(phoneNumber)
         )
     }
 

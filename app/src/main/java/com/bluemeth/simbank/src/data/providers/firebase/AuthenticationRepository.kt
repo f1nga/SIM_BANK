@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.data.network
+package com.bluemeth.simbank.src.data.providers.firebase
 
 import com.bluemeth.simbank.src.data.response.LoginResult
 import com.google.firebase.auth.AuthResult
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 
 @Singleton
-class AuthenticationService @Inject constructor(private val firebase: FirebaseClient) {
+class AuthenticationRepository @Inject constructor(private val firebase: FirebaseClient) {
 
     val verifiedAccount: Flow<Boolean> = flow {
         while (true) {
