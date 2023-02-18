@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.bluemeth.simbank.R
@@ -13,16 +14,17 @@ import com.bluemeth.simbank.databinding.ActivityMainBinding
 import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
 
 class HomeActivity : AppCompatActivity() {
+
     companion object {
         fun create(context: Context): Intent =
             Intent(context, HomeActivity::class.java)
     }
-
+    private lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
-
+        drawerLayout = binding.drawerLayout
         val navController = this.findNavController(R.id.myNavHostFragment)
 
         navController.addOnDestinationChangedListener{_, destination, _ ->
@@ -34,8 +36,31 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
-        NavigationUI.setupActionBarWithNavController(this,navController)
+        NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
+        NavigationUI.setupWithNavController(binding.navView, navController)
+
+        iconDrawer()
+        itemMenu()
+
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = this.findNavController(R.id.myNavHostFragment)
+        return NavigationUI.navigateUp(navController, drawerLayout)
+    }
+
+    fun iconDrawer(){
+        supportActionBar?.setHomeButtonEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_account_circle_24)
+    }
+
+    fun itemMenu(){
+        binding.navView.getMenu().findItem(R.id.signOut).setOnMenuItemClickListener { menuItem ->
+            System.exit(0)
+            true
+        }
     }
 
 }
