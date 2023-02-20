@@ -1,49 +1,36 @@
-package com.bluemeth.simbank.src.ui.home.tabs
+package com.bluemeth.simbank.src.ui.home.tabs.cards_tab
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentCardBinding
-import com.bluemeth.simbank.src.data.adapters.CardRVAdapter
-import com.bluemeth.simbank.src.data.adapters.RecyclerClickListener
 import com.bluemeth.simbank.src.data.models.CreditCard
-import com.bluemeth.simbank.src.data.providers.UserInitData
-import com.bluemeth.simbank.src.data.providers.UserInitData.Companion.random
-import com.bluemeth.simbank.src.data.providers.firebase.CreditCardRepository
-import com.bluemeth.simbank.src.data.providers.firebase.FirebaseClient
-import com.bluemeth.simbank.src.ui.viewmodels.CreditCardViewModel
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.tasks.await
-import java.sql.Time
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
-
+@AndroidEntryPoint
 class CardFragment() : Fragment() {
 
     private lateinit var binding: FragmentCardBinding
-    private lateinit var adapter: CardRVAdapter
-    private val creditCardViewModel: CreditCardViewModel by activityViewModels()
+    private val creditCardViewModel: CreditCardViewModel by viewModels()
     val db = Firebase.firestore
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_card,container,false);
+        binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_card,container,false)
         setRecyclerView()
         observeCard()
 
@@ -60,7 +47,7 @@ class CardFragment() : Fragment() {
             val caducityTime = Timestamp(Date(Timestamp.now().toDate().year + 5, 2, 16))
 
 
-            var credit = CreditCard(creditCardNumber, money, pin, cvv, caducityTime, "ES3371743112497932600524")
+            val credit = CreditCard(creditCardNumber, money, pin, cvv, caducityTime, "ES3371743112497932600524")
             db.collection("credit_cards").document(creditCardNumber).set(credit)
             observeCard()
         }
@@ -76,9 +63,9 @@ class CardFragment() : Fragment() {
         val cardRecyclerview = binding.recyclerViewCards
         cardRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         cardRecyclerview.setHasFixedSize(true)
-        adapter = CardRVAdapter(requireContext())
-        cardRecyclerview.adapter = adapter
-        adapter.setItemListener(object : RecyclerClickListener{
+        cardRecyclerview.adapter = creditCardViewModel.cardAdapter
+
+        creditCardViewModel.cardAdapter.setItemListener(object : RecyclerClickListener {
             override fun onItemClick(position: Int) {
                 Toast.makeText(requireContext(),"Cabolo" , Toast.LENGTH_SHORT).show()
             }
@@ -87,10 +74,10 @@ class CardFragment() : Fragment() {
 
 
     private fun observeCard() {
-        creditCardViewModel.fetchCardData().observe(requireActivity(), Observer {
-            adapter.setListData(it)
-            adapter.notifyDataSetChanged()
-        })
+        creditCardViewModel.fetchCardData().observe(requireActivity()) {
+            creditCardViewModel.cardAdapter.setListData(it)
+            creditCardViewModel.cardAdapter.notifyDataSetChanged()
+        }
     }
 
 

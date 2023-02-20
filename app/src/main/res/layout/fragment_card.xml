@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".src.ui.home.tabs.CardFragment">
+        tools:context=".src.ui.home.tabs.cards_tab.CardFragment">
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton

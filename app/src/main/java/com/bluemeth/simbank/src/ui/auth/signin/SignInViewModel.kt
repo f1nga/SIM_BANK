@@ -12,8 +12,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.lang.Math.abs
-import java.lang.Math.log10
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +20,7 @@ class SignInViewModel @Inject constructor(val createAccountUseCase: CreateAccoun
 
     private companion object {
         const val MIN_PASSWORD_LENGTH = 6
-        const val MIN_PHONE_LENGTH = 9
+        const val PHONE_LENGTH = 9
     }
 
     private val _navigateToLogin = MutableLiveData<Event<Boolean>>()
@@ -80,8 +78,8 @@ class SignInViewModel @Inject constructor(val createAccountUseCase: CreateAccoun
     private fun isValidName(name: String): Boolean =
         name.length >= MIN_PASSWORD_LENGTH || name.isEmpty()
 
-    private fun isValidPhoneNumber(phone: Int): Boolean =
-        true
+    private fun isValidPhoneNumber(phone: String): Boolean =
+        phone.length == PHONE_LENGTH || phone.isEmpty()
 
     private fun UserSignIn.toSignInViewState(): SignInViewState {
         return SignInViewState(
@@ -90,10 +88,5 @@ class SignInViewModel @Inject constructor(val createAccountUseCase: CreateAccoun
             isValidNickName = isValidName(nickName),
             isValidPhoneNumber = isValidPhoneNumber(phoneNumber)
         )
-    }
-
-    fun Int.length() = when(this) {
-        0 -> 1
-        else -> kotlin.math.log10(kotlin.math.abs(toDouble())).toInt() + 1
     }
 }

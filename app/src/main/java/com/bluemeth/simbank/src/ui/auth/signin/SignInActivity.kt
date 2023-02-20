@@ -80,7 +80,7 @@ class SignInActivity : AppCompatActivity() {
                         email = binding.inputEmailRegistreText.text.toString(),
                         password = binding.inputPasswordRegistreText.text.toString(),
                         passwordConfirmation = binding.inputRepeatPasswordRegistreText.text.toString(),
-                        phoneNumber = binding.inputTelefonRegistreText.text.toString().toInt()
+                        phoneNumber = binding.inputTelefonRegistreText.text.toString()
                     )
                 )
             }
@@ -145,7 +145,7 @@ class SignInActivity : AppCompatActivity() {
                     email = binding.inputEmailRegistreText.text.toString(),
                     password = binding.inputPasswordRegistreText.text.toString(),
                     passwordConfirmation = binding.inputRepeatPasswordRegistreText.text.toString(),
-                    phoneNumber = binding.inputTelefonRegistreText.text.toString().toInt()
+                    phoneNumber = binding.inputTelefonRegistreText.text.toString()
                 )
             )
         }

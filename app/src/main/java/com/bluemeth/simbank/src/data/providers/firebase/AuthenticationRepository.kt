@@ -2,6 +2,7 @@ package com.bluemeth.simbank.src.data.providers.firebase
 
 import com.bluemeth.simbank.src.data.response.LoginResult
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -30,7 +31,7 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
     }
 
     suspend fun sendVerificationEmail() = runCatching {
-        firebase.auth.currentUser?.sendEmailVerification()?.await() ?: false
+        firebase.auth.currentUser?.sendEmailVerification()?.await()
     }.isSuccess
 
     private suspend fun verifyEmailIsVerified(): Boolean {
@@ -45,6 +46,18 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
             checkNotNull(userId)
             LoginResult.Success(result.user?.isEmailVerified ?: false)
         }
+    }
+
+    fun logout() {
+         firebase.auth.signOut()
+    }
+
+    suspend fun forgotPassword(email: String) = runCatching {
+        firebase.auth.sendPasswordResetEmail(email).await()
+    }.isSuccess
+
+     fun getCurrentUser(): FirebaseUser? {
+        return firebase.auth.currentUser
     }
 
 

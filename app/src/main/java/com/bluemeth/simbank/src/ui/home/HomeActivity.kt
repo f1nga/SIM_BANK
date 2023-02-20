@@ -5,15 +5,20 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityMainBinding
-import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
+import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
+
+    private val homeViewModel: HomeViewModel by viewModels()
 
     companion object {
         fun create(context: Context): Intent =
@@ -40,6 +45,7 @@ class HomeActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
 
+        initObservers()
         iconDrawer()
         itemMenu()
 
@@ -50,17 +56,29 @@ class HomeActivity : AppCompatActivity() {
         return NavigationUI.navigateUp(navController, drawerLayout)
     }
 
-    fun iconDrawer(){
+    private fun iconDrawer(){
         supportActionBar?.setHomeButtonEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_account_circle_24)
     }
 
-    fun itemMenu(){
-        binding.navView.getMenu().findItem(R.id.signOut).setOnMenuItemClickListener { menuItem ->
-            System.exit(0)
+    private fun itemMenu(){
+        binding.navView.menu.findItem(R.id.signOut).setOnMenuItemClickListener {
+            homeViewModel.onLogoutSelected()
             true
         }
+    }
+
+    private fun initObservers() {
+        homeViewModel.navigateToLogin.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                goToLogin()
+            }
+        }
+    }
+
+    private fun goToLogin() {
+        startActivity(LoginActivity.create(this))
     }
 
 }

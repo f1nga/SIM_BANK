@@ -22,6 +22,6 @@
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/cardFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.CardFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.cards_tab.CardFragment"
         android:label="CardFragment" />
 </navigation>

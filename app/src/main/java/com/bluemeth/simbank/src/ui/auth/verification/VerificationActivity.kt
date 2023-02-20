@@ -41,7 +41,7 @@ class VerificationActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        binding.btnGoToDetail.setOnClickListener { verificationViewModel.onLoginSelected() }
+        binding.btnGoToDetail.setOnClickListener { verificationViewModel.onGoToDetailSelected() }
     }
 
     private fun initObservers() {

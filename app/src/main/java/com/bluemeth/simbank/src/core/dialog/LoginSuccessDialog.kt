@@ -8,7 +8,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.bluemeth.simbank.databinding.DialogLoginSuccessBinding
+import com.bluemeth.simbank.databinding.DialogAccountVerifiedBinding
+import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 
 class LoginSuccessDialog : DialogFragment() {
 
@@ -26,12 +27,20 @@ class LoginSuccessDialog : DialogFragment() {
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val binding = DialogLoginSuccessBinding.inflate(requireActivity().layoutInflater)
-        binding.btnPositive.setOnClickListener { dismiss() }
+        val binding = DialogAccountVerifiedBinding.inflate(requireActivity().layoutInflater)
+        binding.btnPositive.setOnClickListener {
+            goToLogin()
+            dismiss()
+        }
 
         return AlertDialog.Builder(requireActivity())
             .setView(binding.root)
             .setCancelable(true)
             .create()
     }
+
+    private fun goToLogin() {
+        startActivity(LoginActivity.create(requireContext()))
+    }
+
 }

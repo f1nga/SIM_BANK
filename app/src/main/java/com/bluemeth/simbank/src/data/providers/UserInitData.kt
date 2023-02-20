@@ -12,14 +12,15 @@ class UserInitData {
     companion object {
         private lateinit var user : User
         private lateinit var bankNumber : String
+        private val PREFIX_BANK = "ES33"
 
          fun registerData(userSignIn: UserSignIn): User {
-             user = User(userSignIn.email, userSignIn.nickName, userSignIn.phoneNumber)
+             user = User(userSignIn.email, userSignIn.nickName,userSignIn.phoneNumber.toInt())
              return user
         }
 
         fun createBankAccount(): BankAccount {
-            bankNumber = "ES33"
+            bankNumber = PREFIX_BANK
 
             for (i in 1..20) {
                 bankNumber += (0..9).random()
@@ -44,10 +45,5 @@ class UserInitData {
 
             return CreditCard(creditCardNumber, money, pin, cvv, caducityTime, bankNumber)
         }
-
-        fun IntRange.random() =
-            Random().nextInt((endInclusive + 1) - start) + start
-
-
     }
 }

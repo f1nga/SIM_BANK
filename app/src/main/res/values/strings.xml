@@ -49,9 +49,9 @@
     <string name="verification_button_go_to_login">Ahora inicia sesión!</string>
     <string name="verification_check_mail">Para acceder a la aplicación verifica tu correo electrónico (recuerda mirar en SPAM).</string>
 
-    <string name="dialog_success_title">¡Demo completa!</string>
-    <string name="dialog_success_body">"Espero que te haya gustado este login usando buenas prácticas y buen rollo :) "</string>
-    <string name="dialog_success_positive">¡Gracias!</string>
+    <string name="dialog_verified_title">¡Registro completado!</string>
+    <string name="dialog_verified_body">Ahora inicia sesión i disfruta de SimBank</string>
+    <string name="dialog_verified_positive">¡Adelante!</string>
 
     <string name="feature_not_allowed">Feature no solicitada :)</string>
     <string name="signin_button_createaccount">Crear mi cuenta</string>

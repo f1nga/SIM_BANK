@@ -1,10 +1,8 @@
 package com.bluemeth.simbank.src.ui.auth.login
 
-import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,14 +14,11 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityLoginBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
-import com.bluemeth.simbank.src.core.dialog.LoginSuccessDialog
 import com.bluemeth.simbank.src.core.ex.*
-import com.bluemeth.simbank.src.data.providers.firebase.FirebaseClient
+import com.bluemeth.simbank.src.ui.auth.forgot_password.ForgotPasswordActivity
 import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
 import com.bluemeth.simbank.src.ui.auth.verification.VerificationActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -76,7 +71,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-        loginViewModel.navigateToDetails.observe(this) {
+        loginViewModel.navigateToHome.observe(this) {
             it.getContentIfNotHandled()?.let {
                 goToHome()
             }
@@ -148,7 +143,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun goToForgotPassword() {
-        toast(getString(R.string.feature_not_allowed))
+        startActivity(ForgotPasswordActivity.create(this))
     }
 
     private fun goToSignIn() {
@@ -157,10 +152,6 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goToHome() {
         startActivity(HomeActivity.create(this))
-    }
-
-    private fun goToDetail() {
-        LoginSuccessDialog.create().show(dialogLauncher, this)
     }
 
     private fun goToVerify() {
