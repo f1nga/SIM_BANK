@@ -9,12 +9,23 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.bluemeth.simbank.databinding.DialogAccountVerifiedBinding
-import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 
-class LoginSuccessDialog : DialogFragment() {
+class SuccessDialog : DialogFragment() {
+
+    private var title: String = ""
+    private var description: String = ""
+    private var btnAction: Action = Action.Empty
 
     companion object {
-        fun create(): LoginSuccessDialog = LoginSuccessDialog()
+        fun create(
+            title: String,
+            description: String,
+            btnAction: Action
+        ) : SuccessDialog = SuccessDialog().apply {
+            this.title = title
+            this.description = description
+            this.btnAction = btnAction
+        }
     }
 
     override fun onStart() {
@@ -28,8 +39,12 @@ class LoginSuccessDialog : DialogFragment() {
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogAccountVerifiedBinding.inflate(requireActivity().layoutInflater)
+
+        binding.tvTitle.text = title
+        binding.tvDescription.text = description
+
         binding.btnPositive.setOnClickListener {
-            goToLogin()
+            btnAction.onClickListener(this)
             dismiss()
         }
 
@@ -39,8 +54,13 @@ class LoginSuccessDialog : DialogFragment() {
             .create()
     }
 
-    private fun goToLogin() {
-        startActivity(LoginActivity.create(requireContext()))
+    data class Action(
+        val text: String,
+        val onClickListener: (SuccessDialog) -> Unit
+    ) {
+        companion object {
+            val Empty = Action("") {}
+        }
     }
 
 }

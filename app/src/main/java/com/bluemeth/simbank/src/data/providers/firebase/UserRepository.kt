@@ -13,6 +13,8 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
     companion object {
         const val USER_COLLECTION = "users"
         const val EMAIL_FIELD = "email"
+        const val NAME_FIELD = "name"
+        const val PHONE_FIELD = "phone"
     }
 
     suspend fun createUserTable(userSignIn: UserSignIn) = runCatching {
@@ -26,27 +28,23 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .await()
     }.isSuccess
 
-    fun findUserByEmail(email: String): User  {
-        val users = MutableLiveData<MutableList<User>>()
+    fun findUserByEmail(email: String): MutableLiveData<User>  {
+        val user = MutableLiveData<User>()
 
         firebase.db.collection(USER_COLLECTION)
             .whereEqualTo(EMAIL_FIELD, email)
             .get()
             .addOnSuccessListener { documents ->
-                val listData = mutableListOf<User>()
-
-                for (document in documents) {
-                    Log.i("reposii", document.getString("email")!!)
-                    listData.add(User(document.getString("email")!!, document.getString("name")!!, 23 ))
-                }
-
-                users.value = listData
-
+                user.value = User(
+                    documents.first().getString(EMAIL_FIELD)!!,
+                    documents.first().getString(NAME_FIELD)!!,
+                    documents.first().getLong(PHONE_FIELD)!!.toInt(),
+                )
             }
             .addOnFailureListener { exception ->
                 Log.w("HOOOL", "Error getting documents: ", exception)
             }
 
-        return users.value!![0]
+        return user
     }
 }

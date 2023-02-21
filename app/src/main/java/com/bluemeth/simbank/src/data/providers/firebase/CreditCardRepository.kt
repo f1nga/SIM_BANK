@@ -5,17 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.providers.UserInitData
-import com.google.firebase.Timestamp
 import kotlinx.coroutines.tasks.await
-import java.util.*
 import javax.inject.Inject
 
 
 class CreditCardRepository @Inject constructor(private val firebase: FirebaseClient){
 
     companion object {
-        const val BANK_COLLECTION = "credit_cards"
-        const val IBAN_FIELD = "bank_iban"
+        const val CREDIT_CARDS_COLLECTION = "credit_cards"
+        const val BANK_IBAN_FIELD = "bank_iban"
+        const val CADUCITY_FIELD = "caducity"
+        const val CVV_FIELD = "cvv"
+        const val NUMBER_FIELD = "number"
+        const val PIN_FIELD = "pin"
+        const val MONEY_FIELD = "money"
     }
 
     suspend fun createCreditCardTable() = runCatching {
@@ -23,32 +26,42 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
         val creditCard = UserInitData.createCreditCard()
 
         firebase.db
-            .collection(BANK_COLLECTION)
+            .collection(CREDIT_CARDS_COLLECTION)
             .document(creditCard.number)
             .set(creditCard)
             .await()
 
     }.isSuccess
 
-     fun getCreditCards() : LiveData<MutableList<CreditCard>> {
+    suspend fun insertCreditCard(creditCard: CreditCard) = runCatching {
+        firebase.db
+            .collection(CREDIT_CARDS_COLLECTION)
+            .document(creditCard.number)
+            .set(creditCard)
+            .await()
+
+    }.isSuccess
+
+    fun getCreditCards(iban: String) : LiveData<MutableList<CreditCard>> {
         val mutableData = MutableLiveData<MutableList<CreditCard>>()
 
-        val bank_iban = "ES3371743112497932600524"
-
-        firebase.db.collection(BANK_COLLECTION)
-            .whereEqualTo(IBAN_FIELD, bank_iban)
+        firebase.db.collection(CREDIT_CARDS_COLLECTION)
+            .whereEqualTo(BANK_IBAN_FIELD, iban)
             .get()
             .addOnSuccessListener { documents ->
                 val listData = mutableListOf<CreditCard>()
+
                 for (document in documents) {
-                    var number = document.getString("number").toString()
-                    var money = document.get("money").toString()
-                    var pin = document.get("pin").toString()
-                    var cvv = document.get("cvv").toString()
-                    val caducityTime = Timestamp(Date(Timestamp.now().toDate().year + 5, 2, 16))
-                    var bank_iban = document.getString("bank_iban").toString()
-                    val creditCard = CreditCard(number,money.toDouble(),pin.toInt(),cvv.toInt(),caducityTime,bank_iban)
-                    listData.add(creditCard)
+                    listData.add(
+                        CreditCard(
+                            document.getString(NUMBER_FIELD)!!,
+                            document.getDouble(MONEY_FIELD)!!,
+                            document.getLong(PIN_FIELD)!!.toInt(),
+                            document.getLong(CVV_FIELD)!!.toInt(),
+                            document.getTimestamp(CADUCITY_FIELD)!!,
+                            document.getString(BANK_IBAN_FIELD)!!
+                        )
+                    )
                 }
                 mutableData.value = listData
             }

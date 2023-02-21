@@ -6,9 +6,10 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityVerificationBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
-import com.bluemeth.simbank.src.core.dialog.LoginSuccessDialog
+import com.bluemeth.simbank.src.core.dialog.SuccessDialog
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +48,11 @@ class VerificationActivity : AppCompatActivity() {
     private fun initObservers() {
         verificationViewModel.navigateToVerifyAccount.observe(this) {
             it.getContentIfNotHandled()?.let {
-                LoginSuccessDialog.create().show(dialogLauncher, this)
+                SuccessDialog.create(
+                    getString(R.string.dialog_verified_title),
+                    getString(R.string.dialog_verified_body),
+                    SuccessDialog.Action(getString(R.string.dialog_verified_positive)) { goToLogin() }
+                ).show(dialogLauncher, this)
             }
         }
 

@@ -1,6 +1,5 @@
-package com.bluemeth.simbank.src.ui.home.tabs.cards_tab
+package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,19 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.data.models.CreditCard
-import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
-import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
-class CardRVAdapter @Inject constructor(
-    private val userRepository: UserRepository,
-    private val authenticationRepository: AuthenticationRepository
-) : RecyclerView.Adapter<CardRVAdapter.CreditCardHolder>(){
+class CreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<CreditCardRVAdapter.CreditCardHolder>(){
 
     private lateinit var listener: RecyclerClickListener
-
     private var listData = mutableListOf<CreditCard>()
+    private lateinit var userCardName: String
 
     fun setListData(data:MutableList<CreditCard>){
         listData = data
@@ -30,6 +24,10 @@ class CardRVAdapter @Inject constructor(
 
     fun setItemListener(listener: RecyclerClickListener) {
         this.listener = listener
+    }
+
+    fun setUserName(userCardName: String) {
+        this.userCardName = userCardName
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CreditCardHolder {
@@ -67,16 +65,13 @@ class CardRVAdapter @Inject constructor(
             cardCaducity.text = "${creditCard.caducity.toDate().month}/${creditCard.caducity.toDate().year}"
 
             val userName = itemView.findViewById<TextView>(R.id.tvUser)
-            Log.i("adapter", authenticationRepository.getCurrentUser()?.email!!)
-            //val userDbName = userRepository.findUserByEmail(authenticationRepository.getCurrentUser()?.email!!)
-
-
-            userName.text = "NOMBRE"
+            userName.text = userCardName
         }
     }
 
     private fun formatCardNumber(cardNumber: String): String {
         var number = ""
+
         for (i in 0..3) {
             number += cardNumber[i]
         }

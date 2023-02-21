@@ -5,11 +5,15 @@ import android.content.SharedPreferences
 import java.util.*
 
 class Prefs(context: Context) {
-    val SHARED_PREFERENCE_NAME = "authDB"
-    val TOKEN_KEY = "token"
-    val EMAIL_KEY = "email"
-    val PASSWORD_KEY = "password"
-    val DEFAULT_VALUE = ""
+
+    companion object {
+        const val SHARED_PREFERENCE_NAME = "authDB"
+        const val TOKEN_KEY = "token"
+        const val EMAIL_KEY = "email"
+        const val PASSWORD_KEY = "password"
+        const val IBAN_KEY = "iban"
+        const val DEFAULT_VALUE = ""
+    }
 
     private val storage: SharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_NAME, 0)
 
@@ -19,23 +23,19 @@ class Prefs(context: Context) {
          storage.edit().putString(PASSWORD_KEY, password).apply()
      }
 
-    fun getToken(): String {
-        return storage.getString(TOKEN_KEY, DEFAULT_VALUE)!!
+    fun saveUserIban(iban: String) {
+        storage.edit().putString(IBAN_KEY, iban).apply()
     }
 
-    fun getEmail(): String {
-        return storage.getString(EMAIL_KEY, DEFAULT_VALUE)!!
-    }
+    fun getToken() = storage.getString(TOKEN_KEY, DEFAULT_VALUE)!!
 
-    fun getPassword(): String {
-        return storage.getString(PASSWORD_KEY, DEFAULT_VALUE)!!
-    }
+    fun getEmail() = storage.getString(EMAIL_KEY, DEFAULT_VALUE)!!
 
-    fun clearPrefs() {
-        storage.edit().clear().apply()
-    }
+    fun getPassword() = storage.getString(PASSWORD_KEY, DEFAULT_VALUE)!!
 
-    private fun generateToken() : String{
-        return UUID.randomUUID().toString()
-    }
+    fun getIban() = storage.getString(IBAN_KEY, DEFAULT_VALUE)!!
+
+    fun clearPrefs() = storage.edit().clear().apply()
+
+    private fun generateToken() = UUID.randomUUID().toString()
 }

@@ -11,24 +11,27 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.bluemeth.simbank.R
-import com.bluemeth.simbank.databinding.ActivityMainBinding
+import com.bluemeth.simbank.databinding.ActivityHomeBinding
+import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
+import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.CreditCardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     private val homeViewModel: HomeViewModel by viewModels()
+    private val creditCardViewModel: CreditCardViewModel by viewModels()
 
     companion object {
         fun create(context: Context): Intent =
             Intent(context, HomeActivity::class.java)
     }
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this,R.layout.activity_home)
         drawerLayout = binding.drawerLayout
         val navController = this.findNavController(R.id.myNavHostFragment)
 
@@ -49,6 +52,7 @@ class HomeActivity : AppCompatActivity() {
         iconDrawer()
         itemMenu()
 
+        saveUserIban()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -74,6 +78,12 @@ class HomeActivity : AppCompatActivity() {
             it.getContentIfNotHandled()?.let {
                 goToLogin()
             }
+        }
+    }
+
+    private fun saveUserIban() {
+        creditCardViewModel.getBankAccount().observe(this) { bankAccount ->
+            prefs.saveUserIban(bankAccount.iban)
         }
     }
 

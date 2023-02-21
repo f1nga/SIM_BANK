@@ -11,6 +11,7 @@ class UserInitData {
 
     companion object {
         private lateinit var user : User
+        private lateinit var bankAccount : BankAccount
         private lateinit var bankNumber : String
         private val PREFIX_BANK = "ES33"
 
@@ -28,7 +29,9 @@ class UserInitData {
 
             val money = (10000..20000).random().toDouble()
 
-            return BankAccount(bankNumber, money, user.email)
+            bankAccount = BankAccount(bankNumber, money, user.email)
+
+            return bankAccount
         }
 
         fun createCreditCard(): CreditCard {
@@ -38,12 +41,11 @@ class UserInitData {
                 creditCardNumber += (0..9).random()
             }
 
-            val money = (1000..3000).random().toDouble()
             val pin = (1000..9999).random()
             val cvv = (100..999).random()
             val caducityTime = Timestamp(Date(Timestamp.now().toDate().year + 5, 2, 16))
 
-            return CreditCard(creditCardNumber, money, pin, cvv, caducityTime, bankNumber)
+            return CreditCard(creditCardNumber, bankAccount.money, pin, cvv, caducityTime, bankNumber)
         }
     }
 }

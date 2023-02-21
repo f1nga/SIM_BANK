@@ -18,7 +18,7 @@ class SplashActivity : AppCompatActivity() {
 
         initObservers()
 
-        //prefs.clearPrefs()
+        // prefs.clearPrefs()
         checkUserIsLogged()
     }
 

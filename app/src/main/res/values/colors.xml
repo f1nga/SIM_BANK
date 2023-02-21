@@ -8,7 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
+
     <color name="backgroundColor">#110339</color>
+    <color name="backgroundColor_secondary">#270C71</color>
 
     <color name="primary_dark">#4F934A</color>
     <color name="primary">#0019F8</color>

@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.cards_tab
+package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bluemeth.simbank.R
-import com.bluemeth.simbank.databinding.FragmentCardBinding
+import com.bluemeth.simbank.databinding.FragmentCreditCardBinding
+import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
@@ -20,21 +18,21 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
 @AndroidEntryPoint
-class CardFragment() : Fragment() {
+class CreditCardFragment() : Fragment() {
 
-    private lateinit var binding: FragmentCardBinding
+    private lateinit var binding: FragmentCreditCardBinding
     private val creditCardViewModel: CreditCardViewModel by viewModels()
-    val db = Firebase.firestore
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_card,container,false)
+        binding = FragmentCreditCardBinding.inflate(inflater,container,false)
         setRecyclerView()
         observeCard()
 
         binding.floatingActionButton.setOnClickListener(){
+           // it.findNavController().navigate(R.id.action_cardFragment_to_addCreditCardFragment)
             var creditCardNumber = ""
 
             for (i in 1..16) {
@@ -46,16 +44,22 @@ class CardFragment() : Fragment() {
             val cvv = (100..999).random()
             val caducityTime = Timestamp(Date(Timestamp.now().toDate().year + 5, 2, 16))
 
-
-            val credit = CreditCard(creditCardNumber, money, pin, cvv, caducityTime, "ES3371743112497932600524")
-            db.collection("credit_cards").document(creditCardNumber).set(credit)
+            creditCardViewModel.insertCreditCardToDB(
+                CreditCard(
+                    creditCardNumber,
+                    money,
+                    pin,
+                    cvv,
+                    caducityTime,
+                    prefs.getIban()
+                )
+            )
             observeCard()
+
         }
 
         setHasOptionsMenu(true)
         return binding.root
-
-
     }
 
     private fun setRecyclerView() {
@@ -70,15 +74,21 @@ class CardFragment() : Fragment() {
                 Toast.makeText(requireContext(),"Cabolo" , Toast.LENGTH_SHORT).show()
             }
         })
-    }
 
+        creditCardViewModel.getNameUserCard(prefs.getEmail()).observe(requireActivity()) {
+            creditCardViewModel.cardAdapter.setUserName(it.name)
+        }
+
+    }
 
     private fun observeCard() {
-        creditCardViewModel.fetchCardData().observe(requireActivity()) {
-            creditCardViewModel.cardAdapter.setListData(it)
+        creditCardViewModel.fetchCardData(prefs.getIban()).observe(requireActivity()) { creditCardList ->
+            creditCardViewModel.cardAdapter.setListData(creditCardList)
             creditCardViewModel.cardAdapter.notifyDataSetChanged()
         }
+
     }
+
 
 
 }
