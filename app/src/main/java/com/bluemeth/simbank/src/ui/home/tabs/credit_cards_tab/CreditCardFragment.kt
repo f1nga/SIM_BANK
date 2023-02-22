@@ -12,8 +12,6 @@ import com.bluemeth.simbank.databinding.FragmentCreditCardBinding
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -30,7 +28,6 @@ class CreditCardFragment() : Fragment() {
         binding = FragmentCreditCardBinding.inflate(inflater,container,false)
         setRecyclerView()
         observeCard()
-        binding.progressBar.setVisibility(View.VISIBLE)
 
         binding.floatingActionButton.setOnClickListener(){
            // it.findNavController().navigate(R.id.action_cardFragment_to_addCreditCardFragment)
@@ -82,6 +79,7 @@ class CreditCardFragment() : Fragment() {
     }
 
     private fun observeCard() {
+        binding.progressBar.visibility = View.VISIBLE
         creditCardViewModel.fetchCardData(prefs.getIban()).observe(requireActivity()) { creditCardList ->
             creditCardViewModel.cardAdapter.setListData(creditCardList)
             creditCardViewModel.cardAdapter.notifyDataSetChanged()

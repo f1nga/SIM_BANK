@@ -1,13 +1,12 @@
 package com.bluemeth.simbank.src.ui.home.tabs
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import com.bluemeth.simbank.R
+import androidx.fragment.app.Fragment
 import com.bluemeth.simbank.databinding.FragmentHomeBinding
+import com.bluemeth.simbank.src.core.ex.setActivityTitle
 
 class HomeFragment  : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -16,12 +15,11 @@ class HomeFragment  : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home,container,false)
+        binding = FragmentHomeBinding.inflate(inflater,container,false)
         setHasOptionsMenu(true)
+
+        setActivityTitle("HOL")
 
         return binding.root
     }
-
-
-
 }

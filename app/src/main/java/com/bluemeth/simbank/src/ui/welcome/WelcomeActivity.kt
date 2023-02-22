@@ -1,17 +1,11 @@
-package com.bluemeth.simbank.src.ui.home
+package com.bluemeth.simbank.src.ui.welcome
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.bluemeth.simbank.R
-import com.bluemeth.simbank.databinding.ActivityLoginBinding
 import com.bluemeth.simbank.databinding.ActivityWelcomeBinding
-import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
 

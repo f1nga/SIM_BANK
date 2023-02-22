@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.data.models.CreditCard
+import com.bluemeth.simbank.src.utils.Methods
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
@@ -59,43 +60,15 @@ class CreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<CreditCar
         val auth: FirebaseAuth get() = FirebaseAuth.getInstance()
         fun bindView(creditCard: CreditCard) {
             val cardNumber = itemView.findViewById<TextView>(R.id.txtCardNumber)
-            cardNumber.text = formatCardNumber(creditCard.number)
+            cardNumber.text = Methods.formatCardNumber(creditCard.number)
 
             val cardCaducity = itemView.findViewById<TextView>(R.id.txtCardCaducity)
-            cardCaducity.text = "${creditCard.caducity.toDate().month}/${creditCard.caducity.toDate().year + 1900}"
+            cardCaducity.text = Methods.formatDate(creditCard.caducity.toDate())
 
             val userName = itemView.findViewById<TextView>(R.id.tvUser)
             userName.text = userCardName
         }
     }
 
-    private fun formatCardNumber(cardNumber: String): String {
-        var number = ""
 
-        for (i in 0..3) {
-            number += cardNumber[i]
-        }
-
-        number += " "
-
-        for (i in 4..7) {
-            number += cardNumber[i]
-        }
-
-        number += " "
-
-        for (i in 8..11) {
-            number += cardNumber[i]
-        }
-
-        number += " "
-
-        for (i in 12..15) {
-            number += cardNumber[i]
-        }
-
-        number += " "
-
-        return number
-    }
 }

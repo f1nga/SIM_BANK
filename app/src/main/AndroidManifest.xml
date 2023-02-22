@@ -14,7 +14,7 @@
         android:theme="@style/Theme.SIMBANK"
         tools:targetApi="31">
         <activity
-            android:name=".src.ui.home.WelcomeActivity"
+            android:name=".src.ui.welcome.WelcomeActivity"
             android:exported="false" />
         <activity
             android:name=".src.ui.home.HomeActivity"

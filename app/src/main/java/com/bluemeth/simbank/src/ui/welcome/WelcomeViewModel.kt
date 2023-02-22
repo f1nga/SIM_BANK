@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home
+package com.bluemeth.simbank.src.ui.welcome
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -4,9 +4,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
-import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
-import com.bluemeth.simbank.src.ui.home.WelcomeActivity
+import com.bluemeth.simbank.src.ui.welcome.WelcomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
