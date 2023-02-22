@@ -1,10 +1,14 @@
 package com.bluemeth.simbank.src.ui.home
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
@@ -29,6 +33,7 @@ class HomeActivity : AppCompatActivity() {
     }
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityHomeBinding
+    private lateinit var builder : AlertDialog.Builder
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this,R.layout.activity_home)
@@ -43,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
 
             }
         }
-
+        builder = AlertDialog.Builder(this)
         NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
@@ -67,10 +72,28 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun itemMenu(){
-        binding.navView.menu.findItem(R.id.signOut).setOnMenuItemClickListener {
-            homeViewModel.onLogoutSelected()
+        val navDrawer = binding.navView.menu
+        navDrawer.findItem(R.id.profileFragment)
+        navDrawer.findItem(R.id.settingsFragment)
+        navDrawer.findItem(R.id.privacyPolicyFragment)
+        navDrawer.findItem(R.id.signOut).setOnMenuItemClickListener {
+            logOut()
             true
         }
+    }
+
+    private fun logOut(){
+        builder.setTitle("¡Vaya!")
+            .setMessage("Estas seguro de que quieres salir?")
+            .setCancelable(true)
+            .setPositiveButton("Si"){ _, it ->
+                homeViewModel.onLogoutSelected()
+            }.setNegativeButton("No"){dialogInterface, it ->
+                dialogInterface.cancel()
+            }.setNeutralButton("Ayuda"){_, it ->
+                Toast.makeText(this,"Estas apunto de cerrar tu sesion, necesitarás volver a iniciar sesión" , Toast.LENGTH_SHORT).show()
+            }
+        builder.show()
     }
 
     private fun initObservers() {

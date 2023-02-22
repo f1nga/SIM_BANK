@@ -75,6 +75,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="35dp"
         android:text="INICIAR SESIÓN"
+        app:backgroundTint="#0019F8"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewForgot" />

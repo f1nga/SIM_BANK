@@ -19,6 +19,7 @@ class SplashViewModel @Inject constructor(val loginUseCase: LoginUseCase) : View
     val navigateToHome: LiveData<Event<Boolean>>
         get() = _navigateToHome
 
+
      fun loginUser(email: String, password: String) {
         viewModelScope.launch {
             when (val result = loginUseCase(email, password)) {

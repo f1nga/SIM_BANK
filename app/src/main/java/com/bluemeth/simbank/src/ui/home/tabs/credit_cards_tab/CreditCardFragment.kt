@@ -30,6 +30,7 @@ class CreditCardFragment() : Fragment() {
         binding = FragmentCreditCardBinding.inflate(inflater,container,false)
         setRecyclerView()
         observeCard()
+        binding.progressBar.setVisibility(View.VISIBLE)
 
         binding.floatingActionButton.setOnClickListener(){
            // it.findNavController().navigate(R.id.action_cardFragment_to_addCreditCardFragment)
@@ -68,7 +69,6 @@ class CreditCardFragment() : Fragment() {
         cardRecyclerview.layoutManager = LinearLayoutManager(requireContext())
         cardRecyclerview.setHasFixedSize(true)
         cardRecyclerview.adapter = creditCardViewModel.cardAdapter
-
         creditCardViewModel.cardAdapter.setItemListener(object : RecyclerClickListener {
             override fun onItemClick(position: Int) {
                 Toast.makeText(requireContext(),"Cabolo" , Toast.LENGTH_SHORT).show()
@@ -85,6 +85,7 @@ class CreditCardFragment() : Fragment() {
         creditCardViewModel.fetchCardData(prefs.getIban()).observe(requireActivity()) { creditCardList ->
             creditCardViewModel.cardAdapter.setListData(creditCardList)
             creditCardViewModel.cardAdapter.notifyDataSetChanged()
+            binding.progressBar.setVisibility(View.GONE)
         }
 
     }

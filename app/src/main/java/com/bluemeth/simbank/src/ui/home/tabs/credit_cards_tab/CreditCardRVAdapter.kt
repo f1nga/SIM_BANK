@@ -62,7 +62,7 @@ class CreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<CreditCar
             cardNumber.text = formatCardNumber(creditCard.number)
 
             val cardCaducity = itemView.findViewById<TextView>(R.id.txtCardCaducity)
-            cardCaducity.text = "${creditCard.caducity.toDate().month}/${creditCard.caducity.toDate().year}"
+            cardCaducity.text = "${creditCard.caducity.toDate().month}/${creditCard.caducity.toDate().year + 1900}"
 
             val userName = itemView.findViewById<TextView>(R.id.tvUser)
             userName.text = userCardName

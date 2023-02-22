@@ -33,4 +33,14 @@
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.AddCreditCardFragment"
         android:label="fragment_add_credit_card"
         tools:layout="@layout/fragment_add_credit_card" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.PrivacyPolicyFragment"
+        android:label="fragment_privacy_policy"
+        tools:layout="@layout/fragment_privacy_policy" />
 </navigation>

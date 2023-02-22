@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
+import com.bluemeth.simbank.src.ui.home.WelcomeActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
 
         initObservers()
 
-        // prefs.clearPrefs()
+        //prefs.clearPrefs()
         checkUserIsLogged()
     }
 
@@ -34,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
         if(prefs.getToken().isNotEmpty()) {
             splashViewModel.loginUser(prefs.getEmail(), prefs.getPassword())
         } else {
-            goToLogin()
+            goToWelcome()
             finish()
         }
     }
@@ -43,7 +44,7 @@ class SplashActivity : AppCompatActivity() {
         startActivity(HomeActivity.create(this))
     }
 
-    private fun goToLogin() {
-        startActivity(LoginActivity.create(this))
+    private fun goToWelcome(){
+        startActivity(WelcomeActivity.create(this))
     }
 }
