@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentCreditCardBinding
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.data.models.CreditCard
@@ -26,35 +28,38 @@ class CreditCardFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreditCardBinding.inflate(inflater,container,false)
-        setRecyclerView()
-        observeCard()
+//        setRecyclerView()
+//        observeCard()
 
         binding.floatingActionButton.setOnClickListener(){
-           // it.findNavController().navigate(R.id.action_cardFragment_to_addCreditCardFragment)
-            var creditCardNumber = ""
-
-            for (i in 1..16) {
-                creditCardNumber += (0..9).random()
-            }
-
-            val money = (1000..3000).random().toDouble()
-            val pin = (1000..9999).random()
-            val cvv = (100..999).random()
-            val caducityTime = Timestamp(Date(Timestamp.now().toDate().year + 5, 2, 16))
-
-            creditCardViewModel.insertCreditCardToDB(
-                CreditCard(
-                    creditCardNumber,
-                    money,
-                    pin,
-                    cvv,
-                    caducityTime,
-                    prefs.getIban()
-                )
-            )
-            observeCard()
-
+            view?.findNavController()?.navigate(R.id.action_cardFragment_to_addCreditCardFragment)
         }
+//        binding.floatingActionButton.setOnClickListener(){
+//           // it.findNavController().navigate(R.id.action_cardFragment_to_addCreditCardFragment)
+//            var creditCardNumber = ""
+//
+//            for (i in 1..16) {
+//                creditCardNumber += (0..9).random()
+//            }
+//
+//            val money = (1000..3000).random().toDouble()
+//            val pin = (1000..9999).random()
+//            val cvv = (100..999).random()
+//            val caducityTime = Timestamp(Date(Timestamp.now().toDate().year + 5, 2, 16))
+//
+//            creditCardViewModel.insertCreditCardToDB(
+//                CreditCard(
+//                    creditCardNumber,
+//                    money,
+//                    pin,
+//                    cvv,
+//                    caducityTime,
+//                    prefs.getIban()
+//                )
+//            )
+//            observeCard()
+//
+//        }
 
         setHasOptionsMenu(true)
         return binding.root

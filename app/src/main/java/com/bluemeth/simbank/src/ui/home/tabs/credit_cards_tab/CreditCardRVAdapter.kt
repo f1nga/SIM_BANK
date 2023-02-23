@@ -69,6 +69,4 @@ class CreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<CreditCar
             userName.text = userCardName
         }
     }
-
-
 }
