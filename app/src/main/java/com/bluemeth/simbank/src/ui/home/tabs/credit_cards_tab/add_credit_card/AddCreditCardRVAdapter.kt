@@ -1,18 +1,15 @@
-package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card_tabs
+package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card
 
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
-import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.RecyclerClickListener
-import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card_tabs.model.CreditCardInfo
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
-import org.w3c.dom.Text
+import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.model.CreditCardInfo
 import javax.inject.Inject
 
 class AddCreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<AddCreditCardRVAdapter.InfoCardHolder>(){
@@ -32,7 +29,7 @@ class AddCreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<AddCre
         val cardHolder = InfoCardHolder(v)
 
 
-        val card = cardHolder.itemView.findViewById<CardView>(R.id.card_view)
+        val card = cardHolder.itemView.findViewById<CardView>(R.id.cardAdd_view)
         card.setOnClickListener {
             listener.onItemClick(cardHolder.adapterPosition)
         }
@@ -54,14 +51,17 @@ class AddCreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<AddCre
 
     inner class InfoCardHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bindView(infoCard: CreditCardInfo) {
-            var imgCard = itemView.findViewById<TextView>(R.id.cardImageView)
-            imgCard.text = infoCard.cardImg.toString()
+            val imgCard = itemView.findViewById<ImageView>(R.id.cardImageView)
+            imgCard.setImageResource(infoCard.cardImg)
 
             val typeCard = itemView.findViewById<TextView>(R.id.cardType)
             typeCard.text = infoCard.cardType
 
             val moreinfoCard = itemView.findViewById<TextView>(R.id.cardInfo)
             moreinfoCard.text = infoCard.cardInfo
+
+            val descriptionCard = itemView.findViewById<TextView>(R.id.cardDescription)
+            descriptionCard.text = infoCard.cardDescripton
         }
     }
 }

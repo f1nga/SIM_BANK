@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/addCreditCardFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card_tabs.AddCreditCardFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.AddCreditCardFragment"
         android:label="fragment_add_credit_card"
         tools:layout="@layout/fragment_add_credit_card" />
     <fragment
