@@ -10,7 +10,7 @@
     <color name="red">#FF0000</color>
 
     <color name="backgroundColor">#110339</color>
-    <color name="backgroundColor_secondary">#1C0659</color>
+    <color name="backgroundColor_secondary">#433C53</color>
 
     <color name="primary_dark">#4F934A</color>
     <color name="primary">#0019F8</color>
@@ -19,7 +19,11 @@
     <color name="secondary_dark">#CDCDCD</color>
     <color name="secondary">#F0F0F0</color>
     <color name="secondary_light">#FFFFFF</color>
-    <color name="secondary_light_60">#99FFFFFF</color>
+    <color name="secondary_light_60">#C8FFFFFF</color>
+
+    <color name="primary_text">#FFFFFF</color>
+    <color name="secondary_text">#F70845E1</color>
+    <color name="tertiary_text">#C8FFFFFF</color>
 
     <color name="background">#232730</color>
     <color name="background_dark">#1B1D29</color>

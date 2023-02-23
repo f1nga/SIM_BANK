@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.HomeFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"/>
     <fragment

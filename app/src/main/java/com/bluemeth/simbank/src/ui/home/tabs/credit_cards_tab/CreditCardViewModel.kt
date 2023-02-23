@@ -48,7 +48,7 @@ class CreditCardViewModel @Inject constructor(
         return user
     }
 
-    fun getBankAccount(): LiveData<BankAccount>  {
+    fun getBankAccount(): MutableLiveData<BankAccount> {
         val bankAccount = MutableLiveData<BankAccount>()
 
         bankAccountRepository.findBankAccountByEmail(prefs.getEmail()).observeForever {

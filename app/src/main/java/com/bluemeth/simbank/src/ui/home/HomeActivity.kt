@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -82,33 +83,25 @@ class HomeActivity : AppCompatActivity() {
         val navDrawer = binding.navView.menu
 
         navDrawer.findItem(R.id.drawer_header)
-        navDrawer.findItem(R.id.settingsFragment).setOnMenuItemClickListener {
-            drawerLayout.closeDrawer(GravityCompat.END)
-            navController.navigate(R.id.settingsFragment)
-            true
-        }
-        navDrawer.findItem(R.id.privacyPolicyFragment).setOnMenuItemClickListener {
-            drawerLayout.closeDrawer(GravityCompat.END)
-            navController.navigate(R.id.privacyPolicyFragment)
-            true
-        }
+        navDrawer.findItem(R.id.settingsFragment)
+        navDrawer.findItem(R.id.privacyPolicyFragment)
         navDrawer.findItem(R.id.signOut).setOnMenuItemClickListener {
             logOut()
             true
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                drawerLayout.closeDrawer(GravityCompat.END)
-            } else {
-                drawerLayout.openDrawer(GravityCompat.END)
-            }
-            return true
-        }
-         return true
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (item.itemId == android.R.id.home) {
+//            if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+//                drawerLayout.closeDrawer(GravityCompat.END)
+//            } else {
+//                drawerLayout.openDrawer(GravityCompat.END)
+//            }
+//            return true
+//        }
+//         return true
+//    }
 
     private fun logOut(){
         val builder = AlertDialog.Builder(this)

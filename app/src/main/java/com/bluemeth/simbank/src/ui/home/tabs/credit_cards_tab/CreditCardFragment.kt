@@ -87,7 +87,4 @@ class CreditCardFragment() : Fragment() {
         }
 
     }
-
-
-
 }

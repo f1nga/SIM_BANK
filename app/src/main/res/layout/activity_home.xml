@@ -50,7 +50,6 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:openDrawer="right"
         >
 
         <LinearLayout
@@ -83,7 +82,7 @@
             android:id="@+id/navView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
+            android:layout_gravity="start"
             android:background="@color/backgroundColor"
             app:menu="@menu/navdrawer_menu"
             app:itemTextColor="@color/white"
