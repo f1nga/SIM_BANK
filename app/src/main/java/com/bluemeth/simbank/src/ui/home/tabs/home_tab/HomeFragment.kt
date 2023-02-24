@@ -16,7 +16,9 @@ import com.bluemeth.simbank.src.ui.home.HomeViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.RecyclerClickListener
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
 import com.bluemeth.simbank.src.utils.Methods
+import com.google.firebase.Timestamp
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment  : Fragment() {
@@ -32,8 +34,8 @@ class HomeFragment  : Fragment() {
 
         setMoneyTextViews()
 
-//        setMovementRecyclerView()
-//        observeMovement()
+        setMovementRecyclerView()
+        observeMovement()
 
         setHeaderRecyclerView()
         observeHeader()
@@ -63,33 +65,27 @@ class HomeFragment  : Fragment() {
         }
     }
 
-//    private fun setMovementRecyclerView() {
-//
-//        val movementRecyclerView = binding.rvHistory
-//        movementRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-//        movementRecyclerView.setHasFixedSize(true)
-//        movementRecyclerView.adapter = homeViewModel.movementAdapter
-//
-//        homeViewModel.movementAdapter.setItemListener(object : RecyclerClickListener {
-//            override fun onItemClick(position: Int) {
-//                Toast.makeText(requireContext(),"Cabolo" , Toast.LENGTH_SHORT).show()
-//            }
-//        })
-//
-//    }
-//
-//    private fun observeMovement() {
-//
-//            homeViewModel.movementAdapter.setListData(
-//                listOf(
-//                    Movement("Bon dia", Timestamp(Date(2022, 11, 23)) , 45.00, true) ,
-//                    Movement("Bon dia", Timestamp(Date(2022, 11, 23)) , 45.00, true),
-//                    Movement("Bon dia", Timestamp(Date(2022, 11, 23)) , 45.00, true)
-//                )
-//            )
-//            homeViewModel.movementAdapter.notifyDataSetChanged()
-//
-//    }
+    private fun setMovementRecyclerView() {
+
+        val movementRecyclerView = binding.rvHistory
+        movementRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        movementRecyclerView.setHasFixedSize(true)
+        movementRecyclerView.adapter = homeViewModel.movementAdapter
+
+        homeViewModel.movementAdapter.setItemListener(object : RecyclerClickListener {
+            override fun onItemClick(position: Int) {
+                Toast.makeText(requireContext(),"Cabolo" , Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun observeMovement() {
+            homeViewModel.setListData()
+            homeViewModel.movementList.observe(requireActivity()) {
+            homeViewModel.movementAdapter.setListData(it)
+        }
+
+    }
 
     private fun setMoneyTextViews() {
         homeViewModel.money.observe(requireActivity()) {
