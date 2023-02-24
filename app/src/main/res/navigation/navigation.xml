@@ -12,12 +12,12 @@
         tools:layout="@layout/fragment_home"/>
     <fragment
         android:id="@+id/functionsFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.FunctionsFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.FunctionsFragment"
         android:label="fragment_functions"
         tools:layout="@layout/fragment_functions" />
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.ProfileFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment

@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs
+package com.bluemeth.simbank.src.ui.home.tabs.profile_tab
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

@@ -7,10 +7,8 @@ import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 import timber.log.Timber.DebugTree
 
-
 @HiltAndroidApp
 class SimBankApp : Application() {
-
     companion object {
         lateinit var prefs: Prefs
     }

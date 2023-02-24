@@ -44,5 +44,39 @@ class Methods {
 
             return number
         }
+
+        fun splitName(name: String): String {
+            return name.split(" ")[0]
+        }
+
+        fun formatMoney(money: Double): String {
+            val firstMoney = money.toString().split(".")[0]
+            val secondMoney = money.toString().split(".")[1]
+
+            val newMoney = if(secondMoney.length == 1) {
+                "$firstMoney,${secondMoney}0"
+            } else {
+                "$firstMoney,${secondMoney}"
+            }
+
+            var moneyText = ""
+
+            if(firstMoney.toInt() > 9999) {
+                moneyText += "${newMoney[0]}${newMoney[1]}."
+                for (i in 2 until newMoney.length) {
+                    moneyText += newMoney[i]
+                }
+                return "$moneyText€"
+
+            } else if(firstMoney.toInt() > 999) {
+                moneyText += "${newMoney[0]}."
+                for (i in 1 until newMoney.length) {
+                    moneyText += newMoney[i]
+                }
+                return "$moneyText€"
+            }
+
+            return "$newMoney€"
+        }
     }
 }

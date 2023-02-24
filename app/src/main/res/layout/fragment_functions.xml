@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".src.ui.home.tabs.FunctionsFragment">
+        tools:context=".src.ui.home.tabs.functions_tab.FunctionsFragment">
 
         <ImageView
             android:id="@+id/imageView3"

@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.RecyclerClickListener
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
-import com.bluemeth.simbank.src.utils.Methods
-import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
 class HorizontalListRVAdapter @Inject constructor() : RecyclerView.Adapter<HorizontalListRVAdapter.HomeHeaderHolder>(){
@@ -53,8 +51,8 @@ class HorizontalListRVAdapter @Inject constructor() : RecyclerView.Adapter<Horiz
     inner class HomeHeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bindView(homeHeader: HomeHeader) {
             val moneyBank = itemView.findViewById<TextView>(R.id.txtMoneyBank)
-            moneyBank.text = "${homeHeader.money.toString()}€"
-
+            moneyBank.text = "${homeHeader.money}€"
+            //moneyBank.text = Methods.formatMoney(homeHeader.money)
             val subtitle = itemView.findViewById<TextView>(R.id.txtSubtitle)
             subtitle.text = homeHeader.subtitle
 

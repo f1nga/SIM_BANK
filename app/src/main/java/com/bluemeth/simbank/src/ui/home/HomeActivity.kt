@@ -4,14 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
-import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -21,6 +17,7 @@ import com.bluemeth.simbank.databinding.ActivityHomeBinding
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.CreditCardViewModel
+import com.bluemeth.simbank.src.utils.Methods
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -156,7 +153,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setUserNameInToolbar() {
         homeViewModel.getUserName().observe(this) {
-            binding.tvNameBar.text = "Hola, ${homeViewModel.splitName(it.name)}"
+            binding.tvNameBar.text = "Hola, ${Methods.splitName(it.name)}"
         }
     }
 

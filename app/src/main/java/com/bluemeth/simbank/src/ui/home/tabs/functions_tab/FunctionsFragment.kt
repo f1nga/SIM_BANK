@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs
+package com.bluemeth.simbank.src.ui.home.tabs.functions_tab
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,7 +17,7 @@ class FunctionsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_functions,container,false)
         setHasOptionsMenu(true)
