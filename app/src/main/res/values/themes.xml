@@ -94,4 +94,11 @@
         <item name="errorTextColor">@color/error</item>
         <item name="hintTextColor">@color/primary</item>
     </style>
+
+    <style name="FormTextInputLayoutInfoCard" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="android:gravity">center_vertical</item>
+        <item name="errorEnabled">true</item>
+        <item name="android:textColorHint">@color/secondary_light_60</item>
+        <item name="boxStrokeWidth">0dp</item>
+    </style>
 </resources>

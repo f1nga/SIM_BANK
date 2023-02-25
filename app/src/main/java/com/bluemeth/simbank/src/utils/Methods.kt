@@ -18,6 +18,22 @@ class Methods {
             return "$newDate/${year.toString()[2]}${year.toString()[3]}"
          }
 
+        fun formatDateCardInfo(date: Date): String {
+            val day = if(date.day < 10) {
+                "0${date.day}"
+            } else {
+                (date.day).toString()
+            }
+            val newDate = if(date.month < 10) {
+                "0${date.month + 1}"
+            } else {
+                (date.month + 1).toString()
+            }
+            val year = date.year + 1900
+
+            return "$day/$newDate/$year"
+        }
+
         @RequiresApi(Build.VERSION_CODES.O)
         fun formateDateMovement(date: Date): String {
 

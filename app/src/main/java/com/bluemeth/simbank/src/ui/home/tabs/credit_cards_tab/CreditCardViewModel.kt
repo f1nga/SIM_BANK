@@ -1,9 +1,7 @@
 package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.bluemeth.simbank.src.data.models.BankAccount
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.models.User
@@ -23,7 +21,7 @@ class CreditCardViewModel @Inject constructor(
     private val bankAccountRepository: BankAccountRepository,
     private val insertCreditCardUseCase: InsertCreditCardUseCase,
 ): ViewModel() {
-
+    private var _creditCard : CreditCard? = null
     fun getCreditsCardsFromDB(iban: String):LiveData<MutableList<CreditCard>>{
         val mutableData = MutableLiveData<MutableList<CreditCard>>()
 
@@ -35,6 +33,14 @@ class CreditCardViewModel @Inject constructor(
 
     fun insertCreditCardToDB(creditCard: CreditCard) {
         viewModelScope.launch { insertCreditCardUseCase(creditCard) }
+    }
+
+    fun setCard(creditCard: CreditCard){
+    _creditCard = creditCard
+    }
+
+    fun getCard(): CreditCard?{
+        return _creditCard
     }
 
     fun getNameUserCard(email: String) : LiveData<User> {

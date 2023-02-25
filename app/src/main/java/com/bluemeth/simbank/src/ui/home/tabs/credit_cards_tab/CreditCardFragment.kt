@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class CreditCardFragment() : Fragment() {
 
     private lateinit var binding: FragmentCreditCardBinding
-    private val creditCardViewModel: CreditCardViewModel by viewModels()
+    private val creditCardViewModel: CreditCardViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +49,8 @@ class CreditCardFragment() : Fragment() {
         creditCardViewModel.cardAdapter.setItemListener(object: CreditCardRVAdapter.OnItemClickListener {
 
             override fun onItemClick(creditCard: CreditCard) {
-                Toast.makeText(requireContext(),creditCard.number , Toast.LENGTH_SHORT).show()
-
+                creditCardViewModel.setCard(creditCard)
+                view?.findNavController()?.navigate(R.id.action_cardFragment_to_infoCardFragment)
             }
         })
 
