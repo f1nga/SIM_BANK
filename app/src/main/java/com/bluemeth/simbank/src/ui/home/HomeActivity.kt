@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -15,6 +17,7 @@ import androidx.navigation.ui.NavigationUI
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityHomeBinding
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
+import com.bluemeth.simbank.src.utils.GlobalVariables
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.CreditCardViewModel
 import com.bluemeth.simbank.src.utils.Methods
@@ -51,7 +54,6 @@ class HomeActivity : AppCompatActivity() {
         hideBottomBar()
         setHeaderDrawer()
         setCustomToolbar()
-        setUserNameInToolbar()
 
         NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
@@ -75,7 +77,19 @@ class HomeActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_account_circle_24)
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.right_options, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle presses on the action bar menu items
+        when (item.itemId) {
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
     private fun itemMenu(){
         val navDrawer = binding.navView.menu
 
@@ -87,18 +101,6 @@ class HomeActivity : AppCompatActivity() {
             true
         }
     }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == android.R.id.home) {
-//            if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-//                drawerLayout.closeDrawer(GravityCompat.END)
-//            } else {
-//                drawerLayout.openDrawer(GravityCompat.END)
-//            }
-//            return true
-//        }
-//         return true
-//    }
 
     private fun logOut(){
         val builder = AlertDialog.Builder(this)
@@ -133,7 +135,6 @@ class HomeActivity : AppCompatActivity() {
 
             }
         }
-
     }
 
     private fun setHeaderDrawer() {
@@ -149,16 +150,13 @@ class HomeActivity : AppCompatActivity() {
     private fun setCustomToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-    }
-
-    private fun setUserNameInToolbar() {
         homeViewModel.getUserName().observe(this) {
             binding.tvNameBar.text = "Hola, ${Methods.splitName(it.name)}"
         }
     }
 
     private fun saveUserIban() {
-        creditCardViewModel.getBankAccount().observe(this) { bankAccount ->
+        creditCardViewModel.getBankAccount(GlobalVariables.userEmail!!).observe(this) { bankAccount ->
             prefs.saveUserIban(bankAccount.iban)
         }
     }

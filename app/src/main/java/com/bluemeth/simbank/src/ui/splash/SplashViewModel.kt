@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
+import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.response.LoginResult
+import com.bluemeth.simbank.src.domain.InsertCreditCardUseCase
 import com.bluemeth.simbank.src.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +16,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewModel() {
+class SplashViewModel @Inject constructor(val loginUseCase: LoginUseCase, val insertCreditCardUseCase: InsertCreditCardUseCase) : ViewModel() {
     private val _navigateToHome = MutableLiveData<Event<Boolean>>()
     val navigateToHome: LiveData<Event<Boolean>>
         get() = _navigateToHome
@@ -33,5 +35,9 @@ class SplashViewModel @Inject constructor(val loginUseCase: LoginUseCase) : View
                 }
             }
         }
+    }
+
+    fun insertCreditCardToDB(creditCard: CreditCard) {
+        viewModelScope.launch { insertCreditCardUseCase(creditCard) }
     }
 }

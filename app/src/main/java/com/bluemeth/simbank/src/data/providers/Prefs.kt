@@ -18,10 +18,13 @@ class Prefs(context: Context) {
     private val storage: SharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_NAME, 0)
 
      fun saveUser(email: String, password: String) {
-         storage.edit().putString(TOKEN_KEY, generateToken()).apply()
          storage.edit().putString(EMAIL_KEY, email).apply()
          storage.edit().putString(PASSWORD_KEY, password).apply()
      }
+
+    fun saveToken() {
+        storage.edit().putString(TOKEN_KEY, generateToken()).apply()
+    }
 
     fun saveUserIban(iban: String) {
         storage.edit().putString(IBAN_KEY, iban).apply()

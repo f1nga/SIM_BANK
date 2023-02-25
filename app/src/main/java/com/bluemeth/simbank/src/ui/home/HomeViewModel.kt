@@ -11,13 +11,10 @@ import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
-import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.model.CreditCardInfo
+import com.bluemeth.simbank.src.utils.GlobalVariables
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.HorizontalListRVAdapter
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.MovementRecordsRVAdapter
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
-import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,10 +34,6 @@ class HomeViewModel  @Inject constructor(
     val money: LiveData<Double>
         get() = _money
 
-    private val _movementList = MutableLiveData<List<Movement>>()
-    val movementList: MutableLiveData<List<Movement>>
-        get() = _movementList
-
     init {
         setMoney()
     }
@@ -53,12 +46,13 @@ class HomeViewModel  @Inject constructor(
         authenticationRepository.logout()
         _navigateToLogin.value = Event(true)
         prefs.clearPrefs()
+        prefs.saveToken()
     }
 
     fun getUserName(): MutableLiveData<User> {
         val user = MutableLiveData<User>()
 
-        userRepository.findUserByEmail(prefs.getEmail()).observeForever {
+        userRepository.findUserByEmail(GlobalVariables.userEmail!!).observeForever {
             user.value = it
         }
 
@@ -74,19 +68,10 @@ class HomeViewModel  @Inject constructor(
      fun getBankAccount(): MutableLiveData<BankAccount> {
         val bankAccount = MutableLiveData<BankAccount>()
 
-        bankAccountRepository.findBankAccountByEmail(prefs.getEmail()).observeForever {
+        bankAccountRepository.findBankAccountByEmail(GlobalVariables.userEmail!!).observeForever {
             bankAccount.value = it
         }
 
         return bankAccount
-    }
-
-    fun setListData(){
-        val list = mutableListOf<Movement>(
-            Movement("Bon dia", Timestamp(Date(2022, 11, 23)) , 45.00, true) ,
-            Movement("Bon dia", Timestamp(Date(2022, 11, 23)) , 45.00, true),
-            Movement("Bon dia", Timestamp(Date(2022, 11, 23)) , 45.00, true)
-        )
-        movementList.value = list
     }
 }

@@ -48,15 +48,15 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
     val showErrorDialog: LiveData<UserLogin>
         get() = _showErrorDialog
 
-    fun onLoginSelected(email: String, password: String) {
+    fun onLoginSelected(email: String, password: String, rememberChecked: Boolean) {
         if (isValidEmail(email) && isValidPassword(password)) {
-            loginUser(email, password)
+            loginUser(email, password, rememberChecked)
         } else {
             onFieldsChanged(email, password)
         }
     }
 
-    private fun loginUser(email: String, password: String) {
+    private fun loginUser(email: String, password: String, rememberChecked: Boolean) {
         viewModelScope.launch {
             _viewState.value = LoginViewState(isLoading = true)
             when (val result = loginUseCase(email, password)) {
@@ -67,8 +67,12 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
                 }
                 is LoginResult.Success -> {
                     if (result.verified) {
-                        prefs.saveUser(email, password)
                         _navigateToHome.value = Event(true)
+                        if(rememberChecked) {
+                            prefs.saveUser(email, password)
+                        } else {
+                            prefs.saveToken()
+                        }
                     } else {
                         _navigateToVerifyAccount.value = Event(true)
                     }

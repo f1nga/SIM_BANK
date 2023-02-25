@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,17 +12,15 @@ import com.bluemeth.simbank.databinding.FragmentHomeBinding
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.providers.HomeHeaderProvider
 import com.bluemeth.simbank.src.ui.home.HomeViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.RecyclerClickListener
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
 import com.bluemeth.simbank.src.utils.Methods
-import com.google.firebase.Timestamp
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 @AndroidEntryPoint
 class HomeFragment  : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
+    private val homeTabViewModel: HomeTabViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +31,11 @@ class HomeFragment  : Fragment() {
 
         setMoneyTextViews()
 
-        setMovementRecyclerView()
-        observeMovement()
-
         setHeaderRecyclerView()
         observeHeader()
+
+        setMovementRecyclerView()
+        observeMovement()
 
         return binding.root
     }
@@ -50,9 +47,9 @@ class HomeFragment  : Fragment() {
         headerRecyclerView.setHasFixedSize(true)
         headerRecyclerView.adapter = homeViewModel.headerAdapter
 
-        homeViewModel.headerAdapter.setItemListener(object : RecyclerClickListener {
-            override fun onItemClick(position: Int) {
-                Toast.makeText(requireContext(),"Cabolo" , Toast.LENGTH_SHORT).show()
+        homeViewModel.headerAdapter.setItemListener(object : HorizontalListRVAdapter.onItemClickListener {
+            override fun onItemClick(creditCard: HomeHeader) {
+                TODO("Not yet implemented")
             }
         })
 
@@ -72,19 +69,23 @@ class HomeFragment  : Fragment() {
         movementRecyclerView.setHasFixedSize(true)
         movementRecyclerView.adapter = homeViewModel.movementAdapter
 
-        homeViewModel.movementAdapter.setItemListener(object : RecyclerClickListener {
-            override fun onItemClick(position: Int) {
-                Toast.makeText(requireContext(),"Cabolo" , Toast.LENGTH_SHORT).show()
+        homeViewModel.movementAdapter.setItemListener(object : MovementRecordsRVAdapter.onItemClickListener {
+            override fun onItemClick(creditCard: Movement) {
+                TODO("Not yet implemented")
             }
         })
+
+        homeViewModel.money.observe(requireActivity()) {
+            Log.i("dinerro", it.toString())
+            homeViewModel.movementAdapter.setRemainingMoney(it)
+        }
     }
 
     private fun observeMovement() {
-            homeViewModel.setListData()
-            homeViewModel.movementList.observe(requireActivity()) {
+        homeTabViewModel.getMovementsFromDB("ES33 4920 4829 0293 3849 3810").observe(requireActivity()) {
             homeViewModel.movementAdapter.setListData(it)
+            homeViewModel.movementAdapter.notifyDataSetChanged()
         }
-
     }
 
     private fun setMoneyTextViews() {

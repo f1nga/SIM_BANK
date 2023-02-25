@@ -28,6 +28,8 @@
     <string name="login_error_dialog_body">Verifique los datos o vuelva a intentarlo</string>
     <string name="login_error_dialog_negative_action">Cancelar</string>
     <string name="login_error_dialog_positive_action">Reintentar</string>
+    <string name="login_forgot_password">¿Contraseña olvidada?</string>
+    <string name="login_remember">Recuérdame</string>
 
     <string name="introduction_button_signin">Crear cuenta</string>
 
@@ -59,5 +61,7 @@
     <string name="accounts_title">CUENTAS</string>
     <string name="go_to_gastos">Ir a gastos e ingresos</string>
     <string name="account_disponible">Disponible</string>
+    <string name="last_movements">Últimos movimientos</string>
+    <string name="see_more">Ver más</string>
 
 </resources>

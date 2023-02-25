@@ -25,6 +25,8 @@
     <color name="secondary_text">#F70845E1</color>
     <color name="tertiary_text">#C8FFFFFF</color>
 
+    <color name="primary_button">#F7189EDC</color>
+
     <color name="background">#232730</color>
     <color name="background_dark">#1B1D29</color>
     <color name="paper">#2E353F</color>

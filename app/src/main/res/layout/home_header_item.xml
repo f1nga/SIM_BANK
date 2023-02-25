@@ -23,7 +23,7 @@
             android:fontFamily="@font/montserrat"
             android:text="16.241,00€"
             android:textColor="@color/primary_text"
-            android:textSize="19sp"
+            android:textSize="20sp"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
 

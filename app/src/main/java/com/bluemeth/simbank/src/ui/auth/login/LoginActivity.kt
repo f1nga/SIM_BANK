@@ -65,7 +65,8 @@ class LoginActivity : AppCompatActivity() {
             it.dismissKeyboard()
             loginViewModel.onLoginSelected(
                 binding.inputEmailText.text.toString(),
-                binding.inputPasswordText.text.toString()
+                binding.inputPasswordText.text.toString(),
+                binding.cbRemember.isChecked
             )
         }
     }
@@ -135,7 +136,8 @@ class LoginActivity : AppCompatActivity() {
             positiveAction = ErrorDialog.Action(getString(R.string.login_error_dialog_positive_action)) {
                 loginViewModel.onLoginSelected(
                     userLogin.email,
-                    userLogin.password
+                    userLogin.password,
+                    binding.cbRemember.isChecked
                 )
                 it.dismiss()
             }

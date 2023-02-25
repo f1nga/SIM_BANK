@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.CreditCard
-import com.bluemeth.simbank.src.data.providers.UserInitData
+import com.bluemeth.simbank.src.data.models.utils.CreditCardType
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -19,19 +19,8 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
         const val NUMBER_FIELD = "number"
         const val PIN_FIELD = "pin"
         const val MONEY_FIELD = "money"
+        const val TYPE_FIELD = "type"
     }
-
-    suspend fun createCreditCardTable() = runCatching {
-
-        val creditCard = UserInitData.createCreditCard()
-
-        firebase.db
-            .collection(CREDIT_CARDS_COLLECTION)
-            .document(creditCard.number)
-            .set(creditCard)
-            .await()
-
-    }.isSuccess
 
     suspend fun insertCreditCard(creditCard: CreditCard) = runCatching {
         firebase.db
@@ -52,6 +41,13 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
                 val listData = mutableListOf<CreditCard>()
 
                 for (document in documents) {
+                    val creditCardType =
+                        when(document.getString(TYPE_FIELD)) {
+                            "Credito" -> CreditCardType.Credito
+                            "Debito" -> CreditCardType.Debito
+                            else ->  CreditCardType.Prepago
+                        }
+
                     listData.add(
                         CreditCard(
                             document.getString(NUMBER_FIELD)!!,
@@ -59,7 +55,8 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
                             document.getLong(PIN_FIELD)!!.toInt(),
                             document.getLong(CVV_FIELD)!!.toInt(),
                             document.getTimestamp(CADUCITY_FIELD)!!,
-                            document.getString(BANK_IBAN_FIELD)!!
+                            creditCardType,
+                            document.getString(BANK_IBAN_FIELD)!!,
                         )
                     )
                 }

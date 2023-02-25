@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.databinding.FragmentAddCreditCardBinding
-import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.RecyclerClickListener
+import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.model.CreditCardInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -20,8 +19,7 @@ class AddCreditCardFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentAddCreditCardBinding.inflate(inflater,container,false)
 
         setRecyclerView()
@@ -35,9 +33,9 @@ class AddCreditCardFragment : Fragment() {
         cardRecyclerview.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         cardRecyclerview.setHasFixedSize(true)
         cardRecyclerview.adapter = addCreditCardViewModel.cardAdapter
-        addCreditCardViewModel.cardAdapter.setItemListener(object : RecyclerClickListener {
-            override fun onItemClick(position: Int) {
-                Toast.makeText(requireContext(),"Cabolo" , Toast.LENGTH_SHORT).show()
+        addCreditCardViewModel.cardAdapter.setItemListener(object : AddCreditCardRVAdapter.OnItemClickListener {
+            override fun onItemClick(creditCard: CreditCardInfo) {
+                TODO("Not yet implemented")
             }
         })
     }

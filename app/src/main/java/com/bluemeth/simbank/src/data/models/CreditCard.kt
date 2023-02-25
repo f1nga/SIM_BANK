@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.data.models
 
+import com.bluemeth.simbank.src.data.models.utils.CreditCardType
 import com.google.firebase.Timestamp
 
 data class CreditCard(
@@ -8,5 +9,6 @@ data class CreditCard(
     val pin: Int,
     val cvv: Int,
     val caducity: Timestamp,
+    val type: CreditCardType,
     val bank_iban: String
 )

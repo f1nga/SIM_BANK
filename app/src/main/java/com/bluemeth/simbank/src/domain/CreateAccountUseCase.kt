@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.domain
 
+import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
 import com.bluemeth.simbank.src.data.providers.firebase.CreditCardRepository
@@ -15,14 +16,13 @@ class CreateAccountUseCase @Inject constructor(
 
 ) {
 
-    suspend operator fun invoke(userSignIn: UserSignIn): Boolean {
+    suspend operator fun invoke(userSignIn: UserSignIn, creditCard: CreditCard): Boolean {
         val accountCreated =
             authenticationService.createAccount(userSignIn.email, userSignIn.password) != null
         return if (accountCreated) {
-            true
             userRepository.createUserTable(userSignIn)
             bankAccountRepository.createBankAccountTable()
-            creditCardRepository.createCreditCardTable()
+            creditCardRepository.insertCreditCard(creditCard)
         } else {
             false
         }

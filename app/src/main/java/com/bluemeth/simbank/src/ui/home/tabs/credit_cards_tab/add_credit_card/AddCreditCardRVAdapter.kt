@@ -5,35 +5,32 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
-import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.RecyclerClickListener
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.model.CreditCardInfo
 import javax.inject.Inject
 
 class AddCreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<AddCreditCardRVAdapter.InfoCardHolder>(){
-    private lateinit var listener: RecyclerClickListener
+    private lateinit var listener: OnItemClickListener
     private var listData = listOf<CreditCardInfo>()
+
+    interface OnItemClickListener {
+        fun onItemClick(creditCard: CreditCardInfo)
+    }
 
     fun setListData(data:List<CreditCardInfo>){
         listData = data
     }
 
-    fun setItemListener(listener: RecyclerClickListener) {
+    fun setItemListener(listener: OnItemClickListener) {
         this.listener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InfoCardHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.add_credit_card_item, parent, false)
-        val cardHolder = InfoCardHolder(v)
+        val v = LayoutInflater.from(parent.context)
+            .inflate(R.layout.add_credit_card_item, parent, false)
 
-
-        val card = cardHolder.itemView.findViewById<CardView>(R.id.cardAdd_view)
-        card.setOnClickListener {
-            listener.onItemClick(cardHolder.adapterPosition)
-        }
-        return cardHolder
+        return InfoCardHolder(v)
     }
 
     override fun onBindViewHolder(holder: InfoCardHolder, position: Int) {
@@ -62,6 +59,10 @@ class AddCreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<AddCre
 
             val descriptionCard = itemView.findViewById<TextView>(R.id.cardDescription)
             descriptionCard.text = infoCard.cardDescripton
+
+            itemView.setOnClickListener {
+                listener.onItemClick(infoCard)
+            }
         }
     }
 }

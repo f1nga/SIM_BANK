@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.data.models.BankAccount
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.models.User
@@ -22,10 +21,10 @@ class CreditCardViewModel @Inject constructor(
     val cardAdapter: CreditCardRVAdapter,
     private val userRepository: UserRepository,
     private val bankAccountRepository: BankAccountRepository,
-    private val insertCreditCardUseCase: InsertCreditCardUseCase
+    private val insertCreditCardUseCase: InsertCreditCardUseCase,
 ): ViewModel() {
 
-    fun fetchCardData(iban: String):LiveData<MutableList<CreditCard>>{
+    fun getCreditsCardsFromDB(iban: String):LiveData<MutableList<CreditCard>>{
         val mutableData = MutableLiveData<MutableList<CreditCard>>()
 
         creditCardRepository.getCreditCards(iban).observeForever {
@@ -48,10 +47,10 @@ class CreditCardViewModel @Inject constructor(
         return user
     }
 
-    fun getBankAccount(): MutableLiveData<BankAccount> {
+    fun getBankAccount(email: String): MutableLiveData<BankAccount> {
         val bankAccount = MutableLiveData<BankAccount>()
 
-        bankAccountRepository.findBankAccountByEmail(prefs.getEmail()).observeForever {
+        bankAccountRepository.findBankAccountByEmail(email).observeForever {
             bankAccount.value = it
         }
 

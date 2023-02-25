@@ -1,19 +1,58 @@
 package com.bluemeth.simbank.src.utils
 
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.LocalDateTime
 import java.util.*
 
 class Methods {
     companion object {
-         fun formatDate(date: Date): String {
+         fun formatDateCard(date: Date): String {
              val newDate = if(date.month < 10) {
-                 "0${date.month}"
+                 "0${date.month + 1}"
              } else {
-                 date.month.toString()
+                 (date.month + 1).toString()
              }
             val year = date.year + 1900
 
             return "$newDate/${year.toString()[2]}${year.toString()[3]}"
          }
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun formateDateMovement(date: Date): String {
+
+            val currentTime = LocalDateTime.now()
+            val dateMonth = if(date.month == 0) 12 else date.month + 1
+
+            if(date.year == currentTime.year + 1900 && dateMonth == currentTime.month.value && date.day == currentTime.dayOfMonth) {
+                return "Hoy"
+            } else if(date.year == currentTime.year + 1900 && dateMonth == currentTime.month.value && date.day == currentTime.dayOfMonth+1) {
+                return "Ayer"
+            } else {
+                val month = when(dateMonth) {
+                    1 -> "Ene"
+                    2 -> "Feb"
+                    3 -> "Mar"
+                    4 -> "Abr"
+                    5 -> "May"
+                    6 -> "Jun"
+                    7 -> "Jul"
+                    8 -> "Ago"
+                    9 -> "Set"
+                    10 -> "Oct"
+                    11 -> "Nov"
+                    else -> "Dic"
+                }
+
+                if(date.year + 1900 != currentTime.year) {
+                    val year = date.year
+
+                    return "${date.day} $month $year"
+                }
+
+                return "${date.day} $month"
+            }
+        }
 
          fun formatCardNumber(cardNumber: String): String {
             var number = ""
