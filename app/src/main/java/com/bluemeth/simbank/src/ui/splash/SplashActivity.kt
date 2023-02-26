@@ -6,9 +6,12 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
+import com.bluemeth.simbank.src.data.models.CreditCard
+import com.bluemeth.simbank.src.data.models.utils.CreditCardType
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
 import com.bluemeth.simbank.src.ui.welcome.WelcomeActivity
+import com.google.firebase.Timestamp
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -22,18 +25,31 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initObservers()
-//        splashViewModel.insertCreditCardToDB(
-//            CreditCard(
-//            "3029384510238534",
-//            2832.32,
-//            2342,
-//            652,
-//                Timestamp.now(),
-//                CreditCardType.Prepago,
-//                "ES3350330479580716102854"
-//            )
-//        )
+        splashViewModel.insertCreditCardToDB(
+            CreditCard(
+            "3029384510238534",
+            2832.32,
+            2342,
+            652,
+                Timestamp.now(),
+                CreditCardType.Debito,
+                "ES3350330479580716102854"
+            )
+        )
+
+        splashViewModel.insertCreditCardToDB(
+            CreditCard(
+                "3029384510238534",
+                2832.32,
+                2342,
+                652,
+                Timestamp.now(),
+                CreditCardType.Credito,
+                "ES3350330479580716102854"
+            )
+        )
         //prefs.clearPrefs()
+
         checkUserIsLogged()
     }
 
@@ -46,11 +62,11 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkUserIsLogged() {
-        if(prefs.getToken().isNotEmpty()) {
+        if(prefs.getEmail().isNotEmpty()) {
+            splashViewModel.loginUser(prefs.getEmail(), prefs.getPassword())
+        } else if(prefs.getToken().isNotEmpty()) {
             goToLogin()
             finish()
-        } else if(prefs.getEmail().isNotEmpty()) {
-            splashViewModel.loginUser(prefs.getEmail(), prefs.getPassword())
         } else {
             goToWelcome()
             finish()

@@ -1,6 +1,5 @@
 package com.bluemeth.simbank.src.ui.home
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,30 +9,35 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityHomeBinding
-import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
-import com.bluemeth.simbank.src.utils.GlobalVariables
+import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
+import com.bluemeth.simbank.src.core.dialog.QuestionDialog
+import com.bluemeth.simbank.src.core.ex.show
+import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.CreditCardViewModel
-import com.bluemeth.simbank.src.utils.Methods
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
 
     private val homeViewModel: HomeViewModel by viewModels()
-    private val creditCardViewModel: CreditCardViewModel by viewModels()
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navController: NavController
     private lateinit var toolbar: androidx.appcompat.widget.Toolbar
+
+    @Inject
+    lateinit var dialogLauncher: DialogFragmentLauncher
 
     companion object {
         fun create(context: Context): Intent =
@@ -62,8 +66,6 @@ class HomeActivity : AppCompatActivity() {
         initObservers()
         //iconDrawer()
         itemMenu()
-
-        saveUserIban()
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -84,7 +86,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle presses on the action bar menu items
         when (item.itemId) {
 
         }
@@ -93,29 +94,29 @@ class HomeActivity : AppCompatActivity() {
     private fun itemMenu(){
         val navDrawer = binding.navView.menu
 
-        navDrawer.findItem(R.id.drawer_header)
-        navDrawer.findItem(R.id.settingsFragment)
-        navDrawer.findItem(R.id.privacyPolicyFragment)
         navDrawer.findItem(R.id.signOut).setOnMenuItemClickListener {
-            logOut()
+            showQuestionDialog()
             true
         }
+
+        drawerLayout.closeDrawer(GravityCompat.START)
+
     }
 
-    private fun logOut(){
-        val builder = AlertDialog.Builder(this)
-
-        builder.setTitle("¡Vaya!")
-            .setMessage("Estas seguro de que quieres salir?")
-            .setCancelable(true)
-            .setPositiveButton("Si"){ _, it ->
+    private fun showQuestionDialog() {
+        QuestionDialog.create(
+            title = getString(R.string.dialog_error_oops),
+            description = getString(R.string.dialog_error_sure),
+            helpAction = QuestionDialog.Action(getString(R.string.dialog_error_help)) {
+                toast("Estas apunto de cerrar tu sesion, necesitarás volver a iniciar sesión", Toast.LENGTH_LONG)
+            },
+            negativeAction = QuestionDialog.Action(getString(R.string.dialog_error_no)) {
+                it.dismiss()
+            },
+            positiveAction = QuestionDialog.Action(getString(R.string.dialog_error_yes)) {
                 homeViewModel.onLogoutSelected()
-            }.setNegativeButton("No"){dialogInterface, it ->
-                dialogInterface.cancel()
-            }.setNeutralButton("Ayuda"){_, it ->
-                Toast.makeText(this,"Estas apunto de cerrar tu sesion, necesitarás volver a iniciar sesión" , Toast.LENGTH_SHORT).show()
             }
-        builder.show()
+        ).show(dialogLauncher, this)
     }
 
     private fun initObservers() {
@@ -132,7 +133,6 @@ class HomeActivity : AppCompatActivity() {
                 binding.bottomNavigationView.visibility = View.VISIBLE
             } else {
                 binding.bottomNavigationView.visibility = View.GONE
-
             }
         }
     }
@@ -140,25 +140,13 @@ class HomeActivity : AppCompatActivity() {
     private fun setHeaderDrawer() {
         val navView = findViewById<NavigationView>(R.id.navView)
         val headerView: View = layoutInflater.inflate(R.layout.drawer_header, navView, false)
-        navView.addHeaderView(headerView)
 
-        headerView.setOnClickListener {
-            navController.navigate(R.id.profileFragment)
-        }
+        navView.addHeaderView(headerView)
     }
 
     private fun setCustomToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        homeViewModel.getUserName().observe(this) {
-            binding.tvNameBar.text = "Hola, ${Methods.splitName(it.name)}"
-        }
-    }
-
-    private fun saveUserIban() {
-        creditCardViewModel.getBankAccount(GlobalVariables.userEmail!!).observe(this) { bankAccount ->
-            prefs.saveUserIban(bankAccount.iban)
-        }
     }
 
     private fun goToLogin() {

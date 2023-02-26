@@ -17,29 +17,13 @@
         android:layout_marginStart="20dp"
         android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textColor="@color/secondary_text"
         android:fontFamily="@font/montserrat"
         android:layout_marginTop="80dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Perfil"
-        android:textColor="@color/primary_light"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="20dp"
-        app:layout_goneMarginTop="20dp"
+        android:layout_marginBottom="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNameDrawer"
-       />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

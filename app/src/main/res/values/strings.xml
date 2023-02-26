@@ -64,4 +64,21 @@
     <string name="last_movements">Últimos movimientos</string>
     <string name="see_more">Ver más</string>
 
+    <string name="toolbar_functions">Funciones</string>
+    <string name="toolbar_cards">Tarjetas</string>
+    <string name="toolbar_profile">Perfil</string>
+
+    <string name="dialog_error_oops">¡Vaya!</string>
+    <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
+    <string name="dialog_error_yes">Sí</string>
+    <string name="dialog_error_no">No</string>
+    <string name="dialog_error_help">Ayuda</string>
+
+    <string name="dialog_error_careful">¡Cuidado!</string>
+    <string name="dialog_question_sure">¿Estas seguro de que quieres borrar la tarjeta?</string>
+    <string name="dialog_question_help_text">Si realizas la acción, la tarjeta se borrará permanentemente</string>
+    <string name="dialog_question_yes">Sí</string>
+    <string name="dialog_question_no">No</string>
+    <string name="dialog_question_help">Ayuda</string>
+
 </resources>

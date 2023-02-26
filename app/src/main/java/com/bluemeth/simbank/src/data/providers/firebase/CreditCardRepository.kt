@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -20,6 +21,8 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
         const val PIN_FIELD = "pin"
         const val MONEY_FIELD = "money"
         const val TYPE_FIELD = "type"
+        const val DEBIT_CARD = "Debito"
+        const val CREDIT_CARD = "Credito"
     }
 
     suspend fun insertCreditCard(creditCard: CreditCard) = runCatching {
@@ -43,8 +46,8 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
                 for (document in documents) {
                     val creditCardType =
                         when(document.getString(TYPE_FIELD)) {
-                            "Credito" -> CreditCardType.Credito
-                            "Debito" -> CreditCardType.Debito
+                            CREDIT_CARD -> CreditCardType.Credito
+                            DEBIT_CARD -> CreditCardType.Debito
                             else ->  CreditCardType.Prepago
                         }
 
@@ -67,5 +70,13 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
             }
 
         return mutableData
+    }
+
+    fun deleteCreditCard(targetNumber: String) {
+        firebase.db.collection(CREDIT_CARDS_COLLECTION)
+            .document(targetNumber)
+            .delete()
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
     }
 }

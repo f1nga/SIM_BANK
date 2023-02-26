@@ -11,7 +11,6 @@ class Prefs(context: Context) {
         const val TOKEN_KEY = "token"
         const val EMAIL_KEY = "email"
         const val PASSWORD_KEY = "password"
-        const val IBAN_KEY = "iban"
         const val DEFAULT_VALUE = ""
     }
 
@@ -26,17 +25,11 @@ class Prefs(context: Context) {
         storage.edit().putString(TOKEN_KEY, generateToken()).apply()
     }
 
-    fun saveUserIban(iban: String) {
-        storage.edit().putString(IBAN_KEY, iban).apply()
-    }
-
     fun getToken() = storage.getString(TOKEN_KEY, DEFAULT_VALUE)!!
 
     fun getEmail() = storage.getString(EMAIL_KEY, DEFAULT_VALUE)!!
 
     fun getPassword() = storage.getString(PASSWORD_KEY, DEFAULT_VALUE)!!
-
-    fun getIban() = storage.getString(IBAN_KEY, DEFAULT_VALUE)!!
 
     fun clearPrefs() = storage.edit().clear().apply()
 

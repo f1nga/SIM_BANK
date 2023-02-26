@@ -2,7 +2,7 @@ package com.bluemeth.simbank.src.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import java.time.LocalDateTime
+import com.google.firebase.Timestamp
 import java.util.*
 
 class Methods {
@@ -19,10 +19,10 @@ class Methods {
          }
 
         fun formatDateCardInfo(date: Date): String {
-            val day = if(date.day < 10) {
-                "0${date.day}"
+            val day = if(date.date < 10) {
+                "0${date.date}"
             } else {
-                (date.day).toString()
+                (date.date).toString()
             }
             val newDate = if(date.month < 10) {
                 "0${date.month + 1}"
@@ -37,12 +37,12 @@ class Methods {
         @RequiresApi(Build.VERSION_CODES.O)
         fun formateDateMovement(date: Date): String {
 
-            val currentTime = LocalDateTime.now()
+            val currentTime = Timestamp.now().toDate()
             val dateMonth = if(date.month == 0) 12 else date.month + 1
 
-            if(date.year == currentTime.year + 1900 && dateMonth == currentTime.month.value && date.day == currentTime.dayOfMonth) {
+            if(date.year + 1900 == currentTime.year + 1900 && dateMonth == currentTime.month +1 && date.date == currentTime.date) {
                 return "Hoy"
-            } else if(date.year == currentTime.year + 1900 && dateMonth == currentTime.month.value && date.day == currentTime.dayOfMonth+1) {
+            } else if(date.year + 1900 == currentTime.year + 1900 && dateMonth == currentTime.month + 1 && date.date + 1 == currentTime.date) {
                 return "Ayer"
             } else {
                 val month = when(dateMonth) {
@@ -60,13 +60,11 @@ class Methods {
                     else -> "Dic"
                 }
 
-                if(date.year + 1900 != currentTime.year) {
-                    val year = date.year
-
-                    return "${date.day} $month $year"
+                if(date.year + 1900 != currentTime.year + 1900) {
+                    return "${date.date} $month ${date.year + 1900}"
                 }
 
-                return "${date.day} $month"
+                return "${date.date} $month"
             }
         }
 
@@ -102,6 +100,13 @@ class Methods {
 
         fun splitName(name: String): String {
             return name.split(" ")[0]
+        }
+
+        fun splitNameProfile(name: String): String {
+            val firstName = name.split(" ")[0]
+            val secondName = name.split(" ")[1]
+
+            return "${firstName[0]}${secondName[0]}"
         }
 
         fun formatMoney(money: Double): String {

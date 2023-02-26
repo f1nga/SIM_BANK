@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.Movement
+import com.google.firebase.firestore.Query
 import javax.inject.Inject
 
 class MovementRepository @Inject constructor(private val firebase: FirebaseClient){
@@ -23,7 +24,7 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
 
         firebase.db.collection(MOVEMENT_COLLECTION)
             .whereEqualTo(OWNER_FIELD, owner)
-            .orderBy(DATE_FIELD, com.google.firebase.firestore.Query.Direction.DESCENDING)
+            .orderBy(DATE_FIELD, Query.Direction.DESCENDING)
             .get()
             .addOnSuccessListener { documents ->
                 val listData = mutableListOf<Movement>()

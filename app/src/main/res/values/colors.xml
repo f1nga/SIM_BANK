@@ -40,6 +40,8 @@
     <color name="divider">#A68B979D</color>
     <color name="outline">#39424E</color>
 
+    <color name="circle_avatar">#1BD68F</color>
+
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/primary
     </color>
 </resources>

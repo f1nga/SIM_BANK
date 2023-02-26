@@ -1,6 +1,5 @@
 package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.bluemeth.simbank.src.data.models.BankAccount
 import com.bluemeth.simbank.src.data.models.CreditCard
@@ -36,7 +35,7 @@ class CreditCardViewModel @Inject constructor(
     }
 
     fun setCard(creditCard: CreditCard){
-    _creditCard = creditCard
+        _creditCard = creditCard
     }
 
     fun getCard(): CreditCard?{
@@ -51,6 +50,10 @@ class CreditCardViewModel @Inject constructor(
         }
 
         return user
+    }
+
+    fun deleteCardFromDB(cardNumber: String) {
+        creditCardRepository.deleteCreditCard(cardNumber)
     }
 
     fun getBankAccount(email: String): MutableLiveData<BankAccount> {

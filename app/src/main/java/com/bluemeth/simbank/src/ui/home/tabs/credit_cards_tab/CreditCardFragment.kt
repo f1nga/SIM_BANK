@@ -1,14 +1,12 @@
 package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
@@ -64,12 +62,18 @@ class CreditCardFragment() : Fragment() {
         binding.progressBar.visibility = View.VISIBLE
         creditCardViewModel.getBankAccount(GlobalVariables.userEmail!!).observe(requireActivity()) {
             creditCardViewModel.getCreditsCardsFromDB(it.iban).observe(requireActivity()) { creditCardList ->
-                Log.i("lsitaa", creditCardList.toString())
                 creditCardViewModel.cardAdapter.setListData(creditCardList)
                 creditCardViewModel.cardAdapter.notifyDataSetChanged()
                 binding.progressBar.visibility = View.GONE
             }
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+
+        tvTitle.text = getString(R.string.toolbar_cards)
     }
 }

@@ -1,14 +1,17 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentHomeBinding
+import com.bluemeth.simbank.src.core.ex.log
+import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.providers.HomeHeaderProvider
 import com.bluemeth.simbank.src.ui.home.HomeViewModel
@@ -37,6 +40,8 @@ class HomeFragment  : Fragment() {
         setMovementRecyclerView()
         observeMovement()
 
+        setDrawerHeaderName()
+
         return binding.root
     }
 
@@ -49,10 +54,9 @@ class HomeFragment  : Fragment() {
 
         homeViewModel.headerAdapter.setItemListener(object : HorizontalListRVAdapter.onItemClickListener {
             override fun onItemClick(creditCard: HomeHeader) {
-                TODO("Not yet implemented")
+                toast("Feature not implemented")
             }
         })
-
     }
 
     private fun observeHeader() {
@@ -71,12 +75,12 @@ class HomeFragment  : Fragment() {
 
         homeViewModel.movementAdapter.setItemListener(object : MovementRecordsRVAdapter.onItemClickListener {
             override fun onItemClick(creditCard: Movement) {
-                TODO("Not yet implemented")
+                toast("HOLHOL")
             }
         })
 
         homeViewModel.money.observe(requireActivity()) {
-            Log.i("dinerro", it.toString())
+            log("HOL", "HOL")
             homeViewModel.movementAdapter.setRemainingMoney(it)
         }
     }
@@ -92,6 +96,20 @@ class HomeFragment  : Fragment() {
         homeViewModel.money.observe(requireActivity()) {
             binding.tvDineroCuenta.text = Methods.formatMoney(it)
             binding.tvMoneyTotal.text = Methods.formatMoney(it)
+        }
+    }
+
+    private fun setDrawerHeaderName() {
+        homeViewModel.getUserName().observe(requireActivity()) {
+            activity?.findViewById<TextView>(R.id.tvNameDrawer)?.text = Methods.splitName(it.name)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        homeViewModel.getUserName().observe(this) {
+            val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+            tvTitle.text = "Hola, ${Methods.splitName(it.name)}"
         }
     }
 }

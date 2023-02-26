@@ -8,8 +8,8 @@ class HomeHeaderProvider {
             return mutableListOf(
                 HomeHeader(money, "Ver ahorros"),
                 HomeHeader(543.5, "Ver gastos"),
-                HomeHeader(53.5, "Ver gastos"),
-                HomeHeader(543.5, "Ver gastos")
+                HomeHeader(9283.5, "Ver cuentas"),
+                HomeHeader(33.36, "Ver pagos")
             )
         }
     }

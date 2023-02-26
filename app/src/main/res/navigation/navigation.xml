@@ -29,7 +29,8 @@
             app:destination="@id/addCreditCardFragment" />
         <action
             android:id="@+id/action_cardFragment_to_infoCardFragment"
-            app:destination="@id/infoCardFragment" />
+            app:destination="@id/infoCardFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/addCreditCardFragment"
@@ -50,5 +51,9 @@
         android:id="@+id/infoCardFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.info_card.InfoCardFragment"
         android:label="fragment_info_card"
-        tools:layout="@layout/fragment_info_card" />
+        tools:layout="@layout/fragment_info_card"/>
+    <action
+        android:id="@+id/action_infoCardFragment_to_cardFragment"
+        app:destination="@id/cardFragment"
+        app:popUpTo="@id/homeFragment" />
 </navigation>

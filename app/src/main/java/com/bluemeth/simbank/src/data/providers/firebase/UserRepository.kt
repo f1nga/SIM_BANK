@@ -28,10 +28,11 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .await()
     }.isSuccess
 
-    fun findUserByEmail(email: String): MutableLiveData<User>  {
+    fun findUserByEmail(email: String): MutableLiveData<User> {
         val user = MutableLiveData<User>()
 
-        firebase.db.collection(USER_COLLECTION)
+        firebase.db
+            .collection(USER_COLLECTION)
             .whereEqualTo(EMAIL_FIELD, email)
             .get()
             .addOnSuccessListener { documents ->
@@ -42,9 +43,16 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                 )
             }
             .addOnFailureListener { exception ->
-                Log.w("HOOOL", "Error getting documents: ", exception)
+                Log.w("Failure", "Error getting documents: ", exception)
             }
 
         return user
+    }
+
+    fun updateUserName(email: String, name: String) {
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .update("name", name)
     }
 }

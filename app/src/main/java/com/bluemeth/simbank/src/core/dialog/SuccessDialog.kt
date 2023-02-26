@@ -8,7 +8,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.bluemeth.simbank.databinding.DialogAccountVerifiedBinding
+import com.bluemeth.simbank.databinding.DialogSuccessBinding
 
 class SuccessDialog : DialogFragment() {
 
@@ -38,7 +38,7 @@ class SuccessDialog : DialogFragment() {
 
     @SuppressLint("InflateParams")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val binding = DialogAccountVerifiedBinding.inflate(requireActivity().layoutInflater)
+        val binding = DialogSuccessBinding.inflate(requireActivity().layoutInflater)
 
         binding.tvTitle.text = title
         binding.tvDescription.text = description
