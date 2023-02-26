@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
     id 'dagger.hilt.android.plugin'
     id 'com.google.gms.google-services'
 }
@@ -70,5 +71,7 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.airbnb.android:lottie:5.0.3'
+
+    implementation 'com.github.shuhart:stepview:1.5.1'
 
 }

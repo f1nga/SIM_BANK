@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/backgroundColor">
-
     <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/backgroundColor"
         tools:context=".src.ui.home.tabs.functions_tab.FunctionsFragment">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageViewTransferencia"
             android:layout_width="51dp"
             android:layout_height="45dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +21,7 @@
             app:srcCompat="@drawable/bank" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/imageView4Bizum"
             android:layout_width="51dp"
             android:layout_height="45dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -34,7 +33,7 @@
             app:srcCompat="@drawable/bizum" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/imageViewCuenta"
             android:layout_width="51dp"
             android:layout_height="45dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +45,7 @@
             app:srcCompat="@drawable/accountbank" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/imageViewPromociones"
             android:layout_width="51dp"
             android:layout_height="45dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -109,4 +108,3 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.382" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>

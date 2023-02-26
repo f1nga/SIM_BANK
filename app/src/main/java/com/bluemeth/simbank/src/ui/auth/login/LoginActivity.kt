@@ -19,6 +19,7 @@ import com.bluemeth.simbank.src.ui.auth.forgot_password.ForgotPasswordActivity
 import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
 import com.bluemeth.simbank.src.ui.auth.verification.VerificationActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
+import com.bluemeth.simbank.src.ui.steps.StepsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -68,6 +69,9 @@ class LoginActivity : AppCompatActivity() {
                 binding.inputPasswordText.text.toString(),
                 binding.cbRemember.isChecked
             )
+            loginViewModel.navigateToSteps
+
+
         }
     }
 
@@ -96,9 +100,16 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
+        loginViewModel.navigateToSteps.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                goToSteps()
+            }
+        }
+
         loginViewModel.showErrorDialog.observe(this) { userLogin ->
             if (userLogin.showErrorDialog) showErrorDialog(userLogin)
         }
+
 
         lifecycleScope.launchWhenStarted {
             loginViewModel.viewState.collect { viewState ->
@@ -158,5 +169,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goToVerify() {
         startActivity(VerificationActivity.create(this))
+    }
+
+    private fun goToSteps(){
+        startActivity(StepsActivity.create(this))
     }
 }

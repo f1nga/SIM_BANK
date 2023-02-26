@@ -40,6 +40,10 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
     val navigateToVerifyAccount: LiveData<Event<Boolean>>
         get() = _navigateToVerifyAccount
 
+    private val _navigateToSteps = MutableLiveData<Event<Boolean>>()
+    val navigateToSteps: LiveData<Event<Boolean>>
+        get() = _navigateToSteps
+
     private val _viewState = MutableStateFlow(LoginViewState())
     val viewState: StateFlow<LoginViewState>
         get() = _viewState
@@ -67,6 +71,7 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
                 }
                 is LoginResult.Success -> {
                     if (result.verified) {
+                        //_navigateToSteps.value = Event(true)
                         _navigateToHome.value = Event(true)
                         if(rememberChecked) {
                             prefs.saveUser(email, password)

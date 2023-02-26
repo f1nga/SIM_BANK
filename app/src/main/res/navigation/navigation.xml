@@ -56,4 +56,9 @@
         android:id="@+id/action_infoCardFragment_to_cardFragment"
         app:destination="@id/cardFragment"
         app:popUpTo="@id/homeFragment" />
+    <fragment
+        android:id="@+id/step1Fragment"
+        android:name="com.bluemeth.simbank.src.ui.steps.Step1Fragment"
+        android:label="fragment_step1"
+        tools:layout="@layout/fragment_step1" />
 </navigation>
