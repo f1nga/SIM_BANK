@@ -30,7 +30,7 @@ class StepsActivity : AppCompatActivity() {
 
     private fun setupStepView(){
         stepView.state
-            .steps(listOf("Primer Paso", "Segundo Paso", "Tercer Paso")) // You should specify only steps number or steps array of strings.
+            .steps(listOf("Introducción", "Crear Cuenta", "Crear Tarjeta","Estas listo")) // You should specify only steps number or steps array of strings.
             .stepsNumber(3)
             .animationDuration(resources.getInteger(android.R.integer.config_shortAnimTime))
             .commit()
@@ -82,6 +82,10 @@ class StepsActivity : AppCompatActivity() {
                 nextButton.visibility = View.VISIBLE
             }
             2 -> {
+                backButton.visibility = View.VISIBLE
+                nextButton.visibility = View.VISIBLE
+            }
+            3 -> {
                 backButton.visibility = View.VISIBLE
                 nextButton.visibility = View.INVISIBLE
             }
