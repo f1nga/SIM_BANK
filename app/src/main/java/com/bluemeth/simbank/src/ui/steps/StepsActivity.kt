@@ -60,7 +60,6 @@ class StepsActivity : AppCompatActivity() {
     }
 
     private fun setupButtons(){
-
         backButton.setOnClickListener{
             viewPager.setCurrentItem(viewPager.currentItem-1, false)
         }
@@ -68,7 +67,6 @@ class StepsActivity : AppCompatActivity() {
         nextButton.setOnClickListener{
             viewPager.setCurrentItem(viewPager.currentItem+1, false)
         }
-
     }
 
     private fun setButtons(position:Int){

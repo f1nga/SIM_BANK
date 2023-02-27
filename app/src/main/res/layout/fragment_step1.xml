@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/textViewWelcome"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:text="@string/step_info_1"
         android:textColor="@color/white"
         android:textSize="15sp"
@@ -60,17 +60,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewInfo1" />
 
+    <ImageView
+        android:id="@+id/infoImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/info_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="50sp"
+        app:layout_constraintTop_toBottomOf="@+id/textViewInfo3">
+    </ImageView>
+
+
+    <TextView
+        android:id="@+id/textViewInfoMoney"
+        android:layout_width="337dp"
+        android:layout_height="38dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="40sp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/info_step_money"
+        android:textColor="@color/tertiary_text"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/infoImage"
+        app:layout_constraintTop_toBottomOf="@+id/textViewInfo3" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/viewPlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.824"
+        app:layout_constraintTop_toBottomOf="@id/infoImage"
         app:lottie_autoPlay="true"
+        android:layout_marginTop="15dp"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/welcome" />
 

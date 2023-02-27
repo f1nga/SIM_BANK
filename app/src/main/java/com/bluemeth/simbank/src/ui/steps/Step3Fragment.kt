@@ -5,9 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bluemeth.simbank.R
-import com.bluemeth.simbank.databinding.FragmentStep1Binding
-import com.bluemeth.simbank.databinding.FragmentStep2Binding
 import com.bluemeth.simbank.databinding.FragmentStep3Binding
 
 class Step3Fragment : Fragment() {
