@@ -19,9 +19,12 @@ class CreditCardViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val bankAccountRepository: BankAccountRepository,
     private val insertCreditCardUseCase: InsertCreditCardUseCase,
-): ViewModel() {
-    private var _creditCard : CreditCard? = null
-    fun getCreditsCardsFromDB(iban: String):LiveData<MutableList<CreditCard>>{
+) : ViewModel() {
+
+    private var _creditCard: CreditCard? = null
+    val creditCard get() = _creditCard
+
+    fun getCreditsCardsFromDB(iban: String): LiveData<MutableList<CreditCard>> {
         val mutableData = MutableLiveData<MutableList<CreditCard>>()
 
         creditCardRepository.getCreditCards(iban).observeForever {
@@ -34,15 +37,11 @@ class CreditCardViewModel @Inject constructor(
         viewModelScope.launch { insertCreditCardUseCase(creditCard) }
     }
 
-    fun setCard(creditCard: CreditCard){
+    fun setCard(creditCard: CreditCard) {
         _creditCard = creditCard
     }
 
-    fun getCard(): CreditCard?{
-        return _creditCard
-    }
-
-    fun getNameUserCard(email: String) : LiveData<User> {
+    fun getNameUserCard(email: String): LiveData<User> {
         val user = MutableLiveData<User>()
 
         userRepository.findUserByEmail(email).observeForever {
@@ -54,15 +53,5 @@ class CreditCardViewModel @Inject constructor(
 
     fun deleteCardFromDB(cardNumber: String) {
         creditCardRepository.deleteCreditCard(cardNumber)
-    }
-
-    fun getBankAccount(email: String): MutableLiveData<BankAccount> {
-        val bankAccount = MutableLiveData<BankAccount>()
-
-        bankAccountRepository.findBankAccountByEmail(email).observeForever {
-            bankAccount.value = it
-        }
-
-        return bankAccount
     }
 }

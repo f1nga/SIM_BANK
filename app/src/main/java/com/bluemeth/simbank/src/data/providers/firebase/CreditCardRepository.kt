@@ -10,7 +10,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
-class CreditCardRepository @Inject constructor(private val firebase: FirebaseClient){
+    class CreditCardRepository @Inject constructor(private val firebase: FirebaseClient){
 
     companion object {
         const val CREDIT_CARDS_COLLECTION = "credit_cards"
@@ -23,6 +23,7 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
         const val TYPE_FIELD = "type"
         const val DEBIT_CARD = "Debito"
         const val CREDIT_CARD = "Credito"
+        const val ALIAS_FIELD = "alias"
     }
 
     suspend fun insertCreditCard(creditCard: CreditCard) = runCatching {
@@ -54,6 +55,7 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
                     listData.add(
                         CreditCard(
                             document.getString(NUMBER_FIELD)!!,
+                            document.getString(ALIAS_FIELD)!!,
                             document.getDouble(MONEY_FIELD)!!,
                             document.getLong(PIN_FIELD)!!.toInt(),
                             document.getLong(CVV_FIELD)!!.toInt(),

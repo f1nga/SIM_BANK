@@ -36,7 +36,7 @@ class UserInitData {
             val cvv = (100..999).random()
             val caducityTime = Timestamp(Date(Timestamp.now().toDate().year + 5, Timestamp.now().toDate().month, Timestamp.now().toDate().day))
 
-            return CreditCard(creditCardNumber, money, pin, cvv, caducityTime, CreditCardType.Debito, iban)
+            return CreditCard(creditCardNumber, "Tarj. Debito *0386" , money, pin, cvv, caducityTime, CreditCardType.Debito, iban)
         }
 
         fun createIban(): String {

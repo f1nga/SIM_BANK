@@ -30,14 +30,6 @@ class HomeViewModel  @Inject constructor(
     val navigateToLogin: LiveData<Event<Boolean>>
         get() = _navigateToLogin
 
-    private val _money = MutableLiveData<Double>()
-    val money: LiveData<Double>
-        get() = _money
-
-    init {
-        setMoney()
-    }
-
     fun onLogoutSelected() {
         logoutUser()
     }
@@ -47,31 +39,5 @@ class HomeViewModel  @Inject constructor(
         _navigateToLogin.value = Event(true)
         prefs.clearPrefs()
         prefs.saveToken()
-    }
-
-    fun getUserName(): MutableLiveData<User> {
-        val user = MutableLiveData<User>()
-
-        userRepository.findUserByEmail(GlobalVariables.userEmail!!).observeForever {
-            user.value = it
-        }
-
-        return user
-    }
-
-    fun setMoney() {
-        getBankAccount().observeForever() {
-            _money.value = it.money
-        }
-    }
-
-     fun getBankAccount(): MutableLiveData<BankAccount> {
-        val bankAccount = MutableLiveData<BankAccount>()
-
-        bankAccountRepository.findBankAccountByEmail(GlobalVariables.userEmail!!).observeForever {
-            bankAccount.value = it
-        }
-
-        return bankAccount
     }
 }

@@ -5,6 +5,7 @@ import com.google.firebase.Timestamp
 
 data class CreditCard(
     val number: String,
+    val alias: String,
     val money: Double,
     val pin: Int,
     val cvv: Int,

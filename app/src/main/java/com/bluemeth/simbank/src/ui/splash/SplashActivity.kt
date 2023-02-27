@@ -25,29 +25,18 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         initObservers()
-        splashViewModel.insertCreditCardToDB(
-            CreditCard(
-            "3029384510238534",
-            2832.32,
-            2342,
-            652,
-                Timestamp.now(),
-                CreditCardType.Debito,
-                "ES3350330479580716102854"
-            )
-        )
+//        splashViewModel.insertCreditCardToDB(
+//            CreditCard(
+//            "3029384510238534",
+//            2832.32,
+//            2342,
+//            652,
+//                Timestamp.now(),
+//                CreditCardType.Debito,
+//                "ES3350330479580716102854"
+//            )
+//        )
 
-        splashViewModel.insertCreditCardToDB(
-            CreditCard(
-                "3029384510238534",
-                2832.32,
-                2342,
-                652,
-                Timestamp.now(),
-                CreditCardType.Credito,
-                "ES3350330479580716102854"
-            )
-        )
         //prefs.clearPrefs()
 
         checkUserIsLogged()

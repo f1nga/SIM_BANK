@@ -17,6 +17,9 @@ import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.QuestionDialog
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.core.ex.toast
+import com.bluemeth.simbank.src.data.models.CreditCard
+import com.bluemeth.simbank.src.data.models.utils.CreditCardType
+import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.HomeViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.CreditCardViewModel
 import com.bluemeth.simbank.src.utils.Methods
@@ -25,11 +28,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class InfoCardFragment() : Fragment() {
+
     private val creditCardViewModel: CreditCardViewModel by activityViewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val globalViewModel: GlobalViewModel by viewModels()
     private lateinit var binding: FragmentInfoCardBinding
-    lateinit var imgCard : ImageView
-    lateinit var type : Editable
+    private lateinit var creditCard : CreditCard
+    private lateinit var type : Editable
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
@@ -38,14 +42,11 @@ class InfoCardFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentInfoCardBinding.inflate(inflater,container,false)
-        imgCard = binding.imageView
+
+        creditCard = creditCardViewModel.creditCard!!
 
         fillInfoCard()
-
-        binding.btnDeleteCard.setOnClickListener {
-            showQuestionDialog(it, creditCardViewModel.getCard()?.number!!)
-
-        }
+        initListeners()
 
         return binding.root
     }
@@ -75,37 +76,41 @@ class InfoCardFragment() : Fragment() {
 
     private fun fillEditables(){
         val inputText = Editable.Factory.getInstance()
-        val cardNumber = Methods.formatCardNumber(creditCardViewModel.getCard()?.number.toString())
-        type = inputText.newEditable(creditCardViewModel.getCard()?.type.toString())
-        val caducity = Methods.formatDateCardInfo(creditCardViewModel.getCard()?.caducity!!.toDate())
-        val caducityCard = Methods.formatDateCard(creditCardViewModel.getCard()?.caducity!!.toDate())
-        homeViewModel.getUserName().observe(requireActivity()) {
-            binding.inputCardNameText.text = inputText.newEditable(it.name)
+
+        val cardNumber = Methods.formatCardNumber(creditCard.number)
+        val caducity = Methods.formatDateCardInfo(creditCard.caducity.toDate())
+        val caducityCard = Methods.formatDateCard(creditCard.caducity.toDate())
+
+        type = inputText.newEditable(creditCard.type.toString())
+
+        globalViewModel.getUserName().observe(requireActivity()) {
+            binding.inputCardNameText.text = inputText.newEditable(it)
+            binding.textViewName.text = it
         }
-        //binding.inputCardAliasText.text = inputText.newEditable(creditCardViewModel.getCard()?.number.toString())
+
+        binding.inputCardAliasText.text = inputText.newEditable(creditCard.alias)
         binding.inputCardTypeText.text = type
         binding.inputCardCaducityText.text = inputText.newEditable(caducity)
-        binding.inputCardPinText.text = inputText.newEditable(creditCardViewModel.getCard()?.pin.toString())
-        binding.inputCardCvvText.text = inputText.newEditable(creditCardViewModel.getCard()?.cvv.toString())
+        binding.inputCardPinText.text = inputText.newEditable(creditCard.pin.toString())
+        binding.inputCardCvvText.text = inputText.newEditable(creditCard.cvv.toString())
 
-        homeViewModel.getUserName().observe(requireActivity()) {
-            binding.textViewName.text = it.name
-        }
         binding.textViewNumber.text = cardNumber
         binding.textViewCaducity.text = caducityCard
     }
 
     private fun loadCardImg(){
-        val img = type.toString()
-        if(img == "Prepago"){
-            imgCard.setImageResource(R.drawable.visaprepago)
-        }else if(img == "Debito"){
-            imgCard.setImageResource(R.drawable.visadebito)
-        }else if(img == ("Credito")){
-            imgCard.setImageResource(R.drawable.visacredito)
+        val imgCard = binding.imageView
+
+        when(type.toString()) {
+            CreditCardType.Credito.toString() -> imgCard.setImageResource(R.drawable.visacredito)
+            CreditCardType.Debito.toString() -> imgCard.setImageResource(R.drawable.visadebito)
+            CreditCardType.Prepago.toString() -> imgCard.setImageResource(R.drawable.visaprepago)
         }
     }
 
-
-
+    private fun initListeners() {
+        binding.btnDeleteCard.setOnClickListener {
+            showQuestionDialog(it, creditCard.number)
+        }
+    }
 }

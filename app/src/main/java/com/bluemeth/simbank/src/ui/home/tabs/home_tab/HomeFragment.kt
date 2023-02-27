@@ -14,6 +14,7 @@ import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.providers.HomeHeaderProvider
+import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.HomeViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
 import com.bluemeth.simbank.src.utils.Methods
@@ -24,6 +25,7 @@ class HomeFragment  : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
     private val homeTabViewModel: HomeTabViewModel by viewModels()
+    private val globalViewModel: GlobalViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,7 +62,7 @@ class HomeFragment  : Fragment() {
     }
 
     private fun observeHeader() {
-        homeViewModel.money.observe(requireActivity()) {
+        globalViewModel.getBankMoney().observe(requireActivity()) {
             homeViewModel.headerAdapter.setListData(HomeHeaderProvider.getListHeader(it))
             homeViewModel.headerAdapter.notifyDataSetChanged()
         }
@@ -79,8 +81,7 @@ class HomeFragment  : Fragment() {
             }
         })
 
-        homeViewModel.money.observe(requireActivity()) {
-            log("HOL", "HOL")
+        globalViewModel.getBankMoney().observe(requireActivity()) {
             homeViewModel.movementAdapter.setRemainingMoney(it)
         }
     }
@@ -93,23 +94,23 @@ class HomeFragment  : Fragment() {
     }
 
     private fun setMoneyTextViews() {
-        homeViewModel.money.observe(requireActivity()) {
+        globalViewModel.getBankMoney().observe(requireActivity()) {
             binding.tvDineroCuenta.text = Methods.formatMoney(it)
             binding.tvMoneyTotal.text = Methods.formatMoney(it)
         }
     }
 
     private fun setDrawerHeaderName() {
-        homeViewModel.getUserName().observe(requireActivity()) {
-            activity?.findViewById<TextView>(R.id.tvNameDrawer)?.text = Methods.splitName(it.name)
+        globalViewModel.getUserName().observe(requireActivity()) {
+            activity?.findViewById<TextView>(R.id.tvNameDrawer)?.text = Methods.splitName(it)
         }
     }
 
     override fun onStart() {
         super.onStart()
-        homeViewModel.getUserName().observe(this) {
+        globalViewModel.getUserName().observe(this) {
             val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
-            tvTitle.text = "Hola, ${Methods.splitName(it.name)}"
+            tvTitle.text = "Hola, ${Methods.splitName(it)}"
         }
     }
 }

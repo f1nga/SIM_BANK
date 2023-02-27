@@ -1,6 +1,7 @@
 package com.bluemeth.simbank.src.ui.home.tabs.profile_tab
 
 import android.os.Bundle
+import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +10,10 @@ import android.widget.TextView
 import androidx.fragment.app.viewModels
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentProfileBinding
+import com.bluemeth.simbank.src.core.ex.log
+import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.HomeViewModel
+import com.bluemeth.simbank.src.utils.GlobalVariables
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,35 +22,45 @@ class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
     private val profileViewModel: ProfileViewModel by viewModels()
-    private val homeViewModel: HomeViewModel by viewModels()
+    private val globalViewModel: GlobalViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentProfileBinding.inflate(inflater,container,false)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
 
         setNames()
-
-
-        binding.ivEdit.setOnClickListener {
-            editUserNameFromDB(binding.inputEditNameText.text.toString())
-        }
+        setPersonalData()
+        initListeners()
 
         return binding.root
     }
 
-    private fun editUserNameFromDB(name: String) {
-        homeViewModel.getUserName().observe(requireActivity()) {
-            profileViewModel.updateNameFromDB(it.email, name)
-            setNames()
-        }
+    private fun editUserName(name: String) {
+        profileViewModel.updateNameFromDB(GlobalVariables.userEmail!!, name)
+        setNames()
     }
 
     private fun setNames() {
-        homeViewModel.getUserName().observe(requireActivity()) {
-            binding.tvFullName.text = it.name
-            binding.tvCircleName.text = Methods.splitNameProfile(it.name)
+        globalViewModel.getUserName().observe(requireActivity()) {
+            binding.tvFullName.text = it
+            binding.tvCircleName.text = Methods.splitNameProfile(it)
+        }
+    }
+
+    private fun setPersonalData() {
+        val inputText = Editable.Factory.getInstance()
+        globalViewModel.getUserFromDB().observe(requireActivity()) {
+            binding.inputProfileEmailText.text = inputText.newEditable(it.email)
+            binding.inputProfilePhoneText.text = inputText.newEditable(it.phone.toString())
+        }
+
+    }
+
+    private fun initListeners() {
+        binding.ivEdit.setOnClickListener {
+            editUserName(binding.inputEditNameText.text.toString())
         }
     }
 

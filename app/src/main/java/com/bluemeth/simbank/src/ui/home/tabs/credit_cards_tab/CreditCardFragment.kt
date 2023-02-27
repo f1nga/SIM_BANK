@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentCreditCardBinding
 import com.bluemeth.simbank.src.data.models.CreditCard
+import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.utils.GlobalVariables
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +22,7 @@ class CreditCardFragment() : Fragment() {
 
     private lateinit var binding: FragmentCreditCardBinding
     private val creditCardViewModel: CreditCardViewModel by activityViewModels()
+    private val globalViewModel: GlobalViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,8 +63,8 @@ class CreditCardFragment() : Fragment() {
 
     private fun observeCard() {
         binding.progressBar.visibility = View.VISIBLE
-        creditCardViewModel.getBankAccount(GlobalVariables.userEmail!!).observe(requireActivity()) {
-            creditCardViewModel.getCreditsCardsFromDB(it.iban).observe(requireActivity()) { creditCardList ->
+        globalViewModel.getBankIban().observe(requireActivity()) {
+            creditCardViewModel.getCreditsCardsFromDB(it).observe(requireActivity()) { creditCardList ->
                 creditCardViewModel.cardAdapter.setListData(creditCardList)
                 creditCardViewModel.cardAdapter.notifyDataSetChanged()
                 binding.progressBar.visibility = View.GONE
