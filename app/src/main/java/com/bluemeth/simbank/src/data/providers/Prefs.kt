@@ -11,6 +11,7 @@ class Prefs(context: Context) {
         const val TOKEN_KEY = "token"
         const val EMAIL_KEY = "email"
         const val PASSWORD_KEY = "password"
+        const val STEPS_KEY = "steps"
         const val DEFAULT_VALUE = ""
     }
 
@@ -24,6 +25,12 @@ class Prefs(context: Context) {
     fun saveToken() {
         storage.edit().putString(TOKEN_KEY, generateToken()).apply()
     }
+
+    fun saveSteps() {
+        storage.edit().putString(STEPS_KEY, generateToken()).apply()
+    }
+
+    fun getSteps() = storage.getString(STEPS_KEY, DEFAULT_VALUE)!!
 
     fun getToken() = storage.getString(TOKEN_KEY, DEFAULT_VALUE)!!
 

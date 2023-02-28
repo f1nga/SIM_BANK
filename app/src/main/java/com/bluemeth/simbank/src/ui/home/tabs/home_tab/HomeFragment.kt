@@ -34,7 +34,7 @@ class HomeFragment  : Fragment() {
         binding = FragmentHomeBinding.inflate(inflater,container,false)
         setHasOptionsMenu(true)
 
-        setMoneyTextViews()
+        setTextViews()
 
         setHeaderRecyclerView()
         observeHeader()
@@ -93,11 +93,17 @@ class HomeFragment  : Fragment() {
         }
     }
 
-    private fun setMoneyTextViews() {
+    private fun setTextViews() {
         globalViewModel.getBankMoney().observe(requireActivity()) {
             binding.tvDineroCuenta.text = Methods.formatMoney(it)
             binding.tvMoneyTotal.text = Methods.formatMoney(it)
         }
+
+        globalViewModel.getBankIban().observe(requireActivity()) {
+            binding.tvAccountNumber.text = "Cuenta *${Methods.formatIban(it)}"
+            binding.tvShortNumber.text = "· ${Methods.formatIban(it)}"
+        }
+
     }
 
     private fun setDrawerHeaderName() {
@@ -112,5 +118,6 @@ class HomeFragment  : Fragment() {
             val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
             tvTitle.text = "Hola, ${Methods.splitName(it)}"
         }
+
     }
 }

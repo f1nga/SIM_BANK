@@ -1,8 +1,8 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
+import android.util.Log
 import com.bluemeth.simbank.src.data.response.LoginResult
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -56,8 +56,22 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
         firebase.auth.sendPasswordResetEmail(email).await()
     }.isSuccess
 
-     fun getCurrentUser(): FirebaseUser? {
-        return firebase.auth.currentUser
+     fun updateEmail(email: String) {
+        firebase.auth.currentUser!!.updateEmail(email)
+            .addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Log.d("HOOOL", "User email address updated.")
+            }
+        }
+    }
+
+    fun updatePassword(password: String) {
+        firebase.auth.currentUser!!.updatePassword(password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.d("HOOOL", "User email address updated.")
+                }
+            }
     }
 
 

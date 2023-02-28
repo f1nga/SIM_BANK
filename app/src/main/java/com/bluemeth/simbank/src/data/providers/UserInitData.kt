@@ -17,7 +17,7 @@ class UserInitData {
         val iban = createIban()
 
         fun registerData(userSignIn: UserSignIn): User {
-             user = User(userSignIn.email, userSignIn.nickName,userSignIn.phoneNumber.toInt())
+             user = User(userSignIn.email, userSignIn.password, userSignIn.nickName,userSignIn.phoneNumber.toInt())
              return user
         }
 

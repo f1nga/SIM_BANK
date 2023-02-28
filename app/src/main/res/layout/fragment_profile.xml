@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
-    android:paddingTop="70dp"
+    android:paddingTop="20dp"
     tools:context=".src.ui.home.tabs.profile_tab.ProfileFragment"
     tools:ignore="RtlSymmetry">
 
@@ -23,7 +23,6 @@
         android:id="@+id/tvCircleName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="DG"
         android:textSize="26sp"
         android:fontFamily="@font/montserrat"
         android:textColor="@color/primary_text"
@@ -36,7 +35,6 @@
         android:id="@+id/tvFullName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dídac Gros Labrador"
         android:textSize="20sp"
         android:fontFamily="@font/montserrat"
         android:textColor="@color/primary_text"
@@ -59,7 +57,7 @@
         app:layout_constraintTop_toBottomOf="@id/tvFullName"  />
 
     <ImageView
-        android:id="@+id/ivEdit"
+        android:id="@+id/ivEditTitular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/icon_edit"
@@ -70,37 +68,11 @@
         />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/input_edit_name"
-        style="@style/FormTextInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColorHint="@color/white"
-        app:endIconMode="clear_text"
-        app:endIconTint="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/input_profile_phone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_edit_name_text"
-            style="@style/FormEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"
-            android:hint="Nombre" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_profile_email"
         style="@style/FormTextInputLayoutInfoCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        app:endIconMode="clear_text"
-        app:endIconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivCircle"
         app:layout_constraintStart_toStartOf="parent"
@@ -117,15 +89,26 @@
             android:focusableInTouchMode="false"
             android:hint="Correo electrónico"
             android:inputType="text" />
+
     </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ImageView
+        android:id="@+id/ivEditEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/input_profile_email"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="15dp"
+        />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_profile_password"
         style="@style/FormTextInputLayoutInfoCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:endIconMode="password_toggle"
-        app:endIconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_profile_email"
         app:layout_constraintStart_toStartOf="parent"
@@ -145,13 +128,22 @@
             />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <ImageView
+        android:id="@+id/ivEditPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/input_profile_password"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="15dp"
+        />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/input_profile_phone"
         style="@style/FormTextInputLayoutInfoCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:endIconMode="clear_text"
-        app:endIconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/input_profile_password"
         app:layout_constraintStart_toStartOf="parent"
@@ -169,5 +161,16 @@
             android:hint="Teléfono"
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/ivEditPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/icon_edit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/input_profile_phone"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="15dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

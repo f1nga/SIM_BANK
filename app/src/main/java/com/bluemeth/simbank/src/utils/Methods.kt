@@ -138,5 +138,43 @@ class Methods {
 
             return "$newMoney€"
         }
+
+        fun formatIban(iban: String): String {
+            var bankiban = ""
+
+            for (i in 20..23) {
+                bankiban += iban[i]
+            }
+
+            return bankiban
+        }
+
+        fun formatPhoneNumber(phone: Int) : String {
+            var phoneNumber = ""
+
+            for (i in 0..2) {
+                phoneNumber += phone.toString()[i]
+            }
+
+            phoneNumber += " "
+
+            for (i in 3..4) {
+                phoneNumber += phone.toString()[i]
+            }
+
+            phoneNumber += " "
+
+            for (i in 5..6) {
+                phoneNumber += phone.toString()[i]
+            }
+
+            phoneNumber += " "
+
+            for (i in 7..8) {
+                phoneNumber += phone.toString()[i]
+            }
+
+            return phoneNumber
+        }
     }
 }

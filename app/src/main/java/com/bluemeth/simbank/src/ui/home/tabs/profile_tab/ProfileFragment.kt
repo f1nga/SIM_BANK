@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentProfileBinding
-import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.HomeViewModel
-import com.bluemeth.simbank.src.utils.GlobalVariables
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private val profileViewModel: ProfileViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
 
     override fun onCreateView(
@@ -30,37 +27,40 @@ class ProfileFragment : Fragment() {
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        setNames()
         setPersonalData()
         initListeners()
 
         return binding.root
     }
 
-    private fun editUserName(name: String) {
-        profileViewModel.updateNameFromDB(GlobalVariables.userEmail!!, name)
-        setNames()
-    }
-
-    private fun setNames() {
-        globalViewModel.getUserName().observe(requireActivity()) {
-            binding.tvFullName.text = it
-            binding.tvCircleName.text = Methods.splitNameProfile(it)
-        }
-    }
-
     private fun setPersonalData() {
         val inputText = Editable.Factory.getInstance()
         globalViewModel.getUserFromDB().observe(requireActivity()) {
             binding.inputProfileEmailText.text = inputText.newEditable(it.email)
-            binding.inputProfilePhoneText.text = inputText.newEditable(it.phone.toString())
+            binding.inputProfilePhoneText.text = inputText.newEditable(Methods.formatPhoneNumber(it.phone))
+            binding.inputProfilePasswordText.text = inputText.newEditable(it.password)
+
+            binding.tvFullName.text = it.name
+            binding.tvCircleName.text = Methods.splitNameProfile(it.name)
         }
 
     }
 
     private fun initListeners() {
-        binding.ivEdit.setOnClickListener {
-            editUserName(binding.inputEditNameText.text.toString())
+        binding.ivEditTitular.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_updateNameFragment)
+        }
+
+        binding.ivEditEmail.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_updateEmailFragment)
+        }
+
+        binding.ivEditPassword.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_updatePasswordFragment)
+        }
+
+        binding.ivEditPhone.setOnClickListener {
+            it.findNavController().navigate(R.id.action_profileFragment_to_updatePhoneFragment)
         }
     }
 

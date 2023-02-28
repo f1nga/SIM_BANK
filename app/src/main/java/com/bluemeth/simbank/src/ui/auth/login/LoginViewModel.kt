@@ -71,13 +71,26 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
                 }
                 is LoginResult.Success -> {
                     if (result.verified) {
-                        //_navigateToSteps.value = Event(true)
-                        _navigateToHome.value = Event(true)
+//                        _navigateToHome.value = Event(true)
+                        prefs.saveToken()
+
                         if(rememberChecked) {
+                            if(prefs.getSteps().isNotEmpty()) {
+                                _navigateToHome.value = Event(true)
+                            } else {
+                                _navigateToSteps.value = Event(true)
+                            }
                             prefs.saveUser(email, password)
+
                         } else {
-                            prefs.saveToken()
+                            if(prefs.getSteps().isNotEmpty()){
+                                _navigateToHome.value = Event(true)
+                            } else {
+                                _navigateToSteps.value = Event(true)
+                            }
                         }
+
+
                     } else {
                         _navigateToVerifyAccount.value = Event(true)
                     }

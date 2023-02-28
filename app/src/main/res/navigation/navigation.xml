@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home"/>
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/functionsFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.FunctionsFragment"
@@ -19,11 +19,28 @@
         android:id="@+id/profileFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_updateEmailFragment"
+            app:destination="@id/updateEmailFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_profileFragment_to_updateNameFragment"
+            app:destination="@id/updateNameFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_profileFragment_to_updatePasswordFragment"
+            app:destination="@id/updatePasswordFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_profileFragment_to_updatePhoneFragment"
+            app:destination="@id/updatePhoneFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/cardFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.CreditCardFragment"
-        android:label="CardFragment" >
+        android:label="CardFragment">
         <action
             android:id="@+id/action_cardFragment_to_addCreditCardFragment"
             app:destination="@id/addCreditCardFragment" />
@@ -48,17 +65,62 @@
         android:label="fragment_privacy_policy"
         tools:layout="@layout/fragment_privacy_policy" />
     <fragment
-        android:id="@+id/infoCardFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.info_card.InfoCardFragment"
-        android:label="fragment_info_card"
-        tools:layout="@layout/fragment_info_card"/>
-    <action
-        android:id="@+id/action_infoCardFragment_to_cardFragment"
-        app:destination="@id/cardFragment"
-        app:popUpTo="@id/homeFragment" />
-    <fragment
         android:id="@+id/step1Fragment"
         android:name="com.bluemeth.simbank.src.ui.steps.Step1Fragment"
         android:label="fragment_step1"
         tools:layout="@layout/fragment_step1" />
+    <fragment
+        android:id="@+id/infoCardFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.info_card.InfoCardFragment"
+        android:label="fragment_info_card"
+        tools:layout="@layout/fragment_info_card" />
+    <action
+        android:id="@+id/action_infoCardFragment_to_cardFragment"
+        app:destination="@id/cardFragment"
+        app:popUpTo="@id/homeFragment" />
+
+    <fragment
+        android:id="@+id/updatePhoneFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.UpdatePhoneFragment"
+        android:label="UpdatePhoneFragment" />
+    <action
+        android:id="@+id/action_updatePhoneFragment_to_profileFragment"
+        app:destination="@id/profileFragment"
+        app:popUpTo="@id/homeFragment" />
+    <fragment
+        android:id="@+id/updateNameFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.UpdateNameFragment"
+        android:label="fragment_update_name"
+        tools:layout="@layout/fragment_update_name">
+        <action
+            android:id="@+id/action_updateNameFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/homeFragment" />
+    </fragment>
+    <action
+        android:id="@+id/action_updateNameFragment_to_profileFragment"
+        app:destination="@id/profileFragment"
+        app:popUpTo="@id/homeFragment" />
+
+    <fragment
+        android:id="@+id/updateEmailFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.UpdateEmailFragment"
+        android:label="UpdateEmailFragment">
+        <action
+            android:id="@+id/action_updateEmailFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/updatePasswordFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.UpdatePasswordFragment"
+        android:label="fragment_update_password"
+        tools:layout="@layout/fragment_update_password" >
+        <action
+            android:id="@+id/action_updatePasswordFragment_to_profileFragment"
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/homeFragment"
+            />
+    </fragment>
+
 </navigation>

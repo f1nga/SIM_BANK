@@ -46,4 +46,11 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
 
         return bankAccount
     }
+
+    fun updateOwnerEmail(iban: String, newEmail: String) {
+        firebase.db
+            .collection(BANK_COLLECTION)
+            .document(iban)
+            .update(USER_EMAIL_FIELD, newEmail)
+    }
 }

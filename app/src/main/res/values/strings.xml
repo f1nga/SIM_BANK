@@ -41,7 +41,7 @@
     <string name="signin_error_mail">El email no es válido</string>
     <string name="signin_error_nickname">Debe contener al menos 6 caracteres</string>
     <string name="signin_error_realname">Debe contener al menos 6 caracteres</string>
-    <string name="signin_error_password">Las 2 contraseñas debes ser iguales</string>
+    <string name="signin_error_password">Las 2 contraseñas deben coincidir</string>
     <string name="signin_footer_unselected">¿Ya tienes cuenta?</string>
     <string name="signin_footer_selected">Inicia sesión</string>
     <string name="signin_error_dialog_title">Ha ocurrido un error</string>
@@ -85,5 +85,14 @@
     <string name="step_info_3">También obtendrás conocimiento para saber que diferencias hay entre los tipos de targeta de banco, que es un iban, acciones de banco, etc.. lo demás lo tendras que averiguar tú !</string>
     <string name="step_info_2">Te explicaremos todo lo que necesitas saber y en los posibles peligros que conlleva el dinero</string>
     <string name="info_step_money">Esta aplicación no usa dinero real, no te preocupes por encargos o perdidas</string>
+    <string name="introduce_password">Introduce tu contraseña actual</string>
+    <string name="change">Cambiar</string>
+    <string name="password">Contraseña</string>
+    <string name="password_not_match">La contraseña introducida no coincide con la actual</string>
+    <string name="password_actual">La contraseña que has introducido era la actual</string>
+    <string name="try_again">Volver a intentar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="next">SIGUIENTE</string>
+    <string name="back">Atrás</string>
 
 </resources>

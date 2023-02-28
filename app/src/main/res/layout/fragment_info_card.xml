@@ -26,12 +26,11 @@
             android:paddingBottom="10dp"
             >
 
-
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="355dp"
                 android:layout_height="156dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/visadebito"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
