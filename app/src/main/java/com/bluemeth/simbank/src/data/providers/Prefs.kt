@@ -30,6 +30,14 @@ class Prefs(context: Context) {
         storage.edit().putString(STEPS_KEY, generateToken()).apply()
     }
 
+    fun saveEmail(email: String) {
+        storage.edit().putString(EMAIL_KEY, email).apply()
+    }
+
+    fun savePassword(password: String) {
+        storage.edit().putString(PASSWORD_KEY, password).apply()
+    }
+
     fun getSteps() = storage.getString(STEPS_KEY, DEFAULT_VALUE)!!
 
     fun getToken() = storage.getString(TOKEN_KEY, DEFAULT_VALUE)!!

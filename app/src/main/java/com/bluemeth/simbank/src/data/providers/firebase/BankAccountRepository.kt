@@ -1,10 +1,10 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.BankAccount
 import com.bluemeth.simbank.src.data.providers.UserInitData
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import javax.inject.Inject
 
 class BankAccountRepository @Inject constructor(private val firebase: FirebaseClient) {
@@ -41,7 +41,7 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
                 )
             }
             .addOnFailureListener { exception ->
-                Log.w("HOOOL", "Error getting documents: ", exception)
+                Timber.tag("Error").w(exception, "Error getting documents: ")
             }
 
         return bankAccount
@@ -52,5 +52,12 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
             .collection(BANK_COLLECTION)
             .document(iban)
             .update(USER_EMAIL_FIELD, newEmail)
+    }
+
+    fun deleteBankAccountByIban(iban: String) {
+        firebase.db
+            .collection(BANK_COLLECTION)
+            .document(iban)
+            .delete()
     }
 }

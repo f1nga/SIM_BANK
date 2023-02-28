@@ -3,112 +3,73 @@ package com.bluemeth.simbank.src.ui.home.tabs.profile_tab
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.core.Event
-import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
-import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
-import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.models.UserNameUpdate
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.states.UpdateNameViewState
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.states.UpdatePhoneViewState
-import com.bluemeth.simbank.src.utils.GlobalVariables
+import com.bluemeth.simbank.src.domain.DeleteAccountUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val userRepository: UserRepository,
     private val authenticationRepository: AuthenticationRepository,
-    private val bankAccountRepository: BankAccountRepository,
-    ): ViewModel() {
+    private val deleteAccountUseCase: DeleteAccountUseCase
+) : ViewModel() {
 
-    private companion object {
-        const val MIN_NAME_LENGTH = 3
-        const val PHONE_LENGTH = 9
+    private val _navigateToLogin = MutableLiveData<Event<Boolean>>()
+    val navigateToLogin: LiveData<Event<Boolean>>
+        get() = _navigateToLogin
+
+    private val _navigateToWelcome = MutableLiveData<Event<Boolean>>()
+    val navigateToWelcome: LiveData<Event<Boolean>>
+        get() = _navigateToWelcome
+
+    private val _showDialogLogout = MutableLiveData<Boolean>()
+    val showDialogLogout: LiveData<Boolean>
+        get() = _showDialogLogout
+
+    private val _showDialogDeleteAccount = MutableLiveData<Boolean>()
+    val showDialogDeleteAccount: LiveData<Boolean>
+        get() = _showDialogDeleteAccount
+
+    fun onLogoutSelected() {
+        _showDialogLogout.value = true
     }
 
-    private val _viewState = MutableStateFlow(UpdatePhoneViewState())
-    val viewState: StateFlow<UpdatePhoneViewState>
-        get() = _viewState
+     fun logout() {
+        authenticationRepository.logout()
 
-    private val _viewNameState = MutableStateFlow(UpdateNameViewState())
-    val viewNameState: StateFlow<UpdateNameViewState>
-        get() = _viewNameState
+        _navigateToLogin.value = Event(true)
 
-    private val _navigateToProfile = MutableLiveData<Event<Boolean>>()
-    val navigateToProfile: LiveData<Event<Boolean>>
-        get() = _navigateToProfile
-
-    fun updateNameFromDB(email: String, name: String) {
-        userRepository.updateUserName(email, name)
+        changePrefs()
     }
 
-    fun updateEmailFromDB(newUser: User, iban: String) {
-        authenticationRepository.updateEmail(newUser.email)
-        userRepository.updateUserEmail(GlobalVariables.userEmail!!, newUser)
-        bankAccountRepository.updateOwnerEmail(iban, newUser.email)
+    private fun changePrefs() {
+        prefs.clearPrefs()
+        prefs.saveToken()
+        prefs.saveSteps()
     }
 
-    fun updatePhoneFromDB(email: String, phone: Int) {
-        userRepository.updateUserPhone(email, phone)
+    fun onDeleteAccountSelected() {
+        _showDialogDeleteAccount.value = true
     }
 
-    fun updatePasswordFromDB(email: String, name: String) {
-        userRepository.updateUserName(email, name)
-    }
-    /// Update phone
-    fun onChangeSelected(newPhone: String) {
-        val viewState = toUpdatePhoneState(newPhone)
+    fun deleteAccountFromDB(iban: String) {
+        viewModelScope.launch {
+            val deletedAccount = deleteAccountUseCase(authenticationRepository.getCurrentUser().email!!, iban)
 
-        if (viewState.phoneValidated() && newPhone.isNotEmpty()) {
-            updatePhoneFromDB(GlobalVariables.userEmail!!, newPhone.toInt())
-            _navigateToProfile.value = Event(true)
-        } else {
-            onFieldsChanged(newPhone)
+            if(deletedAccount) {
+                _navigateToWelcome.value = Event(true)
+
+                prefs.clearPrefs()
+            } else {
+                Timber.tag("Error").e("Account not deleted")
+            }
+
         }
-    }
 
-    fun onFieldsChanged(newPhone: String) {
-        _viewState.value = toUpdatePhoneState(newPhone)
-    }
-
-    private fun isValidPhoneNumber(phone: String): Boolean =
-        phone.length == PHONE_LENGTH || phone.isEmpty()
-
-    private fun toUpdatePhoneState(newPhone: String): UpdatePhoneViewState {
-        return UpdatePhoneViewState(
-            isValidPhoneNumber = isValidPhoneNumber(newPhone)
-        )
-    }
-
-    /// Update name
-
-    fun onChangeNameSelected(userUpdate: UserNameUpdate) {
-        val viewState = userUpdate.toUpdateNameViewState()
-
-        if (viewState.fullNameValidated() && userUpdate.isNotEmpty()) {
-            val fullName = userUpdate.name + " " + userUpdate.lastName + " " + userUpdate.secondName
-            updateNameFromDB(GlobalVariables.userEmail!!, fullName)
-            _navigateToProfile.value = Event(true)
-        } else {
-            onNameFieldsChanged(userUpdate)
-        }
-    }
-
-    fun onNameFieldsChanged(userUpdate: UserNameUpdate) {
-        _viewNameState.value = userUpdate.toUpdateNameViewState()
-    }
-
-    private fun isValidName(name: String): Boolean =
-        name.length >= MIN_NAME_LENGTH || name.isEmpty()
-
-    private fun UserNameUpdate.toUpdateNameViewState(): UpdateNameViewState {
-        return UpdateNameViewState(
-            isValidName = isValidName(name),
-            isValidLastName = isValidName(lastName),
-            isValidSecondName = isValidName(secondName)
-        )
     }
 }

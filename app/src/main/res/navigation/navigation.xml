@@ -81,7 +81,7 @@
 
     <fragment
         android:id="@+id/updatePhoneFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.UpdatePhoneFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_phone.UpdatePhoneFragment"
         android:label="UpdatePhoneFragment" />
     <action
         android:id="@+id/action_updatePhoneFragment_to_profileFragment"
@@ -89,7 +89,7 @@
         app:popUpTo="@id/homeFragment" />
     <fragment
         android:id="@+id/updateNameFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.UpdateNameFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_name.UpdateNameFragment"
         android:label="fragment_update_name"
         tools:layout="@layout/fragment_update_name">
         <action
@@ -104,16 +104,17 @@
 
     <fragment
         android:id="@+id/updateEmailFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.UpdateEmailFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_email.UpdateEmailFragment"
         android:label="UpdateEmailFragment">
         <action
             android:id="@+id/action_updateEmailFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
+            app:destination="@id/profileFragment"
+            app:popUpTo="@id/homeFragment"/>
     </fragment>
 
     <fragment
         android:id="@+id/updatePasswordFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.UpdatePasswordFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_password.UpdatePasswordFragment"
         android:label="fragment_update_password"
         tools:layout="@layout/fragment_update_password" >
         <action

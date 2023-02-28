@@ -173,4 +173,28 @@
         android:layout_marginTop="15dp"
         />
 
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        style="@style/PrimaryButton"
+        android:text="CERRAR SESIÓN"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/red"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnDeleteAccount"
+        />
+
+    <Button
+        android:id="@+id/btnDeleteAccount"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        style="@style/DeleteButton"
+        android:text="ELIMINAR CUENTA"
+        android:layout_marginBottom="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

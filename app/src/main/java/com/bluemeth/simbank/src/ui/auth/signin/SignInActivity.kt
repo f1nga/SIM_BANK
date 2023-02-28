@@ -151,9 +151,11 @@ class SignInActivity : AppCompatActivity() {
         }
     }
 
-   private fun goToVerifyEmail() {
-       startActivity(VerificationActivity.create(this))
-   }
+    private fun goToVerifyEmail() {
+        val intent = Intent(this, VerificationActivity::class.java)
+        intent.putExtra("destination", "login")
+        startActivity(intent)
+    }
 
     private fun goToLogin() {
         startActivity(LoginActivity.create(this))

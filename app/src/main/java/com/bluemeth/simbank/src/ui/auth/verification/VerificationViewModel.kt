@@ -10,7 +10,6 @@ import com.bluemeth.simbank.src.domain.VerifyEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -20,17 +19,18 @@ class VerificationViewModel @Inject constructor(
     val verifyEmailUseCase: VerifyEmailUseCase
 ) : ViewModel() {
 
-    private val _navigateToVerifyAccount = MutableLiveData<Event<Boolean>>()
-    val navigateToVerifyAccount: LiveData<Event<Boolean>>
-        get() = _navigateToVerifyAccount
-
     private val _showContinueButton = MutableLiveData<Event<Boolean>>()
     val showContinueButton: LiveData<Event<Boolean>>
         get() = _showContinueButton
 
+    private val _navigateToHome = MutableLiveData<Event<Boolean>>()
+    val navigateToHome: LiveData<Event<Boolean>>
+        get() = _navigateToHome
+
     private val _navigateToLogin = MutableLiveData<Event<Boolean>>()
     val navigateToLogin: LiveData<Event<Boolean>>
         get() = _navigateToLogin
+
 
     init {
         viewModelScope.launch { sendEmailVerificationUseCase() }
@@ -45,15 +45,14 @@ class VerificationViewModel @Inject constructor(
                         _showContinueButton.value = Event(verification)
                     }
                 }
-
         }
     }
 
-    fun onGoToDetailSelected() {
-        _navigateToVerifyAccount.value = Event(true)
+    fun onGoToLoginSelected() {
+        _navigateToLogin.value = Event(true)
     }
 
-    fun onLoginSelected() {
-        _navigateToLogin.value = Event(true)
+    fun onGoToHomeSelected() {
+        _navigateToHome.value = Event(true)
     }
 }

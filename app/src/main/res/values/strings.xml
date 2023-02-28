@@ -73,6 +73,9 @@
     <string name="dialog_error_yes">Sí</string>
     <string name="dialog_error_no">No</string>
     <string name="dialog_error_help">Ayuda</string>
+    <string name="dialog_closed_session">Sesión cerrada</string>
+    <string name="dialog_logout_help">Estas apunto de cerrar tu sesion, necesitarás volver a iniciar sesión</string>
+
 
     <string name="dialog_error_careful">¡Cuidado!</string>
     <string name="dialog_question_sure">¿Estas seguro de que quieres borrar la tarjeta?</string>
@@ -80,19 +83,34 @@
     <string name="dialog_question_yes">Sí</string>
     <string name="dialog_question_no">No</string>
     <string name="dialog_question_help">Ayuda</string>
+
     <string name="welcomeSimBank">¡Bienvenido a SIMBANK!</string>
     <string name="step_info_1">En esta aplicacion aprenderas a moverte y conocer los principios basicos sobre una cuenta bancaria</string>
     <string name="step_info_3">También obtendrás conocimiento para saber que diferencias hay entre los tipos de targeta de banco, que es un iban, acciones de banco, etc.. lo demás lo tendras que averiguar tú !</string>
     <string name="step_info_2">Te explicaremos todo lo que necesitas saber y en los posibles peligros que conlleva el dinero</string>
     <string name="info_step_money">Esta aplicación no usa dinero real, no te preocupes por encargos o perdidas</string>
+
     <string name="introduce_password">Introduce tu contraseña actual</string>
     <string name="change">Cambiar</string>
     <string name="password">Contraseña</string>
     <string name="password_not_match">La contraseña introducida no coincide con la actual</string>
-    <string name="password_actual">La contraseña que has introducido era la actual</string>
+    <string name="password_actual">La contraseña que has introducido es la actual</string>
     <string name="try_again">Volver a intentar</string>
     <string name="cancel">Cancelar</string>
     <string name="next">SIGUIENTE</string>
     <string name="back">Atrás</string>
+
+    <string name="email_changed">¡Correo electrónico actualizado!</string>
+    <string name="go_to_verify_account">¡Le hemos enviado un correo electrónico para que lo verifique!</string>
+    <string name="btn_verify">¡Verificar!</string>
+
+    <string name="verification_completed">¡Verificación completada!</string>
+    <string name="go_to_navigate">¡Ya puedes seguir navegando por Sim Bank!</string>
+
+    <string name="minim_three_characters">Debe contener al menos 3 carácteres</string>
+
+    <string name="dialog_delete_account_sure">Estas seguro que quieres eliminar tu cuenta?</string>
+    <string name="dialog_delete_account_help">Si borras la cuenta, no podrás volver a entrar y perderás todos tus progresos</string>
+    <string name="dialog_deleted_account">Cuenta eliminada</string>
 
 </resources>

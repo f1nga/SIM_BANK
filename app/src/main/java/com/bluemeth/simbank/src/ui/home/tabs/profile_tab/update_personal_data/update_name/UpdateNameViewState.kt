@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.states
+package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_name
 
 class UpdateNameViewState (
     val isValidName: Boolean = true,

@@ -1,4 +1,4 @@
-package com.aristidevs.nuwelogin.ui.login
+package com.bluemeth.simbank.src.ui.auth.login
 
 data class LoginViewState(
     val isLoading: Boolean = false,

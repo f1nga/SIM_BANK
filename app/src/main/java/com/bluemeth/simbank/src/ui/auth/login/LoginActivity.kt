@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.aristidevs.nuwelogin.ui.login.LoginViewState
 import com.bluemeth.simbank.src.ui.auth.login.model.UserLogin
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityLoginBinding

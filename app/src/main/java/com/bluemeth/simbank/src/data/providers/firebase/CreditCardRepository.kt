@@ -1,16 +1,16 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
 import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.models.utils.CreditCardType
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import javax.inject.Inject
 
 
-    class CreditCardRepository @Inject constructor(private val firebase: FirebaseClient){
+class CreditCardRepository @Inject constructor(private val firebase: FirebaseClient) {
 
     companion object {
         const val CREDIT_CARDS_COLLECTION = "credit_cards"
@@ -35,10 +35,11 @@ import javax.inject.Inject
 
     }.isSuccess
 
-    fun getCreditCards(iban: String) : LiveData<MutableList<CreditCard>> {
+    fun getCreditCards(iban: String): LiveData<MutableList<CreditCard>> {
         val mutableData = MutableLiveData<MutableList<CreditCard>>()
 
-        firebase.db.collection(CREDIT_CARDS_COLLECTION)
+        firebase.db
+            .collection(CREDIT_CARDS_COLLECTION)
             .whereEqualTo(BANK_IBAN_FIELD, iban)
             .get()
             .addOnSuccessListener { documents ->
@@ -46,10 +47,10 @@ import javax.inject.Inject
 
                 for (document in documents) {
                     val creditCardType =
-                        when(document.getString(TYPE_FIELD)) {
+                        when (document.getString(TYPE_FIELD)) {
                             CREDIT_CARD -> CreditCardType.Credito
                             DEBIT_CARD -> CreditCardType.Debito
-                            else ->  CreditCardType.Prepago
+                            else -> CreditCardType.Prepago
                         }
 
                     listData.add(
@@ -68,7 +69,7 @@ import javax.inject.Inject
                 mutableData.value = listData
             }
             .addOnFailureListener { exception ->
-                Log.w("HOOOL", "Error getting documents: ", exception)
+                Timber.tag("Error").w(exception, "Error getting documents: ")
             }
 
         return mutableData
@@ -78,7 +79,25 @@ import javax.inject.Inject
         firebase.db.collection(CREDIT_CARDS_COLLECTION)
             .document(targetNumber)
             .delete()
-            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully deleted!") }
-            .addOnFailureListener { e -> Log.w(TAG, "Error deleting document", e) }
+            .addOnSuccessListener {
+                Timber.tag(TAG).d("DocumentSnapshot successfully deleted!")
+            }
+            .addOnFailureListener { e -> Timber.tag(TAG).w(e, "Error deleting document") }
     }
+
+    fun deleteCreditCardsByIban(iban: String) {
+        firebase.db
+            .collection(CREDIT_CARDS_COLLECTION)
+            .whereEqualTo(BANK_IBAN_FIELD, iban)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    firebase.db
+                        .collection(CREDIT_CARDS_COLLECTION)
+                        .document(document.getString(NUMBER_FIELD)!!)
+                        .delete()
+                }
+            }
+    }
+
 }

@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields
+package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_phone
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,9 +14,8 @@ import com.bluemeth.simbank.databinding.FragmentUpdatePhoneBinding
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
+import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.ProfileViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.states.UpdatePhoneViewState
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +24,7 @@ class UpdatePhoneFragment : Fragment() {
 
     private lateinit var binding: FragmentUpdatePhoneBinding
     private val globalViewModel: GlobalViewModel by viewModels()
-    private val profileViewModel: ProfileViewModel by viewModels()
+    private val updatePhoneViewModel: UpdatePhoneViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,40 +48,39 @@ class UpdatePhoneFragment : Fragment() {
         binding.inputNewPhoneText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
         binding.inputNewPhoneText.onTextChanged { onFieldChanged() }
 
-        with(binding) {
-            btnChange.setOnClickListener {
-                it.dismissKeyboard()
-                profileViewModel.onChangeSelected(
-                    binding.inputNewPhoneText.text.toString()
-                )
-            }
+        binding.btnChange.setOnClickListener {
+            it.dismissKeyboard()
+            updatePhoneViewModel.onChangeSelected(
+                binding.inputNewPhoneText.text.toString()
+            )
         }
+
     }
 
     private fun initObservers() {
         lifecycleScope.launchWhenStarted {
-            profileViewModel.viewState.collect { viewState ->
+            updatePhoneViewModel.viewState.collect() { viewState ->
                 updateUI(viewState)
             }
         }
 
-        profileViewModel.navigateToProfile.observe(requireActivity()) {
+        updatePhoneViewModel.navigateToProfile.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
+                toast("El número de teléfono ha sido actualizado")
                 goToProfile()
             }
         }
     }
 
     private fun updateUI(viewState: UpdatePhoneViewState) {
-        with(binding) {
-            binding.inputNewPhone.error =
-                if (viewState.isValidPhoneNumber) null else "El teléfono no es válido"
-        }
+        binding.inputNewPhone.error =
+            if (viewState.isValidPhoneNumber) null else "El teléfono no es válido"
+
     }
 
     private fun onFieldChanged(hasFocus: Boolean = false) {
         if (!hasFocus) {
-            profileViewModel.onFieldsChanged(
+            updatePhoneViewModel.onFieldsChanged(
                 binding.inputNewPhoneText.text.toString()
             )
         }

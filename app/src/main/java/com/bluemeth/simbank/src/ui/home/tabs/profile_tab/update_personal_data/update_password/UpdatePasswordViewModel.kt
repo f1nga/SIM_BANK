@@ -1,22 +1,24 @@
-package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields
+package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_password
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
-import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.states.UpdatePasswordViewState
-import com.bluemeth.simbank.src.utils.GlobalVariables
+import com.bluemeth.simbank.src.domain.UpdatePasswordUseCase
+import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_password.model.UserPasswordUpdate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class UpdatePasswordViewModel @Inject constructor(
-    private val userRepository: UserRepository,
     private val authenticationRepository: AuthenticationRepository,
+    private val updatePasswordUseCase: UpdatePasswordUseCase
 ): ViewModel() {
 
     private companion object {
@@ -43,11 +45,6 @@ class UpdatePasswordViewModel @Inject constructor(
     val showCoincideOldPasswordDialog: LiveData<Boolean>
         get() = _showCoincideOldPasswordDialog
 
-    private fun updatePasswordFromDB(email: String, password: String) {
-        userRepository.updateUserPassword(email, password)
-        authenticationRepository.updatePassword(password)
-    }
-
     fun onNextSelected(currentPassword: String, newPassword: String) {
         val viewState = toCheckActualPasswordState(currentPassword, newPassword)
 
@@ -58,46 +55,48 @@ class UpdatePasswordViewModel @Inject constructor(
         }
     }
 
-    private fun isValidActualPassword(currentPassword: String, password: String) = currentPassword == password
+    private fun isValidPasswordsCoincide(currentPassword: String, password: String) = currentPassword == password
 
     private fun toCheckActualPasswordState(currentPassword: String, password: String): UpdatePasswordViewState {
         return UpdatePasswordViewState(
-            isValidPassword = isValidActualPassword(currentPassword, password)
+            isValidPassword = isValidPasswordsCoincide(currentPassword, password)
         )
     }
 
-    fun onChangeSelected(password: String, passwordConfirmation: String, oldPassword: String) {
-        val viewState = toUpdatePasswordState(password, passwordConfirmation, oldPassword)
+    fun onChangeSelected(userPasswordUpdate: UserPasswordUpdate, oldPassword: String) {
+        val viewState = userPasswordUpdate.toUpdatePasswordState()
 
-        if (viewState.passwordValidated() && password.isNotEmpty()) {
-            if(viewState.passwordsCoincide()) {
-                updatePasswordFromDB(GlobalVariables.userEmail!!, passwordConfirmation)
-                _navigateToProfile.value = Event(true)
+        if (viewState.passwordValidated() && userPasswordUpdate.isNotEmpty()) {
+            if(userPasswordUpdate.password != oldPassword) {
+                viewModelScope.launch {
+                    val passwordUpdated =
+                        updatePasswordUseCase(authenticationRepository.getCurrentUser().email!!, userPasswordUpdate.password)
 
+                    if(passwordUpdated) {
+                        _navigateToProfile.value = Event(true)
+                    } else {
+                        Timber.tag("Error").e("Password not updated")
+                    }
+                }
             } else {
                 _showCoincideOldPasswordDialog.value = true
             }
         } else {
-            _showPasswordsNotMatchDialog.value = true
+            onFieldsChanged(userPasswordUpdate)
         }
     }
 
-    fun onFieldsChanged(password: String,  passwordConfirmation: String, oldPassword: String) {
-        _viewPasswordState.value = toUpdatePasswordState(password, passwordConfirmation, oldPassword)
+    fun onFieldsChanged(userPasswordUpdate: UserPasswordUpdate) {
+        _viewPasswordState.value = userPasswordUpdate.toUpdatePasswordState()
     }
 
     private fun isValidPasswordLength(password: String): Boolean =
         password.length >= MIN_PASSWORD_LENGTH || password.isEmpty()
 
-    private fun isValidPasswordCoincide(currentPassword: String, password: String) = currentPassword != password
-
-
-    private fun toUpdatePasswordState(password: String, passwordConfirmation: String, oldPassword: String): UpdatePasswordViewState {
+    private fun UserPasswordUpdate.toUpdatePasswordState(): UpdatePasswordViewState {
         return UpdatePasswordViewState(
-            isValidPasswordLength = isValidPasswordLength(password),
-            isValidPassword = isValidActualPassword(password, passwordConfirmation),
-            isValidPasswordConfirmation = isValidActualPassword(password, passwordConfirmation),
-            isValidPasswordsCoincide = isValidPasswordCoincide(password, oldPassword)
+            isValidPassword = isValidPasswordLength(password),
+            isValidPasswordConfirmation = isValidPasswordsCoincide(password, passwordConfirm),
         )
     }
 }

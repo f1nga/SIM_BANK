@@ -1,11 +1,11 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.data.providers.UserInitData
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
@@ -31,7 +31,6 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
 
     fun findUserByEmail(email: String): MutableLiveData<User> {
         val user = MutableLiveData<User>()
-        Log.i("holde", email)
         firebase.db
             .collection(USER_COLLECTION)
             .whereEqualTo(EMAIL_FIELD, email)
@@ -45,7 +44,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                 )
             }
             .addOnFailureListener { exception ->
-                Log.w("Failure", "Error getting documents: ", exception)
+                Timber.tag("Failure").w(exception, "Error getting documents: ")
             }
 
         return user
@@ -81,5 +80,12 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .collection(USER_COLLECTION)
             .document(newUser.email)
             .set(newUser)
+    }
+
+    fun deleteUserByEmail(email: String) {
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .delete()
     }
 }

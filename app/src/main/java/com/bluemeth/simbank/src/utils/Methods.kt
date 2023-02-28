@@ -174,7 +174,7 @@ class Methods {
                 phoneNumber += phone.toString()[i]
             }
 
-            return phoneNumber
+            return "+34 $phoneNumber"
         }
     }
 }

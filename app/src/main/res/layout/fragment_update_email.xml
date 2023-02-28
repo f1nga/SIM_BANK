@@ -94,6 +94,7 @@
             android:textColorHint="@color/white"
             app:endIconMode="clear_text"
             app:endIconTint="@color/white"
+            android:layout_marginTop="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inputNewEmail">
@@ -112,7 +113,7 @@
             style="@style/PrimaryButton"
             android:layout_width="140dp"
             android:layout_height="44dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="10dp"
             android:text="Cambiar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

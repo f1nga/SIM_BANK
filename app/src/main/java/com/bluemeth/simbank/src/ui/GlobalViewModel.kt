@@ -1,23 +1,27 @@
 package com.bluemeth.simbank.src.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluemeth.simbank.src.data.models.BankAccount
 import com.bluemeth.simbank.src.data.models.User
+import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
-import com.bluemeth.simbank.src.utils.GlobalVariables
+import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class GlobalViewModel  @Inject constructor(
     private val userRepository: UserRepository,
     private val bankAccountRepository: BankAccountRepository,
+    private val authenticationRepository: AuthenticationRepository,
     ): ViewModel() {
+
+    fun getUserAuth(): FirebaseUser {
+        return authenticationRepository.getCurrentUser()
+    }
 
      fun getUserName(): LiveData<String> {
          val name = MutableLiveData<String>()
@@ -52,7 +56,7 @@ class GlobalViewModel  @Inject constructor(
      fun getUserFromDB(): MutableLiveData<User> {
         val user = MutableLiveData<User>()
 
-        userRepository.findUserByEmail(GlobalVariables.userEmail!!).observeForever {
+        userRepository.findUserByEmail(authenticationRepository.getCurrentUser().email!!).observeForever {
             user.value = it
         }
 
@@ -62,7 +66,7 @@ class GlobalViewModel  @Inject constructor(
      fun getBankAccountFromDB(): MutableLiveData<BankAccount> {
         val bankAccount = MutableLiveData<BankAccount>()
 
-        bankAccountRepository.findBankAccountByEmail(GlobalVariables.userEmail!!).observeForever {
+        bankAccountRepository.findBankAccountByEmail(authenticationRepository.getCurrentUser().email!!).observeForever {
             bankAccount.value = it
         }
 

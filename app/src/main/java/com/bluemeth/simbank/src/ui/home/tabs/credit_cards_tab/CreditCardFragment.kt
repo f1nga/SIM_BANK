@@ -14,7 +14,6 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentCreditCardBinding
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.utils.GlobalVariables
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +36,6 @@ class CreditCardFragment() : Fragment() {
             view?.findNavController()?.navigate(R.id.action_cardFragment_to_addCreditCardFragment)
         }
 
-        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -55,7 +53,7 @@ class CreditCardFragment() : Fragment() {
             }
         })
 
-        creditCardViewModel.getNameUserCard(GlobalVariables.userEmail!!).observe(requireActivity()) {
+        creditCardViewModel.getNameUserCard(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {
             creditCardViewModel.cardAdapter.setUserName(it.name)
         }
 

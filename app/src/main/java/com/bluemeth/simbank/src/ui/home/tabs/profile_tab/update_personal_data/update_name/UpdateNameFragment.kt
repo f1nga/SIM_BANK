@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields
+package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_name
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -14,17 +14,16 @@ import com.bluemeth.simbank.databinding.FragmentUpdateNameBinding
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
+import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.ProfileViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.models.UserNameUpdate
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.states.UpdateNameViewState
+import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_name.model.UserNameUpdate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UpdateNameFragment : Fragment() {
 
     private lateinit var binding: FragmentUpdateNameBinding
-    private val profileViewModel: ProfileViewModel by viewModels()
+    private val updateNameViewModel: UpdateNameViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
 
     override fun onCreateView(
@@ -58,48 +57,47 @@ class UpdateNameFragment : Fragment() {
         binding.inputNewSecondNameText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
         binding.inputNewSecondNameText.onTextChanged { onFieldChanged() }
 
-        with(binding) {
-            btnChange.setOnClickListener {
-                it.dismissKeyboard()
-                profileViewModel.onChangeNameSelected(
-                    UserNameUpdate(
-                        name = binding.inputNewNameText.text.toString(),
-                        lastName = binding.inputNewLastNameText.text.toString(),
-                        secondName = binding.inputNewSecondNameText.text.toString()
-                    )
+        binding.btnChange.setOnClickListener {
+            it.dismissKeyboard()
+            updateNameViewModel.onChangeNameSelected(
+                UserNameUpdate(
+                    name = binding.inputNewNameText.text.toString(),
+                    lastName = binding.inputNewLastNameText.text.toString(),
+                    secondName = binding.inputNewSecondNameText.text.toString()
                 )
-            }
+            )
         }
+
     }
 
     private fun initObservers() {
         lifecycleScope.launchWhenStarted {
-            profileViewModel.viewNameState.collect { viewState ->
+            updateNameViewModel.viewNameState.collect { viewState ->
                 updateUI(viewState)
             }
         }
 
-        profileViewModel.navigateToProfile.observe(requireActivity()) {
+        updateNameViewModel.navigateToProfile.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
+                toast("El nombre de usuario ha sido actualizado")
                 goToProfile()
             }
         }
     }
 
     private fun updateUI(viewState: UpdateNameViewState) {
-        with(binding) {
-            binding.inputNewName.error =
-                if (viewState.isValidName) null else "Debe contener al menos 3 carácteres"
-            binding.inputNewLastName.error =
-                if (viewState.isValidLastName) null else "Debe contener al menos 3 carácteres"
-            binding.inputNewSecondName.error =
-                if (viewState.isValidSecondName) null else "Debe contener al menos 3 carácteres"
-        }
+        binding.inputNewName.error =
+            if (viewState.isValidName) null else getString(R.string.minim_three_characters)
+        binding.inputNewLastName.error =
+            if (viewState.isValidLastName) null else getString(R.string.minim_three_characters)
+        binding.inputNewSecondName.error =
+            if (viewState.isValidSecondName) null else getString(R.string.minim_three_characters)
+
     }
 
     private fun onFieldChanged(hasFocus: Boolean = false) {
         if (!hasFocus) {
-            profileViewModel.onNameFieldsChanged(
+            updateNameViewModel.onNameFieldsChanged(
                 UserNameUpdate(
                     name = binding.inputNewNameText.text.toString(),
                     lastName = binding.inputNewLastNameText.text.toString(),

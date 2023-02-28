@@ -1,12 +1,13 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
-import android.util.Log
 import com.bluemeth.simbank.src.data.response.LoginResult
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -31,6 +32,7 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
     }
 
     suspend fun sendVerificationEmail() = runCatching {
+        Timber.tag("emaailRepo").i(firebase.auth.currentUser!!.email!!)
         firebase.auth.currentUser?.sendEmailVerification()?.await()
     }.isSuccess
 
@@ -49,30 +51,36 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
     }
 
     fun logout() {
-         firebase.auth.signOut()
+        firebase.auth.signOut()
+    }
+
+    fun getCurrentUser(): FirebaseUser {
+        return firebase.auth.currentUser!!
     }
 
     suspend fun forgotPassword(email: String) = runCatching {
         firebase.auth.sendPasswordResetEmail(email).await()
     }.isSuccess
 
-     fun updateEmail(email: String) {
+    suspend fun updateEmail(email: String) = runCatching {
         firebase.auth.currentUser!!.updateEmail(email)
             .addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                Log.d("HOOOL", "User email address updated.")
-            }
-        }
-    }
+                if (task.isSuccessful) {
+                    Timber.tag("CORRECT").d("User email address updated.")
+                }
+            }.await()
+    }.isSuccess
 
-    fun updatePassword(password: String) {
+    suspend fun updatePassword(password: String) = runCatching {
         firebase.auth.currentUser!!.updatePassword(password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d("HOOOL", "User email address updated.")
+                    Timber.tag("CORRECT").d("User password updated.")
                 }
-            }
-    }
+            }.await()
+    }.isSuccess
 
-
+    suspend fun deleteAccount() = runCatching{
+        firebase.auth.currentUser!!.delete().await()
+    }.isSuccess
 }

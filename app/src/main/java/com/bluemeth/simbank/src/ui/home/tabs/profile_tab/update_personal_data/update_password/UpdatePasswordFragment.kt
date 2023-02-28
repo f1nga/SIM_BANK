@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields
+package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_password
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,12 +13,9 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentUpdatePasswordBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
-import com.bluemeth.simbank.src.core.ex.dismissKeyboard
-import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
-import com.bluemeth.simbank.src.core.ex.onTextChanged
-import com.bluemeth.simbank.src.core.ex.show
+import com.bluemeth.simbank.src.core.ex.*
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_fields.states.UpdatePasswordViewState
+import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_password.model.UserPasswordUpdate
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -59,29 +56,27 @@ class UpdatePasswordFragment : Fragment() {
         binding.inputRepeatNewPasswordText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
         binding.inputRepeatNewPasswordText.onTextChanged { onFieldChanged() }
 
-        with(binding) {
-            btnNext.setOnClickListener {
-                it.dismissKeyboard()
-                globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
-                    updatePasswordViewModel.onNextSelected(
-                        user.password,
-                        binding.inputActualPasswordText.text.toString()
-                    )
-                }
+
+       binding.btnNext.setOnClickListener {
+            it.dismissKeyboard()
+            globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+                updatePasswordViewModel.onNextSelected(
+                    user.password,
+                    binding.inputActualPasswordText.text.toString()
+                )
             }
         }
 
-        with(binding) {
-            btnChange.setOnClickListener {
-                it.dismissKeyboard()
-                globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
-                    updatePasswordViewModel.onChangeSelected(
+        binding.btnChange.setOnClickListener {
+            it.dismissKeyboard()
+            globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+                updatePasswordViewModel.onChangeSelected(
+                    UserPasswordUpdate(
                         binding.inputNewPasswordText.text.toString(),
                         binding.inputRepeatNewPasswordText.text.toString(),
-                        user.password
-                    )
-                }
-
+                    ),
+                    user.password
+                )
             }
         }
     }
@@ -89,16 +84,17 @@ class UpdatePasswordFragment : Fragment() {
     private fun initObservers() {
         updatePasswordViewModel.navigateToProfile.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
+                toast("La contraseña ha sido actualizada")
                 goToProfile()
             }
         }
 
         updatePasswordViewModel.showPasswordsNotMatchDialog.observe(requireActivity()) { showError ->
-            if (showError) showErrorDialog(getString(R.string.password_actual))
+            if (showError) showErrorDialog(getString(R.string.password_not_match))
         }
 
         updatePasswordViewModel.showCoincideOldPasswordDialog.observe(requireActivity()) { showError ->
-            if (showError) showErrorDialog(getString(R.string.password_not_match))
+            if (showError) showErrorDialog(getString(R.string.password_actual))
         }
 
         updatePasswordViewModel.goToNextForm.observe(requireActivity()) {
@@ -127,6 +123,25 @@ class UpdatePasswordFragment : Fragment() {
         ).show(dialogLauncher, requireActivity())
     }
 
+    private fun updateUI(viewState: UpdatePasswordViewState) {
+        binding.inputNewPassword.error =
+            if (viewState.isValidPassword) null else getString(R.string.login_error_password)
+
+        binding.inputRepeatNewPassword.error =
+            if (viewState.isValidPasswordConfirmation) null else getString(R.string.signin_error_password)
+    }
+
+    private fun onFieldChanged(hasFocus: Boolean = false) {
+        if (!hasFocus) {
+            updatePasswordViewModel.onFieldsChanged(
+                UserPasswordUpdate(
+                    binding.inputNewPasswordText.text.toString(),
+                    binding.inputRepeatNewPasswordText.text.toString(),
+                ),
+            )
+        }
+    }
+
     private fun changeForm() {
         binding.inputActualPassword.visibility = View.GONE
         binding.ivInfo.visibility = View.GONE
@@ -138,31 +153,6 @@ class UpdatePasswordFragment : Fragment() {
         binding.inputNewPassword.visibility = View.VISIBLE
         binding.inputRepeatNewPassword.visibility = View.VISIBLE
         binding.btnChange.visibility = View.VISIBLE
-
-    }
-
-    private fun updateUI(viewState: UpdatePasswordViewState) {
-        val textError =
-            if (!viewState.isValidPasswordLength) getString(R.string.signin_error_nickname)
-            else if (!viewState.isValidPasswordConfirmation) getString(R.string.signin_error_password)
-            else null
-        binding.inputNewPassword.error = textError
-
-        binding.inputRepeatNewPassword.error =
-            if (viewState.isValidPasswordConfirmation) null else getString(R.string.signin_error_password)
-    }
-
-    private fun onFieldChanged(hasFocus: Boolean = false) {
-        if (!hasFocus) {
-            globalViewModel.getUserFromDB().observe(requireActivity()) {
-                updatePasswordViewModel.onFieldsChanged(
-                    binding.inputNewPasswordText.text.toString(),
-                    binding.inputRepeatNewPasswordText.text.toString(),
-                    it.password
-                )
-            }
-
-        }
     }
 
     private fun goToProfile() {

@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
 //            )
 //        )
 
-        //prefs.clearPrefs()
+       // prefs.clearPrefs()
 
         checkUserIsLogged()
     }
@@ -48,7 +48,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkUserIsLogged() {
-        if(prefs.getSteps().isNotEmpty()) {
+        if(prefs.getSteps().isNotEmpty() && prefs.getEmail().isNotEmpty()) {
             splashViewModel.loginUser(prefs.getEmail(), prefs.getPassword())
         } else if(prefs.getToken().isNotEmpty()) {
             goToLogin()
