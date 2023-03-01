@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.steps
+package com.bluemeth.simbank.src.ui.steps.step2
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bluemeth.simbank.databinding.FragmentStep2Binding
+import com.bluemeth.simbank.src.utils.Methods
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class Step2Fragment : Fragment() {
     private lateinit var binding: FragmentStep2Binding
     override fun onCreateView(
@@ -18,16 +21,47 @@ class Step2Fragment : Fragment() {
 
         viewGone()
         changeVisibility()
-
+        generateIBAN()
+        generateMoney()
         return binding.root
     }
+
+    fun generateMoney(){
+        binding.buttonGenerateMoney.setOnClickListener() {
+            val money = (10000..20000).random().toDouble()
+            binding.buttonGenerateMoney.setVisibility(View.GONE)
+            binding.tvDinero.text = Methods.formatMoney(money)
+            binding.tvDinero.setVisibility(View.VISIBLE)
+
+
+        }
+    }
+
+    fun generateIBAN(){
+        binding.generateIban.setOnClickListener(){
+            var bankNumber = "ES33"
+
+            for (i in 1..20) {
+                bankNumber += (0..9).random()
+            }
+            binding.tvIban.text = bankNumber
+        }
+    }
+
+    fun aliasBankAccount(){
+
+    }
+
+
 
     fun viewGone(){
         binding.tvIban.visibility = View.GONE
         binding.generateIban.visibility = View.GONE
         binding.buttonGenerateMoney.visibility = View.GONE
         binding.inputAlias.visibility = View.GONE
+        binding.tvDinero.visibility = View.GONE
     }
+
     fun changeVisibility(){
 
         binding.tvGenerarIBAN.setOnClickListener() {
@@ -42,6 +76,8 @@ class Step2Fragment : Fragment() {
 
         binding.tvGenerarDinero.setOnClickListener(){
             if(binding.buttonGenerateMoney.visibility == 0){
+                binding.buttonGenerateMoney.visibility = View.GONE
+            }else if(binding.buttonGenerateMoney.visibility == 8 && binding.tvDinero.visibility==0){
                 binding.buttonGenerateMoney.visibility = View.GONE
             }else{
                 binding.buttonGenerateMoney.visibility = View.VISIBLE
@@ -68,6 +104,8 @@ class Step2Fragment : Fragment() {
 
         binding.imageView3.setOnClickListener(){
             if(binding.buttonGenerateMoney.visibility == 0){
+                binding.buttonGenerateMoney.visibility = View.GONE
+            }else if(binding.buttonGenerateMoney.visibility == 8 && binding.tvDinero.visibility==0){
                 binding.buttonGenerateMoney.visibility = View.GONE
             }else{
                 binding.buttonGenerateMoney.visibility = View.VISIBLE

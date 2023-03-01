@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:paddingHorizontal="20dp"
     android:background="@color/backgroundColor"
-    tools:context=".src.ui.steps.Step1Fragment">
+    tools:context=".src.ui.steps.step1.Step1Fragment">
 
     <TextView
         android:id="@+id/textViewWelcome"

@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.steps
+package com.bluemeth.simbank.src.ui.steps.step4
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

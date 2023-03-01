@@ -4,6 +4,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.bluemeth.simbank.src.ui.steps.step1.Step1Fragment
+import com.bluemeth.simbank.src.ui.steps.step2.Step2Fragment
+import com.bluemeth.simbank.src.ui.steps.step3.Step3Fragment
+import com.bluemeth.simbank.src.ui.steps.step4.Step4Fragment
 
 class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle ): FragmentStateAdapter(fragmentManager, lifecycle){
     override fun getItemCount(): Int {

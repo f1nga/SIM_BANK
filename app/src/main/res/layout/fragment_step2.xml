@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".src.ui.steps.Step2Fragment">
+    tools:context=".src.ui.steps.step2.Step2Fragment">
 
     <ScrollView
         android:id="@+id/formView"
@@ -68,12 +68,11 @@
         android:id="@+id/tvIban"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
         android:layout_marginTop="25dp"
         android:fontFamily="@font/montserrat"
-        android:text="ES1234512345123451234"
+        android:text="ES12312344512345123451234"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvGenerarIBAN" />
 
@@ -95,7 +94,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:layout_marginTop="25dp"
+        android:text="10.563,66"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:textColor="@color/white"
         android:fontFamily="@font/montserrat"
@@ -125,6 +125,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="18dp"
         android:text="Generar"
+        android:layout_marginLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvIban"
         app:layout_constraintTop_toBottomOf="@+id/tvGenerarIBAN" />

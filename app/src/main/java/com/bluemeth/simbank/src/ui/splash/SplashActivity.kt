@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
 //            )
 //        )
 
-       // prefs.clearPrefs()
+        //prefs.clearPrefs()
 
         checkUserIsLogged()
     }
