@@ -21,7 +21,6 @@ import com.bluemeth.simbank.src.core.dialog.QuestionDialog
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
-import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.CreditCardViewModel
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -64,19 +63,12 @@ class HomeActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(binding.navView, navController)
 
         initObservers()
-        //iconDrawer()
         itemMenu()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.myNavHostFragment)
         return NavigationUI.navigateUp(navController, drawerLayout)
-    }
-
-    private fun iconDrawer(){
-        supportActionBar?.setHomeButtonEnabled(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_account_circle_24)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -87,7 +79,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-
+            R.id.settingsIcon -> navController.navigate(R.id.settingsFragment)
         }
         return super.onOptionsItemSelected(item)
     }

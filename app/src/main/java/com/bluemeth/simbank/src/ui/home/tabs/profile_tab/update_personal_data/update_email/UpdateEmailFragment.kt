@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bluemeth.simbank.R
@@ -127,6 +128,13 @@ class UpdateEmailFragment : Fragment() {
         val intent = Intent(requireContext(), VerificationActivity::class.java)
         intent.putExtra("destination", "home")
         startActivity(intent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+
+        tvTitle.text = getString(R.string.toolbar_update_email)
     }
 
 }

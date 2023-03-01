@@ -55,7 +55,7 @@
                 android:layout_marginTop="40dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Genera el número de tarjeta."
-                android:layout_marginRight="43dp"
+                android:layout_marginEnd="43dp"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -66,7 +66,7 @@
                 android:id="@+id/tvNumeroTarjeta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/montserrat"
                 android:text="1324 1234 1324 1234 "
@@ -87,7 +87,7 @@
 
             <Button
                 style="@style/PrimaryButton"
-                android:id="@+id/generateNumberCreditCard"
+                android:id="@+id/btnGenerate"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="18dp"
@@ -109,9 +109,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView3"
                 app:layout_constraintTop_toBottomOf="@+id/tvNumeroTarjeta" />
-
-
-
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -149,22 +146,21 @@
                 android:id="@+id/tvPin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="35dp"
+                android:layout_marginRight="70dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Un pin para tu tarjeta."
-                android:layout_marginRight="70dp"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputAlias"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/inputAlias" />
 
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="38dp"
+                android:layout_marginTop="34dp"
                 android:src="@drawable/baseline_arrow_right_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inputAlias" />

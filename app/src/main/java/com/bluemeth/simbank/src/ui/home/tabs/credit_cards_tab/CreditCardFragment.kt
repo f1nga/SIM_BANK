@@ -1,11 +1,14 @@
 package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -60,12 +63,14 @@ class CreditCardFragment() : Fragment() {
     }
 
     private fun observeCard() {
-        binding.progressBar.visibility = View.VISIBLE
         globalViewModel.getBankIban().observe(requireActivity()) {
             creditCardViewModel.getCreditsCardsFromDB(it).observe(requireActivity()) { creditCardList ->
                 creditCardViewModel.cardAdapter.setListData(creditCardList)
                 creditCardViewModel.cardAdapter.notifyDataSetChanged()
-                binding.progressBar.visibility = View.GONE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.clCardsLoading.isVisible = false
+                    binding.clCards.isVisible = true
+                }, 300)
             }
         }
 

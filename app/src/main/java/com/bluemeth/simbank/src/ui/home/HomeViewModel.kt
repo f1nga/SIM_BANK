@@ -6,16 +6,13 @@ import androidx.lifecycle.ViewModel
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.HorizontalListRVAdapter
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.MovementRecordsRVAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel  @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
-    val headerAdapter: HorizontalListRVAdapter,
-    val movementAdapter: MovementRecordsRVAdapter,
+
     ) : ViewModel() {
 
     private val _navigateToLogin = MutableLiveData<Event<Boolean>>()

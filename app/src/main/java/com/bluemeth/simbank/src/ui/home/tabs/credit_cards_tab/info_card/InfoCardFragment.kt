@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -20,7 +20,6 @@ import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.models.utils.CreditCardType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.HomeViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.CreditCardViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
@@ -112,5 +111,12 @@ class InfoCardFragment() : Fragment() {
         binding.btnDeleteCard.setOnClickListener {
             showQuestionDialog(it, creditCard.number)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+
+        tvTitle.text = getString(R.string.toolbar_info_card)
     }
 }

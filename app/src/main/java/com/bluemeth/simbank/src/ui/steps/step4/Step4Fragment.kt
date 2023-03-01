@@ -22,6 +22,7 @@ class Step4Fragment : Fragment() {
             prefs.saveSteps()
             startActivity(HomeActivity.create(requireContext()))
         }
+
         return binding.root
     }
 }

@@ -8,7 +8,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeTabViewModel @Inject constructor(private val movementRepository: MovementRepository): ViewModel() {
+class HomeTabViewModel @Inject constructor(
+    private val movementRepository: MovementRepository,
+    val headerAdapter: HorizontalListRVAdapter,
+    val movementAdapter: MovementRecordsRVAdapter
+): ViewModel() {
     fun getMovementsFromDB(owner: String):  MutableLiveData<MutableList<Movement>> {
         val mutableData = MutableLiveData<MutableList<Movement>>()
 

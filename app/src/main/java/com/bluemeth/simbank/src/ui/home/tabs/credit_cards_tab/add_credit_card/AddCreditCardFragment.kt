@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentAddCreditCardBinding
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.providers.InfoCardProvider
@@ -43,5 +44,12 @@ class AddCreditCardFragment : Fragment() {
                 toast(creditCard.cardDescripton)
             }
         })
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+
+        tvTitle.text = getString(R.string.toolbar_add_card)
     }
 }

@@ -1,21 +1,22 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentHomeBinding
-import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.providers.HomeHeaderProvider
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.HomeViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment  : Fragment() {
     private lateinit var binding: FragmentHomeBinding
-    private val homeViewModel: HomeViewModel by viewModels()
     private val homeTabViewModel: HomeTabViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
 
@@ -52,9 +52,9 @@ class HomeFragment  : Fragment() {
         val headerRecyclerView = binding.rvHeader
         headerRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         headerRecyclerView.setHasFixedSize(true)
-        headerRecyclerView.adapter = homeViewModel.headerAdapter
+        headerRecyclerView.adapter = homeTabViewModel.headerAdapter
 
-        homeViewModel.headerAdapter.setItemListener(object : HorizontalListRVAdapter.onItemClickListener {
+        homeTabViewModel.headerAdapter.setItemListener(object : HorizontalListRVAdapter.onItemClickListener {
             override fun onItemClick(creditCard: HomeHeader) {
                 toast("Feature not implemented")
             }
@@ -63,8 +63,8 @@ class HomeFragment  : Fragment() {
 
     private fun observeHeader() {
         globalViewModel.getBankMoney().observe(requireActivity()) {
-            homeViewModel.headerAdapter.setListData(HomeHeaderProvider.getListHeader(it))
-            homeViewModel.headerAdapter.notifyDataSetChanged()
+            homeTabViewModel.headerAdapter.setListData(HomeHeaderProvider.getListHeader(it))
+            homeTabViewModel.headerAdapter.notifyDataSetChanged()
         }
     }
 
@@ -73,23 +73,28 @@ class HomeFragment  : Fragment() {
         val movementRecyclerView = binding.rvHistory
         movementRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         movementRecyclerView.setHasFixedSize(true)
-        movementRecyclerView.adapter = homeViewModel.movementAdapter
+        movementRecyclerView.adapter = homeTabViewModel.movementAdapter
 
-        homeViewModel.movementAdapter.setItemListener(object : MovementRecordsRVAdapter.onItemClickListener {
+        homeTabViewModel.movementAdapter.setItemListener(object : MovementRecordsRVAdapter.onItemClickListener {
             override fun onItemClick(creditCard: Movement) {
                 toast("HOLHOL")
             }
         })
 
         globalViewModel.getBankMoney().observe(requireActivity()) {
-            homeViewModel.movementAdapter.setRemainingMoney(it)
+            homeTabViewModel.movementAdapter.setRemainingMoney(it)
         }
     }
 
     private fun observeMovement() {
         homeTabViewModel.getMovementsFromDB("ES33 4920 4829 0293 3849 3810").observe(requireActivity()) {
-            homeViewModel.movementAdapter.setListData(it)
-            homeViewModel.movementAdapter.notifyDataSetChanged()
+            homeTabViewModel.movementAdapter.setListData(it)
+            homeTabViewModel.movementAdapter.notifyDataSetChanged()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.clHistorialLoading.isVisible = false
+                binding.clHistorial.isVisible = true
+            }, 300)
+
         }
     }
 

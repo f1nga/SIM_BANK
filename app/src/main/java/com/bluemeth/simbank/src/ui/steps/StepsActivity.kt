@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.viewpager2.widget.ViewPager2
 import com.bluemeth.simbank.R
-import com.bluemeth.simbank.src.ui.auth.verification.VerificationActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_steps.*
 
@@ -18,7 +17,6 @@ class StepsActivity : AppCompatActivity() {
         fun create(context: Context): Intent =
             Intent(context, StepsActivity::class.java)
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,15 +74,15 @@ class StepsActivity : AppCompatActivity() {
                 nextButton.visibility = View.VISIBLE
             }
             1->{
-                backButton.visibility = View.VISIBLE
+                backButton.visibility = View.INVISIBLE
                 nextButton.visibility = View.VISIBLE
             }
             2 -> {
-                backButton.visibility = View.VISIBLE
-                nextButton.visibility = View.VISIBLE
+                backButton.visibility = View.INVISIBLE
+                nextButton.visibility = View.INVISIBLE
             }
             3 -> {
-                backButton.visibility = View.VISIBLE
+                backButton.visibility = View.INVISIBLE
                 nextButton.visibility = View.INVISIBLE
             }
         }
