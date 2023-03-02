@@ -75,7 +75,7 @@ class StepsActivity : AppCompatActivity() {
             }
             1->{
                 backButton.visibility = View.INVISIBLE
-                nextButton.visibility = View.VISIBLE
+                nextButton.visibility = View.INVISIBLE
             }
             2 -> {
                 backButton.visibility = View.INVISIBLE

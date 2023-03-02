@@ -24,7 +24,20 @@
             android:background="@color/backgroundColor">
 
 
-    <TextView
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/viewPlaceholder"
+                android:layout_width="190dp"
+                android:layout_height="50dp"
+                app:layout_constraintBottom_toTopOf="@+id/tvAlias"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintVertical_bias="0.4"
+                app:layout_constraintTop_toBottomOf="@+id/tvGenerarDinero"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/generate_money" />
+
+            <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -117,6 +130,7 @@
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toBottomOf="@+id/buttonGenerateMoney" />
 
+
     <Button
         style="@style/PrimaryButton"
         android:id="@+id/generateIban"
@@ -179,7 +193,6 @@
         android:src="@drawable/baseline_arrow_right_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvIban" />
-
     <ImageView
         android:id="@+id/imageView4"
         android:layout_width="wrap_content"
@@ -188,6 +201,8 @@
         android:src="@drawable/baseline_arrow_right_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonGenerateMoney" />
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
