@@ -22,7 +22,6 @@ import com.bluemeth.simbank.src.ui.steps.StepsActivity
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
@@ -41,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         initUI()
     }
 

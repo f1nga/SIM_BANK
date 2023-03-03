@@ -3,28 +3,31 @@ package com.bluemeth.simbank.src.utils
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.google.firebase.Timestamp
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
+import kotlin.random.Random
 
 class Methods {
     companion object {
-         fun formatDateCard(date: Date): String {
-             val newDate = if(date.month < 10) {
-                 "0${date.month + 1}"
-             } else {
-                 (date.month + 1).toString()
-             }
+        fun formatDateCard(date: Date): String {
+            val newDate = if (date.month < 10) {
+                "0${date.month + 1}"
+            } else {
+                (date.month + 1).toString()
+            }
             val year = date.year + 1900
 
             return "$newDate/${year.toString()[2]}${year.toString()[3]}"
-         }
+        }
 
         fun formatDateCardInfo(date: Date): String {
-            val day = if(date.date < 10) {
+            val day = if (date.date < 10) {
                 "0${date.date}"
             } else {
                 (date.date).toString()
             }
-            val newDate = if(date.month < 10) {
+            val newDate = if (date.month < 10) {
                 "0${date.month + 1}"
             } else {
                 (date.month + 1).toString()
@@ -38,14 +41,14 @@ class Methods {
         fun formateDateMovement(date: Date): String {
 
             val currentTime = Timestamp.now().toDate()
-            val dateMonth = if(date.month == 0) 12 else date.month + 1
+            val dateMonth = if (date.month == 0) 12 else date.month + 1
 
-            if(date.year + 1900 == currentTime.year + 1900 && dateMonth == currentTime.month +1 && date.date == currentTime.date) {
+            if (date.year + 1900 == currentTime.year + 1900 && dateMonth == currentTime.month + 1 && date.date == currentTime.date) {
                 return "Hoy"
-            } else if(date.year + 1900 == currentTime.year + 1900 && dateMonth == currentTime.month + 1 && date.date + 1 == currentTime.date) {
+            } else if (date.year + 1900 == currentTime.year + 1900 && dateMonth == currentTime.month + 1 && date.date + 1 == currentTime.date) {
                 return "Ayer"
             } else {
-                val month = when(dateMonth) {
+                val month = when (dateMonth) {
                     1 -> "Ene"
                     2 -> "Feb"
                     3 -> "Mar"
@@ -60,7 +63,7 @@ class Methods {
                     else -> "Dic"
                 }
 
-                if(date.year + 1900 != currentTime.year + 1900) {
+                if (date.year + 1900 != currentTime.year + 1900) {
                     return "${date.date} $month ${date.year + 1900}"
                 }
 
@@ -68,7 +71,7 @@ class Methods {
             }
         }
 
-         fun formatCardNumber(cardNumber: String): String {
+        fun formatCardNumber(cardNumber: String): String {
             var number = ""
 
             for (i in 0..3) {
@@ -93,27 +96,14 @@ class Methods {
                 number += cardNumber[i]
             }
 
-            number += " "
-
             return number
-        }
-
-        fun splitName(name: String): String {
-            return name.split(" ")[0]
-        }
-
-        fun splitNameProfile(name: String): String {
-            val firstName = name.split(" ")[0]
-            val secondName = name.split(" ")[1]
-
-            return "${firstName[0]}${secondName[0]}"
         }
 
         fun formatMoney(money: Double): String {
             val firstMoney = money.toString().split(".")[0]
             val secondMoney = money.toString().split(".")[1]
 
-            val newMoney = if(secondMoney.length == 1) {
+            val newMoney = if (secondMoney.length == 1) {
                 "$firstMoney,${secondMoney}0"
             } else {
                 "$firstMoney,${secondMoney}"
@@ -121,14 +111,14 @@ class Methods {
 
             var moneyText = ""
 
-            if(firstMoney.toInt() > 9999) {
+            if (firstMoney.toInt() > 9999) {
                 moneyText += "${newMoney[0]}${newMoney[1]}."
                 for (i in 2 until newMoney.length) {
                     moneyText += newMoney[i]
                 }
                 return "$moneyText€"
 
-            } else if(firstMoney.toInt() > 999) {
+            } else if (firstMoney.toInt() > 999) {
                 moneyText += "${newMoney[0]}."
                 for (i in 1 until newMoney.length) {
                     moneyText += newMoney[i]
@@ -149,7 +139,7 @@ class Methods {
             return bankiban
         }
 
-        fun formatPhoneNumber(phone: Int) : String {
+        fun formatPhoneNumber(phone: Int): String {
             var phoneNumber = ""
 
             for (i in 0..2) {
@@ -175,6 +165,66 @@ class Methods {
             }
 
             return "+34 $phoneNumber"
+        }
+
+        fun formatIbanNumber(iban: String): String {
+            var newIban = formatCardNumber(iban)
+
+            newIban += " "
+
+            for (i in 16..19) {
+                newIban += iban[i]
+            }
+
+            newIban += " "
+
+            for (i in 20..23) {
+                newIban += iban[i]
+            }
+
+            return newIban
+        }
+
+        fun generateMoneyBank() = Random.nextDouble(10000.0, 20000.0)
+
+        fun roundOffDecimal(number: Double): Double {
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.CEILING
+            return df.format(number).toDouble()
+        }
+
+        fun generateLongNumber(numberLength: Int): String {
+            var finalNumber = ""
+
+            for (i in 1..numberLength) {
+                finalNumber += (0..9).random()
+            }
+
+            return finalNumber
+        }
+
+        fun generateCaducityCard(): Timestamp {
+            val currentDate = Timestamp.now().toDate()
+            val currentMonth = if (currentDate.month == 0) 12 else currentDate.month + 1
+
+            return Timestamp(Date(currentDate.year + 1905, currentMonth, currentDate.date))
+        }
+
+        fun splitName(name: String) = name.split(" ")[0]
+
+        fun splitNameProfile(name: String): String {
+            val firstName = name.split(" ")[0]
+            val secondName = name.split(" ")[1]
+
+            return "${firstName[0]}${secondName[0]}"
+        }
+
+        fun splitEuro(money: String) : Double {
+            val firstMoney = money.split("€")[0]
+
+            val thirdMoney = firstMoney.replace(".", "")
+
+            return thirdMoney.split(",")[0].toDouble()
         }
     }
 }

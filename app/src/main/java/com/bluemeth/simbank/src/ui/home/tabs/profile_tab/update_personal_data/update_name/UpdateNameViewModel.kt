@@ -7,7 +7,6 @@ import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
 import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_name.model.UserNameUpdate
-import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_phone.UpdatePhoneViewState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,10 +21,6 @@ class UpdateNameViewModel @Inject constructor(
     private companion object {
         const val MIN_NAME_LENGTH = 3
     }
-
-    private val _viewState = MutableStateFlow(UpdatePhoneViewState())
-    val viewState: StateFlow<UpdatePhoneViewState>
-        get() = _viewState
 
     private val _viewNameState = MutableStateFlow(UpdateNameViewState())
     val viewNameState: StateFlow<UpdateNameViewState>

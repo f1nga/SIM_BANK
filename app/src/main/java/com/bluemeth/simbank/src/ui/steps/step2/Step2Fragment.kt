@@ -10,93 +10,100 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentStep2Binding
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
-import com.bluemeth.simbank.src.ui.steps.step3.Step3ViewState
-import com.bluemeth.simbank.src.ui.steps.step3.model.Step3Model
+import com.bluemeth.simbank.src.data.models.BankAccount
+import com.bluemeth.simbank.src.ui.GlobalViewModel
+import com.bluemeth.simbank.src.ui.steps.step2.model.Step2Model
+import com.bluemeth.simbank.src.ui.steps.step4.Step4ViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class Step2Fragment : Fragment() {
     private lateinit var binding: FragmentStep2Binding
+    private val globalViewModel: GlobalViewModel by viewModels()
     private val step2ViewModel: Step2ViewModel by viewModels()
+    private val step4ViewModel: Step4ViewModel by activityViewModels()
+    private var bankIban: String? = null
+    private var moneyBank: Double? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
-        binding =  FragmentStep2Binding.inflate(inflater,container,false)
+        binding = FragmentStep2Binding.inflate(inflater, container, false)
 
         initUI()
+
         return binding.root
     }
 
     private fun initUI() {
-        viewGone()
         changeVisibility()
         initListeners()
         initObservers()
     }
 
-    fun generateMoney(){
-            val money = (10000..20000).random().toDouble()
-            binding.buttonGenerateMoney.setVisibility(View.GONE)
-            binding.tvDinero.text = Methods.formatMoney(money)
-            binding.tvDinero.setVisibility(View.VISIBLE)
-
-    }
-
-    fun generateIBAN(){
-            var bankNumber = "ES33"
-
-            for (i in 1..20) {
-                bankNumber += (0..9).random()
-            }
-            binding.tvIban.text = bankNumber
-    }
-
-    private fun onFieldChanged(hasFocus: Boolean = false) {
-        if (!hasFocus) {
-            step2ViewModel.onFieldsChanged(
-                    binding.inputAliasText.text.toString(),
-            )
-        }
-    }
-
     private fun initListeners() {
 
-        binding.inputAliasText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-        binding.inputAliasText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
-        binding.inputAliasText.onTextChanged { onFieldChanged() }
+        with(binding) {
+            inputAliasText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
+            inputAliasText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+            inputAliasText.onTextChanged { onFieldChanged() }
 
+            generateIban.setOnClickListener {
+                generateIban.isVisible = false
+                lottieLoading.visibility = View.VISIBLE
+                tvIban.isVisible = false
 
+                Handler(Looper.getMainLooper()).postDelayed({
+                    lottieLoading.visibility = View.GONE
+                    generateIban.isVisible = true
 
-        binding.generateIban.setOnClickListener {
-            generateIBAN()
-            step2ViewModel.isValidGeneratedIbanButtonClicked(
-                    alias = binding.inputAliasText.text.toString(),
-            )
+                    bankIban = "ES33" + Methods.generateLongNumber(20)
+                    binding.tvIban.text = Methods.formatIbanNumber(bankIban!!)
+                    tvIban.isVisible = true
+                }, 2100)
+
+                step2ViewModel.onFieldsChanged(
+                    Step2Model(
+                        alias = inputAliasText.text.toString(),
+                        isGeneratedIBANButtonClicked = true,
+                        tvDinero.text.toString() != "0" || !buttonGenerateMoney.isVisible
+                    )
+                )
+            }
+
+            buttonGenerateMoney.setOnClickListener {
+                viewPlaceholder.visibility = View.VISIBLE
+                buttonGenerateMoney.visibility = View.GONE
+
+                Handler(Looper.getMainLooper()).postDelayed({
+                    viewPlaceholder.isVisible = false
+                    binding.buttonGenerateMoney.isVisible = false
+
+                    moneyBank = Methods.roundOffDecimal(Methods.generateMoneyBank())
+                    binding.tvDinero.text = Methods.formatMoney(moneyBank!!)
+                    binding.tvDinero.isVisible = true
+                }, 2700)
+
+                step2ViewModel.onFieldsChanged(
+                    Step2Model(
+                        alias = inputAliasText.text.toString(),
+                        isGeneratedIBANButtonClicked = binding.tvIban.text.toString() != "0" || !generateIban.isVisible,
+                        isGeneratedMoneyButtonClicked = true
+                    )
+                )
+            }
         }
-
-        binding.buttonGenerateMoney.setOnClickListener {
-            binding.viewPlaceholder.visibility = View.VISIBLE
-            binding.buttonGenerateMoney.visibility = View.GONE
-            Handler(Looper.getMainLooper()).postDelayed({
-                binding.viewPlaceholder.visibility = View.GONE
-                generateMoney()
-            }, 2700)
-
-            step2ViewModel.isValidGeneratedMoneyButtonClicked(
-                alias = binding.inputAliasText.text.toString(),
-            )
-        }
-
     }
+
     private fun initObservers() {
         lifecycleScope.launchWhenStarted {
             step2ViewModel.viewState.collect { viewState ->
@@ -104,7 +111,6 @@ class Step2Fragment : Fragment() {
 
                 val btnNext = requireActivity().findViewById<Button>(R.id.nextButton)
                 btnNext.isVisible = viewState.isStep2Validated()
-
             }
         }
     }
@@ -112,78 +118,70 @@ class Step2Fragment : Fragment() {
     private fun updateUI(viewState: Step2ViewState) {
         binding.inputAlias.error =
             if (viewState.isValidAlias) null else getString(R.string.alias_not_correct)
-
+        binding.buttonGenerateMoney.error =
+            if (viewState.isButtonMoneyClicked) null else "Debes generar tu dinero"
+        binding.generateIban.error =
+            if (viewState.isButtonIbanClicked) null else "Debes generar un IBAN"
     }
 
-
-
-    fun viewGone(){
-        binding.viewPlaceholder.visibility = View.GONE
-        binding.tvIban.visibility = View.GONE
-        binding.generateIban.visibility = View.GONE
-        binding.buttonGenerateMoney.visibility = View.GONE
-        binding.inputAlias.visibility = View.GONE
-        binding.tvDinero.visibility = View.GONE
-    }
-
-    fun changeVisibility(){
-
-        binding.tvGenerarIBAN.setOnClickListener() {
-            if (binding.tvIban.visibility == 0) {
-                binding.tvIban.visibility = View.GONE
-                binding.generateIban.visibility = View.GONE
-            } else {
-                binding.tvIban.visibility = View.VISIBLE
-                binding.generateIban.visibility = View.VISIBLE
-            }
+    private fun onFieldChanged(hasFocus: Boolean = false) {
+        if (binding.inputAliasText.text.toString().isNotEmpty()) {
+                step4ViewModel.setNewBankAccount(
+                    BankAccount(
+                        iban = bankIban ?: "",
+                        money = moneyBank ?: 0.0,
+                        user_email = globalViewModel.getUserAuth().email!!
+                    )
+                )
         }
 
-        binding.tvGenerarDinero.setOnClickListener(){
-            if(binding.buttonGenerateMoney.visibility == 0){
-                binding.buttonGenerateMoney.visibility = View.GONE
-            }else if(binding.buttonGenerateMoney.visibility == 8 && binding.tvDinero.visibility==0){
-                binding.buttonGenerateMoney.visibility = View.GONE
-            }else{
-                binding.buttonGenerateMoney.visibility = View.VISIBLE
-            }
-        }
-
-        binding.tvAlias.setOnClickListener(){
-            if(binding.inputAlias.visibility == 0){
-                binding.inputAlias.visibility = View.GONE
-            }else{
-                binding.inputAlias.visibility = View.VISIBLE
-            }
-        }
-
-        binding.imageView2.setOnClickListener(){
-            if(binding.tvIban.visibility == 0){
-                binding.tvIban.visibility = View.GONE
-                binding.generateIban.visibility = View.GONE
-            }else{
-                binding.tvIban.visibility = View.VISIBLE
-                binding.generateIban.visibility = View.VISIBLE
-            }
-        }
-
-        binding.imageView3.setOnClickListener(){
-            if(binding.buttonGenerateMoney.visibility == 0){
-                binding.buttonGenerateMoney.visibility = View.GONE
-            }else if(binding.buttonGenerateMoney.visibility == 8 && binding.tvDinero.visibility==0){
-                binding.buttonGenerateMoney.visibility = View.GONE
-            }else{
-                binding.buttonGenerateMoney.visibility = View.VISIBLE
-            }
-        }
-
-
-        binding.imageView4.setOnClickListener(){
-            if(binding.inputAlias.visibility == 0){
-                binding.inputAlias.visibility = View.GONE
-            }else{
-                binding.inputAlias.visibility = View.VISIBLE
-            }
+        if (!hasFocus) {
+            step2ViewModel.onFieldsChanged(
+                Step2Model(
+                    alias = binding.inputAliasText.text.toString(),
+                    isGeneratedIBANButtonClicked = binding.tvIban.text.toString() != "0",
+                    isGeneratedMoneyButtonClicked = binding.tvDinero.text.toString() != "0"
+                )
+            )
         }
     }
 
+    private fun changeVisibility() {
+        with(binding) {
+            tvGenerarIBAN.setOnClickListener() {
+                if(tvIban.text.toString() == "0") {
+                    tvIban.isVisible = false
+                } else {
+                    tvIban.isVisible = !tvIban.isVisible
+                }
+
+                generateIban.isVisible = !generateIban.isVisible
+            }
+
+            tvGenerarDinero.setOnClickListener() {
+                if (tvDinero.isVisible) {
+                    buttonGenerateMoney.isVisible = false
+                } else {
+                    buttonGenerateMoney.isVisible = !buttonGenerateMoney.isVisible
+                }
+            }
+
+            tvAlias.setOnClickListener() { inputAlias.isVisible = !inputAlias.isVisible }
+
+            imageView2.setOnClickListener() {
+                tvIban.isVisible = !tvIban.isVisible
+                generateIban.isVisible = !generateIban.isVisible
+            }
+
+            imageView3.setOnClickListener() {
+                if (tvDinero.isVisible) {
+                    buttonGenerateMoney.isVisible = false
+                } else {
+                    buttonGenerateMoney.isVisible = !buttonGenerateMoney.isVisible
+                }
+            }
+
+            imageView4.setOnClickListener() { inputAlias.isVisible = !inputAlias.isVisible }
+        }
+    }
 }

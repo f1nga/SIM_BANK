@@ -1,10 +1,7 @@
 package com.bluemeth.simbank.src.ui.steps.step2
 
-import android.view.View
 import androidx.lifecycle.ViewModel
-import com.bluemeth.simbank.src.ui.steps.step3.Step3ViewModel
-import com.bluemeth.simbank.src.ui.steps.step3.Step3ViewState
-import com.bluemeth.simbank.src.ui.steps.step3.model.Step3Model
+import com.bluemeth.simbank.src.ui.steps.step2.model.Step2Model
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,25 +18,14 @@ class Step2ViewModel @Inject constructor(): ViewModel(){
     val viewState: StateFlow<Step2ViewState>
         get() = _viewState
 
-    var isGeneratedIbanButtonClicked : Boolean = false
-    var isGeneratedMoneyButtonClicked : Boolean = false
-
-    fun isValidGeneratedIbanButtonClicked(alias: String){
-        isGeneratedIbanButtonClicked = true
-        onFieldsChanged(alias)
-    }
-    fun isValidGeneratedMoneyButtonClicked(alias: String){
-        isGeneratedMoneyButtonClicked = true
-        onFieldsChanged(alias)
-    }
-
-    fun onFieldsChanged(alias : String) {
-        _viewState.value = toStep2ModelState(alias)
+    fun onFieldsChanged(step2Model: Step2Model) {
+        _viewState.value = step2Model.toStep2ModelState()
     }
     fun isValidAlias(alias: String) = alias.length >= FIELD_LENGTH
-    fun toStep2ModelState(alias: String):Step2ViewState{
+
+    fun Step2Model.toStep2ModelState(): Step2ViewState{
         return Step2ViewState(
-            isButtonIbanClicked =  isGeneratedIbanButtonClicked,
+            isButtonIbanClicked =  isGeneratedIBANButtonClicked,
             isButtonMoneyClicked = isGeneratedMoneyButtonClicked,
             isValidAlias = isValidAlias(alias)
         )

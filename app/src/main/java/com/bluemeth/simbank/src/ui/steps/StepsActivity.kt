@@ -21,6 +21,8 @@ class StepsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_steps)
+
+        //log("numberr", Methods.splitEuro("18.600,00€").toString())
         setupStepView()
         setupViewPager()
         setupButtons()

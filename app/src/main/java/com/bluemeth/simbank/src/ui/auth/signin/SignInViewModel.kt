@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.domain.CreateAccountUseCase
 import com.bluemeth.simbank.src.core.Event
-import com.bluemeth.simbank.src.data.providers.UserInitData
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,7 +51,7 @@ class SignInViewModel @Inject constructor(val createAccountUseCase: CreateAccoun
     private fun signInUser(userSignIn: UserSignIn) {
         viewModelScope.launch {
             _viewState.value = SignInViewState(isLoading = true)
-            val accountCreated = createAccountUseCase(userSignIn, UserInitData.createCreditCard())
+            val accountCreated = createAccountUseCase(userSignIn)
             if (accountCreated) {
                 _navigateToVerifyEmail.value = Event(true)
             } else {

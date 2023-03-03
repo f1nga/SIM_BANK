@@ -2,7 +2,6 @@ package com.bluemeth.simbank.src.data.providers.firebase
 
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.User
-import com.bluemeth.simbank.src.data.providers.UserInitData
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
@@ -20,7 +19,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
 
     suspend fun createUserTable(userSignIn: UserSignIn) = runCatching {
 
-        val user = UserInitData.registerData(userSignIn)
+        val user = User(userSignIn.email, userSignIn.password, userSignIn.nickName,userSignIn.phoneNumber.toInt())
 
         firebase.db
             .collection(USER_COLLECTION)

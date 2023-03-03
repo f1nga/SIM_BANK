@@ -34,7 +34,7 @@ class SplashActivity : AppCompatActivity() {
 //            )
 //        )
 
-        //prefs.clearPrefs()
+       // prefs.clearPrefs()
 
         checkUserIsLogged()
     }
@@ -61,6 +61,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun goToHome() {
         startActivity(HomeActivity.create(this))
+//        startActivity(StepsActivity.create(this))
     }
 
     private fun goToWelcome(){

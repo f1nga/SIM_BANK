@@ -18,9 +18,11 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityHomeBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.QuestionDialog
+import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
+import com.bluemeth.simbank.src.utils.Methods
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -54,6 +56,9 @@ class HomeActivity : AppCompatActivity() {
 
         toolbar = binding.toolbar
 
+        val currentDate = Methods.generateCaducityCard()
+
+        log("datee","${currentDate.toDate().year} ${currentDate.toDate().month} ${currentDate.toDate().day}")
         hideBottomBar()
         setHeaderDrawer()
         setCustomToolbar()

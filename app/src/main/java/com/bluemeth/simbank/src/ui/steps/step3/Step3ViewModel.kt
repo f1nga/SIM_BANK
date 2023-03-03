@@ -18,13 +18,6 @@ class Step3ViewModel @Inject constructor(): ViewModel(){
     val viewState: StateFlow<Step3ViewState>
         get() = _viewState
 
-     var isGeneratedButtonClicked : Boolean = false
-
-    fun onGeneratedButtonClicked(step3Model: Step3Model) {
-        isGeneratedButtonClicked = true
-        _viewState.value = step3Model.toStep3ModelState()
-    }
-
     fun onFieldsChanged(step3Model: Step3Model) {
         _viewState.value = step3Model.toStep3ModelState()
     }
@@ -33,11 +26,10 @@ class Step3ViewModel @Inject constructor(): ViewModel(){
 
     fun isValidPin(pin: String) = pin.length == FIELD_LENGTH
 
-    fun isValidGeneratedButtonClicked() = isGeneratedButtonClicked
 
     fun Step3Model.toStep3ModelState(): Step3ViewState {
         return Step3ViewState(
-            isButtonClicked = isValidGeneratedButtonClicked(),
+            isButtonClicked = isGeneratedNumberButtonClicked,
             isValidAlias = isValidAlias(alias),
             isValidPin = isValidPin(pin),
         )

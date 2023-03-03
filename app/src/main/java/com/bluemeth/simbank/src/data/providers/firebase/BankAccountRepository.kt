@@ -2,7 +2,6 @@ package com.bluemeth.simbank.src.data.providers.firebase
 
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.BankAccount
-import com.bluemeth.simbank.src.data.providers.UserInitData
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,8 +15,7 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
         const val MONEY_FIELD = "money"
     }
 
-    suspend fun createBankAccountTable() = runCatching {
-        val bankAccount = UserInitData.createBankAccount()
+    suspend fun insertBankAccount(bankAccount: BankAccount) = runCatching {
 
         firebase.db
             .collection(BANK_COLLECTION)

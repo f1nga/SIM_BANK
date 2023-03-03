@@ -7,12 +7,18 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.bluemeth.simbank.R
+import timber.log.Timber
 
 fun Activity.toast(text: String, length: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, text, length).show()
+}
+
+fun Activity.log(tag: String, msg: String) {
+    Timber.tag(tag).i(msg)
 }
 
 fun Activity.span(

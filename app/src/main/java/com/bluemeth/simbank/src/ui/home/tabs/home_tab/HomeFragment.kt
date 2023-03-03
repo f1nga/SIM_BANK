@@ -32,8 +32,13 @@ class HomeFragment  : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater,container,false)
-        setHasOptionsMenu(true)
 
+        initUI()
+
+        return binding.root
+    }
+
+    private fun initUI() {
         setTextViews()
 
         setHeaderRecyclerView()
@@ -43,8 +48,6 @@ class HomeFragment  : Fragment() {
         observeMovement()
 
         setDrawerHeaderName()
-
-        return binding.root
     }
 
     private fun setHeaderRecyclerView() {
@@ -94,7 +97,6 @@ class HomeFragment  : Fragment() {
                 binding.clHistorialLoading.isVisible = false
                 binding.clHistorial.isVisible = true
             }, 300)
-
         }
     }
 
@@ -108,7 +110,6 @@ class HomeFragment  : Fragment() {
             binding.tvAccountNumber.text = "Cuenta *${Methods.formatIban(it)}"
             binding.tvShortNumber.text = "· ${Methods.formatIban(it)}"
         }
-
     }
 
     private fun setDrawerHeaderName() {
@@ -123,6 +124,5 @@ class HomeFragment  : Fragment() {
             val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
             tvTitle.text = "Hola, ${Methods.splitName(it)}"
         }
-
     }
 }
