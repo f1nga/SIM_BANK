@@ -11,6 +11,21 @@
     tools:context=".src.ui.home.tabs.profile_tab.ProfileFragment"
     tools:ignore="RtlSymmetry">
 
+    <ScrollView
+        android:id="@+id/formView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundColor"
+            android:paddingHorizontal="20dp">
+
     <ImageView
         android:id="@+id/ivCircle"
         android:layout_width="80dp"
@@ -175,27 +190,28 @@
 
     <Button
         android:id="@+id/btnLogout"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
         style="@style/PrimaryButton"
-        android:text="CERRAR SESIÓN"
-        android:layout_marginBottom="20dp"
-        android:backgroundTint="@color/red"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnDeleteAccount"
-        />
-
-    <Button
-        android:id="@+id/btnDeleteAccount"
         android:layout_width="match_parent"
         android:layout_height="38dp"
-        style="@style/DeleteButton"
-        android:text="ELIMINAR CUENTA"
-        android:layout_marginBottom="50dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="200dp"
+        android:backgroundTint="@color/red"
+        android:text="CERRAR SESIÓN"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/input_profile_phone" />
+
+            <Button
+                android:id="@+id/btnDeleteAccount"
+                style="@style/DeleteButton"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_marginTop="20dp"
+                android:text="ELIMINAR CUENTA"
+                android:layout_marginBottom="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"
@@ -207,5 +223,7 @@
         app:layout_constraintBottom_toTopOf="@id/input_profile_email"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/tertiary_text" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

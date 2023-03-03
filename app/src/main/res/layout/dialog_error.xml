@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="32dp"
     android:background="@drawable/rounded_edittext"
+    android:paddingHorizontal="32dp"
     android:paddingVertical="16dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvTitle"
+        style="@style/TitleText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/TitleText"
         android:layout_marginTop="16dp"
         android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,9 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        tools:text=":Reintentar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        tools:text=":Reintentar" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/btnNegative"
@@ -46,9 +46,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        tools:text=":Cancelar"
         app:layout_constraintEnd_toStartOf="@+id/btnPositive"
-        app:layout_constraintTop_toBottomOf="@+id/tvDescription" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        tools:text=":Cancelar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

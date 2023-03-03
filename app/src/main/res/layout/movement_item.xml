@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_viewMovement"
-    android:backgroundTint="@color/backgroundColor_secondary"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:backgroundTint="@color/backgroundColor_secondary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clMovement"
@@ -19,56 +18,52 @@
             android:id="@+id/ivArrowIncome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
             android:src="@drawable/arrow_lose"
-            />
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Mecánico"
-            android:textStyle="bold"
+            android:layout_marginStart="10dp"
             android:textColor="@color/primary_text"
+            android:textStyle="bold"
             card_view:layout_constraintStart_toEndOf="@+id/ivArrowIncome"
             card_view:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp"
-            />
+            tools:text="Mecánico" />
 
         <TextView
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="+350,00€"
+            android:layout_marginStart="10dp"
             android:textColor="@color/primary_text"
             android:textStyle="bold"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="10dp"
-            />
+            tools:text="+350,00€" />
 
         <TextView
             android:id="@+id/tvRecordDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Ayer"
             android:layout_marginStart="10dp"
             android:textColor="@color/primary_text"
             card_view:layout_constraintStart_toEndOf="@id/ivArrowIncome"
-            card_view:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+            card_view:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:text="Ayer" />
 
         <TextView
             android:id="@+id/tvRemainingMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="+3540,00€"
+            android:layout_marginStart="10dp"
             android:textColor="@color/primary_text"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toBottomOf="@id/tvPrice"
-            android:layout_marginStart="10dp"
-            />
+            tools:text="+3540,00€" />
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"
@@ -76,8 +71,7 @@
             card_view:dividerColor="@color/primary_text"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent"
-            />
+            card_view:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

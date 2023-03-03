@@ -186,6 +186,7 @@ class Methods {
         }
 
         fun generateMoneyBank() = Random.nextDouble(10000.0, 20000.0)
+        fun generateMoneyCreditCard() = Random.nextDouble(1000.0, 5000.0)
 
         fun roundOffDecimal(number: Double): Double {
             val df = DecimalFormat("#.##")

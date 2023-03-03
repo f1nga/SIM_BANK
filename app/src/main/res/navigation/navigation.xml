@@ -53,7 +53,17 @@
         android:id="@+id/addCreditCardFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.AddCreditCardFragment"
         android:label="fragment_add_credit_card"
-        tools:layout="@layout/fragment_add_credit_card" />
+        tools:layout="@layout/fragment_add_credit_card" >
+        <action
+            android:id="@+id/action_addCreditCardFragment_to_formCreditCardFragment"
+            app:destination="@id/formCreditCardFragment" />
+        <action
+            android:id="@+id/action_addCreditCardFragment_to_formDebidCardFragment"
+            app:destination="@id/formDebidCardFragment" />
+        <action
+            android:id="@+id/action_addCreditCardFragment_to_formPrepaidCardFragment"
+            app:destination="@id/formPrepaidCardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.bluemeth.simbank.src.ui.drawer.SettingsFragment"
@@ -123,5 +133,20 @@
             app:popUpTo="@id/homeFragment"
             />
     </fragment>
+    <fragment
+        android:id="@+id/formCreditCardFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.credit_card_form.FormCreditCardFragment"
+        android:label="fragment_form_credit_card"
+        tools:layout="@layout/fragment_form_credit_card" />
+    <fragment
+        android:id="@+id/formDebidCardFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.debit_card_form.FormDebidCardFragment"
+        android:label="fragment_form_debid_card"
+        tools:layout="@layout/fragment_form_debid_card" />
+    <fragment
+        android:id="@+id/formPrepaidCardFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.prepaid_card_form.FormPrepaidCardFragment"
+        android:label="fragment_form_prepaid_card"
+        tools:layout="@layout/fragment_form_prepaid_card" />
 
 </navigation>

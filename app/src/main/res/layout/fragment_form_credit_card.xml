@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".src.ui.steps.step3.Step3Fragment">
+    tools:context=".src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.credit_card_form.FormCreditCardFragment">
+
 
     <ScrollView
         android:id="@+id/formView"
@@ -18,49 +19,34 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/backgroundColor"
             android:paddingHorizontal="20dp">
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tvTypeCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:fontFamily="@font/montserrat"
-                android:text="Primera Tarjeta de Débito"
+                android:text="Solicitar Tarjeta de Credito"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/infoDebito"
+                android:id="@+id/tvGenerarNumero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Tu primera tarjeta bancaria será de tipo débito. La característica de estas tarjetas es que disponen de todo el dinero de la cuenta bancaria."
-                android:textColor="@color/tertiary_text"
-                android:textSize="15sp"
+                android:text="Genera el número de tarjeta"
+                android:textColor="@color/white"
+                android:textSize="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-            <TextView
-                android:id="@+id/tvGenerarNumero"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="43dp"
-                android:fontFamily="@font/montserrat"
-                android:text="Genera el número de tarjeta."
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/infoDebito" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
             <TextView
                 android:id="@+id/tvNumeroTarjeta"
@@ -70,34 +56,22 @@
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/montserrat"
                 android:text="0000 0000 0000 0000"
+                android:visibility="gone"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@id/btnGenerate"
+                app:layout_constraintEnd_toStartOf="@id/btnGenerateNumber"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvGenerarNumero"
                 tools:visibility="visible" />
 
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="38dp"
-                android:src="@drawable/baseline_arrow_right_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/infoDebito" />
-
             <Button
-                android:id="@+id/btnGenerate"
+                android:id="@+id/btnGenerateNumber"
                 style="@style/PrimaryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="18dp"
                 android:text="Generar"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintStart_toEndOf="@+id/tvNumeroTarjeta"
                 app:layout_constraintTop_toBottomOf="@+id/tvGenerarNumero"
                 tools:visibility="visible" />
@@ -108,9 +82,8 @@
                 android:layout_height="80dp"
                 android:layout_marginEnd="25dp"
                 android:visibility="gone"
-                app:layout_constraintBottom_toTopOf="@id/inputAlias"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/infoDebito"
+                app:layout_constraintTop_toBottomOf="@id/tvGenerarNumero"
                 app:layout_constraintVertical_bias="0.65"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
@@ -118,27 +91,74 @@
                 tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/tvAliasCreditCard"
+                android:id="@+id/tvGenerarDinero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="65dp"
+                android:layout_marginTop="65dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Ponle un alias a tu tarjeta."
+                android:text="Genera el dinero de tu tarjeta."
                 android:textColor="@color/white"
-                android:textSize="15sp"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView3"
-                app:layout_constraintTop_toBottomOf="@+id/tvNumeroTarjeta" />
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="38dp"
-                android:src="@drawable/baseline_arrow_right_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvNumeroTarjeta" />
+
+            <Button
+                android:id="@+id/buttonGenerateMoney"
+                style="@style/PrimaryButton"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginTop="18dp"
+                android:text="Dinero"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGenerarDinero"
+                tools:visibility="visible" />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/viewPlaceholder"
+                android:layout_width="190dp"
+                android:layout_height="50dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toTopOf="@+id/tvAlias"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGenerarDinero"
+                app:layout_constraintVertical_bias="0.4"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/generate_money"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvDinero"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:fontFamily="@font/montserrat"
+                android:text="0"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGenerarDinero"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvAlias"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="3dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Ponle un nombre a tu tarjeta"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonGenerateMoney" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputAlias"
@@ -147,12 +167,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:textColorHint="@color/white"
-                android:visibility="gone"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAliasCreditCard"
+                app:layout_constraintTop_toBottomOf="@+id/tvAlias"
                 tools:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -160,63 +179,35 @@
                     style="@style/FormEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Alias de la tarjeta"
+                    android:hint="Nombre de la cuenta"
                     android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/tvPin"
+            <Button
+                android:id="@+id/btnSolicitar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
-                android:layout_marginRight="70dp"
-                android:fontFamily="@font/montserrat"
-                android:text="Un pin para tu tarjeta."
-                android:textColor="@color/white"
-                android:textSize="15sp"
+                android:layout_marginTop="40dp"
+                style="@style/PrimaryButton"
+                android:layout_marginBottom="30dp"
+                android:text="Solicitar"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputAlias" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="34dp"
-                android:src="@drawable/baseline_arrow_right_24"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inputAlias" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/inputPin"
-                style="@style/FormTextInputLayout"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/imageView5"
+                android:layout_width="273dp"
+                android:layout_height="143dp"
                 android:layout_marginTop="20dp"
-                android:textColorHint="@color/white"
-                android:visibility="gone"
-                app:endIconMode="clear_text"
-                app:endIconTint="@color/white"
+                android:src="@drawable/visacredito"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvPin"
-                tools:visibility="visible">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputPinText"
-                    style="@style/FormEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:hint="Numero PIN"
-                    android:imeOptions="actionNext"
-                    android:inputType="number" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
+                app:layout_constraintTop_toBottomOf="@+id/tvTypeCard" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
 
+</androidx.constraintlayout.widget.ConstraintLayout>

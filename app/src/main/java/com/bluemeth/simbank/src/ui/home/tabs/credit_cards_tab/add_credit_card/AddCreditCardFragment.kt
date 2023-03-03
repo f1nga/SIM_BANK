@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentAddCreditCardBinding
@@ -25,7 +26,6 @@ class AddCreditCardFragment : Fragment() {
         binding = FragmentAddCreditCardBinding.inflate(inflater,container,false)
 
         setRecyclerView()
-
         return binding.root
     }
 
@@ -41,7 +41,13 @@ class AddCreditCardFragment : Fragment() {
 
         cardAdapter.setItemListener(object : AddCreditCardRVAdapter.OnItemClickListener {
             override fun onItemClick(creditCard: CreditCardInfo) {
-                toast(creditCard.cardDescripton)
+                if(creditCard.cardImg == R.drawable.visacredito){
+                    view?.findNavController()?.navigate(R.id.action_addCreditCardFragment_to_formCreditCardFragment)
+                }else if(creditCard.cardImg == R.drawable.visadebito){
+                    view?.findNavController()?.navigate(R.id.action_addCreditCardFragment_to_formDebidCardFragment)
+                }else{
+                    view?.findNavController()?.navigate(R.id.action_addCreditCardFragment_to_formPrepaidCardFragment)
+                }
             }
         })
     }
@@ -52,4 +58,5 @@ class AddCreditCardFragment : Fragment() {
 
         tvTitle.text = getString(R.string.toolbar_add_card)
     }
+
 }

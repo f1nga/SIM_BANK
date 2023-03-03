@@ -20,33 +20,33 @@
         android:id="@+id/viewPlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnGoToLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/btnGoToLogin"
         app:layout_constraintTop_toBottomOf="@+id/viewHeader"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_rawRes="@raw/loading" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        style="@style/BodyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp"
-        style="@style/BodyText"
         android:text="@string/verification_check_mail"
-        app:layout_constraintTop_toBottomOf="@+id/viewPlaceholder"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPlaceholder" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnGoToLogin"
         style="@style/PrimaryButton"
         android:layout_width="0dp"
         android:layout_height="44dp"
-        android:visibility="invisible"
         android:layout_marginHorizontal="16dp"
         android:layout_marginTop="32dp"
         android:text="@string/verification_button_go_to_login"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

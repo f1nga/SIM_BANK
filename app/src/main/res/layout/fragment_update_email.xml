@@ -11,11 +11,11 @@
         android:id="@+id/clHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="15dp"
         android:background="@color/backgroundColor_secondary"
+        android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context=".src.ui.home.tabs.credit_cards_tab.CreditCardFragment">
 
         <TextView
@@ -33,11 +33,11 @@
             android:id="@+id/tvActualEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
             android:text="·····os85@gmail.com"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="4dp"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvEmailTitle" />
@@ -46,19 +46,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clHeader"
         android:padding="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/clHeader"
         tools:context=".src.ui.home.tabs.credit_cards_tab.CreditCardFragment">
 
         <TextView
             android:id="@+id/tvNewEmailTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat"
             android:text="NUEVO CORREO ELECTRÓNICO"
-            android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,8 +82,8 @@
                 style="@style/FormEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="Correo electrónico" />
+                android:hint="Correo electrónico"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -91,10 +91,10 @@
             style="@style/FormTextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
             android:textColorHint="@color/white"
             app:endIconMode="clear_text"
             app:endIconTint="@color/white"
-            android:layout_marginTop="6dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/inputNewEmail">
@@ -104,8 +104,8 @@
                 style="@style/FormEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="text"
-                android:hint="Repetir correo electrónico" />
+                android:hint="Repetir correo electrónico"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -117,8 +117,7 @@
             android:text="Cambiar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/inputNewRepeatEmail"
-             />
+            app:layout_constraintTop_toBottomOf="@id/inputNewRepeatEmail" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

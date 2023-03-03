@@ -28,7 +28,6 @@
                 android:layout_width="190dp"
                 android:layout_height="50dp"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/tvAlias"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +35,8 @@
                 app:layout_constraintVertical_bias="0.4"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/generate_money" />
+                app:lottie_rawRes="@raw/generate_money"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -82,16 +82,16 @@
                 android:id="@+id/tvIban"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:layout_marginTop="25dp"
-                android:text="0"
                 android:fontFamily="@font/montserrat"
+                android:text="0"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/generateIban" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/generateIban"
+                tools:visibility="visible" />
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/lottieLoading"
@@ -99,15 +99,15 @@
                 android:layout_height="80dp"
                 android:layout_marginEnd="2dp"
                 android:visibility="gone"
-                tools:visibility="visible"
-                app:layout_constraintVertical_bias="0.2"
                 app:layout_constraintBottom_toTopOf="@id/tvGenerarDinero"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/generateIban"
+                app:layout_constraintVertical_bias="0.2"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/load_number" />
+                app:lottie_rawRes="@raw/load_number"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvGenerarDinero"
@@ -129,14 +129,14 @@
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/montserrat"
+                android:text="0"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                android:text="0"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGenerarDinero" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGenerarDinero"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvAlias"
@@ -158,12 +158,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginTop="18dp"
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:text="Generar"
-                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGenerarIBAN" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGenerarIBAN"
+                tools:visibility="visible" />
 
             <Button
                 android:id="@+id/buttonGenerateMoney"
@@ -173,25 +173,25 @@
                 android:layout_marginTop="18dp"
                 android:text="Dinero"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvGenerarDinero" />
+                app:layout_constraintTop_toBottomOf="@+id/tvGenerarDinero"
+                tools:visibility="visible" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputAlias"
                 style="@style/FormTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:visibility="visible"
                 android:layout_marginTop="20dp"
                 android:textColorHint="@color/white"
+                android:visibility="gone"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAlias">
+                app:layout_constraintTop_toBottomOf="@+id/tvAlias"
+                tools:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/inputAliasText"
