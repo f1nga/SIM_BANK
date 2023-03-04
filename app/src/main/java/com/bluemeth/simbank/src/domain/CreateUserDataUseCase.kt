@@ -17,7 +17,6 @@ class CreateUserDataUseCase @Inject constructor(
 
         return if(bankAccoundCreated) {
             creditCardRepository.insertCreditCard(creditCard)
-            true
         } else {
             Timber.tag("ERROR").w("Cannot create bank account")
             false

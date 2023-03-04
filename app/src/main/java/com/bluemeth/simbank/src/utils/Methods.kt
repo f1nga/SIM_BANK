@@ -129,7 +129,7 @@ class Methods {
             return "$newMoney€"
         }
 
-        fun formatIban(iban: String): String {
+        fun formatShortIban(iban: String): String {
             var bankiban = ""
 
             for (i in 20..23) {
@@ -220,6 +220,15 @@ class Methods {
             return "${firstName[0]}${secondName[0]}"
         }
 
+        fun splitBeneficiaryName(name: String): String {
+            if(name.split(" ").size  == 1) return "${name[0]}"
+
+            val firstName = name.split(" ")[0]
+            val secondName = name.split(" ")[1]
+
+            return "${firstName[0]}${secondName[0]}"
+        }
+
         fun splitEuro(money: String) : Double {
             val firstMoney = money.split("€")[0]
 
@@ -227,5 +236,8 @@ class Methods {
 
             return thirdMoney.split(",")[0].toDouble()
         }
+
+        fun generateToken() = UUID.randomUUID().toString()
+
     }
 }

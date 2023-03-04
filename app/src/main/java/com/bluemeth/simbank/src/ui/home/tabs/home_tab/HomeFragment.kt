@@ -15,6 +15,7 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentHomeBinding
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.Transfer
 import com.bluemeth.simbank.src.data.providers.HomeHeaderProvider
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
@@ -22,7 +23,7 @@ import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment  : Fragment() {
+class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeTabViewModel: HomeTabViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
@@ -31,7 +32,7 @@ class HomeFragment  : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentHomeBinding.inflate(inflater,container,false)
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         initUI()
 
@@ -44,8 +45,11 @@ class HomeFragment  : Fragment() {
         setHeaderRecyclerView()
         observeHeader()
 
-        setMovementRecyclerView()
-        observeMovement()
+//        setMovementRecyclerView()
+//        observeMovement()
+
+        setTransferRecyclerView()
+        observeTransfer()
 
         setDrawerHeaderName()
     }
@@ -53,11 +57,13 @@ class HomeFragment  : Fragment() {
     private fun setHeaderRecyclerView() {
 
         val headerRecyclerView = binding.rvHeader
-        headerRecyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        headerRecyclerView.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         headerRecyclerView.setHasFixedSize(true)
         headerRecyclerView.adapter = homeTabViewModel.headerAdapter
 
-        homeTabViewModel.headerAdapter.setItemListener(object : HorizontalListRVAdapter.onItemClickListener {
+        homeTabViewModel.headerAdapter.setItemListener(object :
+            HorizontalListRVAdapter.onItemClickListener {
             override fun onItemClick(creditCard: HomeHeader) {
                 toast("Feature not implemented")
             }
@@ -78,7 +84,8 @@ class HomeFragment  : Fragment() {
         movementRecyclerView.setHasFixedSize(true)
         movementRecyclerView.adapter = homeTabViewModel.movementAdapter
 
-        homeTabViewModel.movementAdapter.setItemListener(object : MovementRecordsRVAdapter.onItemClickListener {
+        homeTabViewModel.movementAdapter.setItemListener(object :
+            MovementRecordsRVAdapter.onItemClickListener {
             override fun onItemClick(creditCard: Movement) {
                 toast("HOLHOL")
             }
@@ -90,9 +97,41 @@ class HomeFragment  : Fragment() {
     }
 
     private fun observeMovement() {
-        homeTabViewModel.getMovementsFromDB("ES33 4920 4829 0293 3849 3810").observe(requireActivity()) {
-            homeTabViewModel.movementAdapter.setListData(it)
-            homeTabViewModel.movementAdapter.notifyDataSetChanged()
+        homeTabViewModel.getMovementsFromDB("ES33 4920 4829 0293 3849 3810")
+            .observe(requireActivity()) {
+                homeTabViewModel.movementAdapter.setListData(it)
+                homeTabViewModel.movementAdapter.notifyDataSetChanged()
+                Handler(Looper.getMainLooper()).postDelayed({
+                    binding.clHistorialLoading.isVisible = false
+                    binding.clHistorial.isVisible = true
+                }, 300)
+            }
+    }
+
+    private fun setTransferRecyclerView() {
+
+        val movementRecyclerView = binding.rvHistory
+        movementRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        movementRecyclerView.setHasFixedSize(true)
+        movementRecyclerView.adapter = homeTabViewModel.transfersAdapter
+
+        homeTabViewModel.transfersAdapter.setItemListener(object :
+            TransfersRVAdapter.onItemClickListener {
+            override fun onItemClick(transfer: Transfer) {
+                toast("HOLHOL")
+            }
+        })
+
+        globalViewModel.getBankMoney().observe(requireActivity()) {
+            homeTabViewModel.transfersAdapter.setRemainingMoney(it)
+        }
+    }
+
+    private fun observeTransfer() {
+
+        homeTabViewModel.getTransfersFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {
+            homeTabViewModel.transfersAdapter.setListData(it)
+            homeTabViewModel.transfersAdapter.notifyDataSetChanged()
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.clHistorialLoading.isVisible = false
                 binding.clHistorial.isVisible = true
@@ -107,8 +146,8 @@ class HomeFragment  : Fragment() {
         }
 
         globalViewModel.getBankIban().observe(requireActivity()) {
-            binding.tvAccountNumber.text = "Cuenta *${Methods.formatIban(it)}"
-            binding.tvShortNumber.text = "· ${Methods.formatIban(it)}"
+            binding.tvAccountNumber.text = "Cuenta *${Methods.formatShortIban(it)}"
+            binding.tvShortNumber.text = "· ${Methods.formatShortIban(it)}"
         }
     }
 

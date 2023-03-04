@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bluemeth.simbank.src.domain.CreateAccountUseCase
 import com.bluemeth.simbank.src.core.Event
+import com.bluemeth.simbank.src.domain.CreateAccountUseCase
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -10,10 +10,12 @@ import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.domain.ForgotPasswordUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ForgotPasswordViewModel @Inject constructor(private val forgotPasswordUseCase: ForgotPasswordUseCase) : ViewModel() {
+class ForgotPasswordViewModel @Inject constructor(private val forgotPasswordUseCase: ForgotPasswordUseCase) :
+    ViewModel() {
 
     private val _navigateToLogin = MutableLiveData<Event<Boolean>>()
     val navigateToLogin: LiveData<Event<Boolean>>
@@ -23,7 +25,7 @@ class ForgotPasswordViewModel @Inject constructor(private val forgotPasswordUseC
         if (isValidEmail(email)) {
             sendEmail(email)
         } else {
-            Log.i("EMAIL INCORRECT", "MEGAHOL")
+            Timber.tag("EMAIL INCORRECT").i("MEGAHOL")
         }
     }
 
@@ -34,7 +36,7 @@ class ForgotPasswordViewModel @Inject constructor(private val forgotPasswordUseC
             if (accountCreated) {
                 _navigateToLogin.value = Event(true)
             } else {
-                Log.i("FALLO", "MELO")
+                Timber.tag("FALLO").i("MELO")
             }
         }
     }

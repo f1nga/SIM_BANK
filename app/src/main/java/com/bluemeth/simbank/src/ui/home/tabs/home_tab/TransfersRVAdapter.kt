@@ -9,25 +9,25 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
-import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.Transfer
 import com.bluemeth.simbank.src.utils.Methods
 import javax.inject.Inject
 
-class MovementRecordsRVAdapter @Inject constructor() :
-    RecyclerView.Adapter<MovementRecordsRVAdapter.MovementHolder>() {
+class TransfersRVAdapter @Inject constructor() :
+    RecyclerView.Adapter<TransfersRVAdapter.TransfersHolder>() {
     private lateinit var listener: onItemClickListener
-    private var listData = listOf<Movement>()
+    private var listData = listOf<Transfer>()
     private var reaminingMoney: Double = 0.0
 
     interface onItemClickListener {
-        fun onItemClick(creditCard: Movement)
+        fun onItemClick(creditCard: Transfer)
     }
 
     fun setRemainingMoney(money: Double) {
         reaminingMoney = money
     }
 
-    fun setListData(data: List<Movement>) {
+    fun setListData(data: List<Transfer>) {
         listData = data
     }
 
@@ -35,14 +35,14 @@ class MovementRecordsRVAdapter @Inject constructor() :
         this.listener = listener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovementHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransfersHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.movement_item, parent, false)
 
-        return MovementHolder(v)
+        return TransfersHolder(v)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: MovementHolder, position: Int) {
+    override fun onBindViewHolder(holder: TransfersHolder, position: Int) {
         val movement = listData[position]
         holder.bindView(movement)
     }
@@ -55,33 +55,34 @@ class MovementRecordsRVAdapter @Inject constructor() :
         }
     }
 
-    inner class MovementHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TransfersHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bindView(movementHolder: Movement) {
+        fun bindView(transferHolder: Transfer) {
             val title = itemView.findViewById<TextView>(R.id.tvTitle)
             val recordDate = itemView.findViewById<TextView>(R.id.tvRecordDate)
             val price = itemView.findViewById<TextView>(R.id.tvPrice)
             val arrow = itemView.findViewById<ImageView>(R.id.ivArrowIncome)
             val tvRemainingMoney = itemView.findViewById<TextView>(R.id.tvRemainingMoney)
 
-            title.text = movementHolder.title
-            recordDate.text = Methods.formateDateMovement(movementHolder.date.toDate())
+            title.text = transferHolder.beneficiary_name
+            recordDate.text = Methods.formateDateMovement(transferHolder.date.toDate())
 
-            if (movementHolder.isIncome) {
-                price.text = "+${Methods.formatMoney(movementHolder.price)}"
+            if (transferHolder.isIncome) {
+                price.text = "+${Methods.formatMoney(transferHolder.amount)}"
                 arrow.setImageResource(R.drawable.arrow_win)
-                tvRemainingMoney.text =
-                    "${Methods.formatMoney(reaminingMoney + movementHolder.price)}"
-                reaminingMoney += movementHolder.price
+//                tvRemainingMoney.text =
+//                    "${Methods.formatMoney(reaminingMoney + transferHolder.amount)}"
+//                reaminingMoney += transferHolder.amount
             } else {
-                price.text = "-${Methods.formatMoney(movementHolder.price)}"
-                tvRemainingMoney.text =
-                    "${Methods.formatMoney(reaminingMoney - movementHolder.price)}"
-                reaminingMoney -= movementHolder.price
+                price.text = "-${Methods.formatMoney(transferHolder.amount)}"
+//                tvRemainingMoney.text =
+//                    "${Methods.formatMoney(reaminingMoney - transferHolder.amount)}"
+//                reaminingMoney -= transferHolder.amount
             }
+            tvRemainingMoney.text = Methods.formatMoney(transferHolder.remaining_money)
 
             itemView.setOnClickListener {
-                listener.onItemClick(movementHolder)
+                listener.onItemClick(transferHolder)
             }
         }
     }

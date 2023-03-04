@@ -2,19 +2,19 @@ package com.bluemeth.simbank.src.ui.auth.signin
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
-import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityRegisterBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
+import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
+import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
@@ -50,26 +50,46 @@ class SignInActivity : AppCompatActivity() {
     private fun initListeners() {
 
         binding.inputEmailRegistreText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-        binding.inputEmailRegistreText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+        binding.inputEmailRegistreText.setOnFocusChangeListener { _, hasFocus ->
+            onFieldChanged(
+                hasFocus
+            )
+        }
         binding.inputEmailRegistreText.onTextChanged { onFieldChanged() }
 
         binding.inputNicknameRegistreText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-        binding.inputNicknameRegistreText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+        binding.inputNicknameRegistreText.setOnFocusChangeListener { _, hasFocus ->
+            onFieldChanged(
+                hasFocus
+            )
+        }
         binding.inputNicknameRegistreText.onTextChanged { onFieldChanged() }
 
         binding.inputPasswordRegistreText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-        binding.inputPasswordRegistreText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+        binding.inputPasswordRegistreText.setOnFocusChangeListener { _, hasFocus ->
+            onFieldChanged(
+                hasFocus
+            )
+        }
         binding.inputPasswordRegistreText.onTextChanged { onFieldChanged() }
 
         binding.inputRepeatPasswordRegistreText.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
-        binding.inputRepeatPasswordRegistreText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+        binding.inputRepeatPasswordRegistreText.setOnFocusChangeListener { _, hasFocus ->
+            onFieldChanged(
+                hasFocus
+            )
+        }
         binding.inputRepeatPasswordRegistreText.onTextChanged { onFieldChanged() }
 
         binding.inputTelefonRegistreText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-        binding.inputTelefonRegistreText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+        binding.inputTelefonRegistreText.setOnFocusChangeListener { _, hasFocus ->
+            onFieldChanged(
+                hasFocus
+            )
+        }
         binding.inputTelefonRegistreText.onTextChanged { onFieldChanged() }
 
-        binding.txtFinal.setOnClickListener{ signInViewModel.onLoginSelected() }
+        binding.txtFinal.setOnClickListener { signInViewModel.onLoginSelected() }
 
         with(binding) {
             btnRegister.setOnClickListener {
@@ -88,10 +108,10 @@ class SignInActivity : AppCompatActivity() {
     }
 
     private fun initObservers() {
-       signInViewModel.navigateToVerifyEmail.observe(this) {
-           it.getContentIfNotHandled()?.let {
-               goToVerifyEmail()
-           }
+        signInViewModel.navigateToVerifyEmail.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                goToVerifyEmail()
+            }
         }
 
         signInViewModel.navigateToLogin.observe(this) {

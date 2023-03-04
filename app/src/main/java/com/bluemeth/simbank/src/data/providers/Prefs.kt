@@ -2,7 +2,7 @@ package com.bluemeth.simbank.src.data.providers
 
 import android.content.Context
 import android.content.SharedPreferences
-import java.util.*
+import com.bluemeth.simbank.src.utils.Methods
 
 class Prefs(context: Context) {
 
@@ -23,11 +23,11 @@ class Prefs(context: Context) {
      }
 
     fun saveToken() {
-        storage.edit().putString(TOKEN_KEY, generateToken()).apply()
+        storage.edit().putString(TOKEN_KEY, Methods.generateToken()).apply()
     }
 
     fun saveSteps() {
-        storage.edit().putString(STEPS_KEY, generateToken()).apply()
+        storage.edit().putString(STEPS_KEY, Methods.generateToken()).apply()
     }
 
     fun saveEmail(email: String) {
@@ -47,6 +47,4 @@ class Prefs(context: Context) {
     fun getPassword() = storage.getString(PASSWORD_KEY, DEFAULT_VALUE)!!
 
     fun clearPrefs() = storage.edit().clear().apply()
-
-    private fun generateToken() = UUID.randomUUID().toString()
 }

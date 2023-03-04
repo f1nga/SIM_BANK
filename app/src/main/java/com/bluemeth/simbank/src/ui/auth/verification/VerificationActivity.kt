@@ -48,7 +48,7 @@ class VerificationActivity : AppCompatActivity() {
         binding.btnGoToLogin.setOnClickListener {
             val destination = intent.extras!!.getString("destination")
 
-            if(destination == "home") {
+            if (destination == "home") {
                 verificationViewModel.onGoToHomeSelected()
             } else {
                 verificationViewModel.onGoToLoginSelected()
@@ -80,7 +80,7 @@ class VerificationActivity : AppCompatActivity() {
         verificationViewModel.showContinueButton.observe(this) {
             it.getContentIfNotHandled()?.let {
                 val destination = intent.extras?.getString("destination")
-                if(destination == "home") {
+                if (destination == "home") {
                     binding.btnGoToLogin.text = "SEGUIR NAVEGANDO"
                 }
 

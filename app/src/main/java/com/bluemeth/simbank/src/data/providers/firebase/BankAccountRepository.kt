@@ -58,4 +58,12 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
             .document(iban)
             .delete()
     }
+
+    fun makeTransfer(iban: String, money: Double, transferPrice: Double) {
+        val finalMoney = money - transferPrice
+        firebase.db
+            .collection(BANK_COLLECTION)
+            .document(iban)
+            .update(MONEY_FIELD, finalMoney)
+    }
 }

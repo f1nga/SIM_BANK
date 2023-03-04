@@ -2,11 +2,11 @@ package com.bluemeth.simbank.src.ui.home.tabs.profile_tab
 
 import android.os.Bundle
 import android.text.Editable
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
@@ -53,7 +53,8 @@ class ProfileFragment : Fragment() {
         with(Editable.Factory.getInstance()) {
             globalViewModel.getUserFromDB().observe(requireActivity()) {
                 binding.inputProfileEmailText.text = newEditable(it.email)
-                binding.inputProfilePhoneText.text = newEditable(Methods.formatPhoneNumber(it.phone))
+                binding.inputProfilePhoneText.text =
+                    newEditable(Methods.formatPhoneNumber(it.phone))
                 binding.inputProfilePasswordText.text = newEditable(it.password)
 
                 binding.tvFullName.text = it.name
@@ -64,13 +65,22 @@ class ProfileFragment : Fragment() {
 
     private fun initListeners() {
         with(binding) {
-            ivEditTitular.setOnClickListener { it.findNavController().navigate(R.id.action_profileFragment_to_updateNameFragment) }
+            ivEditTitular.setOnClickListener {
+                it.findNavController().navigate(R.id.action_profileFragment_to_updateNameFragment)
+            }
 
-            ivEditEmail.setOnClickListener { it.findNavController().navigate(R.id.action_profileFragment_to_updateEmailFragment) }
+            ivEditEmail.setOnClickListener {
+                it.findNavController().navigate(R.id.action_profileFragment_to_updateEmailFragment)
+            }
 
-            ivEditPassword.setOnClickListener { it.findNavController().navigate(R.id.action_profileFragment_to_updatePasswordFragment) }
+            ivEditPassword.setOnClickListener {
+                it.findNavController()
+                    .navigate(R.id.action_profileFragment_to_updatePasswordFragment)
+            }
 
-            ivEditPhone.setOnClickListener { it.findNavController().navigate(R.id.action_profileFragment_to_updatePhoneFragment) }
+            ivEditPhone.setOnClickListener {
+                it.findNavController().navigate(R.id.action_profileFragment_to_updatePhoneFragment)
+            }
 
             btnLogout.setOnClickListener { profileViewModel.onLogoutSelected() }
 
@@ -81,7 +91,7 @@ class ProfileFragment : Fragment() {
 
     private fun initObservers() {
         profileViewModel.showDialogLogout.observe(requireActivity()) {
-            if(it) showQuestionDialog(
+            if (it) showQuestionDialog(
                 getString(R.string.dialog_error_sure),
                 getString(R.string.dialog_logout_help),
                 QuestionDialog.Action(getString(R.string.dialog_error_yes)) {
@@ -94,11 +104,11 @@ class ProfileFragment : Fragment() {
         profileViewModel.navigateToLogin.observe(requireActivity()) { goToLogin() }
 
         profileViewModel.showDialogDeleteAccount.observe(requireActivity()) {
-            if(it) showQuestionDialog(
+            if (it) showQuestionDialog(
                 getString(R.string.dialog_delete_account_sure),
                 getString(R.string.dialog_delete_account_help),
                 QuestionDialog.Action(getString(R.string.dialog_error_yes)) {
-                    globalViewModel.getBankIban().observe(requireActivity()) {iban ->
+                    globalViewModel.getBankIban().observe(requireActivity()) { iban ->
                         profileViewModel.deleteAccountFromDB(iban)
                         toast(getString(R.string.dialog_deleted_account))
                     }
@@ -109,7 +119,11 @@ class ProfileFragment : Fragment() {
         profileViewModel.navigateToWelcome.observe(requireActivity()) { goToWelcome() }
     }
 
-    private fun showQuestionDialog(description: String, textHelp: String, positiveAction: QuestionDialog.Action) {
+    private fun showQuestionDialog(
+        description: String,
+        textHelp: String,
+        positiveAction: QuestionDialog.Action
+    ) {
         QuestionDialog.create(
             title = getString(R.string.dialog_error_oops),
             description = description,

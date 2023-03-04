@@ -70,6 +70,8 @@
     <string name="toolbar_update_email">Actualizar el email</string>
     <string name="toolbar_update_phone">Actualizar el teléfono</string>
     <string name="toolbar_update_name">Actualizar el titular</string>
+    <string name="toolbar_transfer">Realizar una transferencia</string>
+    <string name="toolbar_transfer_resume">Resumen de la transferencia</string>
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
@@ -117,5 +119,19 @@
 
     <string name="alias_not_correct">Debe contener al menos 4 caracteres</string>
     <string name="pin_not_correct">Debe contener 4 caracteres</string>
+    <string name="origen">ORIGEN</string>
+    <string name="disponible">Disponible</string>
+    <string name="destiny">DESTINO</string>
+    <string name="new_addressee">Nuevo destinatario</string>
+    <string name="iban">IBAN</string>
+    <string name="beneficiary_name">Nombre del beneficiario</string>
+    <string name="continue_mayus">CONTINUAR</string>
+    <string name="importe_mayus">IMPORTE</string>
+    <string name="importe">Importe</string>
+    <string name="minim_maxim">Mínimo 0,01. - Máximo 10.000,00€</string>
+    <string name="datos_adicionales">DATOS ADICIONALES</string>
+    <string name="asunto_opcional">Asunto (opcional)</string>
+    <string name="finalizar">FINALIZAR</string>
+    <string name="modify">Modificar</string>
 
 </resources>

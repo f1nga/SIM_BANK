@@ -14,7 +14,11 @@
         android:id="@+id/functionsFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.FunctionsFragment"
         android:label="fragment_functions"
-        tools:layout="@layout/fragment_functions" />
+        tools:layout="@layout/fragment_functions" >
+        <action
+            android:id="@+id/action_functionsFragment_to_transferFragment"
+            app:destination="@id/transferFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.ProfileFragment"
@@ -148,5 +152,28 @@
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.prepaid_card_form.FormPrepaidCardFragment"
         android:label="fragment_form_prepaid_card"
         tools:layout="@layout/fragment_form_prepaid_card" />
+    <fragment
+        android:id="@+id/transferFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.TransferFragment"
+        android:label="TransferFragment" >
+        <action
+            android:id="@+id/action_transferFragment_to_resumeTransferFragment"
+            app:destination="@id/resumeTransferFragment"
+            app:popUpTo="@+id/functionsFragment"
+            app:popUpToInclusive="false"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/resumeTransferFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.resume_transfer_function.ResumeTransferFragment"
+        android:label="fragment_resum_transfer"
+        tools:layout="@layout/fragment_resum_transfer" >
+        <action
+            android:id="@+id/action_resumeTransferFragment_to_transferFragment"
+            app:destination="@id/transferFragment" />
+        <action
+            android:id="@+id/action_resumeTransferFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
 </navigation>

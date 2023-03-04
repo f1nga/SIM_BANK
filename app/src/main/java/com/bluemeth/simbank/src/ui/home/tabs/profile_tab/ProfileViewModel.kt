@@ -39,7 +39,7 @@ class ProfileViewModel @Inject constructor(
         _showDialogLogout.value = true
     }
 
-     fun logout() {
+    fun logout() {
         authenticationRepository.logout()
 
         _navigateToLogin.value = Event(true)
@@ -59,9 +59,10 @@ class ProfileViewModel @Inject constructor(
 
     fun deleteAccountFromDB(iban: String) {
         viewModelScope.launch {
-            val deletedAccount = deleteAccountUseCase(authenticationRepository.getCurrentUser().email!!, iban)
+            val deletedAccount =
+                deleteAccountUseCase(authenticationRepository.getCurrentUser().email!!, iban)
 
-            if(deletedAccount) {
+            if (deletedAccount) {
                 _navigateToWelcome.value = Event(true)
 
                 prefs.clearPrefs()

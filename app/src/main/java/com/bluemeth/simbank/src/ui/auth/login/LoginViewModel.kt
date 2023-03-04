@@ -73,8 +73,8 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
 //                        _navigateToHome.value = Event(true)
                         prefs.saveToken()
 
-                        if(rememberChecked) {
-                            if(prefs.getSteps().isNotEmpty()) {
+                        if (rememberChecked) {
+                            if (prefs.getSteps().isNotEmpty()) {
                                 _navigateToHome.value = Event(true)
                             } else {
                                 _navigateToSteps.value = Event(true)
@@ -82,7 +82,7 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
                             prefs.saveUser(email, password)
 
                         } else {
-                            if(prefs.getSteps().isNotEmpty()){
+                            if (prefs.getSteps().isNotEmpty()) {
                                 _navigateToHome.value = Event(true)
                             } else {
                                 _navigateToSteps.value = Event(true)

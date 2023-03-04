@@ -8,13 +8,17 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.bluemeth.simbank.src.ui.auth.login.model.UserLogin
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityLoginBinding
+import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
-import com.bluemeth.simbank.src.core.ex.*
+import com.bluemeth.simbank.src.core.ex.dismissKeyboard
+import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
+import com.bluemeth.simbank.src.core.ex.onTextChanged
+import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.ui.auth.forgot_password.ForgotPasswordActivity
+import com.bluemeth.simbank.src.ui.auth.login.model.UserLogin
 import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
 import com.bluemeth.simbank.src.ui.auth.verification.VerificationActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
@@ -40,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        prefs.saveSteps()
         initUI()
     }
 
@@ -168,7 +172,7 @@ class LoginActivity : AppCompatActivity() {
         startActivity(VerificationActivity.create(this))
     }
 
-    private fun goToSteps(){
+    private fun goToSteps() {
         startActivity(StepsActivity.create(this))
     }
 }

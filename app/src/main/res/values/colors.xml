@@ -42,6 +42,8 @@
 
     <color name="circle_avatar">#1BD68F</color>
 
+    <color name="disabled_button">#929594</color>
+
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/primary
     </color>
 </resources>

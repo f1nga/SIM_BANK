@@ -46,7 +46,6 @@
                 app:endIconTint="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/input_email_registre"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintEnd_toStartOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 

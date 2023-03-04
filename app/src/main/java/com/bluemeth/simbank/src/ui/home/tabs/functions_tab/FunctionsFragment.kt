@@ -1,18 +1,14 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentFunctionsBinding
-import com.bluemeth.simbank.databinding.FragmentHomeBinding
-import com.bluemeth.simbank.src.ui.steps.StepsActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -28,11 +24,8 @@ class FunctionsFragment : Fragment() {
         binding = FragmentFunctionsBinding.inflate(inflater,container,false)
         setHasOptionsMenu(true)
 
-
-
         binding.imageViewTransferencia.setOnClickListener(){
-            val intent = Intent(requireContext(), StepsActivity::class.java)
-            startActivity(intent)
+            it.findNavController().navigate(R.id.action_functionsFragment_to_transferFragment)
         }
 
         return binding.root

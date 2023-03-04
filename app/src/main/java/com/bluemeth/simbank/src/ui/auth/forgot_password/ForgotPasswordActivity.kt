@@ -2,9 +2,9 @@ package com.bluemeth.simbank.src.ui.auth.forgot_password
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.bluemeth.simbank.databinding.ActivityForgotPasswordBinding
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
@@ -20,6 +20,7 @@ class ForgotPasswordActivity : AppCompatActivity() {
         fun create(context: Context): Intent =
             Intent(context, ForgotPasswordActivity::class.java)
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)

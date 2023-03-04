@@ -8,8 +8,8 @@ import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.domain.SendEmailVerificationUseCase
 import com.bluemeth.simbank.src.domain.VerifyEmailUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -41,7 +41,7 @@ class VerificationViewModel @Inject constructor(
                     Timber.i("Verification error: ${it.message}")
                 }
                 .collect { verification ->
-                    if(verification){
+                    if (verification) {
                         _showContinueButton.value = Event(verification)
                     }
                 }

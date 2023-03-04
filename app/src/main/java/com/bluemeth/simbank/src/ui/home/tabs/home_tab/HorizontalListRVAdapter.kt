@@ -10,14 +10,16 @@ import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
 import com.bluemeth.simbank.src.utils.Methods
 import javax.inject.Inject
 
-class HorizontalListRVAdapter @Inject constructor() : RecyclerView.Adapter<HorizontalListRVAdapter.HomeHeaderHolder>(){
+class HorizontalListRVAdapter @Inject constructor() :
+    RecyclerView.Adapter<HorizontalListRVAdapter.HomeHeaderHolder>() {
     private lateinit var listener: onItemClickListener
     private var listData = listOf<HomeHeader>()
 
     interface onItemClickListener {
         fun onItemClick(creditCard: HomeHeader)
     }
-    fun setListData(data:List<HomeHeader>){
+
+    fun setListData(data: List<HomeHeader>) {
         listData = data
     }
 
@@ -26,7 +28,8 @@ class HorizontalListRVAdapter @Inject constructor() : RecyclerView.Adapter<Horiz
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeHeaderHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.home_header_item, parent, false)
+        val v =
+            LayoutInflater.from(parent.context).inflate(R.layout.home_header_item, parent, false)
         val cardHolder = HomeHeaderHolder(v)
 
 
@@ -43,14 +46,14 @@ class HorizontalListRVAdapter @Inject constructor() : RecyclerView.Adapter<Horiz
     }
 
     override fun getItemCount(): Int {
-        return if(listData.size > 0){
+        return if (listData.size > 0) {
             listData.size
-        }else{
+        } else {
             0
         }
     }
 
-    inner class HomeHeaderHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    inner class HomeHeaderHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bindView(homeHeader: HomeHeader) {
             val moneyBank = itemView.findViewById<TextView>(R.id.txtMoneyBank)
             //moneyBank.text = "${homeHeader.money}€"
