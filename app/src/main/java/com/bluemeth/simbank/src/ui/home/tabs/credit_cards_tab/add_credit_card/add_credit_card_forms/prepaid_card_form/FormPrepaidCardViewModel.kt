@@ -22,7 +22,7 @@ class FormPrepaidCardViewModel @Inject constructor() : ViewModel()  {
 
     fun isValidAlias(alias: String) = alias.length >= FIELD_LENGTH
     fun isValidPin(pin: String) = pin.length == FIELD_LENGTH
-    fun isValidMoney(money: String) = money.length <= FIELD_LENGTH && money.length >= MINIM_LENGTH
+    fun isValidMoney(money: String) = money.length in MINIM_LENGTH..FIELD_LENGTH
 
     fun FormPrepaidCard.toFormPrepaidCardModelState(): FormPrepaidCardViewState {
         return FormPrepaidCardViewState(

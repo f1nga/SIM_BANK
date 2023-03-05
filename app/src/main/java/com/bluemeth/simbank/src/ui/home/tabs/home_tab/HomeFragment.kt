@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentHomeBinding
 import com.bluemeth.simbank.src.core.ex.toast
+import com.bluemeth.simbank.src.data.models.TargetPay
 import com.bluemeth.simbank.src.data.models.Movement
-import com.bluemeth.simbank.src.data.models.Transfer
 import com.bluemeth.simbank.src.data.providers.HomeHeaderProvider
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
 
         homeTabViewModel.movementAdapter.setItemListener(object :
             MovementRecordsRVAdapter.onItemClickListener {
-            override fun onItemClick(creditCard: Movement) {
+            override fun onItemClick(creditCard: TargetPay) {
                 toast("HOLHOL")
             }
         })
@@ -116,26 +116,31 @@ class HomeFragment : Fragment() {
         movementRecyclerView.adapter = homeTabViewModel.transfersAdapter
 
         homeTabViewModel.transfersAdapter.setItemListener(object :
-            TransfersRVAdapter.onItemClickListener {
-            override fun onItemClick(transfer: Transfer) {
+            TransfersRVAdapter.OnItemClickListener {
+            override fun onItemClick(movement: Movement) {
                 toast("HOLHOL")
             }
         })
-
-        globalViewModel.getBankMoney().observe(requireActivity()) {
-            homeTabViewModel.transfersAdapter.setRemainingMoney(it)
-        }
     }
 
     private fun observeTransfer() {
 
         homeTabViewModel.getTransfersFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {
+//            var newMovementList = mutableListOf<Movement>()
+//
+//            for (movement in it) {
+//                if(movement.payment_type == PaymentType.Transfer) {
+//                   newMovementList.add(movement)
+//                }
+//            }
+
             homeTabViewModel.transfersAdapter.setListData(it)
             homeTabViewModel.transfersAdapter.notifyDataSetChanged()
             Handler(Looper.getMainLooper()).postDelayed({
                 binding.clHistorialLoading.isVisible = false
                 binding.clHistorial.isVisible = true
             }, 300)
+
         }
     }
 

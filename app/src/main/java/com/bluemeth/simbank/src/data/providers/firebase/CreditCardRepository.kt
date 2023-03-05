@@ -14,6 +14,7 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
 
     companion object {
         const val CREDIT_CARDS_COLLECTION = "credit_cards"
+
         const val BANK_IBAN_FIELD = "bank_iban"
         const val CADUCITY_FIELD = "caducity"
         const val CVV_FIELD = "cvv"
@@ -21,6 +22,7 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
         const val PIN_FIELD = "pin"
         const val MONEY_FIELD = "money"
         const val TYPE_FIELD = "type"
+
         const val DEBIT_CARD = "Debito"
         const val CREDIT_CARD = "Credito"
         const val ALIAS_FIELD = "alias"

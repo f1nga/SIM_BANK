@@ -18,7 +18,8 @@ import com.bluemeth.simbank.src.core.ex.dismissKeyboard
 import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
-import com.bluemeth.simbank.src.data.models.Transfer
+import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.model.TransferFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.resume_transfer_function.ResumeTransferViewModel
@@ -90,10 +91,12 @@ class TransferFragment : Fragment() {
                 if (inputImportText.text!!.isNotEmpty()) {
                     log("entraa", it.toString())
                     resumeTransferViewModel.setTransfer(
-                        Transfer(
+                        Movement(
                             beneficiary_iban = inputIbantext.text.toString(),
                             beneficiary_name = inputBeneficiaryText.text.toString(),
                             amount = inputImportText.text.toString().toDouble(),
+                            isIncome = false,
+                            payment_type = PaymentType.Transfer,
                             subject = if (inputAsuntoText.text!!.isNotEmpty()) inputAsuntoText.text.toString() else "",
                             user_email = globalViewModel.getUserAuth().email!!
                         )
@@ -160,8 +163,8 @@ class TransferFragment : Fragment() {
                 tvMoneyAccount.text = Methods.formatMoney(it.money)
             }
 
-            if (resumeTransferViewModel.transfer != null) {
-                val transfer = resumeTransferViewModel.transfer!!
+            if (resumeTransferViewModel.movement != null) {
+                val transfer = resumeTransferViewModel.movement!!
                 val inputText = Editable.Factory.getInstance()
 
                 inputIbantext.text = inputText.newEditable(transfer.beneficiary_iban)

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
-import com.bluemeth.simbank.src.data.models.Transfer
+import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.domain.InsertTransferUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,12 +14,12 @@ import javax.inject.Inject
 @HiltViewModel
 class ResumeTransferViewModel @Inject constructor(private val insertTransferUseCase: InsertTransferUseCase) : ViewModel() {
 
-    private var _transfer : Transfer? = null
-    val transfer: Transfer?
-        get() = _transfer
+    private var _movement : Movement? = null
+    val movement: Movement?
+        get() = _movement
 
-    fun setTransfer(transfer: Transfer) {
-        _transfer = transfer
+    fun setTransfer(movement: Movement) {
+        _movement = movement
     }
 
     private var _showErrorDialog = MutableLiveData(false)
@@ -30,9 +30,9 @@ class ResumeTransferViewModel @Inject constructor(private val insertTransferUseC
     val navigateToHome: LiveData<Event<Boolean>>
         get() = _navigateToHome
 
-    fun insertTransferToDB(iban: String, money:Double, transfer: Transfer) {
+    fun insertTransferToDB(iban: String, movement: Movement) {
         viewModelScope.launch {
-            val transferInserted = insertTransferUseCase(iban, money, transfer)
+            val transferInserted = insertTransferUseCase(iban, movement)
             if(transferInserted) {
                 _navigateToHome.value = Event(true)
             } else {

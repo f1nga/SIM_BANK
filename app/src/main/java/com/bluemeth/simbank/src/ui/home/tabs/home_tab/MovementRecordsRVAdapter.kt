@@ -9,25 +9,25 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
-import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.TargetPay
 import com.bluemeth.simbank.src.utils.Methods
 import javax.inject.Inject
 
 class MovementRecordsRVAdapter @Inject constructor() :
     RecyclerView.Adapter<MovementRecordsRVAdapter.MovementHolder>() {
     private lateinit var listener: onItemClickListener
-    private var listData = listOf<Movement>()
+    private var listData = listOf<TargetPay>()
     private var reaminingMoney: Double = 0.0
 
     interface onItemClickListener {
-        fun onItemClick(creditCard: Movement)
+        fun onItemClick(creditCard: TargetPay)
     }
 
     fun setRemainingMoney(money: Double) {
         reaminingMoney = money
     }
 
-    fun setListData(data: List<Movement>) {
+    fun setListData(data: List<TargetPay>) {
         listData = data
     }
 
@@ -57,31 +57,31 @@ class MovementRecordsRVAdapter @Inject constructor() :
 
     inner class MovementHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bindView(movementHolder: Movement) {
+        fun bindView(targetPayHolder: TargetPay) {
             val title = itemView.findViewById<TextView>(R.id.tvTitle)
             val recordDate = itemView.findViewById<TextView>(R.id.tvRecordDate)
             val price = itemView.findViewById<TextView>(R.id.tvPrice)
             val arrow = itemView.findViewById<ImageView>(R.id.ivArrowIncome)
             val tvRemainingMoney = itemView.findViewById<TextView>(R.id.tvRemainingMoney)
 
-            title.text = movementHolder.title
-            recordDate.text = Methods.formateDateMovement(movementHolder.date.toDate())
+            title.text = targetPayHolder.beneficiary_name
+            recordDate.text = Methods.formateDateMovement(targetPayHolder.date.toDate())
 
-            if (movementHolder.isIncome) {
-                price.text = "+${Methods.formatMoney(movementHolder.price)}"
+            if (targetPayHolder.isIncome) {
+                price.text = "+${Methods.formatMoney(targetPayHolder.price)}"
                 arrow.setImageResource(R.drawable.arrow_win)
                 tvRemainingMoney.text =
-                    "${Methods.formatMoney(reaminingMoney + movementHolder.price)}"
-                reaminingMoney += movementHolder.price
+                    "${Methods.formatMoney(reaminingMoney + targetPayHolder.price)}"
+                reaminingMoney += targetPayHolder.price
             } else {
-                price.text = "-${Methods.formatMoney(movementHolder.price)}"
+                price.text = "-${Methods.formatMoney(targetPayHolder.price)}"
                 tvRemainingMoney.text =
-                    "${Methods.formatMoney(reaminingMoney - movementHolder.price)}"
-                reaminingMoney -= movementHolder.price
+                    "${Methods.formatMoney(reaminingMoney - targetPayHolder.price)}"
+                reaminingMoney -= targetPayHolder.price
             }
 
             itemView.setOnClickListener {
-                listener.onItemClick(movementHolder)
+                listener.onItemClick(targetPayHolder)
             }
         }
     }

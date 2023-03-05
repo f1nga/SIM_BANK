@@ -2,6 +2,7 @@ package com.bluemeth.simbank.src.data.providers.firebase
 
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.BankAccount
+import com.bluemeth.simbank.src.utils.Methods
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -59,11 +60,10 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
             .delete()
     }
 
-    fun makeTransfer(iban: String, money: Double, transferPrice: Double) {
-        val finalMoney = money - transferPrice
+    fun makeTransfer(iban: String, remainingMoney: Double) {
         firebase.db
             .collection(BANK_COLLECTION)
             .document(iban)
-            .update(MONEY_FIELD, finalMoney)
+            .update(MONEY_FIELD, Methods.roundOffDecimal(remainingMoney))
     }
 }

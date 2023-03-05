@@ -128,10 +128,24 @@
     <string name="continue_mayus">CONTINUAR</string>
     <string name="importe_mayus">IMPORTE</string>
     <string name="importe">Importe</string>
+    <string name="minim">Mín.</string>
+    <string name="maxim">- Máx.</string>
     <string name="minim_maxim">Mínimo 0,01. - Máximo 10.000,00€</string>
+    <string name="minim_bizum">0,50€</string>
+    <string name="maxim_bizum">500,00€</string>
     <string name="datos_adicionales">DATOS ADICIONALES</string>
     <string name="asunto_opcional">Asunto (opcional)</string>
     <string name="finalizar">FINALIZAR</string>
     <string name="modify">Modificar</string>
+
+    <string name="send">Enviar</string>
+    <string name="request">Solicitar</string>
+    <string name="import_and_concept">Importe y concepto</string>
+    <string name="import_every_destiny">Importe (a cada destinatario)</string>
+    <string name="addressess">DESTINATARIO/S</string>
+    <string name="_35_characters">35 caracteres</string>
+    <string name="add_manually">Añadir manualmente</string>
+    <string name="add_from_address">Añadir desde agenda</string>
+    <string name="maximum_10_addresses">Puedes añadir un máximo de 10 destinatarios</string>
 
 </resources>

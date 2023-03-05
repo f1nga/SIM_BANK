@@ -1,20 +1,20 @@
 package com.bluemeth.simbank.src.domain
 
-import com.bluemeth.simbank.src.data.models.Transfer
+import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
-import com.bluemeth.simbank.src.data.providers.firebase.TransferRepository
+import com.bluemeth.simbank.src.data.providers.firebase.MovementRepository
 import javax.inject.Inject
 
 class InsertTransferUseCase @Inject constructor(
-    private val transferRepository: TransferRepository,
+    private val movementRepository: MovementRepository,
     private val bankAccountRepository: BankAccountRepository
     ) {
 
-    suspend operator fun invoke(iban:String, money: Double, transfer: Transfer): Boolean {
-        val transferSuccess = transferRepository.insertTransfer(transfer)
+    suspend operator fun invoke(iban:String, movement: Movement): Boolean {
+        val transferSuccess = movementRepository.insertTransfer(movement)
 
         return if(transferSuccess) {
-            bankAccountRepository.makeTransfer(iban, money, transfer.amount)
+            bankAccountRepository.makeTransfer(iban, movement.remaining_money)
             true
         } else {
             false

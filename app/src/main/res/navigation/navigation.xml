@@ -17,7 +17,11 @@
         tools:layout="@layout/fragment_functions" >
         <action
             android:id="@+id/action_functionsFragment_to_transferFragment"
-            app:destination="@id/transferFragment" />
+            app:destination="@id/transferFragment"
+            />
+        <action
+            android:id="@+id/action_functionsFragment_to_bizumFragment"
+            app:destination="@id/bizumFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -175,5 +179,22 @@
             android:id="@+id/action_resumeTransferFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/bizumFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.BizumFragment"
+        android:label="fragment_bizum"
+        tools:layout="@layout/fragment_bizum" >
+        <action
+            android:id="@+id/action_bizumFragment_to_bizumFormFragment"
+            app:destination="@id/bizumFormFragment"/>
+<!--            app:popUpTo="@+id/functionsFragment"-->
+<!--            app:popUpToInclusive="false"-->
+
+    </fragment>
+    <fragment
+        android:id="@+id/bizumFormFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormFragment"
+        android:label="fragment_bizum_form"
+        tools:layout="@layout/fragment_bizum_form" />
 
 </navigation>

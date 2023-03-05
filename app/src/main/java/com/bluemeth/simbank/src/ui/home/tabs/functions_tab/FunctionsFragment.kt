@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentFunctionsBinding
@@ -14,21 +15,52 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FunctionsFragment : Fragment() {
+
     private lateinit var binding: FragmentFunctionsBinding
+    private val functionsViewModel: FunctionsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentFunctionsBinding.inflate(inflater,container,false)
-        setHasOptionsMenu(true)
 
-        binding.imageViewTransferencia.setOnClickListener(){
-            it.findNavController().navigate(R.id.action_functionsFragment_to_transferFragment)
-        }
+        initUI()
 
         return binding.root
+    }
+
+    private fun initUI() {
+        initListeners()
+        initObservers()
+    }
+
+    private fun initObservers() {
+        functionsViewModel.navigateToTransferFunction.observe(requireActivity()) {
+            it.getContentIfNotHandled()?.let {
+                goToTransferFunction()
+            }
+        }
+
+        functionsViewModel.navigateToBizumFunction.observe(requireActivity()) {
+            it.getContentIfNotHandled()?.let {
+                goToBizumFunction()
+            }
+        }
+    }
+
+    private fun initListeners() {
+        binding.clTransferencia.setOnClickListener { functionsViewModel.onTransferFunctionSelected() }
+
+        binding.clBizum.setOnClickListener { functionsViewModel.onBizumFunctionSelected() }
+    }
+
+    private fun goToTransferFunction() {
+        view?.findNavController()?.navigate(R.id.action_functionsFragment_to_transferFragment)
+    }
+
+    private fun goToBizumFunction() {
+        view?.findNavController()?.navigate(R.id.action_functionsFragment_to_bizumFragment)
     }
 
     override fun onStart() {
@@ -37,6 +69,5 @@ class FunctionsFragment : Fragment() {
 
         tvTitle.text = getString(R.string.toolbar_functions)
     }
-
 
 }

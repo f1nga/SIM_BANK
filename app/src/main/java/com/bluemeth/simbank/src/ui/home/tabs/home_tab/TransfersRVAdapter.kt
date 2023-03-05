@@ -9,29 +9,24 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
-import com.bluemeth.simbank.src.data.models.Transfer
+import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.utils.Methods
 import javax.inject.Inject
 
 class TransfersRVAdapter @Inject constructor() :
     RecyclerView.Adapter<TransfersRVAdapter.TransfersHolder>() {
-    private lateinit var listener: onItemClickListener
-    private var listData = listOf<Transfer>()
-    private var reaminingMoney: Double = 0.0
+    private lateinit var listener: OnItemClickListener
+    private var listData = listOf<Movement>()
 
-    interface onItemClickListener {
-        fun onItemClick(creditCard: Transfer)
+    interface OnItemClickListener {
+        fun onItemClick(movement: Movement)
     }
 
-    fun setRemainingMoney(money: Double) {
-        reaminingMoney = money
-    }
-
-    fun setListData(data: List<Transfer>) {
+    fun setListData(data: List<Movement>) {
         listData = data
     }
 
-    fun setItemListener(listener: onItemClickListener) {
+    fun setItemListener(listener: OnItemClickListener) {
         this.listener = listener
     }
 
@@ -57,32 +52,26 @@ class TransfersRVAdapter @Inject constructor() :
 
     inner class TransfersHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @RequiresApi(Build.VERSION_CODES.O)
-        fun bindView(transferHolder: Transfer) {
+        fun bindView(movementHolder: Movement) {
             val title = itemView.findViewById<TextView>(R.id.tvTitle)
             val recordDate = itemView.findViewById<TextView>(R.id.tvRecordDate)
             val price = itemView.findViewById<TextView>(R.id.tvPrice)
             val arrow = itemView.findViewById<ImageView>(R.id.ivArrowIncome)
             val tvRemainingMoney = itemView.findViewById<TextView>(R.id.tvRemainingMoney)
 
-            title.text = transferHolder.beneficiary_name
-            recordDate.text = Methods.formateDateMovement(transferHolder.date.toDate())
+            title.text = movementHolder.beneficiary_name
+            recordDate.text = Methods.formateDateMovement(movementHolder.date.toDate())
 
-            if (transferHolder.isIncome) {
-                price.text = "+${Methods.formatMoney(transferHolder.amount)}"
+            if (movementHolder.isIncome) {
+                price.text = "+${Methods.formatMoney(movementHolder.amount)}"
                 arrow.setImageResource(R.drawable.arrow_win)
-//                tvRemainingMoney.text =
-//                    "${Methods.formatMoney(reaminingMoney + transferHolder.amount)}"
-//                reaminingMoney += transferHolder.amount
             } else {
-                price.text = "-${Methods.formatMoney(transferHolder.amount)}"
-//                tvRemainingMoney.text =
-//                    "${Methods.formatMoney(reaminingMoney - transferHolder.amount)}"
-//                reaminingMoney -= transferHolder.amount
+                price.text = "-${Methods.formatMoney(movementHolder.amount)}"
             }
-            tvRemainingMoney.text = Methods.formatMoney(transferHolder.remaining_money)
+            tvRemainingMoney.text = Methods.formatMoney(movementHolder.remaining_money)
 
             itemView.setOnClickListener {
-                listener.onItemClick(transferHolder)
+                listener.onItemClick(movementHolder)
             }
         }
     }
