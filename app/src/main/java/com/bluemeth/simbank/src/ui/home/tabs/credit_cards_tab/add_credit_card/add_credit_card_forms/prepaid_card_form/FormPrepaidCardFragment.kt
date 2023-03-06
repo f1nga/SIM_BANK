@@ -6,32 +6,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.Button
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentFormPrepaidCardBinding
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
+import com.bluemeth.simbank.src.core.ex.toast
+import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.prepaid_card_form.model.FormPrepaidCard
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FormPrepaidCardFragment : Fragment() {
     private lateinit var binding: FragmentFormPrepaidCardBinding
     private val formPrepaidCardViewModel: FormPrepaidCardViewModel by viewModels()
-
+    private val globalViewModel: GlobalViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentFormPrepaidCardBinding.inflate(inflater,container,false)
+        binding = FragmentFormPrepaidCardBinding.inflate(inflater, container, false)
 
         initUI()
         return binding.root
     }
 
-    fun initUI(){
+    fun initUI() {
         initListeners()
         initObservers()
     }
@@ -51,22 +54,33 @@ class FormPrepaidCardFragment : Fragment() {
             inputMoneyText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
             inputMoneyText.onTextChanged { onFieldChanged() }
 
-            formPrepaidCardViewModel.onFieldsChanged(
-                FormPrepaidCard(
-                    alias = inputAliasText.text.toString(),
-                    pin = inputPinText.text.toString(),
-                    money = inputMoneyText.text.toString()
-                )
-            )
+
+            btnSolicitarPrepaid.setOnClickListener() {
+                globalViewModel.getBankIban().observe(requireActivity()) {
+                    formPrepaidCardViewModel.onFinishSelected(
+                        requireContext(), it, FormPrepaidCard(
+                            alias = inputAliasText.text.toString(),
+                            pin = inputPinText.text.toString(),
+                            money = inputMoneyText.text.toString()
+
+                        )
+                    )
+                }
+            }
         }
     }
+
     private fun initObservers() {
         lifecycleScope.launchWhenStarted {
             formPrepaidCardViewModel.viewState.collect { viewState ->
                 updateUI(viewState)
-
-                val solicitar = requireActivity().findViewById<Button>(R.id.btnSolicitarPrepaid)
-                solicitar.isVisible = viewState.isFormPrepaidCardValidated()
+            }
+        }
+        formPrepaidCardViewModel.navigateToCards.observe(requireActivity()) {
+            it.getContentIfNotHandled()?.let {
+                view?.findNavController()
+                    ?.navigate(R.id.action_formPrepaidCardFragment_to_cardFragment)
+                toast("¡Muy bien! Acabas de solicitar tu nueva tarjeta!")
             }
         }
     }

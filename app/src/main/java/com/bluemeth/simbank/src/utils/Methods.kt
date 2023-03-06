@@ -204,13 +204,6 @@ class Methods {
             return finalNumber
         }
 
-        fun generateCaducityCard(): Timestamp {
-            val currentDate = Timestamp.now().toDate()
-            val currentMonth = if (currentDate.month == 0) 12 else currentDate.month + 1
-
-            return Timestamp(Date(currentDate.year + 1905, currentMonth, currentDate.date))
-        }
-
         fun splitName(name: String) = name.split(" ")[0]
 
         fun splitNameProfile(name: String): String {

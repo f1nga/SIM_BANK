@@ -22,6 +22,8 @@ import com.bluemeth.simbank.src.ui.steps.step3.model.Step3Model
 import com.bluemeth.simbank.src.ui.steps.step4.Step4ViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
+import com.google.firebase.Timestamp
+import java.util.*
 
 @AndroidEntryPoint
 class Step3Fragment : Fragment() {
@@ -115,7 +117,7 @@ class Step3Fragment : Fragment() {
                         money = step4ViewModel.newBankAccount.money,
                         pin = inputPinText.text.toString().toInt(),
                         cvv = 924,
-                        caducity = Methods.generateCaducityCard(),
+                        caducity = Timestamp(Date(Timestamp.now().toDate().year + 5,Timestamp.now().toDate().month, Timestamp.now().toDate().date)),
                         type = CreditCardType.Debito,
                         bank_iban = step4ViewModel.newBankAccount.iban
                     )

@@ -3,14 +3,15 @@ package com.bluemeth.simbank.src.ui.auth.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityLoginBinding
-import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
@@ -23,6 +24,10 @@ import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
 import com.bluemeth.simbank.src.ui.auth.verification.VerificationActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
 import com.bluemeth.simbank.src.ui.steps.StepsActivity
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -36,6 +41,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private val loginViewModel: LoginViewModel by viewModels()
+    private val GOOGLE_SIGN_IN = 100
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
@@ -44,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        prefs.saveSteps()
+        //prefs.saveSteps()
         initUI()
     }
 
@@ -64,7 +70,13 @@ class LoginActivity : AppCompatActivity() {
         binding.textViewForgot.setOnClickListener { loginViewModel.onForgotPasswordSelected() }
 
         binding.txtFinal.setOnClickListener { loginViewModel.onSignInSelected() }
+        binding.btnGoogle.setOnClickListener{
+            val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+            val googleClient = GoogleSignIn.getClient(this,googleConf)
+            googleClient.signOut()
+            startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
 
+        }
         binding.btnLogin.setOnClickListener {
             it.dismissKeyboard()
             loginViewModel.onLoginSelected(
@@ -154,6 +166,24 @@ class LoginActivity : AppCompatActivity() {
                 it.dismiss()
             }
         ).show(dialogLauncher, this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if(requestCode == GOOGLE_SIGN_IN){
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            val account = task.getResult(ApiException::class.java)
+            try {
+                if(account != null){
+                    val credential = GoogleAuthProvider.getCredential(account.idToken,null)
+                    loginViewModel.onGoogleLoginSelected(credential)
+                }
+            }catch (e : ApiException){
+                Log.i("hol",":(")
+            }
+        }
+
     }
 
     private fun goToForgotPassword() {

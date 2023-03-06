@@ -59,6 +59,7 @@ class ProfileFragment : Fragment() {
 
                 binding.tvFullName.text = it.name
                 binding.tvCircleName.text = Methods.splitNameProfile(it.name)
+
             }
         }
     }
@@ -136,7 +137,11 @@ class ProfileFragment : Fragment() {
             positiveAction = positiveAction
         ).show(dialogLauncher, requireActivity())
     }
+    private fun changeImage(){
+        binding.ivCircle.setOnClickListener{
 
+        }
+    }
     private fun goToLogin() {
         startActivity(LoginActivity.create(requireContext()))
     }

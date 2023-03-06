@@ -7,9 +7,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.core.Event
+import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.response.LoginResult
 import com.bluemeth.simbank.src.domain.LoginUseCase
 import com.bluemeth.simbank.src.ui.auth.login.model.UserLogin
+import com.google.firebase.auth.AuthCredential
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewModel() {
+class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase,val authenticationRepository: AuthenticationRepository) : ViewModel() {
 
     private companion object {
         const val MIN_PASSWORD_LENGTH = 6
@@ -57,6 +59,10 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase) : ViewM
         } else {
             onFieldsChanged(email, password)
         }
+    }
+
+    fun onGoogleLoginSelected(credential: AuthCredential){
+        authenticationRepository.googleLogin(credential)
     }
 
     private fun loginUser(email: String, password: String, rememberChecked: Boolean) {

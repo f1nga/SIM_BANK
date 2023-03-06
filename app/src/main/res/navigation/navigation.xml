@@ -145,17 +145,35 @@
         android:id="@+id/formCreditCardFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.credit_card_form.FormCreditCardFragment"
         android:label="fragment_form_credit_card"
-        tools:layout="@layout/fragment_form_credit_card" />
+        tools:layout="@layout/fragment_form_credit_card" >
+        <action
+            android:id="@+id/action_formCreditCardFragment_to_cardFragment"
+            app:destination="@id/cardFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/formDebidCardFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.debit_card_form.FormDebidCardFragment"
         android:label="fragment_form_debid_card"
-        tools:layout="@layout/fragment_form_debid_card" />
+        tools:layout="@layout/fragment_form_debid_card" >
+        <action
+            android:id="@+id/action_formDebidCardFragment_to_creditCardFragment"
+            app:destination="@id/cardFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/formPrepaidCardFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.add_credit_card.add_credit_card_forms.prepaid_card_form.FormPrepaidCardFragment"
         android:label="fragment_form_prepaid_card"
-        tools:layout="@layout/fragment_form_prepaid_card" />
+        tools:layout="@layout/fragment_form_prepaid_card" >
+        <action
+            android:id="@+id/action_formPrepaidCardFragment_to_cardFragment"
+            app:destination="@id/cardFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/transferFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.TransferFragment"

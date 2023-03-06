@@ -1,7 +1,10 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
+import android.util.Log
 import com.bluemeth.simbank.src.data.response.LoginResult
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -83,4 +86,14 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
     suspend fun deleteAccount() = runCatching{
         firebase.auth.currentUser!!.delete().await()
     }.isSuccess
+
+    fun googleLogin(credential: AuthCredential,){
+        FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
+            if(it.isSuccessful){
+                Log.i("bien","bien")
+            }else {
+                Log.i("mal","mal")
+            }
+        }
+    }
 }
