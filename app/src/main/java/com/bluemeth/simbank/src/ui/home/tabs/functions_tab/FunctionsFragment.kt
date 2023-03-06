@@ -32,27 +32,16 @@ class FunctionsFragment : Fragment() {
 
     private fun initUI() {
         initListeners()
-        initObservers()
-    }
-
-    private fun initObservers() {
-        functionsViewModel.navigateToTransferFunction.observe(requireActivity()) {
-            it.getContentIfNotHandled()?.let {
-                goToTransferFunction()
-            }
-        }
-
-        functionsViewModel.navigateToBizumFunction.observe(requireActivity()) {
-            it.getContentIfNotHandled()?.let {
-                goToBizumFunction()
-            }
-        }
     }
 
     private fun initListeners() {
-        binding.clTransferencia.setOnClickListener { functionsViewModel.onTransferFunctionSelected() }
+        binding.clTransferencia.setOnClickListener {
+            goToTransferFunction()
+        }
 
-        binding.clBizum.setOnClickListener { functionsViewModel.onBizumFunctionSelected() }
+        binding.clBizum.setOnClickListener {
+            goToBizumFunction()
+        }
     }
 
     private fun goToTransferFunction() {

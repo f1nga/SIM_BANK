@@ -62,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/import_every_destiny"
-                android:inputType="text" />
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -246,7 +246,6 @@
 
             </androidx.cardview.widget.CardView>
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -254,34 +253,31 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="15dp"
                 android:text="@string/add_manually"
-                android:textColor="@color/primary_button"
-                />
-
+                android:textColor="@color/primary_button" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llTotalEnvio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="Total del envío: "
-                android:layout_marginStart="100dp"
+                android:layout_marginStart="90dp"
+                android:text="@string/total_sended"
                 android:textSize="18sp"
                 android:textColor="@color/tertiary_text"
                 />
 
             <TextView
+                android:id="@+id/tvTotalEnvio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TitleText"
-                android:layout_gravity="end"
                 android:text="0,00€"
                 android:textSize="18sp"
                 android:textColor="@color/primary_text"

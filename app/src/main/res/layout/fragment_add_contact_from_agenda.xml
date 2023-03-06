@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.AddContactFromAgendaFragment">
+    android:padding="16dp">
 
     <LinearLayout
+        android:id="@+id/llSearch"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputSearch"
@@ -42,31 +44,55 @@
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:src="@drawable/ic_search"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:src="@drawable/ic_search" />
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
+
     <TextView
+        android:id="@+id/tvAgenda"
+        style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TitleText"
-        android:layout_marginTop="17dp"
-        android:textColor="@color/tertiary_text"
+        android:layout_marginTop="25dp"
         android:text="@string/agenda"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        android:textColor="@color/tertiary_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSearch" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvAgenda"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <ScrollView
+        android:id="@+id/formView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvAgenda">
 
-    <Button
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAgenda"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/tvAgenda" />
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btnAccept"
-        style="@style/PrimaryButton"
-        android:layout_width="150dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/accept"
-        android:layout_gravity="center" />
-</LinearLayout>
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

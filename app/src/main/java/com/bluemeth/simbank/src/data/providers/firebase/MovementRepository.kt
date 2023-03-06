@@ -28,7 +28,7 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
         const val TRANSFER_TYPE = "Transfer"
     }
 
-    suspend fun insertTransfer(movement: Movement) = runCatching {
+    suspend fun insertMovement(movement: Movement) = runCatching {
 
         firebase.db
             .collection(MOVEMENTS_COLLECTION)
@@ -38,7 +38,7 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
 
     }.isSuccess
 
-    fun getTransfersByType(email: String): LiveData<MutableList<Movement>> {
+    fun getMovementsByType(email: String): LiveData<MutableList<Movement>> {
         val transfersList = MutableLiveData<MutableList<Movement>>()
 
         firebase.db.collection(MOVEMENTS_COLLECTION)

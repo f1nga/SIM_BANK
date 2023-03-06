@@ -220,6 +220,9 @@
         <action
             android:id="@+id/action_bizumFormFragment_to_addContactFromAgendaFragment"
             app:destination="@id/addContactFromAgendaFragment" />
+        <action
+            android:id="@+id/action_bizumFormFragment_to_bizumResumeFragment"
+            app:destination="@id/bizumResumeFragment" />
     </fragment>
     <fragment
         android:id="@+id/addContactManuallyFragment"
@@ -242,6 +245,15 @@
             app:destination="@id/bizumFormFragment"
             app:popUpTo="@+id/bizumFragment"
             app:popUpToInclusive="false"/>
+    </fragment>
+    <fragment
+        android:id="@+id/bizumResumeFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_resume_function.BizumResumeFragment"
+        android:label="fragment_bizum_resume"
+        tools:layout="@layout/fragment_bizum_resume" >
+        <action
+            android:id="@+id/action_bizumResumeFragment_to_bizumFragment"
+            app:destination="@id/bizumFragment" />
     </fragment>
 
 </navigation>

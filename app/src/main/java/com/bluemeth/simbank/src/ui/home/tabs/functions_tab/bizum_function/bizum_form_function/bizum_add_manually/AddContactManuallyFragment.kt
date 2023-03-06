@@ -4,16 +4,24 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentAddContactManuallyBinding
+import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
+import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.UserBizum
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_manually.model.ContactManually
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AddContactManuallyFragment : Fragment() {
 
     private lateinit var binding: FragmentAddContactManuallyBinding
@@ -37,17 +45,39 @@ class AddContactManuallyFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.btnAddAddresse.setOnClickListener {
-            addContactManuallyViewModel.onAddContactSelected("123")
+        with(binding) {
+            inputPhoneText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
+            inputPhoneText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+            inputPhoneText.onTextChanged { onFieldChanged() }
+
+            inputConfirmPhoneText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
+            inputConfirmPhoneText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+            inputConfirmPhoneText.onTextChanged { onFieldChanged() }
+
+            btnAddAddresse.setOnClickListener {
+                addContactManuallyViewModel.onAddContactSelected(
+                    ContactManually(
+                        phoneNumber = inputPhoneText.text.toString(),
+                        phoneNumberConfirm =  inputConfirmPhoneText.text.toString()
+                    )
+                )
+            }
         }
+
     }
 
     private fun initObservers() {
+        lifecycleScope.launchWhenStarted {
+            addContactManuallyViewModel.viewState.collect { viewState ->
+                updateUI(viewState)
+            }
+        }
+
         addContactManuallyViewModel.navigateToBizumForm.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
                 bizumFormViewModel.addressesRVAdapter.setUserBizum(
-                    UserBizum(
-                        name = binding.inputPhoneText.text.toString()
+                    ContactBizum(
+                        phoneNumber = binding.inputPhoneText.text.toString().toInt()
                     )
                 )
                 goToBizumForm()
@@ -55,9 +85,28 @@ class AddContactManuallyFragment : Fragment() {
         }
     }
 
+    private fun updateUI(viewState: AddContactManuallyViewState) {
+        binding.inputPhone.error =
+            if (viewState.isValidPhone) null else "El formato no es válido"
+        binding.inputConfirmPhone.error =
+            if (viewState.isValidPhoneConfirm) null else "Los campos deben coincidir"
+    }
+
+    private fun onFieldChanged(hasFocus: Boolean = false) {
+
+        if (!hasFocus) {
+            addContactManuallyViewModel.onNameFieldsChanged(
+                ContactManually(
+                    phoneNumber = binding.inputPhoneText.text.toString(),
+                    phoneNumberConfirm = binding.inputConfirmPhoneText.text.toString(),
+                )
+            )
+        }
+    }
+
     private fun goToBizumForm() {
-        view?.findNavController()
-            ?.navigate(R.id.action_addContactManuallyFragment_to_bizumFormFragment)
+        val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
+        view?.findNavController()?.navigate(R.id.action_addContactManuallyFragment_to_bizumFormFragment, bundle)
     }
 
     override fun onStart() {

@@ -25,7 +25,6 @@ class TransferViewModel @Inject constructor() : ViewModel() {
     val navigateToTransferResum: LiveData<Event<Boolean>>
         get() = _navigateToTransferResum
 
-
     fun onContinueSelected(transferFormModel: TransferFormModel) {
         val viewState = transferFormModel.toUpdateViewState()
 

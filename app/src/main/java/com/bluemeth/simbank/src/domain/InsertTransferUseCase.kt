@@ -11,7 +11,7 @@ class InsertTransferUseCase @Inject constructor(
     ) {
 
     suspend operator fun invoke(iban:String, movement: Movement): Boolean {
-        val transferSuccess = movementRepository.insertTransfer(movement)
+        val transferSuccess = movementRepository.insertMovement(movement)
 
         return if(transferSuccess) {
             bankAccountRepository.makeTransfer(iban, movement.remaining_money)

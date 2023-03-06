@@ -185,6 +185,8 @@ class Methods {
             return newIban
         }
 
+
+
         fun generateMoneyBank() = Random.nextDouble(10000.0, 20000.0)
         fun generateMoneyCreditCard() = Random.nextDouble(1000.0, 5000.0)
 
@@ -223,7 +225,15 @@ class Methods {
             return "${firstName[0]}${secondName[0]}"
         }
 
-        fun splitEuro(money: String) : Double {
+        fun splitEuro(money: String) : String {
+            val firstMoney = money.split("€")[0]
+
+            val thirdMoney = firstMoney.replace(".", "")
+
+            return thirdMoney.split(",")[0]
+        }
+
+        fun splitEuroDouble(money: String) : Double {
             val firstMoney = money.split("€")[0]
 
             val thirdMoney = firstMoney.replace(".", "")

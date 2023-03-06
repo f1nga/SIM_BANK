@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluemeth.simbank.src.core.Event
-import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.UserAddFromAgenda
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.UserBizum
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -21,8 +19,8 @@ class AddContactFromAgendaViewModel @Inject constructor(
     val navigateToBizumForm: LiveData<Event<Boolean>>
         get() = _navigateToBizumForm
 
-    fun getContactsFromDB(email: String): MutableLiveData<MutableList<UserAddFromAgenda>> {
-        val mutableData = MutableLiveData<MutableList<UserAddFromAgenda>>()
+    fun getContactsFromDB(email: String): MutableLiveData<MutableList<ContactAgenda>> {
+        val mutableData = MutableLiveData<MutableList<ContactAgenda>>()
 
         userRepository.getContactUsers(email).observeForever {
             mutableData.value = it

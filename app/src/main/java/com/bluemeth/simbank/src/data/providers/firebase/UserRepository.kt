@@ -1,11 +1,9 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
 import androidx.lifecycle.MutableLiveData
-import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.models.User
-import com.bluemeth.simbank.src.data.models.utils.CreditCardType
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.UserAddFromAgenda
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -52,20 +50,20 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         return user
     }
 
-    fun getContactUsers(email: String): MutableLiveData<MutableList<UserAddFromAgenda>> {
-        val mutableData = MutableLiveData<MutableList<UserAddFromAgenda>>()
+    fun getContactUsers(email: String): MutableLiveData<MutableList<ContactAgenda>> {
+        val mutableData = MutableLiveData<MutableList<ContactAgenda>>()
 
         firebase.db
             .collection(USER_COLLECTION)
             .whereNotEqualTo(EMAIL_FIELD, email)
             .get()
             .addOnSuccessListener { documents ->
-                val listData = mutableListOf<UserAddFromAgenda>()
+                val listData = mutableListOf<ContactAgenda>()
 
                 for (document in documents) {
 
                     listData.add(
-                       UserAddFromAgenda(
+                       ContactAgenda(
                            name = document.getString(NAME_FIELD)!!,
                            phoneNumber = document.getLong(PHONE_FIELD)!!.toInt()
                        )

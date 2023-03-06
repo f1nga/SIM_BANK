@@ -4,26 +4,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.AddressesRVAdapter
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.UserAddFromAgenda
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import com.bluemeth.simbank.src.utils.Methods
 import javax.inject.Inject
 
 class AgendaRVAdapter @Inject constructor() :
     RecyclerView.Adapter<AgendaRVAdapter.UserAgendaHolder>() {
     private lateinit var listener: OnItemClickListener
-    private var _listData = mutableListOf<UserAddFromAgenda>()
+    private var _listData = mutableListOf<ContactAgenda>()
+    val listData: MutableList<ContactAgenda> get() = _listData
+    var showCheckBox = true
 
     interface OnItemClickListener {
-        fun onItemClick(userAddFromAgenda: UserAddFromAgenda)
+        fun onItemClick(contactAgenda: ContactAgenda)
     }
 
-    fun setListData(data: MutableList<UserAddFromAgenda>) {
+    fun setListData(data: MutableList<ContactAgenda>) {
         _listData = data
+    }
+
+    fun addToListData(contactAgenda: ContactAgenda) {
+        _listData.add(contactAgenda)
     }
 
     fun setItemListener(listener: OnItemClickListener) {
@@ -32,7 +37,8 @@ class AgendaRVAdapter @Inject constructor() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAgendaHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.add_from_agenda_item, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.add_from_agenda_item, parent, false)
 
         return UserAgendaHolder(v)
     }
@@ -51,18 +57,26 @@ class AgendaRVAdapter @Inject constructor() :
     }
 
     inner class UserAgendaHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(userAddFromAgenda: UserAddFromAgenda) {
+        fun bindView(contactAgenda: ContactAgenda) {
             val tvCapitals = itemView.findViewById<TextView>(R.id.tvCapitals)
             val tvContactName = itemView.findViewById<TextView>(R.id.tvContactName)
             val tvPhoneNumber = itemView.findViewById<TextView>(R.id.tvPhoneNumber)
-            val ivSearchContact = itemView.findViewById<CheckBox>(R.id.ivSearchContact)
+            val cbSearchContact = itemView.findViewById<CheckBox>(R.id.cbSearchContact)
 
-            tvCapitals.text = Methods.splitBeneficiaryName(userAddFromAgenda.name)
-            tvContactName.text = userAddFromAgenda.name
-            tvPhoneNumber.text = userAddFromAgenda.phoneNumber.toString()
+            if(!showCheckBox) {
+                cbSearchContact.isVisible = false
+//                if(contactAgenda.name == 0) tvContactName.text = "Telefono"
+            }
 
-            ivSearchContact.setOnClickListener {
-                listener.onItemClick(userAddFromAgenda)
+            tvCapitals.text = Methods.splitBeneficiaryName(contactAgenda.name)
+            tvContactName.text = contactAgenda.name
+            tvPhoneNumber.text = contactAgenda.phoneNumber.toString()
+            if (contactAgenda.isChecked) cbSearchContact.isChecked = true
+
+            itemView.setOnClickListener {
+                contactAgenda.isChecked = !contactAgenda.isChecked
+                cbSearchContact.isChecked = !cbSearchContact.isChecked
+                listener.onItemClick(contactAgenda)
             }
 
         }

@@ -15,7 +15,6 @@ import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentTransferBinding
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
-import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.src.data.models.Movement
@@ -86,10 +85,8 @@ class TransferFragment : Fragment() {
         }
 
         transferViewModel.navigateToTransferResum.observe(requireActivity()) {
-            log("hoool", "hoool")
             with(binding) {
                 if (inputImportText.text!!.isNotEmpty()) {
-                    log("entraa", it.toString())
                     resumeTransferViewModel.setTransfer(
                         Movement(
                             beneficiary_iban = inputIbantext.text.toString(),
@@ -105,7 +102,6 @@ class TransferFragment : Fragment() {
                 }
             }
             goToTransferResum()
-
         }
     }
 
