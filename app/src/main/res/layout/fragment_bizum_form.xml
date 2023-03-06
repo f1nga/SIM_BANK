@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,11 +8,12 @@
     android:background="@color/backgroundColor"
     tools:context=".src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormFragment">
 
+
     <TextView
         android:id="@+id/tvTitleForm"
         style="@style/TitleText"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
         android:background="@color/secondary_text"
         tools:text="Enviar dinero"
         android:textStyle="normal"
@@ -20,11 +22,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         />
 
+    <ScrollView
+        android:id="@+id/formView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvTitleForm">
+
     <LinearLayout
         android:id="@+id/llPrincipal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
+        android:layout_height="wrap_content"
         android:padding="20dp"
         android:orientation="vertical">
 
@@ -114,7 +124,7 @@
             android:id="@+id/input_subject"
             style="@style/FormTextInputLayout"
             android:layout_width="match_parent"
-            android:layout_height="110dp"
+            android:layout_height="95dp"
             android:layout_marginTop="15dp"
             android:textColorHint="@color/white"
             app:endIconMode="clear_text"
@@ -124,7 +134,7 @@
                 android:id="@+id/input_subject_text"
                 style="@style/FormEditText"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="85dp"
                 android:hint="@string/asunto_opcional"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -169,7 +179,14 @@
         </LinearLayout>
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvAddresses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
         <LinearLayout
+            android:id="@+id/llAddFromAgenda"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -194,6 +211,7 @@
 
 
             <TextView
+                android:id="@+id/tvAddFromAgenda"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TitleText"
@@ -206,12 +224,12 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llAddManually"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
             android:orientation="horizontal">
-
 
             <androidx.cardview.widget.CardView
                 android:layout_width="55dp"
@@ -241,6 +259,36 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Total del envío: "
+                android:layout_marginStart="100dp"
+                android:textSize="18sp"
+                android:textColor="@color/tertiary_text"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TitleText"
+                android:layout_gravity="end"
+                android:text="0,00€"
+                android:textSize="18sp"
+                android:textColor="@color/primary_text"
+                />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/btnContinue"
             style="@style/PrimaryButton"
@@ -251,4 +299,6 @@
             android:layout_gravity="center" />
 
     </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

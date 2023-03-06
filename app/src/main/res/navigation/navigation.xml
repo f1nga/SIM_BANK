@@ -195,6 +195,35 @@
         android:id="@+id/bizumFormFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormFragment"
         android:label="fragment_bizum_form"
-        tools:layout="@layout/fragment_bizum_form" />
+        tools:layout="@layout/fragment_bizum_form" >
+        <action
+            android:id="@+id/action_bizumFormFragment_to_addContactManuallyFragment"
+            app:destination="@id/addContactManuallyFragment" />
+        <action
+            android:id="@+id/action_bizumFormFragment_to_addContactFromAgendaFragment"
+            app:destination="@id/addContactFromAgendaFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addContactManuallyFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_manually.AddContactManuallyFragment"
+        android:label="fragment_add_contact_manually"
+        tools:layout="@layout/fragment_add_contact_manually" >
+        <action
+            android:id="@+id/action_addContactManuallyFragment_to_bizumFormFragment"
+            app:destination="@id/bizumFormFragment"
+            app:popUpTo="@+id/bizumFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
+    <fragment
+        android:id="@+id/addContactFromAgendaFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.AddContactFromAgendaFragment"
+        android:label="fragment_add_contact_from_agenda"
+        tools:layout="@layout/fragment_add_contact_from_agenda" >
+        <action
+            android:id="@+id/action_addContactFromAgendaFragment_to_bizumFormFragment"
+            app:destination="@id/bizumFormFragment"
+            app:popUpTo="@+id/bizumFragment"
+            app:popUpToInclusive="false"/>
+    </fragment>
 
 </navigation>

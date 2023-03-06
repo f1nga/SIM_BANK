@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
@@ -22,6 +23,7 @@ import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import com.google.android.material.navigation.NavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,9 +58,6 @@ class HomeActivity : AppCompatActivity() {
 
         toolbar = binding.toolbar
 
-        val currentDate = Methods.generateCaducityCard()
-
-        log("datee","${currentDate.toDate().year} ${currentDate.toDate().month} ${currentDate.toDate().day}")
         hideBottomBar()
         setHeaderDrawer()
         setCustomToolbar()
@@ -85,6 +84,9 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settingsIcon -> navController.navigate(R.id.settingsFragment)
+            android.R.id.home -> {
+
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -144,6 +146,7 @@ class HomeActivity : AppCompatActivity() {
     private fun setCustomToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun goToLogin() {

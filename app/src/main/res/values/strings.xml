@@ -72,6 +72,11 @@
     <string name="toolbar_update_name">Actualizar el titular</string>
     <string name="toolbar_transfer">Realizar una transferencia</string>
     <string name="toolbar_transfer_resume">Resumen de la transferencia</string>
+    <string name="toolbar_bizum">Realizar bizum</string>
+    <string name="toolbar_send_bizum">Enviar bizum</string>
+    <string name="toolbar_request_bizum">Solicitar bizum</string>
+    <string name="toolbar_add_manually">Añadir manualmente</string>
+    <string name="toolbar_add_from_agenda">Añadir desde agenda</string>
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
@@ -147,5 +152,11 @@
     <string name="add_manually">Añadir manualmente</string>
     <string name="add_from_address">Añadir desde agenda</string>
     <string name="maximum_10_addresses">Puedes añadir un máximo de 10 destinatarios</string>
+    <string name="confirm_phone">Confirmar teléfono móvil</string>
+    <string name="phone_number">Número de movil</string>
+    <string name="add_addresse">Añadir destinatario</string>
+    <string name="optional_search">Buscar (opcional)</string>
+    <string name="agenda">Agenda</string>
+    <string name="accept">Aceptar</string>
 
 </resources>

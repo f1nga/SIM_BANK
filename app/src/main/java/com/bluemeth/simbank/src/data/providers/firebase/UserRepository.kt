@@ -1,8 +1,11 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
 import androidx.lifecycle.MutableLiveData
+import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.data.models.User
+import com.bluemeth.simbank.src.data.models.utils.CreditCardType
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.UserAddFromAgenda
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -47,6 +50,34 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             }
 
         return user
+    }
+
+    fun getContactUsers(email: String): MutableLiveData<MutableList<UserAddFromAgenda>> {
+        val mutableData = MutableLiveData<MutableList<UserAddFromAgenda>>()
+
+        firebase.db
+            .collection(USER_COLLECTION)
+            .whereNotEqualTo(EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                val listData = mutableListOf<UserAddFromAgenda>()
+
+                for (document in documents) {
+
+                    listData.add(
+                       UserAddFromAgenda(
+                           name = document.getString(NAME_FIELD)!!,
+                           phoneNumber = document.getLong(PHONE_FIELD)!!.toInt()
+                       )
+                    )
+                }
+                mutableData.value = listData
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error").w(exception, "Error getting documents: ")
+            }
+
+        return mutableData
     }
 
     fun updateUserName(email: String, name: String) {

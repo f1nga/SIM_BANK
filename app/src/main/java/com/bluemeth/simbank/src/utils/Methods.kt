@@ -221,6 +221,7 @@ class Methods {
         }
 
         fun splitBeneficiaryName(name: String): String {
+            if(name[0].isDigit()) return "#"
             if(name.split(" ").size  == 1) return "${name[0]}"
 
             val firstName = name.split(" ")[0]
