@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.Movement
@@ -29,7 +30,6 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
     }
 
     suspend fun insertMovement(movement: Movement) = runCatching {
-
         firebase.db
             .collection(MOVEMENTS_COLLECTION)
             .document(Methods.generateToken())

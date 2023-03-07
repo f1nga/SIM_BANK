@@ -71,5 +71,17 @@ class GlobalViewModel  @Inject constructor(
         }
 
         return bankAccount
+        }
+
+    fun getBankAccountFromDBbyPhone(phoneNumber: Int): MutableLiveData<BankAccount> {
+        val bankAccount = MutableLiveData<BankAccount>()
+
+        userRepository.findUserByPhoneNumber(phoneNumber).observeForever{
+            bankAccountRepository.findBankAccountByEmail(it.email).observeForever { bank ->
+                bankAccount.value = bank
+            }
+        }
+
+        return bankAccount
     }
 }

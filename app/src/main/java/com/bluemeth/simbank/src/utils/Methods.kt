@@ -192,7 +192,7 @@ class Methods {
 
         fun roundOffDecimal(number: Double): Double {
             val df = DecimalFormat("#.##")
-            df.roundingMode = RoundingMode.CEILING
+            df.roundingMode = RoundingMode.HALF_DOWN
             return df.format(number).toDouble()
         }
 
@@ -239,6 +239,10 @@ class Methods {
             val thirdMoney = firstMoney.replace(".", "")
 
             return thirdMoney.split(",")[0].toDouble()
+        }
+
+        fun splitEuroWithDecimal(money: String): String {
+            return money.split("€")[0]
         }
 
         fun generateToken() = UUID.randomUUID().toString()

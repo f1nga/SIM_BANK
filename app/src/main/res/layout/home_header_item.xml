@@ -2,26 +2,29 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="160dp"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_marginEnd="5dp"
     android:backgroundTint="@color/backgroundColor_secondary">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/backgroundColor_secondary"
-        android:padding="20dp">
+        android:padding="20dp"
+        >
 
         <TextView
             android:id="@+id/txtMoneyBank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
-            android:text="16.241,00€"
+            tools:text="16.241,00€"
             android:textColor="@color/primary_text"
             android:textSize="20sp"
+            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +35,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/montserrat"
-            android:text="Ver ahorro"
+            tools:text="Ver ahorro"
+            card_view:layout_constraintEnd_toEndOf="parent"
             android:textColor="@color/secondary_text"
             android:textSize="16sp"
             card_view:layout_constraintBottom_toBottomOf="parent"

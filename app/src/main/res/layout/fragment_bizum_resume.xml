@@ -72,12 +72,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:textSize="17sp"
+        android:textSize="16sp"
         tools:visibility="visible"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvImportEveryAddresse"
-        tools:text="Esto es una prueba de asunto" />
+        tools:text="Esto es un ejemplo de un asunto" />
 
     <TextView
         android:id="@+id/tvTitleComision"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,9 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumResumeBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
+import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.dialog.QuestionDialog
+import com.bluemeth.simbank.src.core.dialog.SuccessDialog
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.core.ex.toast
+import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.AgendaRVAdapter
@@ -24,6 +29,7 @@ import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class BizumResumeFragment : Fragment() {
@@ -47,10 +53,57 @@ class BizumResumeFragment : Fragment() {
         return binding.root
     }
 
+
     private fun initUI() {
         setTextViews()
+        initListeners()
+        initObserevers()
         setAgendaRecyclerView()
         observeAgenda()
+        onBackPressed()
+    }
+
+    private fun initListeners() {
+        binding.btnConfirm.setOnClickListener {
+            bizumFormViewModel.bizumFormModel!!.apply {
+
+                this.addressesList!!.forEach { contactBizum ->
+                    globalViewModel.getBankAccountFromDBbyPhone(contactBizum.phoneNumber)
+                        .observe(requireActivity()) { beneficiaryAccount ->
+                    globalViewModel.getBankAccountFromDB()
+                        .observe(requireActivity()) { bankAccount ->
+                                    bizumResumeViewModel.makeBizum(
+                                        bankAccount.iban,
+                                        Movement(
+                                            beneficiary_iban = beneficiaryAccount.iban,
+                                            beneficiary_name = contactBizum.name,
+                                            amount = contactBizum.import,
+                                            subject = this.subject,
+                                            payment_type = PaymentType.Bizum,
+                                            remaining_money = Methods.roundOffDecimal(bankAccount.money - contactBizum.import),
+                                            user_email = globalViewModel.getUserAuth().email!!
+                                        ),
+                                        beneficiaryAccount.money,
+                                        beneficiaryAccount.iban
+                                    )
+                                }
+
+                        }
+                }
+            }
+        }
+    }
+
+    private fun initObserevers() {
+        bizumResumeViewModel.navigateToVerifyEmail.observe(requireActivity()) {
+            it.getContentIfNotHandled()?.let {
+                showSuccessDialog()
+            }
+        }
+
+        bizumResumeViewModel.showErrorDialog.observe(requireActivity()) { showError ->
+            if (showError) showErrorDialog()
+        }
     }
 
     private fun setTextViews() {
@@ -58,7 +111,7 @@ class BizumResumeFragment : Fragment() {
             binding.tvTotalImport.text = this.import
             binding.tvImportEveryAddresse.text = Methods.formatMoney(this.addressesList!![0].import)
             binding.tvComision.text = "0,00€"
-            if(this.subject != "") {
+            if (this.subject != "") {
                 binding.tvTitleSubject.isVisible = true
                 binding.tvSubject.isVisible = true
                 binding.tvSubject.text = this.subject
@@ -66,7 +119,7 @@ class BizumResumeFragment : Fragment() {
         }
 
         globalViewModel.getBankIban().observe(requireActivity()) {
-             binding.tvAccount.text = "Cuenta *${Methods.formatShortIban(it)}"
+            binding.tvAccount.text = "Cuenta *${Methods.formatShortIban(it)}"
         }
 
     }
@@ -99,21 +152,54 @@ class BizumResumeFragment : Fragment() {
         bizumResumeViewModel.agendaRVAdapter.notifyDataSetChanged()
     }
 
+    private fun onBackPressed() {
+        val callback: OnBackPressedCallback =
+            object : OnBackPressedCallback(true /* enabled by default */) {
+                override fun handleOnBackPressed() {
+                    showQuestionDialog()
+                }
+            }
+        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
+    }
 
     private fun showQuestionDialog() {
         QuestionDialog.create(
             title = getString(R.string.dialog_error_oops),
-            description = getString(R.string.dialog_error_sure),
+            description = getString(R.string.dialog_bizum_sure),
             helpAction = QuestionDialog.Action(getString(R.string.dialog_error_help)) {
-                toast("Estas apunto de cerrar tu sesion, necesitarás volver a iniciar sesión", Toast.LENGTH_LONG)
+                toast(getString(R.string.dialog_bizum_help_text), Toast.LENGTH_LONG)
             },
             negativeAction = QuestionDialog.Action(getString(R.string.dialog_error_no)) {
                 it.dismiss()
             },
             positiveAction = QuestionDialog.Action(getString(R.string.dialog_error_yes)) {
-                view?.findNavController()!!.navigate(R.id.action_bizumResumeFragment_to_bizumFragment)
+                it.dismiss()
+                view?.findNavController()!!
+                    .navigate(R.id.action_bizumResumeFragment_to_bizumFragment)
             }
         ).show(dialogLauncher, requireActivity())
+    }
+
+    private fun showErrorDialog() {
+        ErrorDialog.create(
+            title = getString(R.string.signin_error_dialog_title),
+            description = "No se ha podido realizar el bizum",
+            positiveAction = ErrorDialog.Action(getString(R.string.signin_error_dialog_positive_action)) {
+                it.dismiss()
+            }
+        ).show(dialogLauncher, requireActivity())
+    }
+
+    private fun showSuccessDialog() {
+        SuccessDialog.create(
+            "Bizum realizado",
+            "Sigue navegando por SimBank",
+            SuccessDialog.Action(getString(R.string.dialog_verified_positive)) { goToHome() }
+        ).show(dialogLauncher, requireActivity())
+    }
+
+    private fun goToHome() {
+        view?.findNavController()?.navigate(R.id.action_bizumResumeFragment_to_homeFragment)
     }
 
 }

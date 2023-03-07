@@ -58,7 +58,7 @@ class AddContactManuallyFragment : Fragment() {
                 addContactManuallyViewModel.onAddContactSelected(
                     ContactManually(
                         phoneNumber = inputPhoneText.text.toString(),
-                        phoneNumberConfirm =  inputConfirmPhoneText.text.toString()
+                        phoneNumberConfirm = inputConfirmPhoneText.text.toString()
                     )
                 )
             }
@@ -75,9 +75,13 @@ class AddContactManuallyFragment : Fragment() {
 
         addContactManuallyViewModel.navigateToBizumForm.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
-                bizumFormViewModel.addressesRVAdapter.setUserBizum(
+
+                addToAddressesList(
                     ContactBizum(
-                        phoneNumber = binding.inputPhoneText.text.toString().toInt()
+                        phoneNumber = binding.inputPhoneText.text.toString().toInt(),
+                        import = bizumFormViewModel.bizumFormArguments!!.let {
+                            if (it.import.isEmpty()) 0.0 else it.import.toDouble()
+                        }
                     )
                 )
                 goToBizumForm()
@@ -93,7 +97,6 @@ class AddContactManuallyFragment : Fragment() {
     }
 
     private fun onFieldChanged(hasFocus: Boolean = false) {
-
         if (!hasFocus) {
             addContactManuallyViewModel.onNameFieldsChanged(
                 ContactManually(
@@ -104,9 +107,14 @@ class AddContactManuallyFragment : Fragment() {
         }
     }
 
+    private fun addToAddressesList(contactBizum: ContactBizum) {
+        bizumFormViewModel.addressesRVAdapter.setUserBizum(contactBizum)
+    }
+
     private fun goToBizumForm() {
         val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
-        view?.findNavController()?.navigate(R.id.action_addContactManuallyFragment_to_bizumFormFragment, bundle)
+        view?.findNavController()
+            ?.navigate(R.id.action_addContactManuallyFragment_to_bizumFormFragment, bundle)
     }
 
     override fun onStart() {

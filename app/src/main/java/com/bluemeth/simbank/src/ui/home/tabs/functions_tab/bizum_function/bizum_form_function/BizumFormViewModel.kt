@@ -38,14 +38,6 @@ class BizumFormViewModel @Inject constructor(
     val bizumFormModel: BizumFormModel?
         get() = _bizumFormModel
 
-    private var _showImportErrorDialog = MutableLiveData(false)
-    val showImportErrorDialog: LiveData<Boolean>
-        get() = _showImportErrorDialog
-
-    private var _showAddresseErrorDialog = MutableLiveData(false)
-    val showAddresseErrorDialog: LiveData<Boolean>
-        get() = _showAddresseErrorDialog
-
     fun setBizumFormModel(bizumFormModel: BizumFormModel) {
         _bizumFormModel = bizumFormModel
     }
@@ -59,11 +51,7 @@ class BizumFormViewModel @Inject constructor(
 
         if (viewState.isBizumFormValidated() && bizumFormModel.isNotEmpty()) {
             _navigateToBizumResum.value = Event(true)
-        } else if(!viewState.isValidImport) {
-            _showImportErrorDialog.value = true
-        } else if(bizumFormModel.import.isEmpty()) {
-            _showAddresseErrorDialog.value = true
-        }else {
+        } else {
             onNameFieldsChanged(bizumFormModel)
         }
     }
@@ -76,7 +64,7 @@ class BizumFormViewModel @Inject constructor(
         if (import.isNotEmpty()) {
             return import.toDouble() in MIN_BIZUM_IMPORT..MAX_BIZUM_IMPORT
         }
-        return import.isEmpty()
+        return false
     }
 
     private fun isValidSubject(subject: String) =

@@ -60,10 +60,20 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
             .delete()
     }
 
-    fun makeTransfer(iban: String, remainingMoney: Double) {
+    suspend fun makeMovement(iban: String, remainingMoney: Double) = runCatching {
         firebase.db
             .collection(BANK_COLLECTION)
             .document(iban)
-            .update(MONEY_FIELD, Methods.roundOffDecimal(remainingMoney))
-    }
+            .update(MONEY_FIELD, remainingMoney)
+            .await()
+    }.isSuccess
+
+    suspend fun movementReceived( beneficiaryIban: String, beneficiaryMoney: Double, movementImport: Double) = runCatching {
+
+        firebase.db
+            .collection(BANK_COLLECTION)
+            .document(beneficiaryIban)
+            .update(MONEY_FIELD, Methods.roundOffDecimal(beneficiaryMoney + movementImport))
+            .await()
+    }.isSuccess
 }

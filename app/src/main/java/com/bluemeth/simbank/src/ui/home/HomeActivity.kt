@@ -95,7 +95,6 @@ class HomeActivity : AppCompatActivity() {
         }
 
         drawerLayout.closeDrawer(GravityCompat.START)
-
     }
 
     private fun showQuestionDialog() {

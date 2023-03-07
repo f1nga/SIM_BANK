@@ -78,6 +78,27 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         return mutableData
     }
 
+    fun findUserByPhoneNumber(phoneNumber: Int): MutableLiveData<User> {
+        val user = MutableLiveData<User>()
+        firebase.db
+            .collection(USER_COLLECTION)
+            .whereEqualTo(PHONE_FIELD, phoneNumber)
+            .get()
+            .addOnSuccessListener { documents ->
+                user.value = User(
+                    documents.first().getString(EMAIL_FIELD)!!,
+                    documents.first().getString(PASSWORD_FIELD)!!,
+                    documents.first().getString(NAME_FIELD)!!,
+                    documents.first().getLong(PHONE_FIELD)!!.toInt(),
+                )
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Failure").w(exception, "Error getting documents: ")
+            }
+
+        return user
+    }
+
     fun updateUserName(email: String, name: String) {
         firebase.db
             .collection(USER_COLLECTION)

@@ -93,6 +93,9 @@
     <string name="dialog_question_no">No</string>
     <string name="dialog_question_help">Ayuda</string>
 
+    <string name="dialog_bizum_sure">¿Estas seguro de que quieres deshacer la acción?</string>
+    <string name="dialog_bizum_help_text">Si lo haces, se cancelará la transacción</string>
+
     <string name="welcomeSimBank">¡Bienvenido a SIMBANK!</string>
     <string name="step_info_1">En esta aplicacion aprenderas a moverte y conocer los principios basicos sobre una cuenta bancaria</string>
     <string name="step_info_3">También obtendrás conocimiento para saber que diferencias hay entre los tipos de targeta de banco, que es un iban, acciones de banco, etc.. lo demás lo tendras que averiguar tú !</string>

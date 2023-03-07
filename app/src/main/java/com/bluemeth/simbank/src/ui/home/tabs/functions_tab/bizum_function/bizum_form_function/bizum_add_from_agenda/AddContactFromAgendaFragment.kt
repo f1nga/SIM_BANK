@@ -26,8 +26,6 @@ class AddContactFromAgendaFragment : Fragment() {
     private val addContactFromAgendaViewModel: AddContactFromAgendaViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
     private val bizumFormViewModel: BizumFormViewModel by activityViewModels()
-    private var contactsAdded: MutableList<ContactBizum> = mutableListOf()
-    private var contactsRemoved: MutableList<ContactBizum> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,33 +53,17 @@ class AddContactFromAgendaFragment : Fragment() {
     private fun initObservers() {
         addContactFromAgendaViewModel.navigateToBizumForm.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
-//                for (userBizum in contactsAdded) {
-//                    bizumFormViewModel.addressesRVAdapter.setUserBizum(userBizum)
-//                }
-//                for (userBizum in contactsRemoved) {
-//                    bizumFormViewModel.addressesRVAdapter.deleteUserBizum(userBizum)
-//                }
                 addContactFromAgendaViewModel.agendaRVAdapter.listData.forEach { contactAgenda ->
-                    if(contactAgenda.isChecked) {
-                        val import =
-                            if (bizumFormViewModel.bizumFormArguments?.import!! != "") bizumFormViewModel.bizumFormArguments?.import!!.toDouble() else 0.0
-                        bizumFormViewModel.addressesRVAdapter.setUserBizum(
-                            ContactBizum(
-                                name = contactAgenda.name,
-                                import = import,
-                                phoneNumber = contactAgenda.phoneNumber
-                            )
-                        )
+                    val newContact = ContactBizum(
+                        name = contactAgenda.name,
+                        import = getImportArguments(),
+                        phoneNumber = contactAgenda.phoneNumber
+                    )
+
+                    if (contactAgenda.isChecked) {
+                        bizumFormViewModel.addressesRVAdapter.setUserBizum(newContact)
                     } else {
-                        val import =
-                            if (bizumFormViewModel.bizumFormArguments?.import!! != "") bizumFormViewModel.bizumFormArguments?.import!!.toDouble() else 0.0
-                        bizumFormViewModel.addressesRVAdapter.deleteUserBizum(
-                            ContactBizum(
-                                name = contactAgenda.name,
-                                import = import,
-                                phoneNumber = contactAgenda.phoneNumber
-                            )
-                        )
+                        bizumFormViewModel.addressesRVAdapter.deleteUserBizum(newContact)
                     }
                 }
                 goToBizumForm()
@@ -99,29 +81,31 @@ class AddContactFromAgendaFragment : Fragment() {
         addContactFromAgendaViewModel.agendaRVAdapter.setItemListener(object :
             AgendaRVAdapter.OnItemClickListener {
             override fun onItemClick(contactAgenda: ContactAgenda) {
-                val import =
-                    if (bizumFormViewModel.bizumFormArguments?.import!! != "") bizumFormViewModel.bizumFormArguments?.import!!.toDouble() else 0.0
+                val import = bizumFormViewModel.bizumFormModel?.import?.toDouble()
 
-//                if (bizumFormViewModel.bizumFormArguments?.import!! != "")  {
-//                    Methods.splitEuroDouble(bizumFormViewModel.bizumFormArguments?.import!!)
-//                } else 0.0
-                val contactBizum = ContactBizum(
-                    name = contactAgenda.name,
-                    import = import,
-                    phoneNumber = contactAgenda.phoneNumber
+                modifyAddresseList(
+                    contactAgenda.isChecked,
+                    ContactBizum(
+                        name = contactAgenda.name,
+                        import = import ?: 0.0,
+                        phoneNumber = contactAgenda.phoneNumber
+                    ),
                 )
-
-                if (!contactAgenda.isChecked) {
-                    contactsAdded.add(contactBizum)
-                } else {
-                    contactsRemoved.add(contactBizum)
-                }
-
-//                contactAgenda.isChecked = !contactAgenda.isChecked
-
-
             }
         })
+    }
+
+    private fun getImportArguments(): Double {
+        if (bizumFormViewModel.bizumFormArguments?.import!! != "")
+            return bizumFormViewModel.bizumFormArguments?.import!!.toDouble()
+
+        return 0.0
+    }
+
+    private fun modifyAddresseList(isChecked: Boolean, newContact: ContactBizum) {
+        if (isChecked) bizumFormViewModel.addressesRVAdapter.setUserBizum(newContact)
+        else bizumFormViewModel.addressesRVAdapter.deleteUserBizum(newContact)
+
     }
 
     private fun observeAgenda() {
