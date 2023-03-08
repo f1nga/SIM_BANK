@@ -54,7 +54,6 @@ class CreditCardRepository @Inject constructor(private val firebase: FirebaseCli
                             DEBIT_CARD -> CreditCardType.Debito
                             else -> CreditCardType.Prepago
                         }
-
                     listData.add(
                         CreditCard(
                             document.getString(NUMBER_FIELD)!!,

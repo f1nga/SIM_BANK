@@ -1,11 +1,18 @@
 package com.bluemeth.simbank.src.ui.home.tabs.profile_tab
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -19,6 +26,8 @@ import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.welcome.WelcomeActivity
 import com.bluemeth.simbank.src.utils.Methods
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,7 +37,8 @@ class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private val globalViewModel: GlobalViewModel by viewModels()
     private val profileViewModel: ProfileViewModel by viewModels()
-
+    private var imageReference  = Firebase.storage.reference
+    private var currentFile: Uri? = null;
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
 
@@ -45,6 +55,7 @@ class ProfileFragment : Fragment() {
 
     private fun initUI() {
         setPersonalData()
+        changeImage()
         initListeners()
         initObservers()
     }
@@ -138,10 +149,58 @@ class ProfileFragment : Fragment() {
         ).show(dialogLauncher, requireActivity())
     }
     private fun changeImage(){
+        val imageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
+            if(it.resultCode == RESULT_OK){
+                it?.data?.data?.let {
+                    currentFile = it
+                    showQuestionDialogImage()
+                    binding.ivCircle.setImageURI(it)
+                }
+            }else{
+                Log.i("Ok","Ok")
+            }
+        }
         binding.ivCircle.setOnClickListener{
-
+            Intent(Intent.ACTION_GET_CONTENT).also {
+                it.type = "image/*"
+                imageLauncher.launch(it)
+            }
         }
     }
+
+    private fun showQuestionDialogImage() {
+        val drawable = ContextCompat.getDrawable(requireContext(), R.drawable.defaultprofile)
+        QuestionDialog.create(
+            title = getString(R.string.dialog_error_oops),
+            description = "Estas seguro de que quieres esta foto para tu fondo de perfil?",
+            helpAction = QuestionDialog.Action(getString(R.string.dialog_error_help)) {
+                toast("Vas a cambiar la foto de perfil de tu cuenta", Toast.LENGTH_LONG)
+            },
+            negativeAction = QuestionDialog.Action(getString(R.string.dialog_error_no)) {
+                it.dismiss()
+                binding.ivCircle.setImageDrawable(drawable)
+            },
+            positiveAction = QuestionDialog.Action(getString(R.string.dialog_error_yes)) {
+                uploadImageToStorage("1")
+                it.dismiss()
+            }
+        ).show(dialogLauncher, requireActivity())
+    }
+
+    private fun uploadImageToStorage(fileName : String){
+        try {
+            currentFile?.let {
+                imageReference.child("images/$fileName").putFile(it).addOnSuccessListener{
+                    toast("Succes upload image")
+                }.addOnFailureListener{
+                    toast("error upload image")
+                }
+            }
+        }catch (e: Exception){
+            toast("$e")
+        }
+    }
+
     private fun goToLogin() {
         startActivity(LoginActivity.create(requireContext()))
     }
