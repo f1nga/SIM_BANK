@@ -1,15 +1,18 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import com.bluemeth.simbank.src.utils.Methods
+import java.util.*
 import javax.inject.Inject
 
 class AgendaRVAdapter @Inject constructor() :
@@ -62,6 +65,10 @@ class AgendaRVAdapter @Inject constructor() :
             val tvContactName = itemView.findViewById<TextView>(R.id.tvContactName)
             val tvPhoneNumber = itemView.findViewById<TextView>(R.id.tvPhoneNumber)
             val cbSearchContact = itemView.findViewById<CheckBox>(R.id.cbSearchContact)
+            val cvCircle = itemView.findViewById<CardView>(R.id.cvCircle)
+            val rnd = Random()
+            val color: Int = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+            cvCircle.setCardBackgroundColor(color)
 
             if(!showCheckBox) {
                 cbSearchContact.isVisible = false

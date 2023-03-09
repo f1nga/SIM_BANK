@@ -8,7 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class BizumViewModel @Inject constructor() : ViewModel(){
+class BizumViewModel @Inject constructor(
+    val bizumHistoryRVAdapter: BizumHistoryRVAdapter
+
+) : ViewModel(){
     private val _navigateToSendBizum = MutableLiveData<Event<Boolean>>()
     val navigateToSendBizum: LiveData<Event<Boolean>>
         get() = _navigateToSendBizum

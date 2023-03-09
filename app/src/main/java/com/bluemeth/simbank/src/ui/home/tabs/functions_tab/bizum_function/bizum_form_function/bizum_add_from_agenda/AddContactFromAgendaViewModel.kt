@@ -23,6 +23,10 @@ class AddContactFromAgendaViewModel @Inject constructor(
         val mutableData = MutableLiveData<MutableList<ContactAgenda>>()
 
         userRepository.getContactUsers(email).observeForever {
+            it.add(ContactAgenda("Jaume Pescador", 342432243))
+            it.add(ContactAgenda("Pere Cullera", 342432243))
+            it.add(ContactAgenda("Radamel Pinetell", 342432243))
+            it.add(ContactAgenda("Pep Gamarus", 342432243))
             mutableData.value = it
         }
 

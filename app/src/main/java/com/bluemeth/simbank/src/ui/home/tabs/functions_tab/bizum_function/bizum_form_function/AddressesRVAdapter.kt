@@ -24,6 +24,10 @@ class AddressesRVAdapter @Inject constructor() :
         return _listData
     }
 
+    fun setListData(addressesList : MutableList<ContactBizum>) {
+        _listData = addressesList
+    }
+
     fun setUserBizum(contactBizum: ContactBizum) {
         _listData.forEach { if(it.name == contactBizum.name) return }
         _listData.add(contactBizum)

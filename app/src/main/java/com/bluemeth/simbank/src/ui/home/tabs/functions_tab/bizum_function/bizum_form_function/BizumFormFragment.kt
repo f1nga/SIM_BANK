@@ -111,16 +111,8 @@ class BizumFormFragment : Fragment() {
 //                }
                 } else {
                     text =
-                        inputText.newEditable(
-                            Methods.formatMoney(
-                                Methods.roundOffDecimal(
-                                    text.toString().toDouble()
-                                )
-                            )
-                        )
+                        inputText.newEditable(Methods.formatMoney(Methods.roundOffDecimal(text.toString().toDouble())))
                     setImportsToAddressList()
-
-
                 }
             }
         }
@@ -134,8 +126,7 @@ class BizumFormFragment : Fragment() {
                 BizumFormModel(
                     import = binding.tvTotalEnvio.text.toString(),
                     subject = binding.inputSubjectText.text.toString(),
-                    addressesList = bizumFormViewModel.addressesRVAdapter.getListData()
-                )
+                    addressesList = bizumFormViewModel.addressesRVAdapter.getListData()              )
             )
 
             goToBizumResume()
@@ -152,8 +143,6 @@ class BizumFormFragment : Fragment() {
 
     private fun updateUI(viewState: BizumFormViewState) {
         with(binding) {
-
-
             inputSubject.error =
                 if (viewState.isValidSubject) null else "El asunto es demasiado largo"
             if (viewState.isValidAddressesList) tvErrorAddresses.isVisible = false

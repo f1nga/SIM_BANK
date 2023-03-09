@@ -29,7 +29,7 @@ class HomeTabViewModel @Inject constructor(
     fun getTransfersFromDB(email: String): MutableLiveData<MutableList<Movement>> {
         val mutableData = MutableLiveData<MutableList<Movement>>()
 
-        transfersRepository.getMovementsByType(email).observeForever {
+        transfersRepository.getMovementsByType(email, "All").observeForever {
             mutableData.value = it
         }
 

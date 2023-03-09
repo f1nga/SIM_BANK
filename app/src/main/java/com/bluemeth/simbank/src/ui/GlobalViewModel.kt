@@ -4,9 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluemeth.simbank.src.data.models.BankAccount
+import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
+import com.bluemeth.simbank.src.data.providers.firebase.MovementRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +19,8 @@ class GlobalViewModel  @Inject constructor(
     private val userRepository: UserRepository,
     private val bankAccountRepository: BankAccountRepository,
     private val authenticationRepository: AuthenticationRepository,
-    ): ViewModel() {
+    private val transfersRepository: MovementRepository
+): ViewModel() {
 
     fun getUserAuth(): FirebaseUser {
         return authenticationRepository.getCurrentUser()
@@ -83,5 +86,25 @@ class GlobalViewModel  @Inject constructor(
         }
 
         return bankAccount
+    }
+
+    fun getMovementsByTypeFromDB(email: String, type: String): MutableLiveData<MutableList<Movement>> {
+        val mutableData = MutableLiveData<MutableList<Movement>>()
+
+        transfersRepository.getMovementsByType(email, type).observeForever {
+            mutableData.value = it
+        }
+
+        return mutableData
+    }
+
+    fun getMovementsByIsIncomeFromDB(email: String, type: String, isIncome: Boolean): MutableLiveData<MutableList<Movement>> {
+        val mutableData = MutableLiveData<MutableList<Movement>>()
+
+        transfersRepository.getMovementsByIsIncome(email, type, isIncome).observeForever {
+            mutableData.value = it
+        }
+
+        return mutableData
     }
 }

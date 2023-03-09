@@ -1,11 +1,13 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda
 
 import android.os.Bundle
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -47,6 +49,10 @@ class AddContactFromAgendaFragment : Fragment() {
     private fun initListeners() {
         binding.btnAccept.setOnClickListener {
             addContactFromAgendaViewModel.onAcceptSelected()
+        }
+
+        binding.inputSearchText.addTextChangedListener { searchText ->
+            filterRecyclerView(searchText)
         }
     }
 
@@ -93,6 +99,19 @@ class AddContactFromAgendaFragment : Fragment() {
                 )
             }
         })
+    }
+
+    private fun filterRecyclerView(searchText: Editable?) {
+        addContactFromAgendaViewModel.getContactsFromDB(globalViewModel.getUserAuth().email!!)
+            .observe(requireActivity()) { listContactAgenda ->
+
+                val listFiltered =
+                    listContactAgenda.filter { contactBizum ->
+                        contactBizum.name.contains(searchText.toString())
+                    }
+                addContactFromAgendaViewModel.agendaRVAdapter.setListData(listFiltered as MutableList<ContactAgenda>)
+                addContactFromAgendaViewModel.agendaRVAdapter.notifyDataSetChanged()
+            }
     }
 
     private fun getImportArguments(): Double {

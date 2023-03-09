@@ -71,6 +71,27 @@ class Methods {
             }
         }
 
+        fun formateDateBizum(date: Date): String {
+
+            val month = when (if (date.month == 0) 12 else date.month + 1) {
+                1 -> "enero"
+                2 -> "febrero"
+                3 -> "marzo"
+                4 -> "abril"
+                5 -> "mayo"
+                6 -> "junio"
+                7 -> "julio"
+                8 -> "agosto"
+                9 -> "setiembre"
+                10 -> "octubre"
+                11 -> "noviembre"
+                else -> "diciembre"
+            }
+
+            return "${date.date} de $month de ${date.year + 1900}"
+        }
+
+
         fun formatCardNumber(cardNumber: String): String {
             var number = ""
 
@@ -186,7 +207,6 @@ class Methods {
         }
 
 
-
         fun generateMoneyBank() = Random.nextDouble(10000.0, 20000.0)
         fun generateMoneyCreditCard() = Random.nextDouble(1000.0, 5000.0)
 
@@ -215,9 +235,17 @@ class Methods {
             return "${firstName[0]}${secondName[0]}"
         }
 
+        fun splitNameBizum(name: String): String {
+            val firstName = name.split(" ")[0]
+            val secondName = name.split(" ")[1]
+            val thirdName = name.split(" ")[2]
+
+            return "$firstName ${secondName[0]}.${thirdName[0]}."
+        }
+
         fun splitBeneficiaryName(name: String): String {
-            if(name[0].isDigit()) return "#"
-            if(name.split(" ").size  == 1) return "${name[0]}"
+            if (name[0].isDigit()) return "#"
+            if (name.split(" ").size == 1) return "${name[0]}"
 
             val firstName = name.split(" ")[0]
             val secondName = name.split(" ")[1]
@@ -225,7 +253,7 @@ class Methods {
             return "${firstName[0]}${secondName[0]}"
         }
 
-        fun splitEuro(money: String) : String {
+        fun splitEuro(money: String): String {
             val firstMoney = money.split("€")[0]
 
             val thirdMoney = firstMoney.replace(".", "")
@@ -233,7 +261,7 @@ class Methods {
             return thirdMoney.split(",")[0]
         }
 
-        fun splitEuroDouble(money: String) : Double {
+        fun splitEuroDouble(money: String): Double {
             val firstMoney = money.split("€")[0]
 
             val thirdMoney = firstMoney.replace(".", "")

@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:cardCornerRadius="50dp"
-        android:backgroundTint="@color/purple_200">
+        app:cardBackgroundColor="@android:color/white">
 
         <TextView
             android:id="@+id/tvCapitals"

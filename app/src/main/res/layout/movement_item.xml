@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:fontFamily="@font/montserrat"
             android:textColor="@color/primary_text"
             android:textStyle="bold"
             card_view:layout_constraintStart_toEndOf="@+id/ivArrowIncome"
@@ -40,6 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textColor="@color/primary_text"
+            android:fontFamily="@font/montserrat"
             android:textStyle="bold"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
@@ -51,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textColor="@color/primary_text"
+            android:fontFamily="@font/montserrat"
             card_view:layout_constraintStart_toEndOf="@id/ivArrowIncome"
             card_view:layout_constraintTop_toBottomOf="@+id/tvTitle"
             tools:text="Ayer" />
@@ -61,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:textColor="@color/primary_text"
+            android:fontFamily="@font/montserrat"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toBottomOf="@id/tvPrice"
             tools:text="+3540,00€" />
