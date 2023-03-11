@@ -16,11 +16,12 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         const val PASSWORD_FIELD = "password"
         const val NAME_FIELD = "name"
         const val PHONE_FIELD = "phone"
+        const val IMAGE = "image"
     }
 
     suspend fun createUserTable(userSignIn: UserSignIn) = runCatching {
 
-        val user = User(userSignIn.email, userSignIn.password, userSignIn.nickName,userSignIn.phoneNumber.toInt())
+        val user = User(userSignIn.email, userSignIn.password, userSignIn.nickName,userSignIn.phoneNumber.toInt(),userSignIn.image)
 
         firebase.db
             .collection(USER_COLLECTION)
@@ -41,6 +42,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                     documents.first().getString(PASSWORD_FIELD)!!,
                     documents.first().getString(NAME_FIELD)!!,
                     documents.first().getLong(PHONE_FIELD)!!.toInt(),
+                    documents.first().getString(IMAGE)!!
                 )
             }
             .addOnFailureListener { exception ->
@@ -90,6 +92,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                     documents.first().getString(PASSWORD_FIELD)!!,
                     documents.first().getString(NAME_FIELD)!!,
                     documents.first().getLong(PHONE_FIELD)!!.toInt(),
+                    documents.first().getString(IMAGE)!!
                 )
             }
             .addOnFailureListener { exception ->
@@ -111,6 +114,13 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .collection(USER_COLLECTION)
             .document(email)
             .update(PHONE_FIELD, phone)
+    }
+
+    fun updateUserImage(email:String, image: String){
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .update(IMAGE, image)
     }
 
     fun updateUserPassword(email: String, password: String) {

@@ -33,7 +33,7 @@ class UpdateEmailViewModel @Inject constructor(
 
         if (viewState.emailValidated() && userEmailUpdate.isNotEmpty()) {
             viewModelScope.launch {
-                val user = User(userEmailUpdate.email, newUser.password, newUser.name, newUser.phone)
+                val user = User(userEmailUpdate.email, newUser.password, newUser.name, newUser.phone, newUser.image)
                 val emailUpdated = updateEmailUseCase(userEmailUpdate.email, iban, user)
 
                 if(emailUpdated) {

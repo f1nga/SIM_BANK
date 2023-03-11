@@ -5,7 +5,8 @@ data class UserSignIn(
     val email: String,
     val password: String,
     val passwordConfirmation: String,
-    val phoneNumber: String
+    val phoneNumber: String,
+    val image : String
 ) {
     fun isNotEmpty() =
         nickName.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && passwordConfirmation.isNotEmpty()
