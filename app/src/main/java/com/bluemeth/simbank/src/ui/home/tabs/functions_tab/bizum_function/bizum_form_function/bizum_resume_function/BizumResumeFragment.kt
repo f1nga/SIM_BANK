@@ -1,11 +1,14 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_resume_function
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,6 +31,9 @@ import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.bizum_address_item.*
+import kotlinx.android.synthetic.main.fragment_bizum_resume.*
+import kotlinx.android.synthetic.main.fragment_resum_transfer.*
 import javax.inject.Inject
 
 
@@ -42,6 +48,7 @@ class BizumResumeFragment : Fragment() {
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -54,15 +61,17 @@ class BizumResumeFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI() {
         setTextViews()
         initListeners()
-        initObserevers()
+        initObservers()
         setAgendaRecyclerView()
         observeAgenda()
         onBackPressed()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initListeners() {
         binding.btnConfirm.setOnClickListener {
             bizumFormViewModel.bizumFormModel!!.apply {
@@ -86,6 +95,7 @@ class BizumResumeFragment : Fragment() {
                                         beneficiaryAccount.money,
                                         beneficiaryAccount.iban
                                     )
+                            Methods.sendNotification("SIMBANK","Has enviado un bizum de ${tvTotalImport.text}",requireContext())
                                 }
 
                         }
@@ -94,7 +104,8 @@ class BizumResumeFragment : Fragment() {
         }
     }
 
-    private fun initObserevers() {
+
+    private fun initObservers() {
         bizumResumeViewModel.navigateToVerifyEmail.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
                 showSuccessDialog()
@@ -106,6 +117,7 @@ class BizumResumeFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         bizumFormViewModel.bizumFormModel!!.apply {
             binding.tvTotalImport.text = this.import
@@ -140,6 +152,7 @@ class BizumResumeFragment : Fragment() {
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeAgenda() {
         bizumFormViewModel.bizumFormModel!!.addressesList!!.forEach {
             bizumResumeViewModel.agendaRVAdapter.addToListData(

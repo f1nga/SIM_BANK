@@ -1,10 +1,13 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.resume_transfer_function
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -32,6 +35,7 @@ class ResumeTransferFragment : Fragment() {
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,12 +47,14 @@ class ResumeTransferFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI() {
         setTextViews()
         initListeners()
         initObservers()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initListeners() {
         with(binding) {
             tvModifyDestiny.setOnClickListener {
@@ -81,8 +87,10 @@ class ResumeTransferFragment : Fragment() {
                             user_email = globalViewModel.getUserAuth().email!!
                         )
                     )
+                    Methods.sendNotification("SIMBANK","Has realizado una transferencia",requireContext())
                 }
             }
+
         }
     }
 
@@ -116,6 +124,7 @@ class ResumeTransferFragment : Fragment() {
         ).show(dialogLauncher, requireActivity())
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         with(binding) {
             globalViewModel.getBankAccountFromDB().observe(requireActivity()) {

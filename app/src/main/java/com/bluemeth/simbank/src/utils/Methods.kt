@@ -1,7 +1,13 @@
 package com.bluemeth.simbank.src.utils
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import com.bluemeth.simbank.R
 import com.google.firebase.Timestamp
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -274,6 +280,27 @@ class Methods {
         }
 
         fun generateToken() = UUID.randomUUID().toString()
+
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun sendNotification(title: String, text: String, context: Context) {
+
+            val importance = NotificationManager.IMPORTANCE_HIGH
+
+            val channel = NotificationChannel("chat", "Chat", importance).apply {
+                description = "Notificaciones de chat"
+            }
+
+            val notification = NotificationCompat.Builder(context, "chat")
+                .setSmallIcon(R.drawable.arrow_home)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .build()
+
+            val notificationManager = NotificationManagerCompat.from(context)
+            notificationManager.createNotificationChannel(channel)
+            notificationManager.notify(1, notification)
+        }
 
     }
 }
