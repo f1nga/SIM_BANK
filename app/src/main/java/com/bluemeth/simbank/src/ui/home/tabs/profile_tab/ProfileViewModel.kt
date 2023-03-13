@@ -10,9 +10,6 @@ import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
 import com.bluemeth.simbank.src.domain.DeleteAccountUseCase
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -24,7 +21,6 @@ class ProfileViewModel @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
     private val deleteAccountUseCase: DeleteAccountUseCase
 ) : ViewModel() {
-    private var imageReference = Firebase.storage.reference
     var currentFile: Uri? = null
 
     private val _navigateToLogin = MutableLiveData<Event<Boolean>>()
@@ -82,22 +78,7 @@ class ProfileViewModel @Inject constructor(
 
     }
 
-    fun updateUserImageProfile(image:String){
-        userRepository.updateUserImage(authenticationRepository.getCurrentUser().email!!,image)
-    }
-
     fun uploadImageToStorage() {
-        imageReference = FirebaseStorage.getInstance().reference.child("images/profile")
-        imageReference = imageReference.child(System.currentTimeMillis().toString())
-        currentFile?.let {
-            imageReference.putFile(it).addOnSuccessListener {
-                imageReference.downloadUrl.addOnSuccessListener {
-                    updateUserImageProfile(
-                        it.toString()
-                    )
-                }.addOnFailureListener {
-                }
-            }
-        }
+        userRepository.updateUserImage(authenticationRepository.getCurrentUser().email!!, currentFile!!)
     }
 }

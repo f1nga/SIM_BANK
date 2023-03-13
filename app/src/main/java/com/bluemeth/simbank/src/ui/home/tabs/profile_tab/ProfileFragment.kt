@@ -26,6 +26,7 @@ import com.bluemeth.simbank.src.ui.welcome.WelcomeActivity
 import com.bluemeth.simbank.src.utils.Methods
 import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -131,20 +132,27 @@ class ProfileFragment : Fragment() {
         val imageLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 if (it.resultCode == RESULT_OK) {
-                    it?.data?.data?.let {
-                        profileViewModel.currentFile = it
+                    it?.data?.data?.let { uri ->
+                        profileViewModel.currentFile = uri
                         showQuestionDialogImage()
-                        binding.ivCircle.setImageURI(it)
+                        binding.ivCircle.setImageURI(uri)
                     }
                 } else {
-                    Log.i("Mal", "Mal")
+                    Timber.tag("Mal").i("Mal")
                 }
             }
+
         binding.ivCircle.setOnClickListener {
             Intent(Intent.ACTION_GET_CONTENT).also {
                 it.type = "image/*"
                 imageLauncher.launch(it)
             }
+        }
+    }
+
+    private fun loadUserImage() {
+        globalViewModel.getUserFromDB().observe(requireActivity()) {
+            Picasso.get().load(it.image).into(binding.ivCircle)
         }
     }
 
@@ -182,12 +190,6 @@ class ProfileFragment : Fragment() {
                 it.dismiss()
             }
         ).show(dialogLauncher, requireActivity())
-    }
-
-    private fun loadUserImage() {
-        globalViewModel.getUserFromDB().observe(requireActivity()) {
-            Picasso.get().load(it.image).into(binding.ivCircle)
-        }
     }
 
     private fun goToLogin() {

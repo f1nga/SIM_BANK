@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentFunctionsBinding
@@ -17,7 +16,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class FunctionsFragment : Fragment() {
 
     private lateinit var binding: FragmentFunctionsBinding
-    private val functionsViewModel: FunctionsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +40,10 @@ class FunctionsFragment : Fragment() {
         binding.clBizum.setOnClickListener {
             goToBizumFunction()
         }
+
+        binding.clCuenta.setOnClickListener {
+            goToAccountFunction()
+        }
     }
 
     private fun goToTransferFunction() {
@@ -50,6 +52,10 @@ class FunctionsFragment : Fragment() {
 
     private fun goToBizumFunction() {
         view?.findNavController()?.navigate(R.id.action_functionsFragment_to_bizumFragment)
+    }
+
+    private fun goToAccountFunction() {
+        view?.findNavController()?.navigate(R.id.action_functionsFragment_to_infoAccountFragment)
     }
 
     override fun onStart() {

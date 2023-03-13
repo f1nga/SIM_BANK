@@ -19,7 +19,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase,val authenticationRepository: AuthenticationRepository) : ViewModel() {
+class LoginViewModel @Inject constructor(
+    val loginUseCase: LoginUseCase,
+    val authenticationRepository: AuthenticationRepository,
+) : ViewModel() {
 
     private companion object {
         const val MIN_PASSWORD_LENGTH = 6
@@ -41,6 +44,10 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase,val auth
     val navigateToVerifyAccount: LiveData<Event<Boolean>>
         get() = _navigateToVerifyAccount
 
+    private val _navigateToCompleteRegister = MutableLiveData<Event<Boolean>>()
+    val navigateToCompleteRegister: LiveData<Event<Boolean>>
+        get() = _navigateToCompleteRegister
+
     private val _navigateToSteps = MutableLiveData<Event<Boolean>>()
     val navigateToSteps: LiveData<Event<Boolean>>
         get() = _navigateToSteps
@@ -61,8 +68,27 @@ class LoginViewModel @Inject constructor(val loginUseCase: LoginUseCase,val auth
         }
     }
 
-    fun onGoogleLoginSelected(credential: AuthCredential){
-        authenticationRepository.googleLogin(credential)
+    fun onGoogleLoginSelected(credential: AuthCredential) {
+        viewModelScope.launch {
+            val googleLogged = authenticationRepository.googleLogin(credential)
+
+            if (googleLogged) {
+                prefs.saveToken()
+
+                if (prefs.getSteps().isNotEmpty()) {
+                    _navigateToHome.value = Event(true)
+                } else if(prefs.getCompleteRegister().isNotEmpty()){
+                    _navigateToSteps.value = Event(true)
+                } else {
+                    _navigateToCompleteRegister.value = Event(true)
+                }
+
+            } else {
+                _showErrorDialog.value =
+                    UserLogin(email = "sdaads", password = "sdadsa", showErrorDialog = true)
+            }
+
+        }
     }
 
     private fun loginUser(email: String, password: String, rememberChecked: Boolean) {

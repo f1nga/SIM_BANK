@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.home_tab
+package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -10,11 +10,12 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.utils.Methods
 import javax.inject.Inject
 
-class TransfersRVAdapter @Inject constructor() :
-    RecyclerView.Adapter<TransfersRVAdapter.TransfersHolder>() {
+class AccountMovementsRVAdapter @Inject constructor() :
+    RecyclerView.Adapter<AccountMovementsRVAdapter.TransfersHolder>() {
     private lateinit var listener: OnItemClickListener
     private var listData = listOf<Movement>()
 
@@ -31,7 +32,7 @@ class TransfersRVAdapter @Inject constructor() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransfersHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.movement_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.account_movements_item, parent, false)
 
         return TransfersHolder(v)
     }
@@ -59,7 +60,12 @@ class TransfersRVAdapter @Inject constructor() :
             val arrow = itemView.findViewById<ImageView>(R.id.ivArrowIncome)
             val tvRemainingMoney = itemView.findViewById<TextView>(R.id.tvRemainingMoney)
 
-            title.text = movementHolder.beneficiary_name
+            title.text = when(movementHolder.payment_type) {
+                PaymentType.Bizum -> "Bizum"
+                PaymentType.Transfer -> "Transferencia realizada"
+                else -> movementHolder.beneficiary_name
+            }
+
             recordDate.text = Methods.formateDateMovement(movementHolder.date.toDate())
 
             if (movementHolder.isIncome) {
@@ -67,6 +73,7 @@ class TransfersRVAdapter @Inject constructor() :
                 arrow.setImageResource(R.drawable.arrow_win)
             } else {
                 price.text = "-${Methods.formatMoney(movementHolder.amount)}"
+                arrow.setImageResource(R.drawable.arrow_lose)
             }
             tvRemainingMoney.text = Methods.formatMoney(movementHolder.remaining_money)
 

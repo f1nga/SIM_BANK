@@ -101,7 +101,6 @@ class SignInActivity : AppCompatActivity() {
                         password = binding.inputPasswordRegistreText.text.toString(),
                         passwordConfirmation = binding.inputRepeatPasswordRegistreText.text.toString(),
                         phoneNumber = binding.inputTelefonRegistreText.text.toString(),
-                        image = R.drawable.defaultprofile.toString()
                     )
                 )
             }

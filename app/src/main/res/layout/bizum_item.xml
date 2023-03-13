@@ -65,7 +65,7 @@
         android:textColor="@color/tertiary_text"
         app:layout_constraintStart_toEndOf="@id/ivArrowIncome"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        tools:text="Pagarle una ps4 al garsus" />
+        android:text="@string/no_concept" />
 
 
     <com.google.android.material.divider.MaterialDivider

@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.HomeFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_infoAccountFragment"
+            app:destination="@id/infoAccountFragment" />
+    </fragment>
     <fragment
         android:id="@+id/functionsFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.FunctionsFragment"
@@ -22,6 +26,9 @@
         <action
             android:id="@+id/action_functionsFragment_to_bizumFragment"
             app:destination="@id/bizumFragment" />
+        <action
+            android:id="@+id/action_functionsFragment_to_infoAccountFragment"
+            app:destination="@id/infoAccountFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -222,7 +229,9 @@
             app:destination="@id/addContactFromAgendaFragment" />
         <action
             android:id="@+id/action_bizumFormFragment_to_bizumResumeFragment"
-            app:destination="@id/bizumResumeFragment" />
+            app:destination="@id/bizumResumeFragment"
+            app:popUpTo="@+id/bizumFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/addContactManuallyFragment"
@@ -258,5 +267,9 @@
             android:id="@+id/action_bizumResumeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/infoAccountFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.AccountFragment"
+        android:label="InfoAccountFragment" />
 
 </navigation>

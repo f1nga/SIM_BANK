@@ -75,7 +75,7 @@ class UpdatePhoneFragment : Fragment() {
 
     private fun updateUI(viewState: UpdatePhoneViewState) {
         binding.inputNewPhone.error =
-            if (viewState.isValidPhoneNumber) null else "El teléfono no es válido"
+            if (viewState.isValidPhoneNumber) null else getString(R.string.phone_no_valid)
 
     }
 

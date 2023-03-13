@@ -20,6 +20,7 @@ import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class AddContactFromAgendaFragment : Fragment() {
@@ -107,7 +108,7 @@ class AddContactFromAgendaFragment : Fragment() {
 
                 val listFiltered =
                     listContactAgenda.filter { contactBizum ->
-                        contactBizum.name.contains(searchText.toString())
+                        contactBizum.name.lowercase(Locale.ROOT).contains(searchText.toString().lowercase(Locale.ROOT))
                     }
                 addContactFromAgendaViewModel.agendaRVAdapter.setListData(listFiltered as MutableList<ContactAgenda>)
                 addContactFromAgendaViewModel.agendaRVAdapter.notifyDataSetChanged()

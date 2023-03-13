@@ -13,6 +13,7 @@ class Prefs(context: Context) {
         const val PASSWORD_KEY = "password"
         const val STEPS_KEY = "steps"
         const val DEFAULT_VALUE = ""
+        const val COMPLETE_REGISTER_KEY = "complete_register"
     }
 
     private val storage: SharedPreferences = context.getSharedPreferences(SHARED_PREFERENCE_NAME, 0)
@@ -37,6 +38,12 @@ class Prefs(context: Context) {
     fun savePassword(password: String) {
         storage.edit().putString(PASSWORD_KEY, password).apply()
     }
+
+    fun saveCompleteRegister() {
+        storage.edit().putString(COMPLETE_REGISTER_KEY, Methods.generateToken()).apply()
+    }
+
+    fun getCompleteRegister() = storage.getString(COMPLETE_REGISTER_KEY, DEFAULT_VALUE)!!
 
     fun getSteps() = storage.getString(STEPS_KEY, DEFAULT_VALUE)!!
 

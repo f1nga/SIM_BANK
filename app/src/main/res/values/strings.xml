@@ -52,6 +52,8 @@
     <string name="dialog_verified_body">Ahora inicia sesión i disfruta de SimBank</string>
     <string name="dialog_verified_positive">¡Adelante!</string>
 
+    <string name="dialog_complete_register_body">Ahora sigue con los últimos pasos y disfruta de SimBank</string>
+
     <string name="feature_not_allowed">Feature no solicitada :)</string>
     <string name="signin_button_createaccount">Crear mi cuenta</string>
 
@@ -77,6 +79,7 @@
     <string name="toolbar_request_bizum">Solicitar bizum</string>
     <string name="toolbar_add_manually">Añadir manualmente</string>
     <string name="toolbar_add_from_agenda">Añadir desde agenda</string>
+    <string name="toolbar_account">Cuenta</string>
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
@@ -120,6 +123,7 @@
     <string name="go_to_navigate">¡Ya puedes seguir navegando por Sim Bank!</string>
 
     <string name="minim_three_characters">Debe contener al menos 3 carácteres</string>
+    <string name="phone_no_valid">El teléfono no es válido</string>
 
     <string name="dialog_delete_account_sure">Estas seguro que quieres eliminar tu cuenta?</string>
     <string name="dialog_delete_account_help">Si borras la cuenta, no podrás volver a entrar y perderás todos tus progresos</string>
@@ -169,5 +173,13 @@
     <string name="careful_bizum">Revisa bien los destinatarios antes de continuar con el envío de dinero</string>
     <string name="confirm">Confirmar</string>
     <string name="subject">Asunto</string>
+    <string name="no_concept">Sin concepto</string>
+    <string name="saldo_disponible">Saldo disponible</string>
+    <string name="saldo_actual">Saldo actual</string>
+    <string name="completa_tu_registro">Completa tu registro</string>
+    <string name="complete">Completar</string>
+
+    <string name="complete_register_error_dialog_body">No hemos podido completar tu registro, inténtalo de nuevo más tarde</string>
+
 
 </resources>

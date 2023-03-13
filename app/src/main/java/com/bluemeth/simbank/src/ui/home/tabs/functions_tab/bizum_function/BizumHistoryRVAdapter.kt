@@ -17,7 +17,6 @@ class BizumHistoryRVAdapter @Inject constructor() :
     RecyclerView.Adapter<BizumHistoryRVAdapter.BizumHolder>() {
     private lateinit var listener: OnItemClickListener
     private var listData = listOf<Movement>()
-    private var reaminingMoney: Double = 0.0
 
     interface OnItemClickListener {
         fun onItemClick(movement: Movement)
@@ -76,8 +75,6 @@ class BizumHistoryRVAdapter @Inject constructor() :
                 price.text = "-${Methods.formatMoney(bizumHolder.amount)}"
                 isIncome.setImageResource(R.drawable.arrow_lose)
             }
-
-
 
             itemView.setOnClickListener {
                 listener.onItemClick(bizumHolder)

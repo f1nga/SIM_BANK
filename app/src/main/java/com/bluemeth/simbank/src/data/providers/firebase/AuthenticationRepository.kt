@@ -87,13 +87,13 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
         firebase.auth.currentUser!!.delete().await()
     }.isSuccess
 
-    fun googleLogin(credential: AuthCredential,){
+    suspend fun googleLogin(credential: AuthCredential,) = runCatching{
         FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful){
                 Log.i("bien","bien")
             }else {
                 Log.i("mal","mal")
             }
-        }
-    }
+        }.await()
+    }.isSuccess
 }

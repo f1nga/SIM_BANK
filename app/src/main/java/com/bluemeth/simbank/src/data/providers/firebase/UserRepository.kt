@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
+import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
@@ -21,7 +22,13 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
 
     suspend fun createUserTable(userSignIn: UserSignIn) = runCatching {
 
-        val user = User(userSignIn.email, userSignIn.password, userSignIn.nickName,userSignIn.phoneNumber.toInt(),userSignIn.image)
+        val user = User(
+            userSignIn.email,
+            userSignIn.password,
+            userSignIn.nickName,
+            userSignIn.phoneNumber.toInt(),
+            userSignIn.image
+        )
 
         firebase.db
             .collection(USER_COLLECTION)
@@ -65,10 +72,10 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                 for (document in documents) {
 
                     listData.add(
-                       ContactAgenda(
-                           name = document.getString(NAME_FIELD)!!,
-                           phoneNumber = document.getLong(PHONE_FIELD)!!.toInt()
-                       )
+                        ContactAgenda(
+                            name = document.getString(NAME_FIELD)!!,
+                            phoneNumber = document.getLong(PHONE_FIELD)!!.toInt()
+                        )
                     )
                 }
                 mutableData.value = listData
@@ -116,13 +123,6 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .update(PHONE_FIELD, phone)
     }
 
-    fun updateUserImage(email:String, image: String){
-        firebase.db
-            .collection(USER_COLLECTION)
-            .document(email)
-            .update(IMAGE, image)
-    }
-
     fun updateUserPassword(email: String, password: String) {
         firebase.db
             .collection(USER_COLLECTION)
@@ -139,6 +139,21 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .collection(USER_COLLECTION)
             .document(newUser.email)
             .set(newUser)
+    }
+
+    fun updateUserImage(email: String, img: Uri) {
+        val imageReference = firebase.storage.reference.child("images/profile")
+            .child(System.currentTimeMillis().toString())
+
+        imageReference.putFile(img).addOnSuccessListener {
+            imageReference.downloadUrl.addOnSuccessListener {
+                firebase.db
+                    .collection(USER_COLLECTION)
+                    .document(email)
+                    .update(IMAGE, img.toString())
+            }
+        }
+
     }
 
     fun deleteUserByEmail(email: String) {

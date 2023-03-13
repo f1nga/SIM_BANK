@@ -106,13 +106,18 @@ class BizumFormFragment : Fragment() {
         binding.inputImportText.apply {
             if (this.toString().isNotEmpty()) {
                 if (hasFocus) {
-//                if (/*&& importText.contains("€")*/) {
                     text = inputText.newEditable(Methods.splitEuro(text.toString()))
-//                }
                 } else {
                     text =
-                        inputText.newEditable(Methods.formatMoney(Methods.roundOffDecimal(text.toString().toDouble())))
+                        inputText.newEditable(
+                            Methods.formatMoney(
+                                Methods.roundOffDecimal(
+                                    text.toString().toDouble()
+                                )
+                            )
+                        )
                     setImportsToAddressList()
+
                 }
             }
         }
@@ -126,7 +131,8 @@ class BizumFormFragment : Fragment() {
                 BizumFormModel(
                     import = binding.tvTotalEnvio.text.toString(),
                     subject = binding.inputSubjectText.text.toString(),
-                    addressesList = bizumFormViewModel.addressesRVAdapter.getListData()              )
+                    addressesList = bizumFormViewModel.addressesRVAdapter.getListData()
+                )
             )
 
             goToBizumResume()

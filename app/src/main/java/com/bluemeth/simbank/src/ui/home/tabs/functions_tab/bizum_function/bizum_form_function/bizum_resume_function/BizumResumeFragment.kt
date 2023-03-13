@@ -79,8 +79,8 @@ class BizumResumeFragment : Fragment() {
                 this.addressesList!!.forEach { contactBizum ->
                     globalViewModel.getBankAccountFromDBbyPhone(contactBizum.phoneNumber)
                         .observe(requireActivity()) { beneficiaryAccount ->
-                    globalViewModel.getBankAccountFromDB()
-                        .observe(requireActivity()) { bankAccount ->
+                            globalViewModel.getBankAccountFromDB()
+                                .observe(requireActivity()) { bankAccount ->
                                     bizumResumeViewModel.makeBizum(
                                         bankAccount.iban,
                                         Movement(
@@ -95,7 +95,11 @@ class BizumResumeFragment : Fragment() {
                                         beneficiaryAccount.money,
                                         beneficiaryAccount.iban
                                     )
-                            Methods.sendNotification("SIMBANK","Has enviado un bizum de ${tvTotalImport.text}",requireContext())
+                                    Methods.sendNotification(
+                                        "SIMBANK",
+                                        "Has enviado un bizum de ${tvTotalImport.text}",
+                                        requireContext()
+                                    )
                                 }
 
                         }

@@ -23,11 +23,13 @@ import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
 import com.bluemeth.simbank.src.ui.auth.verification.VerificationActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
 import com.bluemeth.simbank.src.ui.steps.StepsActivity
+import com.bluemeth.simbank.src.ui.steps.complete_register.CompleteRegisterActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -49,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-       // prefs.saveSteps()
+        // prefs.saveSteps()
         initUI()
     }
 
@@ -69,9 +71,10 @@ class LoginActivity : AppCompatActivity() {
         binding.textViewForgot.setOnClickListener { loginViewModel.onForgotPasswordSelected() }
 
         binding.txtFinal.setOnClickListener { loginViewModel.onSignInSelected() }
-        binding.btnGoogle.setOnClickListener{
-            val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
-            val googleClient = GoogleSignIn.getClient(this,googleConf)
+        binding.btnGoogle.setOnClickListener {
+            val googleConf = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+            val googleClient = GoogleSignIn.getClient(this, googleConf)
             googleClient.signOut()
             startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
 
@@ -115,6 +118,12 @@ class LoginActivity : AppCompatActivity() {
         loginViewModel.navigateToSteps.observe(this) {
             it.getContentIfNotHandled()?.let {
                 goToSteps()
+            }
+        }
+
+        loginViewModel.navigateToCompleteRegister.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                goToCompleteRegister()
             }
         }
 
@@ -170,16 +179,16 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if(requestCode == GOOGLE_SIGN_IN){
+        if (requestCode == GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             val account = task.getResult(ApiException::class.java)
             try {
-                if(account != null){
-                    val credential = GoogleAuthProvider.getCredential(account.idToken,null)
+                if (account != null) {
+                    val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     loginViewModel.onGoogleLoginSelected(credential)
                 }
-            }catch (e : ApiException){
-                Log.i("hol",":(")
+            } catch (e: ApiException) {
+                Timber.tag("hol").i(":(")
             }
         }
 
@@ -203,5 +212,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun goToSteps() {
         startActivity(StepsActivity.create(this))
+    }
+
+    private fun goToCompleteRegister() {
+        startActivity(CompleteRegisterActivity.create(this))
     }
 }

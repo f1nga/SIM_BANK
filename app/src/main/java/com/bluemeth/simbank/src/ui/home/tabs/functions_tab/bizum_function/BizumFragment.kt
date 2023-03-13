@@ -2,12 +2,12 @@ package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -16,6 +16,7 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumBinding
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,12 @@ class BizumFragment : Fragment() {
     private lateinit var binding: FragmentBizumBinding
     private val bizumViewModel: BizumViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
-    private val bizumFormViewModel : BizumFormViewModel by activityViewModels()
+    private val bizumFormViewModel: BizumFormViewModel by activityViewModels()
+
+    private companion object {
+        const val COLOR_SELECTED = "#F7189EDC"
+        const val COLOR_UNSELECTED = "#C8BFBDBD"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -85,44 +91,42 @@ class BizumFragment : Fragment() {
             }
         })
 
-        observeMovements2(false)
+        observeMovements(false)
 
     }
 
-    private fun observeMovement() {
-        globalViewModel.getMovementsByTypeFromDB(globalViewModel.getUserAuth().email!!, "Bizum").observe(requireActivity()) {
-            bizumViewModel.bizumHistoryRVAdapter.setListData(it)
-            bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
-        }
-    }
+    private fun observeMovements(isIncome: Boolean) {
+        globalViewModel.getMovementsFromDB(
+            globalViewModel.getUserAuth().email!!,
+            isIncome,
+            PaymentType.Bizum
+        ).observe(requireActivity()) {
 
-    private fun observeMovements2(isIncome: Boolean) {
-        globalViewModel.getMovementsByIsIncomeFromDB(globalViewModel.getUserAuth().email!!, "Bizum", isIncome).observe(requireActivity()) {
             bizumViewModel.bizumHistoryRVAdapter.setListData(it)
             bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
         }
     }
 
     private fun filterBizumsReceived() {
-        if(binding.tvBizumsReceived.currentTextColor == Color.parseColor("#C8BFBDBD")) {
+        if (binding.tvBizumsReceived.currentTextColor == Color.parseColor(COLOR_UNSELECTED)) {
 
-            binding.tvBizumsReceived.setTextColor(Color.parseColor("#F7189EDC"))
-            binding.tvBizumsSended.setTextColor(Color.parseColor("#C8BFBDBD"))
+            binding.tvBizumsReceived.setTextColor(Color.parseColor(COLOR_SELECTED))
+            binding.tvBizumsSended.setTextColor(Color.parseColor(COLOR_UNSELECTED))
         }
-        observeMovements2(true)
+        observeMovements(true)
     }
 
     private fun filterBizumsSended() {
-        if(binding.tvBizumsSended.currentTextColor == Color.parseColor("#C8BFBDBD")) {
+        if (binding.tvBizumsSended.currentTextColor == Color.parseColor(COLOR_UNSELECTED)) {
 
-            binding.tvBizumsSended.setTextColor(Color.parseColor("#F7189EDC"))
-            binding.tvBizumsReceived.setTextColor(Color.parseColor("#C8BFBDBD"))
+            binding.tvBizumsSended.setTextColor(Color.parseColor(COLOR_SELECTED))
+            binding.tvBizumsReceived.setTextColor(Color.parseColor(COLOR_UNSELECTED))
         }
-        observeMovements2(false)
+        observeMovements(false)
     }
 
     private fun clearBizumForm() {
-        if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty())
+        if (bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty())
             bizumFormViewModel.addressesRVAdapter.getListData().clear()
         bizumFormViewModel.bizumFormArguments?.clearArguments()
     }
