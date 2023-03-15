@@ -16,7 +16,6 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumBinding
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
-import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -96,33 +95,39 @@ class BizumFragment : Fragment() {
     }
 
     private fun observeMovements(isIncome: Boolean) {
-        globalViewModel.getMovementsFromDB(
-            globalViewModel.getUserAuth().email!!,
-            isIncome,
-            PaymentType.Bizum
-        ).observe(requireActivity()) {
 
-            bizumViewModel.bizumHistoryRVAdapter.setListData(it)
-            bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
+        if (isIncome) {
+            globalViewModel.getReceivedMovementsFromDB()
+                .observe(requireActivity()) { movementsList ->
+                    bizumViewModel.bizumHistoryRVAdapter.setListData(movementsList)
+                    bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
+                }
+        } else {
+            globalViewModel.getSendedMovementsFromDB()
+                .observe(requireActivity()) { movementsList ->
+                    bizumViewModel.bizumHistoryRVAdapter.setListData(movementsList)
+                    bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
+                }
         }
-    }
-
-    private fun filterBizumsReceived() {
-        if (binding.tvBizumsReceived.currentTextColor == Color.parseColor(COLOR_UNSELECTED)) {
-
-            binding.tvBizumsReceived.setTextColor(Color.parseColor(COLOR_SELECTED))
-            binding.tvBizumsSended.setTextColor(Color.parseColor(COLOR_UNSELECTED))
-        }
-        observeMovements(true)
     }
 
     private fun filterBizumsSended() {
-        if (binding.tvBizumsSended.currentTextColor == Color.parseColor(COLOR_UNSELECTED)) {
+        if (binding.tvBizumsReceived.currentTextColor == Color.parseColor(COLOR_SELECTED)) {
 
-            binding.tvBizumsSended.setTextColor(Color.parseColor(COLOR_SELECTED))
             binding.tvBizumsReceived.setTextColor(Color.parseColor(COLOR_UNSELECTED))
+            binding.tvBizumsSended.setTextColor(Color.parseColor(COLOR_SELECTED))
+            observeMovements(false)
         }
-        observeMovements(false)
+
+    }
+
+    private fun filterBizumsReceived() {
+        if (binding.tvBizumsSended.currentTextColor == Color.parseColor(COLOR_SELECTED)) {
+
+            binding.tvBizumsSended.setTextColor(Color.parseColor(COLOR_UNSELECTED))
+            binding.tvBizumsReceived.setTextColor(Color.parseColor(COLOR_SELECTED))
+            observeMovements(true)
+        }
     }
 
     private fun clearBizumForm() {

@@ -21,8 +21,10 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
         const val USER_EMAIL_FIELD = "user_email"
         const val IS_INCOME_FIELD = "income"
         const val REMAINING_MONEY_FIELD = "remaining_money"
+        const val BENEFICIARY_REMAINING_MONEY_FIELD = "beneficiary_remaining_money"
         const val PAYMENT_TYPE_FIELD = "payment_type"
         const val DATE_FIELD = "date"
+        const val CATEGORY_FIELD = "category"
 
         const val BIZUM_TYPE = "Bizum"
         const val TRANSFER_TYPE = "Transfer"
@@ -37,7 +39,7 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
 
     }.isSuccess
 
-    suspend fun getMovements(email: String): LiveData<MutableList<Movement>> {
+    suspend fun getSendedMovements(email: String): LiveData<MutableList<Movement>> {
         val transfersList = MutableLiveData<MutableList<Movement>>()
 
         firebase.db.collection(MOVEMENTS_COLLECTION)
@@ -61,13 +63,60 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
                                 document.getString(BENEFICIARY_NAME_FIELD)!!,
                                 document.getDouble(AMOUNT_FIELD)!!,
                                 document.getString(SUBJECT_FIELD)!!,
+                                document.getString(CATEGORY_FIELD)!!,
                                 document.getTimestamp(DATE_FIELD)!!,
                                 document.getBoolean(IS_INCOME_FIELD)!!,
                                 paymentType,
                                 document.getDouble(REMAINING_MONEY_FIELD)!!,
+                                document.getDouble(BENEFICIARY_REMAINING_MONEY_FIELD)!!,
                                 document.getString(USER_EMAIL_FIELD)!!
                             )
                         )
+
+                    transfersList.value = listData
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("HOOOL").w(exception, "Error getting documents: ")
+            }.await()
+
+        return transfersList
+
+    }
+
+    suspend fun getReceivedMovements(iban: String): LiveData<MutableList<Movement>> {
+        val transfersList = MutableLiveData<MutableList<Movement>>()
+
+        firebase.db.collection(MOVEMENTS_COLLECTION)
+            .whereEqualTo(BENEFICIARY_IBAN_FIELD, iban)
+            .orderBy(DATE_FIELD, Query.Direction.DESCENDING)
+            .get()
+            .addOnSuccessListener { documents ->
+                val listData = mutableListOf<Movement>()
+
+                for (document in documents) {
+                    val paymentType =
+                        when (document.getString(PAYMENT_TYPE_FIELD)) {
+                            TRANSFER_TYPE -> PaymentType.Transfer
+                            BIZUM_TYPE -> PaymentType.Bizum
+                            else -> PaymentType.Target_pay
+                        }
+
+                    listData.add(
+                        Movement(
+                            document.getString(BENEFICIARY_IBAN_FIELD)!!,
+                            document.getString(BENEFICIARY_NAME_FIELD)!!,
+                            document.getDouble(AMOUNT_FIELD)!!,
+                            document.getString(SUBJECT_FIELD)!!,
+                            document.getString(CATEGORY_FIELD)!!,
+                            document.getTimestamp(DATE_FIELD)!!,
+                            true,
+                            paymentType,
+                            document.getDouble(REMAINING_MONEY_FIELD)!!,
+                            document.getDouble(BENEFICIARY_REMAINING_MONEY_FIELD)!!,
+                            document.getString(USER_EMAIL_FIELD)!!
+                        )
+                    )
 
                     transfersList.value = listData
                 }

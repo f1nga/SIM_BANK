@@ -80,6 +80,7 @@
     <string name="toolbar_add_manually">Añadir manualmente</string>
     <string name="toolbar_add_from_agenda">Añadir desde agenda</string>
     <string name="toolbar_account">Cuenta</string>
+    <string name="toolbar_account_bizum_detail">Detalle del bizum</string>
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
@@ -180,6 +181,10 @@
     <string name="complete">Completar</string>
 
     <string name="complete_register_error_dialog_body">No hemos podido completar tu registro, inténtalo de nuevo más tarde</string>
+    <string name="beneficiary">Beneficiario</string>
+    <string name="beneficiary_phone">Teléfono beneficiario</string>
+    <string name="ordenante">Ordenante</string>
+    <string name="ordenant_phone">Teléfono ordenante</string>
 
 
 </resources>

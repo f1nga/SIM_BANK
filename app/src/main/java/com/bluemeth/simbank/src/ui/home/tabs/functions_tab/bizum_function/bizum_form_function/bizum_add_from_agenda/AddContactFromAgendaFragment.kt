@@ -19,6 +19,7 @@ import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
+import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -88,13 +89,14 @@ class AddContactFromAgendaFragment : Fragment() {
         addContactFromAgendaViewModel.agendaRVAdapter.setItemListener(object :
             AgendaRVAdapter.OnItemClickListener {
             override fun onItemClick(contactAgenda: ContactAgenda) {
-                val import = bizumFormViewModel.bizumFormModel?.import?.toDouble()
+
+                val import = Methods.splitEuroWithDecimalDouble( bizumFormViewModel.bizumFormModel?.import ?: "0,00€")
 
                 modifyAddresseList(
                     contactAgenda.isChecked,
                     ContactBizum(
                         name = contactAgenda.name,
-                        import = import ?: 0.0,
+                        import = import,
                         phoneNumber = contactAgenda.phoneNumber
                     ),
                 )

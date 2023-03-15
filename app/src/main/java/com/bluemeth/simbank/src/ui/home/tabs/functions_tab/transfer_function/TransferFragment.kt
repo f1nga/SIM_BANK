@@ -62,15 +62,20 @@ class TransferFragment : Fragment() {
 
             inputImportText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
             inputImportText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+            inputImportText.setOnFocusChangeListener { _, hasFocus -> formatInputImport(hasFocus) }
             inputImportText.onTextChanged { onFieldChanged() }
 
             btnContinue.setOnClickListener {
                 it.dismissKeyboard()
+                val newImport = if (inputImportText.text.toString().contains("€")) {
+                    Methods.splitEuro(inputImportText.text.toString())
+                } else inputImportText.text.toString()
+
                 transferViewModel.onContinueSelected(
                     TransferFormModel(
                         iban = inputIbantext.text.toString(),
                         beneficiary = inputBeneficiaryText.text.toString(),
-                        import = inputImportText.text.toString()
+                        import = newImport
                     )
                 )
             }
@@ -86,12 +91,17 @@ class TransferFragment : Fragment() {
 
         transferViewModel.navigateToTransferResum.observe(requireActivity()) {
             with(binding) {
+                val newImport = if (inputImportText.text.toString().contains("€")) {
+                    Methods.splitEuro(inputImportText.text.toString())
+                } else inputImportText.text.toString()
+
                 if (inputImportText.text!!.isNotEmpty()) {
                     resumeTransferViewModel.setTransfer(
                         Movement(
                             beneficiary_iban = inputIbantext.text.toString(),
                             beneficiary_name = inputBeneficiaryText.text.toString(),
-                            amount = inputImportText.text.toString().toDouble(),
+                            amount = newImport.toDouble(),
+                            category = "Transferencias",
                             isIncome = false,
                             payment_type = PaymentType.Transfer,
                             subject = if (inputAsuntoText.text!!.isNotEmpty()) inputAsuntoText.text.toString() else "",
@@ -105,8 +115,24 @@ class TransferFragment : Fragment() {
         }
     }
 
-    private fun goToTransferResum() {
-        view?.findNavController()?.navigate(R.id.action_transferFragment_to_resumeTransferFragment)
+    private fun formatInputImport(hasFocus: Boolean) {
+        val inputText = Editable.Factory.getInstance()
+
+        binding.inputImportText.apply {
+            if (this.toString().isNotEmpty()) {
+                text = if (hasFocus) {
+                    inputText.newEditable(Methods.splitEuro(text.toString()))
+                } else {
+                    inputText.newEditable(
+                        Methods.formatMoney(
+                            Methods.roundOffDecimal(
+                                text.toString().toDouble()
+                            )
+                        )
+                    )
+                }
+            }
+        }
     }
 
     private fun updateUI(viewState: TransferFormViewState) {
@@ -169,6 +195,10 @@ class TransferFragment : Fragment() {
                 inputAsuntoText.text = inputText.newEditable(transfer.subject)
             }
         }
+    }
+
+    private fun goToTransferResum() {
+        view?.findNavController()?.navigate(R.id.action_transferFragment_to_resumeTransferFragment)
     }
 
     override fun onStart() {

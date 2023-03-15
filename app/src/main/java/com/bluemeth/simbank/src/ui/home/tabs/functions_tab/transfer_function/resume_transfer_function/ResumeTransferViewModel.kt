@@ -30,9 +30,9 @@ class ResumeTransferViewModel @Inject constructor(private val insertTransferUseC
     val navigateToHome: LiveData<Event<Boolean>>
         get() = _navigateToHome
 
-    fun insertTransferToDB(iban: String, movement: Movement) {
+    fun insertTransferToDB(iban: String, movement: Movement, beneficiaryMoney: Double, beneficiaryIban: String) {
         viewModelScope.launch() {
-            val transferInserted = insertTransferUseCase(iban, movement, 0.0, "dsaads")
+            val transferInserted = insertTransferUseCase(iban, movement, beneficiaryMoney, beneficiaryIban)
             if(transferInserted) {
                 _navigateToHome.value = Event(true)
             } else {

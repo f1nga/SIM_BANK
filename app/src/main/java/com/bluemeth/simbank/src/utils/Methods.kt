@@ -281,6 +281,17 @@ object Methods {
         return money.split("€")[0]
     }
 
+    fun splitEuroWithDecimalDouble(money: String): Double {
+        val firstMoney = money.split("€")[0]
+        val secondMoney = firstMoney.replace(",", ".")
+
+        return secondMoney.toDouble()
+    }
+
+    fun parseDateToString(date: Date) : String {
+        return "${date.date}-0${date.month}-${date.year+1900}"
+    }
+
     fun generateToken() = UUID.randomUUID().toString()
 
     @RequiresApi(Build.VERSION_CODES.O)

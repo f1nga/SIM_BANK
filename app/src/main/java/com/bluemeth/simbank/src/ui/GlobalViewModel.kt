@@ -1,5 +1,7 @@
 package com.bluemeth.simbank.src.ui
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,14 +9,16 @@ import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.data.models.BankAccount
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.User
-import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
 import com.bluemeth.simbank.src.data.providers.firebase.MovementRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
+import com.bluemeth.simbank.src.utils.Methods
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,7 +26,7 @@ class GlobalViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val bankAccountRepository: BankAccountRepository,
     private val authenticationRepository: AuthenticationRepository,
-    private val transfersRepository: MovementRepository
+    private val movementsRepository: MovementRepository
 ) : ViewModel() {
 
     fun getUserAuth(): FirebaseUser {
@@ -37,6 +41,17 @@ class GlobalViewModel @Inject constructor(
         }
 
         return name
+    }
+
+    fun getUserByEmail(email: String): MutableLiveData<User> {
+        val user = MutableLiveData<User>()
+
+        userRepository.findUserByEmail(email)
+            .observeForever {
+                user.value = it
+            }
+
+        return user
     }
 
     fun getBankMoney(): MutableLiveData<Double> {
@@ -93,44 +108,65 @@ class GlobalViewModel @Inject constructor(
         return bankAccount
     }
 
-    fun getMovementsFromDB(
-        email: String,
-        isIncome: Boolean,
-        type: PaymentType = PaymentType.All
-    ): MutableLiveData<MutableList<Movement>> {
+    fun getBankAccountFromDBbyIban(iban: String): MutableLiveData<BankAccount> {
+        val bankAccount = MutableLiveData<BankAccount>()
+
+        bankAccountRepository.findBankAccountByIban(iban).observeForever { bank ->
+            bankAccount.value = bank
+        }
+
+        return bankAccount
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getMovementsFromDB2(email: String, iban: String): MutableLiveData<MutableList<Movement>> {
         val mutableData = MutableLiveData<MutableList<Movement>>()
 
         viewModelScope.launch {
-            transfersRepository.getMovements(email).observeForever {
-                val newMovementList = mutableListOf<Movement>()
-
-                for (movement in it) {
-                    if (movement.isIncome == isIncome) {
-                        if (type == PaymentType.All) {
-                            newMovementList.add(movement)
-
-                        } else {
-                            if (movement.payment_type == type) {
-                                newMovementList.add(movement)
-                            }
-                        }
-                    }
-                }
-                mutableData.value = newMovementList
+            var listData = mutableListOf<Movement>()
+            movementsRepository.getSendedMovements(email).observeForever {
+                listData = it
             }
-        }
+            movementsRepository.getReceivedMovements(iban).observeForever {
+                for (movement in it) {
+                    listData.add(movement)
+                }
+            }
 
+            val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+            listData.sortByDescending {
+                LocalDate.parse(Methods.parseDateToString(it.date.toDate()), dateTimeFormatter)
+            }
+
+            mutableData.value = listData
+        }
 
         return mutableData
     }
 
-    fun getMovementsFromDB2(email: String): MutableLiveData<MutableList<Movement>> {
+    fun getSendedMovementsFromDB(): MutableLiveData<MutableList<Movement>> {
         val mutableData = MutableLiveData<MutableList<Movement>>()
 
         viewModelScope.launch {
-            transfersRepository.getMovements(email).observeForever {
+            movementsRepository.getSendedMovements(getUserAuth().email!!).observeForever {
                 mutableData.value = it
             }
+        }
+
+        return mutableData
+    }
+
+    fun getReceivedMovementsFromDB(): MutableLiveData<MutableList<Movement>> {
+        val mutableData = MutableLiveData<MutableList<Movement>>()
+        var listData = mutableListOf<Movement>()
+
+        getBankIban().observeForever {
+            viewModelScope.launch {
+                movementsRepository.getReceivedMovements(it).observeForever {
+                    mutableData.value = it
+                }
+            }
+
         }
 
         return mutableData

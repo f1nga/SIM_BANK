@@ -71,23 +71,34 @@ class ResumeTransferFragment : Fragment() {
             }
 
             btnFinish.setOnClickListener {
-                globalViewModel.getBankAccountFromDB().observe(requireActivity()) {
+                globalViewModel.getBankAccountFromDB().observe(requireActivity()) { bankAccount ->
                     val transfer = resumeTransferViewModel.movement!!
-
-                    resumeTransferViewModel.insertTransferToDB(
-                        it.iban,
-                        Movement(
-                            beneficiary_iban = transfer.beneficiary_iban,
-                            beneficiary_name = transfer.beneficiary_name,
-                            amount = transfer.amount,
-                            subject = transfer.subject,
-                            isIncome = false,
-                            payment_type = PaymentType.Transfer,
-                            remaining_money = Methods.roundOffDecimal(it.money - transfer.amount) ,
-                            user_email = globalViewModel.getUserAuth().email!!
-                        )
-                    )
-                    Methods.sendNotification("SIMBANK","Has realizado una transferencia",requireContext())
+                    globalViewModel.getBankAccountFromDBbyIban(transfer.beneficiary_iban)
+                        .observe(requireActivity()) { beneficiaryBankAccount ->
+                            resumeTransferViewModel.insertTransferToDB(
+                                bankAccount.iban,
+                                Movement(
+                                    beneficiary_iban = transfer.beneficiary_iban,
+                                    beneficiary_name = transfer.beneficiary_name,
+                                    amount = transfer.amount,
+                                    subject = transfer.subject,
+                                    category = transfer.category,
+                                    payment_type = PaymentType.Transfer,
+                                    remaining_money = Methods.roundOffDecimal(bankAccount.money - transfer.amount),
+                                    beneficiary_remaining_money = Methods.roundOffDecimal(
+                                        beneficiaryBankAccount.money + transfer.amount
+                                    ),
+                                    user_email = globalViewModel.getUserAuth().email!!
+                                ),
+                                beneficiaryBankAccount.money,
+                                beneficiaryBankAccount.iban
+                            )
+                            Methods.sendNotification(
+                                "SIMBANK",
+                                "Has realizado una transferencia",
+                                requireContext()
+                            )
+                        }
                 }
             }
 

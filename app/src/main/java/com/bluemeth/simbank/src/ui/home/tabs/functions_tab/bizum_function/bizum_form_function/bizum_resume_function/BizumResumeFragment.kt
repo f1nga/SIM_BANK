@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -19,10 +17,8 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumResumeBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
-import com.bluemeth.simbank.src.core.dialog.QuestionDialog
 import com.bluemeth.simbank.src.core.dialog.SuccessDialog
 import com.bluemeth.simbank.src.core.ex.show
-import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
@@ -68,7 +64,6 @@ class BizumResumeFragment : Fragment() {
         initObservers()
         setAgendaRecyclerView()
         observeAgenda()
-        onBackPressed()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -88,8 +83,12 @@ class BizumResumeFragment : Fragment() {
                                             beneficiary_name = contactBizum.name,
                                             amount = contactBizum.import,
                                             subject = this.subject,
+                                            category = "Pagos Bizum",
                                             payment_type = PaymentType.Bizum,
                                             remaining_money = Methods.roundOffDecimal(bankAccount.money - contactBizum.import),
+                                            beneficiary_remaining_money = Methods.roundOffDecimal(
+                                                beneficiaryAccount.money + contactBizum.import
+                                            ),
                                             user_email = globalViewModel.getUserAuth().email!!
                                         ),
                                         beneficiaryAccount.money,
@@ -101,7 +100,6 @@ class BizumResumeFragment : Fragment() {
                                         requireContext()
                                     )
                                 }
-
                         }
                 }
             }
@@ -121,7 +119,6 @@ class BizumResumeFragment : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         bizumFormViewModel.bizumFormModel!!.apply {
             binding.tvTotalImport.text = this.import
@@ -167,34 +164,6 @@ class BizumResumeFragment : Fragment() {
             )
         }
         bizumResumeViewModel.agendaRVAdapter.notifyDataSetChanged()
-    }
-
-    private fun onBackPressed() {
-        val callback: OnBackPressedCallback =
-            object : OnBackPressedCallback(true /* enabled by default */) {
-                override fun handleOnBackPressed() {
-                    showQuestionDialog()
-                }
-            }
-        requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
-    }
-
-    private fun showQuestionDialog() {
-        QuestionDialog.create(
-            title = getString(R.string.dialog_error_oops),
-            description = getString(R.string.dialog_bizum_sure),
-            helpAction = QuestionDialog.Action(getString(R.string.dialog_error_help)) {
-                toast(getString(R.string.dialog_bizum_help_text), Toast.LENGTH_LONG)
-            },
-            negativeAction = QuestionDialog.Action(getString(R.string.dialog_error_no)) {
-                it.dismiss()
-            },
-            positiveAction = QuestionDialog.Action(getString(R.string.dialog_error_yes)) {
-                it.dismiss()
-                view?.findNavController()!!
-                    .navigate(R.id.action_bizumResumeFragment_to_bizumFragment)
-            }
-        ).show(dialogLauncher, requireActivity())
     }
 
     private fun showErrorDialog() {

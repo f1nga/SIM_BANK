@@ -46,6 +46,26 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
         return bankAccount
     }
 
+    fun findBankAccountByIban(iban: String): MutableLiveData<BankAccount> {
+        val bankAccount = MutableLiveData<BankAccount>()
+
+        firebase.db.collection(BANK_COLLECTION)
+            .whereEqualTo(IBAN_FIELD, iban)
+            .get()
+            .addOnSuccessListener { documents ->
+                bankAccount.value = BankAccount(
+                    documents.first().getString(IBAN_FIELD)!!,
+                    documents.first().getDouble(MONEY_FIELD)!!,
+                    documents.first().getString(USER_EMAIL_FIELD)!!,
+                )
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error").w(exception, "Error getting documents: ")
+            }
+
+        return bankAccount
+    }
+
     fun updateOwnerEmail(iban: String, newEmail: String) {
         firebase.db
             .collection(BANK_COLLECTION)

@@ -270,6 +270,14 @@
     <fragment
         android:id="@+id/infoAccountFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.AccountFragment"
-        android:label="InfoAccountFragment" />
+        android:label="InfoAccountFragment" >
+        <action
+            android:id="@+id/action_infoAccountFragment_to_bizumDetailAccountFragment"
+            app:destination="@id/bizumDetailAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bizumDetailAccountFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.movement_details.BizumDetailAccountFragment"
+        android:label="BizumDetailAccountFragment" />
 
 </navigation>

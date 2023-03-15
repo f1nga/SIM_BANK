@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentAccountBinding
-import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.ui.GlobalViewModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.movement_details.BizumDetailAccountViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +25,12 @@ class AccountFragment : Fragment() {
     private lateinit var binding: FragmentAccountBinding
     private val globalViewModel: GlobalViewModel by viewModels()
     private val accountViewModel: AccountViewModel by viewModels()
+    private val bizumDetailAccountViewModel: BizumDetailAccountViewModel by activityViewModels()
+
+    private companion object {
+        const val COLOR_SELECTED = "#F7189EDC"
+        const val COLOR_UNSELECTED = "#C8BFBDBD"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,8 +44,9 @@ class AccountFragment : Fragment() {
 
     private fun initUI() {
         setTextViews()
-        initListeners()
         setMovementsRecyclerView()
+        initListeners()
+
     }
 
     private fun initListeners() {
@@ -59,39 +68,47 @@ class AccountFragment : Fragment() {
         accountViewModel.accountMovementsAdapter.setItemListener(object :
             AccountMovementsRVAdapter.OnItemClickListener {
             override fun onItemClick(movement: Movement) {
-                toast("HOLHOL")
+                bizumDetailAccountViewModel.setMovement(movement)
+                goToBizumDetail()
             }
         })
 
         observeMovements(true)
     }
-
     private fun observeMovements(isIncome: Boolean) {
 
-        globalViewModel.getMovementsFromDB(globalViewModel.getUserAuth().email!!, isIncome)
-            .observe(requireActivity()) {
-
-                accountViewModel.accountMovementsAdapter.setListData(it)
-                accountViewModel.accountMovementsAdapter.notifyDataSetChanged()
-            }
+        if (isIncome) {
+            globalViewModel.getReceivedMovementsFromDB()
+                .observe(requireActivity()) { movementsList ->
+                    accountViewModel.accountMovementsAdapter.setListData(movementsList)
+                    accountViewModel.accountMovementsAdapter.notifyDataSetChanged()
+                }
+        } else {
+            globalViewModel.getSendedMovementsFromDB()
+                .observe(requireActivity()) { movementsList ->
+                    accountViewModel.accountMovementsAdapter.setListData(movementsList)
+                    accountViewModel.accountMovementsAdapter.notifyDataSetChanged()
+                }
+        }
     }
 
     private fun filterPerdidas() {
-        if (binding.tVPerdidas.currentTextColor == Color.parseColor("#C8BFBDBD")) {
+        if (binding.tvIngresos.currentTextColor == Color.parseColor(COLOR_SELECTED)) {
 
-            binding.tVPerdidas.setTextColor(Color.parseColor("#F7189EDC"))
-            binding.tvIngresos.setTextColor(Color.parseColor("#C8BFBDBD"))
+            binding.tvIngresos.setTextColor(Color.parseColor(COLOR_UNSELECTED))
+            binding.tVPerdidas.setTextColor(Color.parseColor(COLOR_SELECTED))
+            observeMovements(false)
         }
-        observeMovements(false)
+
     }
 
     private fun filterIngresos() {
-        if (binding.tvIngresos.currentTextColor == Color.parseColor("#C8BFBDBD")) {
+        if (binding.tVPerdidas.currentTextColor == Color.parseColor(COLOR_SELECTED)) {
 
-            binding.tvIngresos.setTextColor(Color.parseColor("#F7189EDC"))
-            binding.tVPerdidas.setTextColor(Color.parseColor("#C8BFBDBD"))
+            binding.tVPerdidas.setTextColor(Color.parseColor(COLOR_UNSELECTED))
+            binding.tvIngresos.setTextColor(Color.parseColor(COLOR_SELECTED))
+            observeMovements(true)
         }
-        observeMovements(true)
     }
 
     private fun setTextViews() {
@@ -105,6 +122,11 @@ class AccountFragment : Fragment() {
             binding.tvShortNumber.text = "· ${Methods.formatShortIban(it)}"
         }
     }
+
+    private fun goToBizumDetail() {
+        view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_bizumDetailAccountFragment)
+    }
+
 
     override fun onStart() {
         super.onStart()

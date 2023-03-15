@@ -58,7 +58,7 @@ class BizumFormFragment : Fragment() {
         with(binding) {
             inputImportText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
             inputImportText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
-            inputImportText.setOnFocusChangeListener { _, hasFocus -> formatInput(hasFocus) }
+            inputImportText.setOnFocusChangeListener { _, hasFocus -> formatInputImport(hasFocus) }
             inputImportText.onTextChanged { onFieldChanged() }
 
             inputSubjectText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
@@ -100,7 +100,7 @@ class BizumFormFragment : Fragment() {
         }
     }
 
-    private fun formatInput(hasFocus: Boolean) {
+    private fun formatInputImport(hasFocus: Boolean) {
         val inputText = Editable.Factory.getInstance()
 
         binding.inputImportText.apply {

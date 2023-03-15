@@ -71,11 +71,12 @@ class AccountMovementsRVAdapter @Inject constructor() :
             if (movementHolder.isIncome) {
                 price.text = "+${Methods.formatMoney(movementHolder.amount)}"
                 arrow.setImageResource(R.drawable.arrow_win)
+                tvRemainingMoney.text = Methods.formatMoney(movementHolder.beneficiary_remaining_money)
             } else {
                 price.text = "-${Methods.formatMoney(movementHolder.amount)}"
                 arrow.setImageResource(R.drawable.arrow_lose)
+                tvRemainingMoney.text = Methods.formatMoney(movementHolder.remaining_money)
             }
-            tvRemainingMoney.text = Methods.formatMoney(movementHolder.remaining_money)
 
             itemView.setOnClickListener {
                 listener.onItemClick(movementHolder)

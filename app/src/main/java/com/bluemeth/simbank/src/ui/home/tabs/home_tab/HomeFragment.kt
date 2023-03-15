@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,6 +30,7 @@ class HomeFragment : Fragment() {
     private val homeTabViewModel: HomeTabViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,6 +42,7 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI() {
         setTextViews()
 
@@ -98,19 +102,23 @@ class HomeFragment : Fragment() {
         })
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun observeMovements() {
 
-        globalViewModel.getMovementsFromDB2(globalViewModel.getUserAuth().email!!)
-            .observe(requireActivity()) {
+        globalViewModel.getBankIban().observe(requireActivity()) {
+            globalViewModel.getMovementsFromDB2(globalViewModel.getUserAuth().email!!, it)
+                .observe(requireActivity()) { movementsList ->
 
-                homeTabViewModel.transfersAdapter.setListData(it)
-                homeTabViewModel.transfersAdapter.notifyDataSetChanged()
-                Handler(Looper.getMainLooper()).postDelayed({
-                    binding.clHistorialLoading.isVisible = false
-                    binding.clHistorial.isVisible = true
-                }, 300)
+                    homeTabViewModel.transfersAdapter.setListData(movementsList)
+                    homeTabViewModel.transfersAdapter.notifyDataSetChanged()
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        binding.clHistorialLoading.isVisible = false
+                        binding.clHistorial.isVisible = true
+                    }, 300)
 
-            }
+                }
+        }
+
     }
 
     private fun setTextViews() {
