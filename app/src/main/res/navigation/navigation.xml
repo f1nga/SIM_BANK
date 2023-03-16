@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_functionsFragment_to_infoAccountFragment"
             app:destination="@id/infoAccountFragment" />
+        <action
+            android:id="@+id/action_functionsFragment_to_promotionsFragment"
+            app:destination="@id/promotionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -279,5 +282,10 @@
         android:id="@+id/bizumDetailAccountFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.movement_details.BizumDetailAccountFragment"
         android:label="BizumDetailAccountFragment" />
+    <fragment
+        android:id="@+id/promotionsFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.PromotionsFragment"
+        android:label="fragment_promotions"
+        tools:layout="@layout/fragment_promotions" />
 
 </navigation>

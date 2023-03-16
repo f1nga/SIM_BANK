@@ -44,6 +44,10 @@ class FunctionsFragment : Fragment() {
         binding.clCuenta.setOnClickListener {
             goToAccountFunction()
         }
+
+        binding.clPromociones.setOnClickListener{
+            goToPromotionsFunction()
+        }
     }
 
     private fun goToTransferFunction() {
@@ -56,6 +60,10 @@ class FunctionsFragment : Fragment() {
 
     private fun goToAccountFunction() {
         view?.findNavController()?.navigate(R.id.action_functionsFragment_to_infoAccountFragment)
+    }
+
+    private fun goToPromotionsFunction(){
+        view?.findNavController()?.navigate(R.id.action_functionsFragment_to_promotionsFragment)
     }
 
     override fun onStart() {
