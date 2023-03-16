@@ -49,7 +49,7 @@
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/ivArrowIncome"
             app:layout_constraintTop_toBottomOf="@+id/tvDate"
-            android:text="Bizum" />
+            android:text="Transferencia realizada" />
 
         <TextView
             android:id="@+id/tvPrice"
@@ -139,9 +139,56 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:text="@string/fecha_cargo"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:textSize="16sp"
+                style="@style/resumText"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/tvFechaCargo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Arnau V.L."
+                style="@style/resumText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/fecha_de_abono_al_beneficiario"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:textSize="16sp"
+                style="@style/resumText"
+                android:textStyle="normal"/>
+
+            <TextView
+                android:id="@+id/tvFechaAbono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Arnau V.L."
+                style="@style/resumText" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:text="@string/beneficiary"
                 android:layout_weight="1"
                 android:gravity="start"
+                android:textSize="16sp"
                 style="@style/resumText"
                 android:textStyle="normal"/>
 
@@ -161,14 +208,15 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/beneficiary_phone"
+                android:text="@string/beneficiary_account"
                 android:layout_weight="1"
                 android:gravity="start"
+                android:textSize="16sp"
                 style="@style/resumText"
                 android:textStyle="normal"/>
 
             <TextView
-                android:id="@+id/tvBeneficiaryPhone"
+                android:id="@+id/tvBeneficiaryAccount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="Arnau V.L."
@@ -186,6 +234,7 @@
                 android:text="@string/ordenante"
                 android:layout_weight="1"
                 android:gravity="start"
+                android:textSize="16sp"
                 style="@style/resumText"
                 android:textStyle="normal"/>
 
@@ -205,30 +254,9 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/ordenant_phone"
-                android:layout_weight="1"
-                android:gravity="start"
-                style="@style/resumText"
-                android:textStyle="normal"/>
-
-            <TextView
-                android:id="@+id/tvOrdenantePhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="Arnau V.L."
-                style="@style/resumText" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
                 android:text="Comisión"
                 android:layout_weight="1"
+                android:textSize="16sp"
                 android:gravity="start"
                 style="@style/resumText"
                 android:textStyle="normal"/>
@@ -262,7 +290,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/icon_edit"
-               />
+                />
         </LinearLayout>
 
         <TextView

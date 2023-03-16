@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_homeFragment_to_infoAccountFragment"
             app:destination="@id/infoAccountFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_transferDetailAccountFragment"
+            app:destination="@id/transferDetailAccountFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_bizumDetailAccountFragment"
+            app:destination="@id/bizumDetailAccountFragment" />
     </fragment>
     <fragment
         android:id="@+id/functionsFragment"
@@ -277,11 +283,18 @@
         <action
             android:id="@+id/action_infoAccountFragment_to_bizumDetailAccountFragment"
             app:destination="@id/bizumDetailAccountFragment" />
+        <action
+            android:id="@+id/action_infoAccountFragment_to_transferDetailAccountFragment"
+            app:destination="@id/transferDetailAccountFragment" />
     </fragment>
     <fragment
         android:id="@+id/bizumDetailAccountFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.movement_details.BizumDetailAccountFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_bizum_details.BizumDetailAccountFragment"
         android:label="BizumDetailAccountFragment" />
+    <fragment
+        android:id="@+id/transferDetailAccountFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_transfer_details.TransferDetailAccountFragment"
+        android:label="TransferDetailAccountFragment" />
     <fragment
         android:id="@+id/promotionsFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.PromotionsFragment"

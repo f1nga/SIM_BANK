@@ -25,6 +25,7 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
         const val PAYMENT_TYPE_FIELD = "payment_type"
         const val DATE_FIELD = "date"
         const val CATEGORY_FIELD = "category"
+        const val ID_FIELD = "id"
 
         const val BIZUM_TYPE = "Bizum"
         const val TRANSFER_TYPE = "Transfer"
@@ -59,6 +60,7 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
 
                         listData.add(
                             Movement(
+                                document.getString(ID_FIELD)!!,
                                 document.getString(BENEFICIARY_IBAN_FIELD)!!,
                                 document.getString(BENEFICIARY_NAME_FIELD)!!,
                                 document.getDouble(AMOUNT_FIELD)!!,
@@ -104,6 +106,7 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
 
                     listData.add(
                         Movement(
+                            document.getString(ID_FIELD)!!,
                             document.getString(BENEFICIARY_IBAN_FIELD)!!,
                             document.getString(BENEFICIARY_NAME_FIELD)!!,
                             document.getDouble(AMOUNT_FIELD)!!,

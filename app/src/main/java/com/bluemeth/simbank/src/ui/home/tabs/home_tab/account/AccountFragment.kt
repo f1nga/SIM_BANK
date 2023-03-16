@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentAccountBinding
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.movement_details.BizumDetailAccountViewModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_bizum_details.BizumDetailAccountViewModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_transfer_details.TransferDetailAccountViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,6 +28,7 @@ class AccountFragment : Fragment() {
     private val globalViewModel: GlobalViewModel by viewModels()
     private val accountViewModel: AccountViewModel by viewModels()
     private val bizumDetailAccountViewModel: BizumDetailAccountViewModel by activityViewModels()
+    private val transferDetailAccountViewModel: TransferDetailAccountViewModel by activityViewModels()
 
     private companion object {
         const val COLOR_SELECTED = "#F7189EDC"
@@ -68,8 +71,16 @@ class AccountFragment : Fragment() {
         accountViewModel.accountMovementsAdapter.setItemListener(object :
             AccountMovementsRVAdapter.OnItemClickListener {
             override fun onItemClick(movement: Movement) {
-                bizumDetailAccountViewModel.setMovement(movement)
-                goToBizumDetail()
+                when(movement.payment_type) {
+                    PaymentType.Bizum -> {
+                        bizumDetailAccountViewModel.setMovement(movement)
+                        goToBizumDetail()
+                    }
+                    else -> {
+                        transferDetailAccountViewModel.setMovement(movement)
+                        goToTransferDetail()
+                    }
+                }
             }
         })
 
@@ -125,6 +136,10 @@ class AccountFragment : Fragment() {
 
     private fun goToBizumDetail() {
         view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_bizumDetailAccountFragment)
+    }
+
+    private fun goToTransferDetail() {
+        view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_transferDetailAccountFragment)
     }
 
 

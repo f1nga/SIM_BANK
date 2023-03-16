@@ -81,6 +81,7 @@
     <string name="toolbar_add_from_agenda">Añadir desde agenda</string>
     <string name="toolbar_account">Cuenta</string>
     <string name="toolbar_account_bizum_detail">Detalle del bizum</string>
+    <string name="toolbar_account_transfer_detail">Detalle de la transferencia</string>
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
@@ -185,6 +186,9 @@
     <string name="beneficiary_phone">Teléfono beneficiario</string>
     <string name="ordenante">Ordenante</string>
     <string name="ordenant_phone">Teléfono ordenante</string>
+    <string name="beneficiary_account">Cuenta beneficiario</string>
+    <string name="fecha_cargo">Fecha cargo</string>
+    <string name="fecha_de_abono_al_beneficiario">Fecha de abono al beneficiario</string>
 
 
 </resources>

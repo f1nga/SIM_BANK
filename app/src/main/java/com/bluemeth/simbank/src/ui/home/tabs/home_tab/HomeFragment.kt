@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,8 +19,11 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentHomeBinding
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.data.providers.HomeHeaderProvider
 import com.bluemeth.simbank.src.ui.GlobalViewModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_bizum_details.BizumDetailAccountViewModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_transfer_details.TransferDetailAccountViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,6 +33,8 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeTabViewModel: HomeTabViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
+    private val bizumDetailAccountViewModel: BizumDetailAccountViewModel by activityViewModels()
+    private val transferDetailAccountViewModel: TransferDetailAccountViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -97,7 +103,16 @@ class HomeFragment : Fragment() {
         homeTabViewModel.transfersAdapter.setItemListener(object :
             MovementsRVAdapter.OnItemClickListener {
             override fun onItemClick(movement: Movement) {
-                toast("HOLHOL")
+                when(movement.payment_type) {
+                    PaymentType.Bizum -> {
+                        bizumDetailAccountViewModel.setMovement(movement)
+                        goToBizumDetail()
+                    }
+                    else -> {
+                        transferDetailAccountViewModel.setMovement(movement)
+                        goToTransferDetail()
+                    }
+                }
             }
         })
     }
@@ -139,10 +154,18 @@ class HomeFragment : Fragment() {
         }
     }
 
+    private fun goToBizumDetail() {
+        view?.findNavController()?.navigate(R.id.action_homeFragment_to_bizumDetailAccountFragment)
+    }
+
+    private fun goToTransferDetail() {
+        view?.findNavController()?.navigate(R.id.action_homeFragment_to_transferDetailAccountFragment)
+    }
+
     override fun onStart() {
         super.onStart()
         globalViewModel.getUserName().observe(this) {
-            val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+            val tvTitle = requireActivity().findViewById<TextView>(R.id.tvNameBar)
             tvTitle.text = "Hola, ${Methods.splitName(it)}"
         }
     }
