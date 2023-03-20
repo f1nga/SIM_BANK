@@ -33,21 +33,15 @@ class FunctionsFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.clTransferencia.setOnClickListener {
-            goToTransferFunction()
-        }
+        binding.clTransferencia.setOnClickListener { goToTransferFunction() }
 
-        binding.clBizum.setOnClickListener {
-            goToBizumFunction()
-        }
+        binding.clBizum.setOnClickListener { goToBizumFunction() }
 
-        binding.clCuenta.setOnClickListener {
-            goToAccountFunction()
-        }
+        binding.clCuenta.setOnClickListener { goToAccountFunction() }
 
-        binding.clPromociones.setOnClickListener{
-            goToPromotionsFunction()
-        }
+        binding.clPromociones.setOnClickListener { goToPromotionsFunction() }
+
+        binding.cvMoreCards.setOnClickListener { goToAddCards() }
     }
 
     private fun goToTransferFunction() {
@@ -64,6 +58,10 @@ class FunctionsFragment : Fragment() {
 
     private fun goToPromotionsFunction(){
         view?.findNavController()?.navigate(R.id.action_functionsFragment_to_promotionsFragment)
+    }
+
+    private fun goToAddCards(){
+        view?.findNavController()?.navigate(R.id.action_functionsFragment_to_addCreditCardFragment)
     }
 
     override fun onStart() {

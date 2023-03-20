@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     android:background="@color/backgroundColor"
-    tools:context=".src.ui.drawer.SettingsFragment">
+    tools:context=".src.ui.drawer.settings.SettingsFragment">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSettings"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </FrameLayout>

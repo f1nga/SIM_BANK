@@ -120,11 +120,12 @@
         android:layout_marginTop="20dp">
 
         <LinearLayout
+            android:id="@+id/llToMovements"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="40dp"
@@ -135,22 +136,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Buscar movimientos"
-                android:gravity="center"
-                android:textStyle="bold"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="Buscar movimientos"
                 android:textColor="@color/primary_button"
                 android:textSize="14sp"
-                android:layout_marginTop="5dp" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llToTransfer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="40dp"
@@ -161,23 +163,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Transferencias"
-                android:gravity="center"
                 android:layout_gravity="center"
-                android:textStyle="bold"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="Transferencias"
                 android:textColor="@color/primary_button"
                 android:textSize="14sp"
-                android:layout_marginTop="5dp" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llToBizum"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="40dp"
@@ -188,14 +191,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bizum"
-                android:gravity="center"
                 android:layout_gravity="center"
-                android:textStyle="bold"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/montserrat"
+                android:gravity="center"
+                android:text="Bizum"
                 android:textColor="@color/primary_button"
                 android:textSize="14sp"
-                android:layout_marginTop="5dp" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 

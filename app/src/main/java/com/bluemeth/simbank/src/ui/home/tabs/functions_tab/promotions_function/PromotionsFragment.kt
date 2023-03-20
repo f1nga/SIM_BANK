@@ -7,14 +7,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentPromotionsBinding
+import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
+import com.bluemeth.simbank.src.core.dialog.ParticipateDialog
+import com.bluemeth.simbank.src.core.dialog.QuestionDialog
+import com.bluemeth.simbank.src.core.dialog.SuccessDialog
+import com.bluemeth.simbank.src.core.ex.show
+import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.providers.PromotionsFeaturesProvider
 import com.bluemeth.simbank.src.data.providers.PromotionsHeaderProvider
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.models.PromotionsFeatures
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.models.PromotionsHeader
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class PromotionsFragment : Fragment() {
     private lateinit var binding: FragmentPromotionsBinding
+    @Inject
+    lateinit var dialogLauncher: DialogFragmentLauncher
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,6 +41,14 @@ class PromotionsFragment : Fragment() {
     private fun initUI(){
         setRecyclerViewHeader()
         setRecyclerViewFeatures()
+        participate()
+    }
+
+
+    private fun participate(){
+        binding.btnParticipate.setOnClickListener{
+            showParticipateDialog()
+        }
     }
 
     private fun setRecyclerViewHeader() {
@@ -63,6 +83,13 @@ class PromotionsFragment : Fragment() {
                 Log.i("bon","dia")
             }
         })
+    }
+
+
+    private fun showParticipateDialog() {
+        ParticipateDialog.create(
+            ParticipateDialog.Action(getString(R.string.dialog_verified_positive)) {  }
+        ).show(dialogLauncher, requireActivity())
     }
 
 }

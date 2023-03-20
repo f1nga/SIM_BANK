@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_functionsFragment_to_promotionsFragment"
             app:destination="@id/promotionsFragment" />
+        <action
+            android:id="@+id/action_functionsFragment_to_addCreditCardFragment"
+            app:destination="@id/addCreditCardFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -90,7 +93,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.bluemeth.simbank.src.ui.drawer.SettingsFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
     <fragment
@@ -286,6 +289,12 @@
         <action
             android:id="@+id/action_infoAccountFragment_to_transferDetailAccountFragment"
             app:destination="@id/transferDetailAccountFragment" />
+        <action
+            android:id="@+id/action_infoAccountFragment_to_bizumFragment"
+            app:destination="@id/bizumFragment" />
+        <action
+            android:id="@+id/action_infoAccountFragment_to_transferFragment"
+            app:destination="@id/transferFragment" />
     </fragment>
     <fragment
         android:id="@+id/bizumDetailAccountFragment"

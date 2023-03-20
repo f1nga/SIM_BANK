@@ -141,19 +141,11 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .set(newUser)
     }
 
-    fun updateUserImage(email: String, img: Uri) {
-        val imageReference = firebase.storage.reference.child("images/profile")
-            .child(System.currentTimeMillis().toString())
-
-        imageReference.putFile(img).addOnSuccessListener {
-            imageReference.downloadUrl.addOnSuccessListener {
-                firebase.db
-                    .collection(USER_COLLECTION)
-                    .document(email)
-                    .update(IMAGE, img.toString())
-            }
-        }
-
+    fun updateUserImage(email:String, image: String){
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .update(IMAGE, image)
     }
 
     fun deleteUserByEmail(email: String) {

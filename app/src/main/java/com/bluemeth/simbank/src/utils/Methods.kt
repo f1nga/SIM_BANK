@@ -304,7 +304,7 @@ object Methods {
         }
 
         val notification = NotificationCompat.Builder(context, "chat")
-            .setSmallIcon(R.drawable.arrow_home)
+            .setSmallIcon(R.drawable.notification_icon_bank)
             .setContentTitle(title)
             .setContentText(text)
             .setPriority(NotificationCompat.PRIORITY_HIGH)

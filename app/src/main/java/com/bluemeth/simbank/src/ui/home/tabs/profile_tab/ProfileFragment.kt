@@ -124,7 +124,6 @@ class ProfileFragment : Fragment() {
                 }
             )
         }
-
         profileViewModel.navigateToWelcome.observe(requireActivity()) { goToWelcome() }
     }
 
@@ -151,9 +150,12 @@ class ProfileFragment : Fragment() {
     }
 
     private fun loadUserImage() {
+
         globalViewModel.getUserFromDB().observe(requireActivity()) {
             Picasso.get().load(it.image).into(binding.ivCircle)
+            binding.progressBar.visibility = View.GONE
         }
+
     }
 
     private fun showQuestionDialog(
@@ -187,6 +189,7 @@ class ProfileFragment : Fragment() {
             },
             positiveAction = QuestionDialog.Action(getString(R.string.dialog_error_yes)) {
                 profileViewModel.uploadImageToStorage()
+                toast("¡Imagen actualizada con éxito!")
                 it.dismiss()
             }
         ).show(dialogLauncher, requireActivity())

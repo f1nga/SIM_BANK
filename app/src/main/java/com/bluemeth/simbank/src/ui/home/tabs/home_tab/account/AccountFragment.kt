@@ -53,12 +53,11 @@ class AccountFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.cvIngresos.setOnClickListener {
-            filterIngresos()
-        }
-        binding.cvPerdidas.setOnClickListener {
-            filterPerdidas()
-        }
+        binding.cvIngresos.setOnClickListener { filterIngresos() }
+        binding.cvPerdidas.setOnClickListener { filterPerdidas() }
+        binding.llToMovements.setOnClickListener { goToMovementsFunction() }
+        binding.llToTransfer.setOnClickListener { goToTransferFunction() }
+        binding.llToBizum.setOnClickListener { goToBizumFunction() }
     }
 
     private fun setMovementsRecyclerView() {
@@ -141,6 +140,17 @@ class AccountFragment : Fragment() {
     private fun goToTransferDetail() {
         view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_transferDetailAccountFragment)
     }
+    private fun goToMovementsFunction() {
+        //view?.findNavController()?.navigate(R.id.)
+    }
+    private fun goToBizumFunction() {
+        view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_bizumFragment)
+    }
+    private fun goToTransferFunction() {
+        view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_transferFragment)
+    }
+
+
 
 
     override fun onStart() {

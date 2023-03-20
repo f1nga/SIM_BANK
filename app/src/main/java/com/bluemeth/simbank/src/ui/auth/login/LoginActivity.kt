@@ -11,6 +11,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.ActivityLoginBinding
+import com.bluemeth.simbank.src.SimBankApp.Companion.prefs
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
@@ -51,7 +52,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // prefs.saveSteps()
+        prefs.saveSteps()
         initUI()
     }
 
