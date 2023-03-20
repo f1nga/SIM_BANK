@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_bizum_details
+package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +14,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class BizumDetailAccountViewModel @Inject constructor(
+class MovementsDetailsViewModel @Inject constructor(
     private val noteMovementRepository: NoteMovementRepository,
     private val authenticationRepository: AuthenticationRepository
 ) : ViewModel() {

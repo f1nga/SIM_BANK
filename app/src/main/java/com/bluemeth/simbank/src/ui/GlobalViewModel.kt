@@ -54,6 +54,17 @@ class GlobalViewModel @Inject constructor(
         return user
     }
 
+    fun getUserByName(name: String): MutableLiveData<User> {
+        val user = MutableLiveData<User>()
+
+        userRepository.findUserByName(name)
+            .observeForever {
+                user.value = it
+            }
+
+        return user
+    }
+
     fun getBankMoney(): MutableLiveData<Double> {
         val money = MutableLiveData<Double>()
 
@@ -158,7 +169,6 @@ class GlobalViewModel @Inject constructor(
 
     fun getReceivedMovementsFromDB(): MutableLiveData<MutableList<Movement>> {
         val mutableData = MutableLiveData<MutableList<Movement>>()
-        var listData = mutableListOf<Movement>()
 
         getBankIban().observeForever {
             viewModelScope.launch {

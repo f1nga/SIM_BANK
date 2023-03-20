@@ -11,10 +11,7 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentPromotionsBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ParticipateDialog
-import com.bluemeth.simbank.src.core.dialog.QuestionDialog
-import com.bluemeth.simbank.src.core.dialog.SuccessDialog
 import com.bluemeth.simbank.src.core.ex.show
-import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.providers.PromotionsFeaturesProvider
 import com.bluemeth.simbank.src.data.providers.PromotionsHeaderProvider
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.models.PromotionsFeatures
@@ -30,8 +27,7 @@ class PromotionsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentPromotionsBinding.inflate(inflater,container,false)
 
         initUI()
@@ -63,7 +59,7 @@ class PromotionsFragment : Fragment() {
 
         cardAdapter.setItemListener(object : PromotionsHeaderRVAdapter.OnItemClickListener {
             override fun onItemClick(promotionsHeader: PromotionsHeader) {
-                Log.i("bon","dia")
+
             }
         })
     }
@@ -80,7 +76,7 @@ class PromotionsFragment : Fragment() {
 
         cardAdapter.setItemListener(object : PromotionsFeaturesRVAdapter.OnItemClickListener {
             override fun onItemClick(promotionsFeatures: PromotionsFeatures) {
-                Log.i("bon","dia")
+
             }
         })
     }

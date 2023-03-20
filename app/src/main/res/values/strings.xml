@@ -75,6 +75,7 @@
     <string name="toolbar_transfer">Realizar una transferencia</string>
     <string name="toolbar_transfer_resume">Resumen de la transferencia</string>
     <string name="toolbar_bizum">Realizar bizum</string>
+    <string name="toolbar_bizum_form">Bizum</string>
     <string name="toolbar_send_bizum">Enviar bizum</string>
     <string name="toolbar_request_bizum">Solicitar bizum</string>
     <string name="toolbar_add_manually">Añadir manualmente</string>
@@ -189,6 +190,12 @@
     <string name="beneficiary_account">Cuenta beneficiario</string>
     <string name="fecha_cargo">Fecha cargo</string>
     <string name="fecha_de_abono_al_beneficiario">Fecha de abono al beneficiario</string>
+    <string name="saved_agenda">Este contacto está guardado en tu agenda como:</string>
+    <string name="reutilizar_envio">Reutilizar para envío</string>
+    <string name="reutilizar_solicitud">Reutilizar para solicitud</string>
+    <string name="reuse_transfer">Reutilizar transferencia</string>
+    <string name="lasts_transfers">Últimas transferencias</string>
+    <string name="contactos_simbank">Contactos SimBank</string>
 
 
 </resources>

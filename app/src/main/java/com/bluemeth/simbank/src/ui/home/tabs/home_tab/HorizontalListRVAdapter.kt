@@ -30,14 +30,8 @@ class HorizontalListRVAdapter @Inject constructor() :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeHeaderHolder {
         val v =
             LayoutInflater.from(parent.context).inflate(R.layout.home_header_item, parent, false)
-        val cardHolder = HomeHeaderHolder(v)
 
-
-//        val card = cardHolder.itemView.findViewById<CardView>(R.id.card_view)
-//        card.setOnClickListener {
-//            listener.onItemClick(cardHolder.adapterPosition)
-//        }
-        return cardHolder
+        return HomeHeaderHolder(v)
     }
 
     override fun onBindViewHolder(holder: HomeHeaderHolder, position: Int) {
@@ -46,7 +40,7 @@ class HorizontalListRVAdapter @Inject constructor() :
     }
 
     override fun getItemCount(): Int {
-        return if (listData.size > 0) {
+        return if (listData.isNotEmpty()) {
             listData.size
         } else {
             0

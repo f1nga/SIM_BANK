@@ -1,6 +1,5 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
-import android.net.Uri
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
@@ -42,6 +41,28 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         firebase.db
             .collection(USER_COLLECTION)
             .whereEqualTo(EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                user.value = User(
+                    documents.first().getString(EMAIL_FIELD)!!,
+                    documents.first().getString(PASSWORD_FIELD)!!,
+                    documents.first().getString(NAME_FIELD)!!,
+                    documents.first().getLong(PHONE_FIELD)!!.toInt(),
+                    documents.first().getString(IMAGE)!!
+                )
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Failure").w(exception, "Error getting documents: ")
+            }
+
+        return user
+    }
+
+    fun findUserByName(name: String): MutableLiveData<User> {
+        val user = MutableLiveData<User>()
+        firebase.db
+            .collection(USER_COLLECTION)
+            .whereEqualTo(NAME_FIELD, name)
             .get()
             .addOnSuccessListener { documents ->
                 user.value = User(

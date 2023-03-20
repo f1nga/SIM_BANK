@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumFormBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
-import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.BizumFormModel
@@ -26,7 +25,6 @@ import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class BizumFormFragment : Fragment() {
@@ -50,6 +48,7 @@ class BizumFormFragment : Fragment() {
 
     private fun initUI() {
         setUserBizumRecyclerView()
+        getSavedArguments()
         initListeners()
         initObservers()
     }
@@ -80,7 +79,6 @@ class BizumFormFragment : Fragment() {
             btnContinue.setOnClickListener {
                 lifecycleScope.launchWhenStarted {
                     bizumFormViewModel.viewState.collect { viewState ->
-                        log("hool", "hooool")
                         if (!viewState.isValidAddressesList) tvErrorAddresses.isVisible = true
                     }
                 }
@@ -104,7 +102,7 @@ class BizumFormFragment : Fragment() {
         val inputText = Editable.Factory.getInstance()
 
         binding.inputImportText.apply {
-            if (this.toString().isNotEmpty()) {
+            if (text.toString().isNotEmpty()) {
                 if (hasFocus) {
                     text = inputText.newEditable(Methods.splitEuro(text.toString()))
                 } else {
@@ -188,6 +186,23 @@ class BizumFormFragment : Fragment() {
         }
     }
 
+    private fun getSavedArguments() {
+        bizumFormViewModel.reUseBizumArguments?.let {
+            val inputText = Editable.Factory.getInstance()
+
+            binding.inputImportText.text =  inputText.newEditable(
+                Methods.formatMoney(
+                    Methods.roundOffDecimal(
+                        it.import.toDouble()
+                    )
+                )
+            )
+
+            binding.inputSubjectText.text = inputText.newEditable(it.subject)
+            bizumFormViewModel.addressesRVAdapter.setListData(it.addressesList!!)
+        }
+    }
+
     private fun setUserBizumRecyclerView() {
 
         val addressesRecycler = binding.rvAddresses
@@ -250,7 +265,7 @@ class BizumFormFragment : Fragment() {
         super.onStart()
 
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
-        tvTitle.text = "Bizum"
+        tvTitle.text = getString(R.string.toolbar_bizum_form)
 
         binding.tvTitleForm.text = arguments?.getString("form_type")
 

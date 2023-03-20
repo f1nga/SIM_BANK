@@ -99,6 +99,26 @@ object Methods {
         return "${date.date} de $month de ${date.year + 1900}"
     }
 
+    fun formateFechaCargo(date: Date): String {
+
+        val month = when (if (date.month == 0) 12 else date.month + 1) {
+            1 -> "enero"
+            2 -> "febrero"
+            3 -> "marzo"
+            4 -> "abril"
+            5 -> "mayo"
+            6 -> "junio"
+            7 -> "julio"
+            8 -> "agosto"
+            9 -> "setiembre"
+            10 -> "octubre"
+            11 -> "noviembre"
+            else -> "diciembre"
+        }
+
+        return "${date.date-1} de $month de ${date.year + 1900}"
+    }
+
 
     fun formatCardNumber(cardNumber: String): String {
         var number = ""
@@ -236,14 +256,14 @@ object Methods {
 
     fun splitName(name: String) = name.split(" ")[0]
 
-    fun splitNameProfile(name: String): String {
+    fun splitNameAndSurname(name: String): String {
         val firstName = name.split(" ")[0]
         val secondName = name.split(" ")[1]
 
         return "${firstName[0]}${secondName[0]}"
     }
 
-    fun splitNameBizum(name: String): String {
+    fun splitNameAndCapitalsSurnames(name: String): String {
         val firstName = name.split(" ")[0]
         val secondName = name.split(" ")[1]
         val thirdName = name.split(" ")[2]
@@ -290,6 +310,10 @@ object Methods {
 
     fun parseDateToString(date: Date) : String {
         return "${date.date}-0${date.month}-${date.year+1900}"
+    }
+
+    fun setTimeout(action: Unit, millis: Int) {
+
     }
 
     fun generateToken() = UUID.randomUUID().toString()

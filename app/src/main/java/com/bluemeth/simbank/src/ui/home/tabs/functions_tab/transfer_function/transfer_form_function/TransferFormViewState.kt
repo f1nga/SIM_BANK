@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function
+package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function
 
 data class TransferFormViewState(
     val isValidIbanSpaces: Boolean = true,

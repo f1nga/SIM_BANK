@@ -1,6 +1,5 @@
-package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.resume_transfer_function
+package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function
 
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -49,6 +48,7 @@ class ResumeTransferFragment : Fragment() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI() {
+        setInfoAccount()
         setTextViews()
         initListeners()
         initObservers()
@@ -117,6 +117,38 @@ class ResumeTransferFragment : Fragment() {
         }
     }
 
+    private fun setTextViews() {
+        with(binding) {
+            resumeTransferViewModel.movement?.let {
+                tvCapitals.text = Methods.splitBeneficiaryName(it.beneficiary_name)
+                tvBeneficiary.text = it.beneficiary_name
+                tvIban.text = Methods.formatIbanNumber(it.beneficiary_iban)
+                tvMoney.text = Methods.formatMoney(it.amount)
+                tvSubject.text = it.subject
+            }
+
+            resumeTransferViewModel.reUseTransferArguments?.let {
+                tvIban.text = it.iban
+                tvBeneficiary.text = it.beneficiary
+                tvCapitals.text = Methods.splitNameAndSurname(it.beneficiary)
+                tvMoney.text = Methods.formatMoney(Methods.roundOffDecimal(it.import.toDouble()))
+                tvSubject.text = it.subject
+            }
+        }
+    }
+
+    private fun setInfoAccount() {
+        globalViewModel.getBankAccountFromDB().observe(requireActivity()) {
+            binding.tvAccount.text = "Cuenta *${Methods.formatShortIban(it.iban)}"
+            binding.tvShortNumber.text = "· ${Methods.formatShortIban(it.iban)}"
+            binding.tvMoneyAccount.text = Methods.formatMoney(it.money)
+        }
+    }
+
+    private fun goToHome() {
+        view?.findNavController()?.navigate(R.id.action_resumeTransferFragment_to_homeFragment)
+    }
+
     private fun showErrorDialog() {
         ErrorDialog.create(
             title = getString(R.string.signin_error_dialog_title),
@@ -133,30 +165,6 @@ class ResumeTransferFragment : Fragment() {
             "Sigue navegando por SimBank",
             SuccessDialog.Action(getString(R.string.dialog_verified_positive)) { goToHome() }
         ).show(dialogLauncher, requireActivity())
-    }
-
-    @SuppressLint("SetTextI18n")
-    private fun setTextViews() {
-        with(binding) {
-            globalViewModel.getBankAccountFromDB().observe(requireActivity()) {
-                tvAccount.text = "Cuenta *${Methods.formatShortIban(it.iban)}"
-                tvShortNumber.text = "· ${Methods.formatShortIban(it.iban)}"
-                tvMoneyAccount.text = Methods.formatMoney(it.money)
-            }
-
-            val transfer = resumeTransferViewModel.movement!!
-            tvCapitals.text = Methods.splitBeneficiaryName(transfer.beneficiary_name)
-            tvBeneficiary.text = transfer.beneficiary_name
-            tvIban.text = Methods.formatIbanNumber(transfer.beneficiary_iban)
-            tvMoney.text = Methods.formatMoney(transfer.amount)
-            tvSubject.text = transfer.subject
-
-        }
-
-    }
-
-    private fun goToHome() {
-        view?.findNavController()?.navigate(R.id.action_resumeTransferFragment_to_homeFragment)
     }
 
     override fun onStart() {

@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.resume_transfer_function
+package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -7,12 +7,19 @@ import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.domain.InsertTransferUseCase
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.model.TransferFormModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ResumeTransferViewModel @Inject constructor(private val insertTransferUseCase: InsertTransferUseCase) : ViewModel() {
+class ResumeTransferViewModel @Inject constructor(
+    private val insertTransferUseCase: InsertTransferUseCase,
+) : ViewModel() {
+
+    private var _reUseTransferArguments: TransferFormModel? = null
+    val reUseTransferArguments: TransferFormModel?
+        get() = _reUseTransferArguments
 
     private var _movement : Movement? = null
     val movement: Movement?
@@ -20,6 +27,10 @@ class ResumeTransferViewModel @Inject constructor(private val insertTransferUseC
 
     fun setTransfer(movement: Movement) {
         _movement = movement
+    }
+
+    fun setTransferFormModel (transferFormModel: TransferFormModel) {
+        _reUseTransferArguments = transferFormModel
     }
 
     private var _showErrorDialog = MutableLiveData(false)

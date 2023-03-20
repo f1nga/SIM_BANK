@@ -34,6 +34,10 @@ class BizumFormViewModel @Inject constructor(
     val bizumFormArguments: BizumFormModel?
         get() = _bizumFormArguments
 
+    private var _reUseBizumArguments: BizumFormModel? = null
+    val reUseBizumArguments: BizumFormModel?
+        get() = _reUseBizumArguments
+
     private var _bizumFormModel : BizumFormModel? = null
     val bizumFormModel: BizumFormModel?
         get() = _bizumFormModel
@@ -44,6 +48,10 @@ class BizumFormViewModel @Inject constructor(
 
     fun setBizumFormArguments(bizumFormModel: BizumFormModel) {
         _bizumFormArguments = bizumFormModel
+    }
+
+    fun setReUseBizumArguments(reUseBizumArguments: BizumFormModel) {
+        _reUseBizumArguments = reUseBizumArguments
     }
 
     fun onContinueSelected(bizumFormModel: BizumFormModel) {
@@ -64,7 +72,7 @@ class BizumFormViewModel @Inject constructor(
         if (import.isNotEmpty()) {
             return import.toDouble() in MIN_BIZUM_IMPORT..MAX_BIZUM_IMPORT
         }
-        return false
+        return import.isEmpty()
     }
 
     private fun isValidSubject(subject: String) =

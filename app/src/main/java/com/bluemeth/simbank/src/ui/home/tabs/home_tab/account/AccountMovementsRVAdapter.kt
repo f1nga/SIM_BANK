@@ -17,14 +17,22 @@ import javax.inject.Inject
 class AccountMovementsRVAdapter @Inject constructor() :
     RecyclerView.Adapter<AccountMovementsRVAdapter.TransfersHolder>() {
     private lateinit var listener: OnItemClickListener
-    private var listData = listOf<Movement>()
+    private var listData = mutableListOf<Movement>()
 
     interface OnItemClickListener {
         fun onItemClick(movement: Movement)
     }
 
-    fun setListData(data: List<Movement>) {
+    fun setListData(data: MutableList<Movement>) {
         listData = data
+    }
+
+    fun setMovement(data: Movement) {
+        listData.add(data)
+    }
+
+    fun clearListData() {
+        listData.clear()
     }
 
     fun setItemListener(listener: OnItemClickListener) {

@@ -16,14 +16,22 @@ import javax.inject.Inject
 class BizumHistoryRVAdapter @Inject constructor() :
     RecyclerView.Adapter<BizumHistoryRVAdapter.BizumHolder>() {
     private lateinit var listener: OnItemClickListener
-    private var listData = listOf<Movement>()
+    private var listData = mutableListOf<Movement>()
 
     interface OnItemClickListener {
         fun onItemClick(movement: Movement)
     }
 
-    fun setListData(data: List<Movement>) {
+    fun setListData(data: MutableList<Movement>) {
         listData = data
+    }
+
+    fun setMovement(data: Movement) {
+        listData.add(data)
+    }
+
+    fun clearListData() {
+        listData.clear()
     }
 
     fun setItemListener(listener: OnItemClickListener) {
@@ -61,9 +69,9 @@ class BizumHistoryRVAdapter @Inject constructor() :
 
             date.text = Methods.formateDateBizum(bizumHolder.date.toDate())
             title.text = if(bizumHolder.isIncome) {
-                 "Recibido de ${Methods.splitNameBizum(bizumHolder.beneficiary_name)}"
+                 "Recibido de ${Methods.splitNameAndCapitalsSurnames(bizumHolder.beneficiary_name)}"
             } else {
-                "Enviado a ${Methods.splitNameBizum(bizumHolder.beneficiary_name)}"
+                "Enviado a ${Methods.splitNameAndCapitalsSurnames(bizumHolder.beneficiary_name)}"
             }
 
             price.text = Methods.formatMoney(bizumHolder.amount)

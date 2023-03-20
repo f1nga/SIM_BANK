@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/backgroundColor">
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        style="@style/TitleText"
+        android:gravity="start"
+        tools:text="21 de febrero de 2023"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/llBeneficiaryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tvBeneficiary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/TitleText"
+            android:gravity="start"
+            tools:text="Institut vidreres"
+            android:textColor="@color/primary_button"/>
+
+        <TextView
+            android:id="@+id/tvImport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TitleText"
+            android:textSize="20sp"
+            android:textStyle="normal"
+            tools:text="-6,50€"
+            android:textColor="@color/error"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvIban"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat"
+        android:gravity="start"
+        android:layout_marginTop="5dp"
+        tools:text="ES44 4444 4444 4444 4444 4444"
+        android:textColor="@color/tertiary_text"
+        app:layout_constraintTop_toBottomOf="@id/llBeneficiaryName"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvSubject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat"
+        android:gravity="start"
+        android:layout_marginTop="5dp"
+        tools:text="El concepto de la trasnferencia"
+        android:textColor="@color/tertiary_text"
+        app:layout_constraintTop_toBottomOf="@id/tvIban"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:dividerColor="@color/tertiary_text"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

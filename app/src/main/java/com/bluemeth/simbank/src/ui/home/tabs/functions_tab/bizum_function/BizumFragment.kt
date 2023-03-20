@@ -14,9 +14,10 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumBinding
-import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_details.BizumDetailViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +28,7 @@ class BizumFragment : Fragment() {
     private val bizumViewModel: BizumViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
     private val bizumFormViewModel: BizumFormViewModel by activityViewModels()
+    private val bizumDetailViewModel: BizumDetailViewModel by activityViewModels()
 
     private companion object {
         const val COLOR_SELECTED = "#F7189EDC"
@@ -86,26 +88,36 @@ class BizumFragment : Fragment() {
         bizumViewModel.bizumHistoryRVAdapter.setItemListener(object :
             BizumHistoryRVAdapter.OnItemClickListener {
             override fun onItemClick(movement: Movement) {
-                toast("HOLHOL")
+                bizumDetailViewModel.setMovement(movement)
+                goToBizumDetails()
             }
         })
 
         observeMovements(false)
-
     }
 
     private fun observeMovements(isIncome: Boolean) {
+        bizumViewModel.bizumHistoryRVAdapter.clearListData()
+        bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
 
         if (isIncome) {
             globalViewModel.getReceivedMovementsFromDB()
                 .observe(requireActivity()) { movementsList ->
-                    bizumViewModel.bizumHistoryRVAdapter.setListData(movementsList)
+                    for(movement in movementsList) {
+                        if(movement.payment_type == PaymentType.Bizum)  {
+                            bizumViewModel.bizumHistoryRVAdapter.setMovement(movement)
+                        }
+                    }
                     bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
                 }
         } else {
             globalViewModel.getSendedMovementsFromDB()
                 .observe(requireActivity()) { movementsList ->
-                    bizumViewModel.bizumHistoryRVAdapter.setListData(movementsList)
+                    for(movement in movementsList) {
+                        if(movement.payment_type == PaymentType.Bizum)  {
+                            bizumViewModel.bizumHistoryRVAdapter.setMovement(movement)
+                        }
+                    }
                     bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
                 }
         }
@@ -139,6 +151,10 @@ class BizumFragment : Fragment() {
     private fun goToBizumForm(formType: String) {
         val bundle = bundleOf("form_type" to formType)
         view?.findNavController()?.navigate(R.id.action_bizumFragment_to_bizumFormFragment, bundle)
+    }
+
+    private fun goToBizumDetails() {
+        view?.findNavController()?.navigate(R.id.action_bizumFragment_to_bizumDetailFragment)
     }
 
     override fun onStart() {

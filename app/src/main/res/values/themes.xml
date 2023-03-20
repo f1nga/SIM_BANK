@@ -13,6 +13,7 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
 
         <item name="android:windowBackground">@drawable/splash_background</item>
@@ -40,7 +41,7 @@
 
     <style name="TitleText" parent="Widget.AppCompat.TextView">
         <item name="android:textSize">18sp</item>
-            <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/secondary</item>
         <item name="android:gravity">center</item>
         <item name="android:fontFamily">@font/montserrat</item>
@@ -54,16 +55,16 @@
         <item name="android:fontFamily">@font/montserrat</item>
     </style>
 
-        <style name="PrimaryButton" parent="Widget.MaterialComponents.Button">
-            <item name="android:textSize">12sp</item>
-            <item name="textAllCaps">true</item>
-            <item name="android:insetTop">0dp</item>
-            <item name="android:insetBottom">0dp</item>
-            <item name="android:textColor">@color/secondary</item>
-            <item name="android:gravity">center</item>
-            <item name="backgroundTint">@color/primary_button</item>
-            <item name="android:fontFamily">@font/montserrat</item>
-        </style>
+    <style name="PrimaryButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">12sp</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textColor">@color/secondary</item>
+        <item name="android:gravity">center</item>
+        <item name="backgroundTint">@color/primary_button</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+    </style>
 
     <style name="SecondaryButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="strokeColor">@color/primary_button</item>
@@ -131,5 +132,13 @@
         <item name="errorEnabled">true</item>
         <item name="android:textColorHint">@color/secondary_light_60</item>
         <item name="boxStrokeWidth">0dp</item>
+    </style>
+
+    <style name="CardViewWithICon">
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_width">40dp</item>
+        <item name="cardCornerRadius">50dp</item>
+        <item name="cardBackgroundColor">@color/primary_button</item>
+
     </style>
 </resources>

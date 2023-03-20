@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    tools:context=".src.ui.home.tabs.functions_tab.transfer_function.resume_transfer_function.ResumeTransferFragment">
+    tools:context=".src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function.ResumeTransferFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clCuenta"

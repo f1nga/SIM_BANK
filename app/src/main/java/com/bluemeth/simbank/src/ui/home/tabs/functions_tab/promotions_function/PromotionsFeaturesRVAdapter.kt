@@ -15,7 +15,6 @@ class PromotionsFeaturesRVAdapter :  RecyclerView.Adapter<PromotionsFeaturesRVAd
     private lateinit var listener: OnItemClickListener
     private var listData = listOf<PromotionsFeatures>()
 
-
     interface OnItemClickListener {
         fun onItemClick(promotionsFeatures: PromotionsFeatures)
     }
@@ -41,7 +40,7 @@ class PromotionsFeaturesRVAdapter :  RecyclerView.Adapter<PromotionsFeaturesRVAd
     }
 
     override fun getItemCount(): Int {
-        return if(listData.size > 0){
+        return if(listData.isNotEmpty()){
             listData.size
         }else{
             0

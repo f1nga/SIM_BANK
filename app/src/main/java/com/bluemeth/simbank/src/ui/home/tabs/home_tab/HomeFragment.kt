@@ -22,8 +22,7 @@ import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.data.providers.HomeHeaderProvider
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_bizum_details.BizumDetailAccountViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_transfer_details.TransferDetailAccountViewModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.MovementsDetailsViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.model.HomeHeader
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,8 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val homeTabViewModel: HomeTabViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
-    private val bizumDetailAccountViewModel: BizumDetailAccountViewModel by activityViewModels()
-    private val transferDetailAccountViewModel: TransferDetailAccountViewModel by activityViewModels()
+    private val movementsDetailsViewModel: MovementsDetailsViewModel by activityViewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -51,15 +49,10 @@ class HomeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI() {
         setTextViews()
-
         initListeners()
-
+        configSwipe()
         setHeaderRecyclerView()
-        observeHeader()
-
         setMovementsRecyclerView()
-        observeMovements()
-
         setDrawerHeaderName()
     }
 
@@ -84,6 +77,8 @@ class HomeFragment : Fragment() {
                 toast("Feature not implemented")
             }
         })
+
+        observeHeader()
     }
 
     private fun observeHeader() {
@@ -93,6 +88,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun setMovementsRecyclerView() {
 
         val movementRecyclerView = binding.rvHistory
@@ -105,16 +101,18 @@ class HomeFragment : Fragment() {
             override fun onItemClick(movement: Movement) {
                 when(movement.payment_type) {
                     PaymentType.Bizum -> {
-                        bizumDetailAccountViewModel.setMovement(movement)
+                        movementsDetailsViewModel.setMovement(movement)
                         goToBizumDetail()
                     }
                     else -> {
-                        transferDetailAccountViewModel.setMovement(movement)
+                        movementsDetailsViewModel.setMovement(movement)
                         goToTransferDetail()
                     }
                 }
             }
         })
+
+        observeMovements()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -134,6 +132,24 @@ class HomeFragment : Fragment() {
                 }
         }
 
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun configSwipe() {
+        binding.swipe.setOnRefreshListener {
+            Methods.setTimeout(refreshScreen(), 2000)
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                setTextViews()
+//            }, 2000)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun refreshScreen() {
+        setTextViews()
+        observeMovements()
+        observeHeader()
+        binding.swipe.isRefreshing = false
     }
 
     private fun setTextViews() {

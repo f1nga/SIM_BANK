@@ -1,17 +1,17 @@
-package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function
+package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluemeth.simbank.src.core.Event
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.model.TransferFormModel
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.model.TransferFormModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class TransferViewModel @Inject constructor() : ViewModel() {
+class TransferFormViewModel @Inject constructor() : ViewModel() {
     private companion object {
         const val MIN_BENEFICIARY_LENGTH = 6
         const val IBAN_LENGTH = 24

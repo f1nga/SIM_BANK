@@ -26,10 +26,6 @@
         android:label="fragment_functions"
         tools:layout="@layout/fragment_functions" >
         <action
-            android:id="@+id/action_functionsFragment_to_transferFragment"
-            app:destination="@id/transferFragment"
-            />
-        <action
             android:id="@+id/action_functionsFragment_to_bizumFragment"
             app:destination="@id/bizumFragment" />
         <action
@@ -38,6 +34,9 @@
         <action
             android:id="@+id/action_functionsFragment_to_promotionsFragment"
             app:destination="@id/promotionsFragment" />
+        <action
+            android:id="@+id/action_functionsFragment_to_transferFragment"
+            app:destination="@id/transferFragment" />
         <action
             android:id="@+id/action_functionsFragment_to_addCreditCardFragment"
             app:destination="@id/addCreditCardFragment" />
@@ -194,24 +193,23 @@
             app:popUpToInclusive="false" />
     </fragment>
     <fragment
-        android:id="@+id/transferFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.TransferFragment"
-        android:label="TransferFragment" >
+        android:id="@+id/transferFormFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.TransferFormFragment"
+        android:label="TransferFormFragment">
         <action
-            android:id="@+id/action_transferFragment_to_resumeTransferFragment"
+            android:id="@+id/action_transferFormFragment_to_resumeTransferFragment"
             app:destination="@id/resumeTransferFragment"
             app:popUpTo="@+id/functionsFragment"
-            app:popUpToInclusive="false"
-            />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/resumeTransferFragment"
-        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.resume_transfer_function.ResumeTransferFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function.ResumeTransferFragment"
         android:label="fragment_resum_transfer"
         tools:layout="@layout/fragment_resum_transfer" >
         <action
             android:id="@+id/action_resumeTransferFragment_to_transferFragment"
-            app:destination="@id/transferFragment" />
+            app:destination="@id/transferFormFragment" />
         <action
             android:id="@+id/action_resumeTransferFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
@@ -224,7 +222,10 @@
         <action
             android:id="@+id/action_bizumFragment_to_bizumFormFragment"
             app:destination="@id/bizumFormFragment"/>
-<!--            app:popUpTo="@+id/functionsFragment"-->
+        <action
+            android:id="@+id/action_bizumFragment_to_bizumDetailFragment"
+            app:destination="@id/bizumDetailFragment" />
+        <!--            app:popUpTo="@+id/functionsFragment"-->
 <!--            app:popUpToInclusive="false"-->
 
     </fragment>
@@ -309,5 +310,26 @@
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.PromotionsFragment"
         android:label="fragment_promotions"
         tools:layout="@layout/fragment_promotions" />
+    <fragment
+        android:id="@+id/bizumDetailFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_details.BizumDetailFragment"
+        android:label="fragment_bizum_detail"
+        tools:layout="@layout/fragment_bizum_detail" >
+        <action
+            android:id="@+id/action_bizumDetailFragment_to_bizumFormFragment"
+            app:destination="@id/bizumFormFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transferFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.TransferFragment"
+        android:label="fragment_transfer"
+        tools:layout="@layout/fragment_transfer" >
+        <action
+            android:id="@+id/action_transferFragment_to_transferFormFragment"
+            app:destination="@id/transferFormFragment" />
+        <action
+            android:id="@+id/action_transferFragment_to_resumeTransferFragment"
+            app:destination="@id/resumeTransferFragment" />
+    </fragment>
 
 </navigation>

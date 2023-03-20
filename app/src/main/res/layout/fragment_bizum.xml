@@ -145,8 +145,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvBizumHistory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="340dp"
         android:layout_marginTop="30dp"
+        app:layout_constraintVertical_bias="0.05"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/llSendedsReceived" />

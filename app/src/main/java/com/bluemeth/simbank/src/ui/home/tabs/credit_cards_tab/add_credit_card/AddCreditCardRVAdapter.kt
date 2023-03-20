@@ -39,7 +39,7 @@ class AddCreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<AddCre
     }
 
     override fun getItemCount(): Int {
-        return if(listData.size > 0){
+        return if(listData.isNotEmpty()){
             listData.size
         }else{
             0
@@ -60,7 +60,12 @@ class AddCreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<AddCre
             val descriptionCard = itemView.findViewById<TextView>(R.id.cardDescription)
             descriptionCard.text = infoCard.cardDescripton
 
+            val btnContratar = itemView.findViewById<TextView>(R.id.btnContratar)
+
             itemView.setOnClickListener {
+                listener.onItemClick(infoCard)
+            }
+            btnContratar.setOnClickListener {
                 listener.onItemClick(infoCard)
             }
         }

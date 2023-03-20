@@ -17,6 +17,7 @@ import com.bluemeth.simbank.databinding.FragmentBizumDetailAccountBinding
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.ui.GlobalViewModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.MovementsDetailsViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class BizumDetailAccountFragment : Fragment() {
 
     private lateinit var binding: FragmentBizumDetailAccountBinding
-    private val bizumDetailAccountViewModel: BizumDetailAccountViewModel by activityViewModels()
+    private val movementsDetailsViewModel: MovementsDetailsViewModel by activityViewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
     private lateinit var movement: Movement
 
@@ -42,7 +43,7 @@ class BizumDetailAccountFragment : Fragment() {
     }
 
     private fun initUI() {
-        movement = bizumDetailAccountViewModel.movement
+        movement = movementsDetailsViewModel.movement
         setTextViews()
         initListeners()
         initObservers()
@@ -53,7 +54,7 @@ class BizumDetailAccountFragment : Fragment() {
     }
 
     private fun initObservers() {
-        bizumDetailAccountViewModel.noteChanged.observe(requireActivity()) {
+        movementsDetailsViewModel.noteChanged.observe(requireActivity()) {
             binding.tvAddNote.text = it
         }
     }
@@ -75,7 +76,7 @@ class BizumDetailAccountFragment : Fragment() {
 
     private fun acceptNote() {
         val inputNota = requireActivity().findViewById<TextInputEditText>(R.id.inputNotaText)
-        bizumDetailAccountViewModel.onAcceptNoteSelected(inputNota.text.toString())
+        movementsDetailsViewModel.onAcceptNoteSelected(inputNota.text.toString())
 
         view?.dismissKeyboard()
 
@@ -128,7 +129,7 @@ class BizumDetailAccountFragment : Fragment() {
                 tvOrdenantePhone.text = it.phone.toString()
             }
 
-            bizumDetailAccountViewModel.noteExists().observe(requireActivity()) {
+            movementsDetailsViewModel.noteExists().observe(requireActivity()) {
                 tvAddNote.text = it?.note ?: "Añade aquí tu nota"
             }
         }
