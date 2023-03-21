@@ -129,6 +129,7 @@ class Step2Fragment : Fragment() {
                 step4ViewModel.setNewBankAccount(
                     BankAccount(
                         iban = bankIban ?: "",
+                        alias = binding.inputAliasText.text.toString(),
                         money = moneyBank ?: 0.0,
                         user_email = globalViewModel.getUserAuth().email!!
                     )

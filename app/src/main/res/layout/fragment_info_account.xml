@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/backgroundColor"
+    android:padding="16dp"
+    tools:context=".src.ui.home.tabs.home_tab.account.info_account.InfoAccountFragment">
+
+    <TextView
+        android:id="@+id/tvAliasTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BodyText"
+        android:text="@string/alias"
+        android:textColor="@color/tertiary_text" />
+
+    <LinearLayout
+        android:id="@+id/llAccount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvAlias"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/CaptionText"
+            android:gravity="start"
+            android:textSize="16sp"
+            tools:text="Cuenta *5081"/>
+
+        <ImageView
+            android:id="@+id/ivPencil"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/icon_edit"
+            />
+    </LinearLayout>
+
+    <include android:id="@+id/llAddNote" layout="@layout/item_update_alias" android:visibility="gone"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BodyText"
+        android:text="@string/iban"
+        android:textColor="@color/tertiary_text" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvIban"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            style="@style/CaptionText"
+            android:gravity="start"
+            android:textSize="16sp"
+            tools:text="ES23 4234 8763 1234 9874 3545"/>
+
+        <ImageView
+            android:id="@+id/ivCopy"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_copy" />
+    </LinearLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dividerColor="@color/tertiary_text"
+        android:layout_marginTop="10dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clParent"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvIntervinientes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Intervenientes"
+            android:textAllCaps="true"
+            style="@style/TitleText"
+            android:textColor="@color/tertiary_text"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ivUser"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/ic_user"
+            app:layout_constraintTop_toBottomOf="@+id/tvIntervinientes"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@+id/ivUser"
+            app:layout_constraintTop_toBottomOf="@id/tvIntervinientes">
+
+            <TextView
+                android:id="@+id/tvTitular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TitleText"
+                android:textSize="17sp"
+                tools:text="Didac Gros Labrador"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/BodyText"
+                android:textSize="16sp"
+                android:textColor="@color/tertiary_text"
+                android:text="@string/titular"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:dividerColor="@color/tertiary_text"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/tvTargetas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cards"
+        android:textAllCaps="true"
+        android:layout_marginTop="15dp"
+        style="@style/TitleText"
+        android:textColor="@color/tertiary_text"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvCards"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

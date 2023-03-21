@@ -17,6 +17,7 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentCreditCardBinding
 import com.bluemeth.simbank.src.data.models.CreditCard
 import com.bluemeth.simbank.src.ui.GlobalViewModel
+import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,14 +33,20 @@ class CreditCardFragment() : Fragment() {
     ): View {
         binding = FragmentCreditCardBinding.inflate(inflater,container,false)
 
-        setRecyclerView()
-        observeCard()
-
-        binding.floatingActionButton.setOnClickListener(){
-            view?.findNavController()?.navigate(R.id.action_cardFragment_to_addCreditCardFragment)
-        }
+        initUI()
 
         return binding.root
+    }
+
+    private fun initUI() {
+        initListeners()
+        setRecyclerView()
+    }
+
+    private fun initListeners() {
+        binding.floatingActionButton.setOnClickListener(){
+            goToAddCreditCard()
+        }
     }
 
     private fun setRecyclerView() {
@@ -56,10 +63,7 @@ class CreditCardFragment() : Fragment() {
             }
         })
 
-        creditCardViewModel.getNameUserCard(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {
-            creditCardViewModel.cardAdapter.setUserName(it.name)
-        }
-
+        observeCard()
     }
 
     private fun observeCard() {
@@ -67,13 +71,22 @@ class CreditCardFragment() : Fragment() {
             creditCardViewModel.getCreditsCardsFromDB(it).observe(requireActivity()) { creditCardList ->
                 creditCardViewModel.cardAdapter.setListData(creditCardList)
                 creditCardViewModel.cardAdapter.notifyDataSetChanged()
-                Handler(Looper.getMainLooper()).postDelayed({
+                Methods.setTimeout(
+                    {
                     binding.clCardsLoading.isVisible = false
                     binding.clCards.isVisible = true
-                }, 300)
+                    }, 300
+                )
+            }
+
+            creditCardViewModel.getNameUserCard(globalViewModel.getUserAuth().email!!).observe(requireActivity()) { user ->
+                creditCardViewModel.cardAdapter.setUserName(user.name)
             }
         }
+    }
 
+    private fun goToAddCreditCard() {
+        view?.findNavController()?.navigate(R.id.action_cardFragment_to_addCreditCardFragment)
     }
 
     override fun onStart() {

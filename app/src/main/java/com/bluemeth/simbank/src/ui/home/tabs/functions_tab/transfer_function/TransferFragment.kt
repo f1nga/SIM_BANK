@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -116,6 +117,13 @@ class TransferFragment : Fragment() {
 
     private fun goToResumeTransfer() {
         view?.findNavController()?.navigate(R.id.action_transferFragment_to_resumeTransferFragment)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val tvTitle = requireActivity().findViewById<TextView>(R.id.tvNameBar)
+
+        tvTitle.text = getString(R.string.toolbar_transfer)
     }
 
 }

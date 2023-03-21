@@ -99,10 +99,27 @@ class GlobalViewModel @Inject constructor(
     fun getBankAccountFromDB(): MutableLiveData<BankAccount> {
         val bankAccount = MutableLiveData<BankAccount>()
 
-        bankAccountRepository.findBankAccountByEmail(authenticationRepository.getCurrentUser().email!!)
-            .observeForever {
-                bankAccount.value = it
+        viewModelScope.launch {
+            bankAccountRepository.findBankAccountByEmail(authenticationRepository.getCurrentUser().email!!)
+                .observeForever {
+                    bankAccount.value = it
+                }
+        }
+
+
+        return bankAccount
+    }
+
+    fun getBankAccountFromDBbyName(name: String): MutableLiveData<BankAccount> {
+        val bankAccount = MutableLiveData<BankAccount>()
+
+        userRepository.findUserByName(name).observeForever {
+            viewModelScope.launch {
+                bankAccountRepository.findBankAccountByEmail(it.email).observeForever { bank ->
+                    bankAccount.value = bank
+                }
             }
+        }
 
         return bankAccount
     }
@@ -111,8 +128,10 @@ class GlobalViewModel @Inject constructor(
         val bankAccount = MutableLiveData<BankAccount>()
 
         userRepository.findUserByPhoneNumber(phoneNumber).observeForever {
-            bankAccountRepository.findBankAccountByEmail(it.email).observeForever { bank ->
-                bankAccount.value = bank
+            viewModelScope.launch {
+                bankAccountRepository.findBankAccountByEmail(it.email).observeForever { bank ->
+                    bankAccount.value = bank
+                }
             }
         }
 

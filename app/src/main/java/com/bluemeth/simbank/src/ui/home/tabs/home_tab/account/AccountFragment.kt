@@ -51,11 +51,14 @@ class AccountFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.cvIngresos.setOnClickListener { filterIngresos() }
-        binding.cvPerdidas.setOnClickListener { filterPerdidas() }
-        binding.llToMovements.setOnClickListener { goToMovementsFunction() }
-        binding.llToTransfer.setOnClickListener { goToTransferFunction() }
-        binding.llToBizum.setOnClickListener { goToBizumFunction() }
+        with(binding) {
+            cvIngresos.setOnClickListener { filterIngresos() }
+            cvPerdidas.setOnClickListener { filterPerdidas() }
+            llToMovements.setOnClickListener { goToMovementsFunction() }
+            llToTransfer.setOnClickListener { goToTransferFunction() }
+            llToBizum.setOnClickListener { goToBizumFunction() }
+            tvMoreInformation.setOnClickListener { goToInfoAccount() }
+        }
     }
 
     private fun setMovementsRecyclerView() {
@@ -69,7 +72,7 @@ class AccountFragment : Fragment() {
             AccountMovementsRVAdapter.OnItemClickListener {
             override fun onItemClick(movement: Movement) {
                 movementsDetailsViewModel.setMovement(movement)
-                when(movement.payment_type) {
+                when (movement.payment_type) {
                     PaymentType.Bizum -> {
                         goToBizumDetail()
                     }
@@ -82,6 +85,7 @@ class AccountFragment : Fragment() {
 
         observeMovements(true)
     }
+
     private fun observeMovements(isIncome: Boolean) {
         accountViewModel.accountMovementsAdapter.clearListData()
         accountViewModel.accountMovementsAdapter.notifyDataSetChanged()
@@ -89,8 +93,8 @@ class AccountFragment : Fragment() {
         if (isIncome) {
             globalViewModel.getReceivedMovementsFromDB()
                 .observe(requireActivity()) { movementsList ->
-                    for(movement in movementsList) {
-                        if(movement.payment_type == PaymentType.Bizum)  {
+                    for (movement in movementsList) {
+                        if (movement.payment_type == PaymentType.Bizum) {
                             accountViewModel.accountMovementsAdapter.setMovement(movement)
                         }
                     }
@@ -99,8 +103,8 @@ class AccountFragment : Fragment() {
         } else {
             globalViewModel.getSendedMovementsFromDB()
                 .observe(requireActivity()) { movementsList ->
-                    for(movement in movementsList) {
-                        if(movement.payment_type == PaymentType.Bizum)  {
+                    for (movement in movementsList) {
+                        if (movement.payment_type == PaymentType.Bizum) {
                             accountViewModel.accountMovementsAdapter.setMovement(movement)
                         }
                     }
@@ -141,23 +145,30 @@ class AccountFragment : Fragment() {
     }
 
     private fun goToBizumDetail() {
-        view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_bizumDetailAccountFragment)
+        view?.findNavController()
+            ?.navigate(R.id.action_accountFragment_to_bizumDetailAccountFragment)
     }
 
     private fun goToTransferDetail() {
-        view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_transferDetailAccountFragment)
+        view?.findNavController()
+            ?.navigate(R.id.action_accountFragment_to_transferDetailAccountFragment)
     }
+
     private fun goToMovementsFunction() {
         //view?.findNavController()?.navigate(R.id.)
     }
+
     private fun goToBizumFunction() {
-        view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_bizumFragment)
+        view?.findNavController()?.navigate(R.id.action_accountFragment_to_bizumFragment)
     }
+
     private fun goToTransferFunction() {
-        view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_transferFragment)
+        view?.findNavController()?.navigate(R.id.action_accountFragment_to_transferFragment)
     }
 
-
+    private fun goToInfoAccount() {
+        view?.findNavController()?.navigate(R.id.action_accountFragment_to_infoAccountFragment)
+    }
 
 
     override fun onStart() {

@@ -11,8 +11,8 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_infoAccountFragment"
-            app:destination="@id/infoAccountFragment" />
+            android:id="@+id/action_homeFragment_to_accountFragment"
+            app:destination="@id/accountFragment" />
         <action
             android:id="@+id/action_homeFragment_to_transferDetailAccountFragment"
             app:destination="@id/transferDetailAccountFragment" />
@@ -30,7 +30,7 @@
             app:destination="@id/bizumFragment" />
         <action
             android:id="@+id/action_functionsFragment_to_infoAccountFragment"
-            app:destination="@id/infoAccountFragment" />
+            app:destination="@id/accountFragment" />
         <action
             android:id="@+id/action_functionsFragment_to_promotionsFragment"
             app:destination="@id/promotionsFragment" />
@@ -281,21 +281,25 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/infoAccountFragment"
+        android:id="@+id/accountFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.AccountFragment"
-        android:label="InfoAccountFragment" >
+        android:label="accountFragment"
+        tools:layout="@layout/fragment_account">
         <action
-            android:id="@+id/action_infoAccountFragment_to_bizumDetailAccountFragment"
+            android:id="@+id/action_accountFragment_to_bizumDetailAccountFragment"
             app:destination="@id/bizumDetailAccountFragment" />
         <action
-            android:id="@+id/action_infoAccountFragment_to_transferDetailAccountFragment"
+            android:id="@+id/action_accountFragment_to_transferDetailAccountFragment"
             app:destination="@id/transferDetailAccountFragment" />
         <action
-            android:id="@+id/action_infoAccountFragment_to_bizumFragment"
+            android:id="@+id/action_accountFragment_to_bizumFragment"
             app:destination="@id/bizumFragment" />
         <action
-            android:id="@+id/action_infoAccountFragment_to_transferFragment"
+            android:id="@+id/action_accountFragment_to_transferFragment"
             app:destination="@id/transferFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_infoAccountFragment"
+            app:destination="@id/infoAccountFragment" />
     </fragment>
     <fragment
         android:id="@+id/bizumDetailAccountFragment"
@@ -330,6 +334,15 @@
         <action
             android:id="@+id/action_transferFragment_to_resumeTransferFragment"
             app:destination="@id/resumeTransferFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoAccountFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.info_account.InfoAccountFragment"
+        android:label="fragment_info_account"
+        tools:layout="@layout/fragment_info_account" >
+        <action
+            android:id="@+id/action_infoAccountFragment_to_infoCardFragment"
+            app:destination="@id/infoCardFragment" />
     </fragment>
 
 </navigation>

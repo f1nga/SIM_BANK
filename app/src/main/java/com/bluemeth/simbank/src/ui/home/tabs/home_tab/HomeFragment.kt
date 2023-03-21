@@ -50,16 +50,16 @@ class HomeFragment : Fragment() {
     private fun initUI() {
         setTextViews()
         initListeners()
-        configSwipe()
         setHeaderRecyclerView()
         setMovementsRecyclerView()
-        setDrawerHeaderName()
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun initListeners() {
-        binding.clAccount.setOnClickListener {
-            requireView().findNavController()
-                .navigate(R.id.action_homeFragment_to_infoAccountFragment)
+        binding.clAccount.setOnClickListener { goToAccount() }
+
+        binding.swipe.setOnRefreshListener {
+            Methods.setTimeout({ refreshScreen() }, 1000)
         }
     }
 
@@ -99,15 +99,10 @@ class HomeFragment : Fragment() {
         homeTabViewModel.transfersAdapter.setItemListener(object :
             MovementsRVAdapter.OnItemClickListener {
             override fun onItemClick(movement: Movement) {
-                when(movement.payment_type) {
-                    PaymentType.Bizum -> {
-                        movementsDetailsViewModel.setMovement(movement)
-                        goToBizumDetail()
-                    }
-                    else -> {
-                        movementsDetailsViewModel.setMovement(movement)
-                        goToTransferDetail()
-                    }
+                movementsDetailsViewModel.setMovement(movement)
+                when (movement.payment_type) {
+                    PaymentType.Bizum -> goToBizumDetail()
+                    else -> goToTransferDetail()
                 }
             }
         })
@@ -135,16 +130,6 @@ class HomeFragment : Fragment() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun configSwipe() {
-        binding.swipe.setOnRefreshListener {
-            Methods.setTimeout(refreshScreen(), 2000)
-//            Handler(Looper.getMainLooper()).postDelayed({
-//                setTextViews()
-//            }, 2000)
-        }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
     private fun refreshScreen() {
         setTextViews()
         observeMovements()
@@ -162,9 +147,7 @@ class HomeFragment : Fragment() {
             binding.tvAccountNumber.text = "Cuenta *${Methods.formatShortIban(it)}"
             binding.tvShortNumber.text = "· ${Methods.formatShortIban(it)}"
         }
-    }
 
-    private fun setDrawerHeaderName() {
         globalViewModel.getUserName().observe(requireActivity()) {
             activity?.findViewById<TextView>(R.id.tvNameDrawer)?.text = Methods.splitName(it)
         }
@@ -176,6 +159,10 @@ class HomeFragment : Fragment() {
 
     private fun goToTransferDetail() {
         view?.findNavController()?.navigate(R.id.action_homeFragment_to_transferDetailAccountFragment)
+    }
+
+    private fun goToAccount() {
+        view?.findNavController()?.navigate(R.id.action_homeFragment_to_accountFragment)
     }
 
     override fun onStart() {

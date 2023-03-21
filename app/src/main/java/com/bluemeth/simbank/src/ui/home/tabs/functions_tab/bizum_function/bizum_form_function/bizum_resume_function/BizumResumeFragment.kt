@@ -18,7 +18,9 @@ import com.bluemeth.simbank.databinding.FragmentBizumResumeBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.dialog.SuccessDialog
+import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.show
+import com.bluemeth.simbank.src.data.models.Bizum
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
@@ -69,9 +71,58 @@ class BizumResumeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initListeners() {
         binding.btnConfirm.setOnClickListener {
-            bizumFormViewModel.bizumFormModel!!.apply {
+            bizumFormViewModel.bizumFormModel?.let { bizumFormModel ->
+//                val beneficiaryIbans = mutableListOf<String>()
+//                val beneficiaryNames = mutableListOf<String>()
+//                val beneficiaryMoneys = mutableListOf<Double>()
+//                val beneficiaryRemainingMoneys = mutableListOf<Double>()
+//
+//                for (bizumForm in bizumFormModel.addressesList!!) {
+//                    beneficiaryNames.add(bizumForm.name)
+//
+//                }
+//
+//                log("hool0", beneficiaryNames.toString())
+//
+//                bizumResumeViewModel.getBeneficiarysAccount(beneficiaryNames)
+//                    .observe(requireActivity()) { listBeneficiariesAccounts ->
+//                        log("hool1", listBeneficiariesAccounts[0].user_email)
+//                        for (account in listBeneficiariesAccounts) {
+//                            log("hool2", account.toString())
+//                            beneficiaryIbans.add(account.iban)
+//                            beneficiaryMoneys.add(account.money)
+//                            beneficiaryRemainingMoneys.add(
+//                                Methods.roundOffDecimal(
+//                                    account.money + bizumFormModel.addressesList!![0].import
+//                                )
+//                            )
+//                        }
+//                        log("hool3", "hol")
+//
+//                        globalViewModel.getBankAccountFromDB()
+//                            .observe(requireActivity()) { bankAccount ->
+//                                log("hool4", bankAccount.user_email)
+//                                bizumResumeViewModel.makeBizum(
+//                                    bankAccount.iban,
+//                                    Bizum(
+//                                        beneficiary_iban = beneficiaryIbans,
+//                                        beneficiary_name = beneficiaryNames,
+//                                        amount = bizumFormModel.addressesList!![0].import,
+//                                        subject = bizumFormModel.subject,
+//                                        category = "Pagos Bizum",
+//                                        payment_type = PaymentType.Bizum,
+//                                        remaining_money = Methods.roundOffDecimal(bankAccount.money - bizumFormModel.addressesList!![0].import),
+//                                        beneficiary_remaining_money = beneficiaryRemainingMoneys,
+//                                        user_email = globalViewModel.getUserAuth().email!!
+//                                    ),
+//                                    beneficiaryMoneys,
+//                                )
+//                            }
+//                    }
 
-                this.addressesList!!.forEach { contactBizum ->
+
+
+                bizumFormModel.addressesList!!.forEach { contactBizum ->
                     globalViewModel.getBankAccountFromDBbyPhone(contactBizum.phoneNumber)
                         .observe(requireActivity()) { beneficiaryAccount ->
                             globalViewModel.getBankAccountFromDB()
@@ -82,7 +133,7 @@ class BizumResumeFragment : Fragment() {
                                             beneficiary_iban = beneficiaryAccount.iban,
                                             beneficiary_name = contactBizum.name,
                                             amount = contactBizum.import,
-                                            subject = this.subject,
+                                            subject = bizumFormModel.subject,
                                             category = "Pagos Bizum",
                                             payment_type = PaymentType.Bizum,
                                             remaining_money = Methods.roundOffDecimal(bankAccount.money - contactBizum.import),

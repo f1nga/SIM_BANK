@@ -80,6 +80,62 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         return user
     }
 
+    suspend fun findUserByName2(name: String): MutableLiveData<User> {
+        val user = MutableLiveData<User>()
+        firebase.db
+            .collection(USER_COLLECTION)
+            .whereEqualTo(NAME_FIELD, name)
+            .get()
+            .addOnSuccessListener { documents ->
+                user.value = User(
+                    documents.first().getString(EMAIL_FIELD)!!,
+                    documents.first().getString(PASSWORD_FIELD)!!,
+                    documents.first().getString(NAME_FIELD)!!,
+                    documents.first().getLong(PHONE_FIELD)!!.toInt(),
+                    documents.first().getString(IMAGE)!!
+                )
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Failure").w(exception, "Error getting documents: ")
+            }.await()
+
+        return user
+    }
+
+    suspend fun findUserByNameList(names: List<String>): MutableLiveData<List<User>> {
+        val users = MutableLiveData<List<User>>()
+
+        for(name in names) {
+            firebase.db
+                .collection(USER_COLLECTION)
+                .whereEqualTo(NAME_FIELD, name)
+                .get()
+                .addOnSuccessListener { documents ->
+                    val list = mutableListOf<User>()
+                    for(document in documents) {
+                        list.add(
+                            User(
+                                document.getString(EMAIL_FIELD)!!,
+                                document.getString(PASSWORD_FIELD)!!,
+                                document.getString(NAME_FIELD)!!,
+                                document.getLong(PHONE_FIELD)!!.toInt(),
+                                document.getString(IMAGE)!!
+                            )
+                        )
+                    }
+
+                    users.value = list
+
+                }
+                .addOnFailureListener { exception ->
+                    Timber.tag("Failure").w(exception, "Error getting documents: ")
+                }.await()
+        }
+
+
+        return users
+    }
+
     fun getContactUsers(email: String): MutableLiveData<MutableList<ContactAgenda>> {
         val mutableData = MutableLiveData<MutableList<ContactAgenda>>()
 

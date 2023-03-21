@@ -6,10 +6,13 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.view.isVisible
 import com.bluemeth.simbank.R
 import com.google.firebase.Timestamp
 import java.math.RoundingMode
@@ -312,8 +315,8 @@ object Methods {
         return "${date.date}-0${date.month}-${date.year+1900}"
     }
 
-    fun setTimeout(action: Unit, millis: Int) {
-
+    fun setTimeout(action: Runnable, millis: Long) {
+        Handler(Looper.getMainLooper()).postDelayed(action, millis)
     }
 
     fun generateToken() = UUID.randomUUID().toString()

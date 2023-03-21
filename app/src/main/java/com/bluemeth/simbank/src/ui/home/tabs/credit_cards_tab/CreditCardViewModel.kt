@@ -17,8 +17,6 @@ class CreditCardViewModel @Inject constructor(
     private val creditCardRepository: CreditCardRepository,
     val cardAdapter: CreditCardRVAdapter,
     private val userRepository: UserRepository,
-    private val bankAccountRepository: BankAccountRepository,
-    private val insertCreditCardUseCase: InsertCreditCardUseCase,
 ) : ViewModel() {
 
     private var _creditCard: CreditCard? = null
@@ -31,10 +29,6 @@ class CreditCardViewModel @Inject constructor(
             mutableData.value = it
         }
         return mutableData
-    }
-
-    fun insertCreditCardToDB(creditCard: CreditCard) {
-        viewModelScope.launch { insertCreditCardUseCase(creditCard) }
     }
 
     fun setCard(creditCard: CreditCard) {

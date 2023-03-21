@@ -2,6 +2,7 @@ package com.bluemeth.simbank.src.data.providers.firebase
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.bluemeth.simbank.src.data.models.Bizum
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.utils.Methods
@@ -32,6 +33,15 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
     }
 
     suspend fun insertMovement(movement: Movement) = runCatching {
+        firebase.db
+            .collection(MOVEMENTS_COLLECTION)
+            .document(Methods.generateToken())
+            .set(movement)
+            .await()
+
+    }.isSuccess
+
+    suspend fun insertMovement(movement: Bizum) = runCatching {
         firebase.db
             .collection(MOVEMENTS_COLLECTION)
             .document(Methods.generateToken())

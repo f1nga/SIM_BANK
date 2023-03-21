@@ -212,7 +212,7 @@ class TransferFormFragment : Fragment() {
         super.onStart()
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
-        tvTitle.text = getString(R.string.toolbar_transfer)
+        tvTitle.text = getString(R.string.toolbar_realize_transfer)
     }
 
 }

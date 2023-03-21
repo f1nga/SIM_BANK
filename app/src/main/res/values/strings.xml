@@ -72,17 +72,19 @@
     <string name="toolbar_update_email">Actualizar el email</string>
     <string name="toolbar_update_phone">Actualizar el teléfono</string>
     <string name="toolbar_update_name">Actualizar el titular</string>
-    <string name="toolbar_transfer">Realizar una transferencia</string>
+    <string name="toolbar_transfer">Transferencia</string>
+    <string name="toolbar_realize_transfer">Realizar una transferencia</string>
     <string name="toolbar_transfer_resume">Resumen de la transferencia</string>
+    <string name="toolbar_account_transfer_detail">Detalle de la transferencia</string>
     <string name="toolbar_bizum">Realizar bizum</string>
     <string name="toolbar_bizum_form">Bizum</string>
     <string name="toolbar_send_bizum">Enviar bizum</string>
     <string name="toolbar_request_bizum">Solicitar bizum</string>
     <string name="toolbar_add_manually">Añadir manualmente</string>
     <string name="toolbar_add_from_agenda">Añadir desde agenda</string>
-    <string name="toolbar_account">Cuenta</string>
     <string name="toolbar_account_bizum_detail">Detalle del bizum</string>
-    <string name="toolbar_account_transfer_detail">Detalle de la transferencia</string>
+    <string name="toolbar_account">Cuenta</string>
+    <string name="toolbar_info_account">Información de la cuenta</string>
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
@@ -196,6 +198,9 @@
     <string name="reuse_transfer">Reutilizar transferencia</string>
     <string name="lasts_transfers">Últimas transferencias</string>
     <string name="contactos_simbank">Contactos SimBank</string>
+    <string name="alias">Alias</string>
+    <string name="titular">Titular</string>
+    <string name="cards">Targetas</string>
 
 
 </resources>

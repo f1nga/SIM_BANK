@@ -39,7 +39,6 @@ class BizumDetailAccountFragment : Fragment() {
         initUI()
 
         return binding.root
-
     }
 
     private fun initUI() {
