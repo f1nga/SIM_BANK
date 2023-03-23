@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item
         android:icon="@drawable/baseline_person_24"
         android:id="@+id/profileFragment"
         android:title="Perfil" />
 
+    <item android:icon="@drawable/missionsicon"
+        android:id="@+id/userMissionsFragment"
+        android:title="Misiones" />
     <item
         android:icon="@drawable/baseline_settings_24"
         android:id="@+id/settingsFragment"

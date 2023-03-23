@@ -24,9 +24,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/backgroundColor"
-            android:paddingHorizontal="20dp">
+            android:layout_height="match_parent"
+            android:background="@color/backgroundColor">
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -98,7 +97,7 @@
                 android:id="@+id/divider"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@color/tertiary_text"
                 app:layout_constraintBottom_toTopOf="@id/input_profile_email"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -209,13 +208,13 @@
                 style="@style/PrimaryButton"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="40dp"
                 android:backgroundTint="@color/red"
                 android:text="CERRAR SESIÓN"
                 app:layout_constraintBottom_toTopOf="@id/btnDeleteAccount"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_profile_phone" />
+                app:layout_constraintTop_toBottomOf="@+id/cvMissions" />
 
             <Button
                 android:id="@+id/btnDeleteAccount"
@@ -223,6 +222,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:text="ELIMINAR CUENTA"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -230,7 +230,102 @@
                 app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
 
 
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvMissions"
+                android:layout_width="330dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:outlineAmbientShadowColor="@color/white"
+                android:outlineSpotShadowColor="@color/white"
+                app:cardBackgroundColor="#170843"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                android:layout_marginTop="25dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/input_profile_phone">
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        style="@style/BodyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Completa tus misiones!"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        style="@style/BodyText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:gravity="left"
+                        android:text="Descrube todas las funcionalidades\nde SIMBANK"
+                        android:textColor="#B9FFFFFF"
+                        android:textSize="14.5sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView8" />
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/ic_missions_blue"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="15dp"
+                android:src="@drawable/ic_star"
+                app:layout_constraintBottom_toTopOf="@+id/divider"
+                app:layout_constraintStart_toEndOf="@+id/ivCircle"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitular" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="33"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView9"
+                app:layout_constraintEnd_toEndOf="@+id/imageView9"
+                app:layout_constraintStart_toStartOf="@+id/imageView9"
+                app:layout_constraintTop_toTopOf="@+id/imageView9" />
+
+            <ProgressBar
+                android:id="@+id/pbLevel"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:progressBackgroundTint="@color/white"
+                app:layout_constraintBottom_toTopOf="@+id/divider"
+                app:layout_constraintStart_toEndOf="@+id/imageView9"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitular" />
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

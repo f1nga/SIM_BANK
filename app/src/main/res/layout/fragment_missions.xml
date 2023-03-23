@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context=".src.ui.home.tabs.profile_tab.user_missions.UserMissionsFragment">
+
+    <TextView
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COMPLETA TUS MISIONES"
+        android:textSize="19sp"
+        style="@style/TitleText"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMissions"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</LinearLayout>

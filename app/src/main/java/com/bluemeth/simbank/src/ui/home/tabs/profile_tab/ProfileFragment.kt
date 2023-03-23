@@ -46,6 +46,7 @@ class ProfileFragment : Fragment() {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
         initUI()
 
+
         return binding.root
     }
 
@@ -58,6 +59,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun setPersonalData() {
+        binding.pbLevel.progress = 36
         with(Editable.Factory.getInstance()) {
             globalViewModel.getUserFromDB().observe(requireActivity()) {
                 binding.inputProfileEmailText.text = newEditable(it.email)
@@ -93,6 +95,8 @@ class ProfileFragment : Fragment() {
             btnLogout.setOnClickListener { profileViewModel.onLogoutSelected() }
 
             btnDeleteAccount.setOnClickListener { profileViewModel.onDeleteAccountSelected() }
+
+            cvMissions.setOnClickListener { goToMissions() }
         }
 
     }
@@ -200,6 +204,10 @@ class ProfileFragment : Fragment() {
 
     private fun goToWelcome() {
         startActivity(WelcomeActivity.create(requireContext()))
+    }
+
+    private fun goToMissions(){
+        view?.findNavController()?.navigate(R.id.action_profileFragment_to_userMissionsFragment)
     }
 
     override fun onStart() {

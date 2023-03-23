@@ -62,6 +62,9 @@
             android:id="@+id/action_profileFragment_to_updatePhoneFragment"
             app:destination="@id/updatePhoneFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_profileFragment_to_userMissionsFragment"
+            app:destination="@id/userMissionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/cardFragment"
@@ -368,5 +371,10 @@
             android:id="@+id/action_accountMovementsFilteredFragment_to_transferDetailAccountFragment"
             app:destination="@id/transferDetailAccountFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/userMissionsFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.user_missions.UserMissionsFragment"
+        android:label="fragment_missions"
+        tools:layout="@layout/fragment_missions" />
 
 </navigation>
