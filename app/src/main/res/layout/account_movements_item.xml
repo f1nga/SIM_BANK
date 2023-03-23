@@ -1,57 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clMovement"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:background="@color/backgroundColor"
-    android:padding="20dp">
+    android:layout_height="120dp"
+    android:background="@color/backgroundColor">
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:textStyle="bold"
+        tools:text="24 de febrero de 2023"
+        android:fontFamily="@font/montserrat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <ImageView
         android:id="@+id/ivArrowIncome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:src="@drawable/arrow_lose"
-        card_view:layout_constraintStart_toStartOf="parent"
-        card_view:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
         android:fontFamily="@font/montserrat"
-        android:textColor="@color/primary_text"
+        android:textColor="@color/primary_button"
         android:textStyle="bold"
-        card_view:layout_constraintStart_toEndOf="@+id/ivArrowIncome"
-        card_view:layout_constraintTop_toTopOf="parent"
+        android:textSize="16sp"
+        app:layout_constraintStart_toEndOf="@+id/ivArrowIncome"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate"
         tools:text="Mecánico" />
 
     <TextView
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="15dp"
         android:fontFamily="@font/montserrat"
         android:textColor="@color/primary_text"
+        android:layout_marginTop="10dp"
         android:textStyle="bold"
-        card_view:layout_constraintEnd_toEndOf="parent"
-        card_view:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDate"
         tools:text="+350,00€" />
 
     <TextView
-        android:id="@+id/tvRecordDate"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvSubject"
+        android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:fontFamily="@font/montserrat"
-        android:textColor="@color/primary_text"
-        card_view:layout_constraintStart_toEndOf="@id/ivArrowIncome"
-        card_view:layout_constraintTop_toBottomOf="@+id/tvTitle"
-        tools:text="Ayer" />
+        android:textColor="@color/tertiary_text"
+        android:textSize="15sp"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintEnd_toStartOf="@+id/tvRemainingMoney"
+        app:layout_constraintStart_toEndOf="@id/ivArrowIncome"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+        tools:text="Concepto" />
 
     <TextView
         android:id="@+id/tvRemainingMoney"
@@ -60,17 +77,18 @@
         android:layout_marginStart="10dp"
         android:fontFamily="@font/montserrat"
         android:textColor="@color/primary_text"
-        card_view:layout_constraintEnd_toEndOf="parent"
-        card_view:layout_constraintTop_toBottomOf="@id/tvPrice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPrice"
         tools:text="+3540,00€" />
 
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        card_view:dividerColor="@color/primary_text"
-        card_view:layout_constraintBottom_toBottomOf="parent"
-        card_view:layout_constraintEnd_toEndOf="parent"
-        card_view:layout_constraintStart_toStartOf="parent" />
+        app:dividerColor="@color/primary_text"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

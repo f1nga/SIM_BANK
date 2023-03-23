@@ -1,9 +1,11 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -75,6 +77,7 @@ class BizumDetailFragment : Fragment() {
             }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         with(binding) {
             tvDate.text = Methods.formateDateBizum(movement.date.toDate())
@@ -124,6 +127,13 @@ class BizumDetailFragment : Fragment() {
     private fun goToBizumForm(bundle: Bundle) {
         view?.findNavController()
             ?.navigate(R.id.action_bizumDetailFragment_to_bizumFormFragment, bundle)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+
+        tvTitle.text = getString(R.string.toolbar_bizum_detail)
     }
 
 }

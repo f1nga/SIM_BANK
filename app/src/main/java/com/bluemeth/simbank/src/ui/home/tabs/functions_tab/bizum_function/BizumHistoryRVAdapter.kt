@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -59,6 +60,7 @@ class BizumHistoryRVAdapter @Inject constructor() :
     }
 
     inner class BizumHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        @SuppressLint("SetTextI18n")
         @RequiresApi(Build.VERSION_CODES.O)
         fun bindView(bizumHolder: Movement) {
             val date = itemView.findViewById<TextView>(R.id.tvDate)
@@ -68,20 +70,23 @@ class BizumHistoryRVAdapter @Inject constructor() :
             val isIncome = itemView.findViewById<ImageView>(R.id.ivArrowIncome)
 
             date.text = Methods.formateDateBizum(bizumHolder.date.toDate())
-            title.text = if(bizumHolder.isIncome) {
-                 "Recibido de ${Methods.splitNameAndCapitalsSurnames(bizumHolder.beneficiary_name)}"
-            } else {
-                "Enviado a ${Methods.splitNameAndCapitalsSurnames(bizumHolder.beneficiary_name)}"
-            }
-
             price.text = Methods.formatMoney(bizumHolder.amount)
-            subject.text = bizumHolder.subject
+
             if (bizumHolder.isIncome) {
+                title.text =
+                    "Recibido de ${Methods.splitNameAndCapitalsSurnames(bizumHolder.beneficiary_name)}"
+
                 price.text = "+${Methods.formatMoney(bizumHolder.amount)}"
                 isIncome.setImageResource(R.drawable.arrow_win)
+                subject.text =
+                    if (bizumHolder.subject != "") bizumHolder.subject else "Recibido: sin concepto"
             } else {
+                title.text =
+                    "Enviado a ${Methods.splitNameAndCapitalsSurnames(bizumHolder.beneficiary_name)}"
                 price.text = "-${Methods.formatMoney(bizumHolder.amount)}"
                 isIncome.setImageResource(R.drawable.arrow_lose)
+                subject.text =
+                    if (bizumHolder.subject != "") bizumHolder.subject else "Enviado: sin concepto"
             }
 
             itemView.setOnClickListener {

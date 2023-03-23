@@ -300,6 +300,9 @@
         <action
             android:id="@+id/action_accountFragment_to_infoAccountFragment"
             app:destination="@id/infoAccountFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_searchMovementsFragment"
+            app:destination="@id/searchMovementsFragment" />
     </fragment>
     <fragment
         android:id="@+id/bizumDetailAccountFragment"
@@ -343,6 +346,27 @@
         <action
             android:id="@+id/action_infoAccountFragment_to_infoCardFragment"
             app:destination="@id/infoCardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchMovementsFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.SearchMovementsFragment"
+        android:label="fragment_search_movements"
+        tools:layout="@layout/fragment_search_movements" >
+        <action
+            android:id="@+id/action_searchMovementsFragment_to_accountMovementsFilteredFragment"
+            app:destination="@id/accountMovementsFilteredFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountMovementsFilteredFragment"
+        android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.account_movements_filtered.MovementsFilteredListFragment"
+        android:label="fragment_account_movements_filtered"
+        tools:layout="@layout/fragment_movements_filtered_list" >
+        <action
+            android:id="@+id/action_accountMovementsFilteredFragment_to_bizumDetailAccountFragment"
+            app:destination="@id/bizumDetailAccountFragment" />
+        <action
+            android:id="@+id/action_accountMovementsFilteredFragment_to_transferDetailAccountFragment"
+            app:destination="@id/transferDetailAccountFragment" />
     </fragment>
 
 </navigation>

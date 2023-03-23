@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_bizum_details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -89,6 +90,7 @@ class BizumDetailAccountFragment : Fragment() {
         requireActivity().findViewById<LinearLayout>(R.id.llAddNote).isVisible = false
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
 
         with(binding) {
@@ -138,6 +140,6 @@ class BizumDetailAccountFragment : Fragment() {
         super.onStart()
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
-        tvTitle.text = getString(R.string.toolbar_account_bizum_detail)
+        tvTitle.text = getString(R.string.toolbar_bizum_detail)
     }
 }

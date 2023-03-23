@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -86,6 +87,7 @@ class AccountFragment : Fragment() {
         observeMovements(true)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeMovements(isIncome: Boolean) {
         accountViewModel.accountMovementsAdapter.clearListData()
         accountViewModel.accountMovementsAdapter.notifyDataSetChanged()
@@ -93,21 +95,13 @@ class AccountFragment : Fragment() {
         if (isIncome) {
             globalViewModel.getReceivedMovementsFromDB()
                 .observe(requireActivity()) { movementsList ->
-                    for (movement in movementsList) {
-                        if (movement.payment_type == PaymentType.Bizum) {
-                            accountViewModel.accountMovementsAdapter.setMovement(movement)
-                        }
-                    }
+                    accountViewModel.accountMovementsAdapter.setListData(movementsList)
                     accountViewModel.accountMovementsAdapter.notifyDataSetChanged()
                 }
         } else {
             globalViewModel.getSendedMovementsFromDB()
                 .observe(requireActivity()) { movementsList ->
-                    for (movement in movementsList) {
-                        if (movement.payment_type == PaymentType.Bizum) {
-                            accountViewModel.accountMovementsAdapter.setMovement(movement)
-                        }
-                    }
+                    accountViewModel.accountMovementsAdapter.setListData(movementsList)
                     accountViewModel.accountMovementsAdapter.notifyDataSetChanged()
                 }
         }
@@ -132,6 +126,7 @@ class AccountFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         globalViewModel.getBankMoney().observe(requireActivity()) {
             binding.tvDisponibleMoney.text = Methods.formatMoney(it)
@@ -155,7 +150,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun goToMovementsFunction() {
-        //view?.findNavController()?.navigate(R.id.)
+        view?.findNavController()?.navigate(R.id.action_accountFragment_to_searchMovementsFragment)
     }
 
     private fun goToBizumFunction() {

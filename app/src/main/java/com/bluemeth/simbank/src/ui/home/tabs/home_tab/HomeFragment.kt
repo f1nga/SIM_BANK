@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -81,6 +82,7 @@ class HomeFragment : Fragment() {
         observeHeader()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeHeader() {
         globalViewModel.getBankMoney().observe(requireActivity()) {
             homeTabViewModel.headerAdapter.setListData(HomeHeaderProvider.getListHeader(it))
@@ -110,11 +112,12 @@ class HomeFragment : Fragment() {
         observeMovements()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun observeMovements() {
 
         globalViewModel.getBankIban().observe(requireActivity()) {
-            globalViewModel.getMovementsFromDB2(globalViewModel.getUserAuth().email!!, it)
+            globalViewModel.getMovementsFromDB(globalViewModel.getUserAuth().email!!, it)
                 .observe(requireActivity()) { movementsList ->
 
                     homeTabViewModel.transfersAdapter.setListData(movementsList)
@@ -137,6 +140,7 @@ class HomeFragment : Fragment() {
         binding.swipe.isRefreshing = false
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         globalViewModel.getBankMoney().observe(requireActivity()) {
             binding.tvDineroCuenta.text = Methods.formatMoney(it)

@@ -14,12 +14,11 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@color/secondary_text"
-        tools:text="Enviar dinero"
         android:textStyle="normal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Enviar dinero" />
 
     <ScrollView
         android:id="@+id/formView"
@@ -30,288 +29,284 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvTitleForm">
 
-    <LinearLayout
-        android:id="@+id/llPrincipal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/title"
-            style="@style/TitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/import_and_concept"
-            android:textAllCaps="true" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_import"
-            style="@style/FormTextInputLayout"
+        <LinearLayout
+            android:id="@+id/llPrincipal"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="15dp"
-            android:textColorHint="@color/white"
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/white">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_import_text"
-                style="@style/FormEditText"
+            <TextView
+                android:id="@+id/title"
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/import_and_concept"
+                android:textAllCaps="true" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_import"
+                style="@style/FormTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="15dp"
+                android:textColorHint="@color/white"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_import_text"
+                    style="@style/FormEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/import_every_destiny"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/import_every_destiny"
-                android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/ivInfo"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:src="@drawable/info_icon_white" />
 
-            <ImageView
-                android:id="@+id/ivInfo"
-                android:layout_width="19dp"
-                android:layout_height="19dp"
-                android:src="@drawable/info_icon_white" />
+                <TextView
+                    android:id="@+id/tvInfoMin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/minim"
+                    android:textColor="@color/tertiary_text"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvInfoMinPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/minim_bizum"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvInfoMax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/maxim"
+                    android:textColor="@color/tertiary_text"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvInfoMaxPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/maxim_bizum"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/input_subject"
+                style="@style/FormTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_marginTop="15dp"
+                android:textColorHint="@color/white"
+                app:endIconMode="clear_text"
+                app:endIconTint="@color/white">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/input_subject_text"
+                    style="@style/FormEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="85dp"
+                    android:hint="@string/asunto_opcional"
+                    android:inputType="text"
+                    android:maxLines="4"
+                    android:singleLine="false" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/tvInfoMin"
+                android:id="@+id/tvCharacters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="3dp"
                 android:fontFamily="@font/montserrat"
-                android:text="@string/minim"
-                android:textColor="@color/tertiary_text"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tvInfoMinPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/minim_bizum"
+                android:text="@string/_35_characters"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/tvInfoMax"
+                style="@style/TitleText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/maxim"
-                android:textColor="@color/tertiary_text"
-                android:textSize="14sp" />
+                android:layout_marginTop="30dp"
+                android:text="@string/addressess"
+                android:textAllCaps="true" />
 
             <TextView
-                android:id="@+id/tvInfoMaxPrice"
+                android:id="@+id/tvErrorAddresses"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/maxim_bizum"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:layout_marginTop="10dp"
+                android:text="@string/you_have_to_add_minim_one_addresse"
+                android:textColor="@color/error"
+                android:textSize="14sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-        </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_subject"
-            style="@style/FormTextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="90dp"
-            android:layout_marginTop="15dp"
-            android:textColorHint="@color/white"
-            app:endIconMode="clear_text"
-            app:endIconTint="@color/white">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_subject_text"
-                style="@style/FormEditText"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
-                android:maxLines="4"
-                android:singleLine="false"
-                android:hint="@string/asunto_opcional"
-                android:inputType="text" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/tvCharacters"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/_35_characters"
-            android:layout_marginTop="3dp"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-        <TextView
-            style="@style/TitleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/addressess"
-            android:layout_marginTop="30dp"
-            android:textAllCaps="true" />
-
-        <TextView
-            android:id="@+id/tvErrorAddresses"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:layout_marginTop="10dp"
-            tools:visibility="visible"
-            android:visibility="gone"
-            android:textColor="@color/error"
-            android:text="Debes añadir mínimo un destinatario"
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="19dp"
-                android:layout_height="19dp"
-                android:src="@drawable/info_icon_white" />
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/maximum_10_addresses"
-                android:textColor="@color/tertiary_text"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAddresses"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-
-        <LinearLayout
-            android:id="@+id/llAddFromAgenda"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:backgroundTint="@color/secondary_text"
-                app:cardCornerRadius="50dp">
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/ic_address_book" />
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:src="@drawable/info_icon_white" />
 
-            </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/maximum_10_addresses"
+                    android:textColor="@color/tertiary_text"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tvAddFromAgenda"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TitleText"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/add_from_address"
-                android:textColor="@color/primary_button"
-                 />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAddresses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/llAddManually"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:backgroundTint="@color/secondary_text"
-                app:cardCornerRadius="50dp">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="2dp"
-                    android:src="@drawable/ic_pencil_edit" />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/TitleText"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="15dp"
-                android:text="@string/add_manually"
-                android:textColor="@color/primary_button" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llTotalEnvio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/llAddFromAgenda"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginStart="90dp"
-                android:text="@string/total_sended"
-                android:textSize="18sp"
-                android:textColor="@color/tertiary_text"
-                />
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tvTotalEnvio"
-                android:layout_width="wrap_content"
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:backgroundTint="@color/secondary_text"
+                    app:cardCornerRadius="50dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/ic_address_book" />
+
+                </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                    android:id="@+id/tvAddFromAgenda"
+                    style="@style/TitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/add_from_address"
+                    android:textColor="@color/primary_button" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llAddManually"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/TitleText"
-                android:text="0,00€"
-                android:layout_marginStart="5dp"
-                android:textSize="18sp"
-                android:textColor="@color/primary_text"
-                />
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:backgroundTint="@color/secondary_text"
+                    app:cardCornerRadius="50dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="2dp"
+                        android:src="@drawable/ic_pencil_edit" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    style="@style/TitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/add_manually"
+                    android:textColor="@color/primary_button" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTotalEnvio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="90dp"
+                    android:text="@string/total_sended"
+                    android:textColor="@color/tertiary_text"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/tvTotalEnvio"
+                    style="@style/TitleText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="0,00€"
+                    android:textColor="@color/primary_text"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnContinue"
+                style="@style/PrimaryButton"
+                android:layout_width="150dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:text="@string/continue_mayus" />
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/btnContinue"
-            style="@style/PrimaryButton"
-            android:layout_width="150dp"
-            android:layout_height="44dp"
-            android:layout_marginTop="25dp"
-            android:text="@string/continue_mayus"
-            android:layout_gravity="center" />
-
-    </LinearLayout>
     </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

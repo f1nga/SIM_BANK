@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context=".src.ui.home.tabs.home_tab.account.search_movements_account.account_movements_filtered.MovementsFilteredListFragment">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TitleText"
+        android:textColor="@color/primary_button"
+        android:text="@string/edit"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMovements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        />
+
+</LinearLayout>

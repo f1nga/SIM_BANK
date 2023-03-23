@@ -149,7 +149,7 @@ class GlobalViewModel @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getMovementsFromDB2(email: String, iban: String): MutableLiveData<MutableList<Movement>> {
+    fun getMovementsFromDB(email: String, iban: String): MutableLiveData<MutableList<Movement>> {
         val mutableData = MutableLiveData<MutableList<Movement>>()
 
         viewModelScope.launch {

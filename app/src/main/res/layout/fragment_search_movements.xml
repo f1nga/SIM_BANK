@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".src.ui.home.tabs.home_tab.account.search_movements_account.SearchMovementsFragment">
+
+    <TextView
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/text"
+        android:textAllCaps="true" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputText"
+        style="@style/FormTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColorHint="@color/white"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputTextText"
+            style="@style/FormEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Introduce texto a buscar (opcional)"
+            android:imeOptions="actionNext" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/date"
+        android:textAllCaps="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="30dp">
+
+        <LinearLayout
+            android:id="@+id/llDateSince"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_calendar" />
+
+            <TextView
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/since"
+                android:textColor="@color/tertiary_text" />
+
+            <TextView
+                android:id="@+id/tvSinceDate"
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/pick_date"
+                android:textColor="@color/primary_button"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llDateUntil"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_calendar" />
+
+            <TextView
+                style="@style/BodyText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/until"
+                android:textColor="@color/tertiary_text" />
+
+            <TextView
+                android:id="@+id/tvUntilDate"
+                style="@style/TitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:text="@string/date_picker" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/type"
+        android:textAllCaps="true" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:cardBackgroundColor="@color/backgroundColor"
+        android:layout_marginTop="10dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="@color/primary"
+        >
+
+        <Spinner
+            android:id="@+id/spinnerType"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            android:spinnerMode="dialog" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/importe"
+        android:textAllCaps="true" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputImportSince"
+        style="@style/FormTextInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColorHint="@color/white"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputImportSinceText"
+            style="@style/FormEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Importe desde (opcional)"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionNext" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputImportUntil"
+        style="@style/FormTextInputLayout"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/white"
+        app:endIconMode="clear_text"
+        app:endIconTint="@color/white">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputImportUntilText"
+            style="@style/FormEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Importe hasta (opcional)"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionDone" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btnSearch"
+        style="@style/PrimaryButton"
+        android:layout_width="150dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="@string/search" />
+
+</LinearLayout>

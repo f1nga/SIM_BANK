@@ -82,9 +82,11 @@
     <string name="toolbar_request_bizum">Solicitar bizum</string>
     <string name="toolbar_add_manually">Añadir manualmente</string>
     <string name="toolbar_add_from_agenda">Añadir desde agenda</string>
-    <string name="toolbar_account_bizum_detail">Detalle del bizum</string>
+    <string name="toolbar_bizum_detail">Detalle del bizum</string>
     <string name="toolbar_account">Cuenta</string>
     <string name="toolbar_info_account">Información de la cuenta</string>
+    <string name="toolbar_search_movements">Buscar movimientos</string>
+    <string name="toolbar_movements_list">Lista de movimientos</string>
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
@@ -201,6 +203,24 @@
     <string name="alias">Alias</string>
     <string name="titular">Titular</string>
     <string name="cards">Targetas</string>
+    <string name="date">Fecha</string>
+    <string name="text">Texto</string>
+    <string name="type">Tipo</string>
 
+    <string name="date_picker"><b><i>22/03/2023</i></b></string>
+    <string name="search">Buscar</string>
+    <string name="pick_date">Selecciona una fecha</string>
+    <string name="dialog_calendar_error">Debe seleccionar una fecha</string>
+    <string name="dialog_calendar_error_action">Cancelar operación</string>
+    <string name="edit">Editar</string>
+    <string name="since">Desde</string>
+    <string name="until">Hasta</string>
+    <string name="you_have_to_add_minim_one_addresse">Debes añadir mínimo un destinatario</string>
+
+    <string-array name="movement_type_array">
+        <item>Ingresos y gastos</item>
+        <item>Solo ingresos</item>
+        <item>Solo gastos</item>
+    </string-array>
 
 </resources>

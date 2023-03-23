@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -60,13 +61,17 @@ class AccountMovementsRVAdapter @Inject constructor() :
     }
 
     inner class TransfersHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        @SuppressLint("SetTextI18n")
         @RequiresApi(Build.VERSION_CODES.O)
         fun bindView(movementHolder: Movement) {
+            val date = itemView.findViewById<TextView>(R.id.tvDate)
             val title = itemView.findViewById<TextView>(R.id.tvTitle)
-            val recordDate = itemView.findViewById<TextView>(R.id.tvRecordDate)
+            val subject = itemView.findViewById<TextView>(R.id.tvSubject)
             val price = itemView.findViewById<TextView>(R.id.tvPrice)
             val arrow = itemView.findViewById<ImageView>(R.id.ivArrowIncome)
             val tvRemainingMoney = itemView.findViewById<TextView>(R.id.tvRemainingMoney)
+
+            date.text = Methods.formateDateBizum(movementHolder.date.toDate())
 
             title.text = when(movementHolder.payment_type) {
                 PaymentType.Bizum -> "Bizum"
@@ -74,16 +79,18 @@ class AccountMovementsRVAdapter @Inject constructor() :
                 else -> movementHolder.beneficiary_name
             }
 
-            recordDate.text = Methods.formateDateMovement(movementHolder.date.toDate())
-
             if (movementHolder.isIncome) {
                 price.text = "+${Methods.formatMoney(movementHolder.amount)}"
                 arrow.setImageResource(R.drawable.arrow_win)
                 tvRemainingMoney.text = Methods.formatMoney(movementHolder.beneficiary_remaining_money)
+                subject.text =
+                    if (movementHolder.subject != "") movementHolder.subject else "Recibido: sin concepto"
             } else {
                 price.text = "-${Methods.formatMoney(movementHolder.amount)}"
                 arrow.setImageResource(R.drawable.arrow_lose)
                 tvRemainingMoney.text = Methods.formatMoney(movementHolder.remaining_money)
+                subject.text =
+                    if (movementHolder.subject != "") movementHolder.subject else "Enviado: sin concepto"
             }
 
             itemView.setOnClickListener {
