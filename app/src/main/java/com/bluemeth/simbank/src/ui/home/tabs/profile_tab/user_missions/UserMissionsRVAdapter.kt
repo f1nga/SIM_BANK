@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.user_missions
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.data.models.Mission
 
-class UserMissionRVAdapter :  RecyclerView.Adapter<UserMissionRVAdapter.MissionsCardHolder>() {
+class UserMissionsRVAdapter :  RecyclerView.Adapter<UserMissionsRVAdapter.MissionsCardHolder>() {
 
 
     private lateinit var listener: OnItemClickListener
@@ -51,11 +52,11 @@ class UserMissionRVAdapter :  RecyclerView.Adapter<UserMissionRVAdapter.Missions
     }
 
     inner class MissionsCardHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        @SuppressLint("SetTextI18n")
         fun bindView(mission: Mission) {
 
             val missionName = itemView.findViewById<TextView>(R.id.tvMissionName)
             missionName.text = mission.name
-            Log.i("name","{${mission.name}")
             val missionExp = itemView.findViewById<TextView>(R.id.tvMissionExp)
             missionExp.text = mission.exp.toString() + " EXP"
             val missionTick = itemView.findViewById<ImageView>(R.id.ivMissionTick)

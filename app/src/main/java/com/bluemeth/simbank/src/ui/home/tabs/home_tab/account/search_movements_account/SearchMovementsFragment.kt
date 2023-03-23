@@ -1,6 +1,5 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account
 
-import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.graphics.Color
 import android.graphics.Typeface
@@ -24,8 +23,8 @@ import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.account_movements_filtered.MovementsFilteredListViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.SearchImportsModel
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.SearchMovementsType
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.SearchMovementsModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.SearchMovementsType
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.LocalDate
 import java.util.*
@@ -64,30 +63,41 @@ class SearchMovementsFragment : Fragment() {
     private fun initListeners() {
         with(binding) {
             inputImportSinceText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
-            inputImportSinceText.setOnFocusChangeListener { _, hasFocus -> updateInputImports(hasFocus) }
+            inputImportSinceText.setOnFocusChangeListener { _, hasFocus ->
+                updateInputImports(
+                    hasFocus
+                )
+            }
 
-            inputImportUntilText.setOnFocusChangeListener { _, hasFocus -> updateInputImports(hasFocus) }
+            inputImportUntilText.setOnFocusChangeListener { _, hasFocus ->
+                updateInputImports(
+                    hasFocus
+                )
+            }
             inputImportUntilText.loseFocusAfterAction(EditorInfo.IME_ACTION_DONE)
 
             llDateSince.setOnClickListener { showCalendar(setSinceDate) }
             llDateUntil.setOnClickListener { showCalendar(setUntilDate) }
-            btnSearch.setOnClickListener { searchMovementsViewModel.onSearchSelected(
-                SearchImportsModel(
-                    inputImportSinceText.text.toString().toDouble(),
-                    inputImportUntilText.text.toString().toDouble()
-                )
-            ) }
+            btnSearch.setOnClickListener {
+                    searchMovementsViewModel.onSearchSelected(
+                        SearchImportsModel(
+                            inputImportSinceText.text.toString(),
+                            inputImportUntilText.text.toString()
+                        )
+                    )
+                }
+
         }
     }
 
     private fun updateInputImports(hasFocus: Boolean) {
         if (!binding.inputImportSinceText.text.isNullOrBlank()
-            && !binding.inputImportUntilText.text.isNullOrBlank())
-        {
+            && !binding.inputImportUntilText.text.isNullOrBlank()
+        ) {
             searchMovementsViewModel.onNameFieldsChanged(
                 SearchImportsModel(
-                    binding.inputImportSinceText.text.toString().toDouble(),
-                    binding.inputImportUntilText.text.toString().toDouble()
+                    binding.inputImportSinceText.text.toString(),
+                    binding.inputImportUntilText.text.toString()
                 )
             )
         }
@@ -189,13 +199,14 @@ class SearchMovementsFragment : Fragment() {
 
     private fun formatDate(date: String): Date? {
         date.split("/").also {
-            if(it.size == 1) return null
-            return Date(it[2].toInt(), it[1].toInt()-1, it[0].toInt())
+            if (it.size == 1) return null
+            return Date(it[2].toInt(), it[1].toInt() - 1, it[0].toInt())
         }
     }
 
     private fun goToMovementsFiltered() {
-        view?.findNavController()?.navigate(R.id.action_searchMovementsFragment_to_accountMovementsFilteredFragment)
+        view?.findNavController()
+            ?.navigate(R.id.action_searchMovementsFragment_to_accountMovementsFilteredFragment)
     }
 
     override fun onStart() {

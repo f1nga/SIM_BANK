@@ -60,6 +60,11 @@ class HomeFragment : Fragment() {
         binding.clAccount.setOnClickListener { goToAccount() }
 
         binding.swipe.setOnRefreshListener {
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                refreshScreen()
+//            }, 1000)
+
+
             Methods.setTimeout({ refreshScreen() }, 1000)
         }
     }
@@ -169,6 +174,7 @@ class HomeFragment : Fragment() {
         view?.findNavController()?.navigate(R.id.action_homeFragment_to_accountFragment)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
         globalViewModel.getUserName().observe(this) {

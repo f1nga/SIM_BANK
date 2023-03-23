@@ -18,15 +18,14 @@ import com.bluemeth.simbank.databinding.FragmentBizumResumeBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.dialog.SuccessDialog
-import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.show
-import com.bluemeth.simbank.src.data.models.Bizum
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.AgendaRVAdapter
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.bizum_address_item.*
@@ -159,15 +158,20 @@ class BizumResumeFragment : Fragment() {
 
 
     private fun initObservers() {
-        bizumResumeViewModel.navigateToVerifyEmail.observe(requireActivity()) {
+        bizumResumeViewModel.navigateToHome.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
                 showSuccessDialog()
+                missionDoned()
             }
         }
 
         bizumResumeViewModel.showErrorDialog.observe(requireActivity()) { showError ->
             if (showError) showErrorDialog()
         }
+    }
+
+    private fun missionDoned() {
+        globalViewModel.setUserMissionToDB(Constants.BIZUM_MISSION)
     }
 
     private fun setTextViews() {

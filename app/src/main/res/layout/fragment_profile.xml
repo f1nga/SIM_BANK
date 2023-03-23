@@ -93,23 +93,70 @@
                 app:layout_constraintStart_toEndOf="@+id/tvTitular"
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName" />
 
+            <ImageView
+                android:id="@+id/ivLevel"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/ic_star"
+                app:layout_constraintStart_toEndOf="@+id/ivCircle"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitular" />
+
+            <TextView
+                android:id="@+id/tvLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:text="33"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/ivLevel"
+                app:layout_constraintEnd_toEndOf="@+id/ivLevel"
+                app:layout_constraintStart_toStartOf="@+id/ivLevel"
+                app:layout_constraintTop_toTopOf="@+id/ivLevel" />
+
+            <ProgressBar
+                android:id="@+id/pbLevel"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="200dp"
+                android:layout_marginTop="15dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:progressBackgroundTint="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/ivLevel"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitular" />
+
+            <TextView
+                android:id="@+id/tvExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                tools:text="33/100 EXP"
+                android:textSize="12sp"
+                android:layout_marginStart="13dp"
+                android:layout_marginBottom="5dp"
+                android:textStyle="bold"
+                android:textColor="@color/tertiary_text"
+                app:layout_constraintStart_toEndOf="@+id/ivLevel"
+                app:layout_constraintTop_toBottomOf="@+id/pbLevel" />
+
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="15dp"
                 android:background="@color/tertiary_text"
-                app:layout_constraintBottom_toTopOf="@id/input_profile_email"
+                android:layout_marginBottom="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivCircle" />
+                app:layout_constraintBottom_toTopOf="@id/input_profile_email" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_profile_email"
                 style="@style/FormTextInputLayoutInfoCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="65dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/ivCircle">
@@ -286,41 +333,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-
-            <ImageView
-                android:id="@+id/imageView9"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="15dp"
-                android:src="@drawable/ic_star"
-                app:layout_constraintBottom_toTopOf="@+id/divider"
-                app:layout_constraintStart_toEndOf="@+id/ivCircle"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitular" />
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
-                android:text="33"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView9"
-                app:layout_constraintEnd_toEndOf="@+id/imageView9"
-                app:layout_constraintStart_toStartOf="@+id/imageView9"
-                app:layout_constraintTop_toTopOf="@+id/imageView9" />
-
-            <ProgressBar
-                android:id="@+id/pbLevel"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:progressBackgroundTint="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/divider"
-                app:layout_constraintStart_toEndOf="@+id/imageView9"
-                app:layout_constraintTop_toBottomOf="@+id/tvTitular" />
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

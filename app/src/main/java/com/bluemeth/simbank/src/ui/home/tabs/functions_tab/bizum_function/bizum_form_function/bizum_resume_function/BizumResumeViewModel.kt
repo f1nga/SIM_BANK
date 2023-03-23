@@ -9,7 +9,6 @@ import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.models.BankAccount
 import com.bluemeth.simbank.src.data.models.Bizum
 import com.bluemeth.simbank.src.data.models.Movement
-import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
@@ -21,7 +20,6 @@ import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class BizumResumeViewModel @Inject constructor(
@@ -36,9 +34,9 @@ class BizumResumeViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    private val _navigateToVerifyEmail = MutableLiveData<Event<Boolean>>()
-    val navigateToVerifyEmail: LiveData<Event<Boolean>>
-        get() = _navigateToVerifyEmail
+    private val _navigateToHome = MutableLiveData<Event<Boolean>>()
+    val navigateToHome: LiveData<Event<Boolean>>
+        get() = _navigateToHome
 
     private var _showErrorDialog = MutableLiveData(false)
     val showErrorDialog: LiveData<Boolean>
@@ -56,12 +54,16 @@ class BizumResumeViewModel @Inject constructor(
                 insertTransferUseCase(iban, movement, beneficiaryMoney, beneficiaryIban)
 
             if (bizumCreated) {
-                _navigateToVerifyEmail.value = Event(true)
+                _navigateToHome.value = Event(true)
             } else {
                 _showErrorDialog.value = true
             }
 
         }
+    }
+
+    fun setBizumMissionToDB(email:String, ) {
+
     }
 
     fun makeBizum(iban: String, movement: Bizum, beneficiariesMoney: List<Double>) {
@@ -70,7 +72,7 @@ class BizumResumeViewModel @Inject constructor(
             val bizumCreated = insertBizumUseCase(iban, movement, beneficiariesMoney)
 
             if (bizumCreated) {
-                _navigateToVerifyEmail.value = Event(true)
+                _navigateToHome.value = Event(true)
             } else {
                 _showErrorDialog.value = true
             }

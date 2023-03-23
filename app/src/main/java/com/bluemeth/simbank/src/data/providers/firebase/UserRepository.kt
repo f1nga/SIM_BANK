@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -16,7 +17,10 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         const val PASSWORD_FIELD = "password"
         const val NAME_FIELD = "name"
         const val PHONE_FIELD = "phone"
+        const val LEVEL_FIELD = "level"
+        const val EXP_FIELD = "exp"
         const val IMAGE = "image"
+        const val MISSIONS_COMPLETED_FIELD = "missions_completed"
     }
 
     suspend fun createUserTable(userSignIn: UserSignIn) = runCatching {
@@ -43,13 +47,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .whereEqualTo(EMAIL_FIELD, email)
             .get()
             .addOnSuccessListener { documents ->
-                user.value = User(
-                    documents.first().getString(EMAIL_FIELD)!!,
-                    documents.first().getString(PASSWORD_FIELD)!!,
-                    documents.first().getString(NAME_FIELD)!!,
-                    documents.first().getLong(PHONE_FIELD)!!.toInt(),
-                    documents.first().getString(IMAGE)!!
-                )
+                user.value = getUser(documents.first())
             }
             .addOnFailureListener { exception ->
                 Timber.tag("Failure").w(exception, "Error getting documents: ")
@@ -65,13 +63,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .whereEqualTo(NAME_FIELD, name)
             .get()
             .addOnSuccessListener { documents ->
-                user.value = User(
-                    documents.first().getString(EMAIL_FIELD)!!,
-                    documents.first().getString(PASSWORD_FIELD)!!,
-                    documents.first().getString(NAME_FIELD)!!,
-                    documents.first().getLong(PHONE_FIELD)!!.toInt(),
-                    documents.first().getString(IMAGE)!!
-                )
+                user.value = getUser(documents.first())
             }
             .addOnFailureListener { exception ->
                 Timber.tag("Failure").w(exception, "Error getting documents: ")
@@ -87,13 +79,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .whereEqualTo(NAME_FIELD, name)
             .get()
             .addOnSuccessListener { documents ->
-                user.value = User(
-                    documents.first().getString(EMAIL_FIELD)!!,
-                    documents.first().getString(PASSWORD_FIELD)!!,
-                    documents.first().getString(NAME_FIELD)!!,
-                    documents.first().getLong(PHONE_FIELD)!!.toInt(),
-                    documents.first().getString(IMAGE)!!
-                )
+                user.value = getUser(documents.first())
             }
             .addOnFailureListener { exception ->
                 Timber.tag("Failure").w(exception, "Error getting documents: ")
@@ -114,13 +100,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                     val list = mutableListOf<User>()
                     for(document in documents) {
                         list.add(
-                            User(
-                                document.getString(EMAIL_FIELD)!!,
-                                document.getString(PASSWORD_FIELD)!!,
-                                document.getString(NAME_FIELD)!!,
-                                document.getLong(PHONE_FIELD)!!.toInt(),
-                                document.getString(IMAGE)!!
-                            )
+                            getUser(document)
                         )
                     }
 
@@ -131,7 +111,6 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                     Timber.tag("Failure").w(exception, "Error getting documents: ")
                 }.await()
         }
-
 
         return users
     }
@@ -171,13 +150,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .whereEqualTo(PHONE_FIELD, phoneNumber)
             .get()
             .addOnSuccessListener { documents ->
-                user.value = User(
-                    documents.first().getString(EMAIL_FIELD)!!,
-                    documents.first().getString(PASSWORD_FIELD)!!,
-                    documents.first().getString(NAME_FIELD)!!,
-                    documents.first().getLong(PHONE_FIELD)!!.toInt(),
-                    documents.first().getString(IMAGE)!!
-                )
+                user.value = getUser(documents.first())
             }
             .addOnFailureListener { exception ->
                 Timber.tag("Failure").w(exception, "Error getting documents: ")
@@ -225,10 +198,44 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .update(IMAGE, image)
     }
 
-    fun deleteUserByEmail(email: String) {
+    fun updateUserMissionsCompleted(email:String, missionsCompleted: List<String>){
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .update(MISSIONS_COMPLETED_FIELD, missionsCompleted)
+    }
+
+    fun updateUserLevel(email:String, level: Int){
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .update(LEVEL_FIELD, level)
+    }
+
+    fun updateUserExperience(email:String, exp: Int){
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .update(EXP_FIELD, exp)
+    }
+
+     fun deleteUserByEmail(email: String) {
         firebase.db
             .collection(USER_COLLECTION)
             .document(email)
             .delete()
+    }
+
+    private fun getUser(document: QueryDocumentSnapshot) : User {
+        return User(
+            document.getString(EMAIL_FIELD)!!,
+            document.getString(PASSWORD_FIELD)!!,
+            document.getString(NAME_FIELD)!!,
+            document.getLong(PHONE_FIELD)!!.toInt(),
+            document.getString(IMAGE)!!,
+            document.getDouble(LEVEL_FIELD)!!.toInt(),
+            document.getDouble(EXP_FIELD)!!.toInt(),
+            document.get(MISSIONS_COMPLETED_FIELD) as MutableList<String>,
+            )
     }
 }

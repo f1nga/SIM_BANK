@@ -375,6 +375,13 @@
         android:id="@+id/userMissionsFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.user_missions.UserMissionsFragment"
         android:label="fragment_missions"
-        tools:layout="@layout/fragment_missions" />
+        tools:layout="@layout/fragment_user_missions" >
+        <action
+            android:id="@+id/action_userMissionsFragment_to_bizumFragment"
+            app:destination="@id/bizumFragment" />
+        <action
+            android:id="@+id/action_userMissionsFragment_to_transferFragment"
+            app:destination="@id/transferFragment" />
+    </fragment>
 
 </navigation>

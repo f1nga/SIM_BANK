@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.data.models.BankAccount
+import com.bluemeth.simbank.src.data.models.Mission
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
@@ -65,6 +66,17 @@ class GlobalViewModel @Inject constructor(
         return user
     }
 
+    fun getUserFromDB(): MutableLiveData<User> {
+        val user = MutableLiveData<User>()
+
+        userRepository.findUserByEmail(authenticationRepository.getCurrentUser().email!!)
+            .observeForever {
+                user.value = it
+            }
+
+        return user
+    }
+
     fun getBankMoney(): MutableLiveData<Double> {
         val money = MutableLiveData<Double>()
 
@@ -83,17 +95,6 @@ class GlobalViewModel @Inject constructor(
         }
 
         return iban
-    }
-
-    fun getUserFromDB(): MutableLiveData<User> {
-        val user = MutableLiveData<User>()
-
-        userRepository.findUserByEmail(authenticationRepository.getCurrentUser().email!!)
-            .observeForever {
-                user.value = it
-            }
-
-        return user
     }
 
     fun getBankAccountFromDB(): MutableLiveData<BankAccount> {
@@ -199,5 +200,35 @@ class GlobalViewModel @Inject constructor(
         }
 
         return mutableData
+    }
+
+    fun setUserMissionToDB(mission: Mission) {
+        getUserFromDB().observeForever { user ->
+            user.missions_completed.also { listMissions ->
+                if(isMissionCompleted(mission.name, listMissions) != "") {
+                    val expSum = mission.exp + user.exp
+
+                    val exp = if (expSum > 100) {
+                        userRepository.updateUserLevel(getUserAuth().email!!, user.level+1)
+                        expSum - 100
+                    } else expSum
+
+                    listMissions.add(mission.name)
+                    userRepository.updateUserMissionsCompleted(getUserAuth().email!!, listMissions)
+                    userRepository.updateUserExperience(getUserAuth().email!!, exp)
+
+                }
+            }
+        }
+    }
+
+    private fun isMissionCompleted(mission: String, listMissions: MutableList<String>) : String {
+        listMissions.forEach {
+            if(it == mission) {
+                return ""
+            }
+        }
+
+        return mission
     }
 }

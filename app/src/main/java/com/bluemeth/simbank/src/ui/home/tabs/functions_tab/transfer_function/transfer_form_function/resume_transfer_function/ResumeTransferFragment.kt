@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,6 +21,7 @@ import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -72,6 +74,7 @@ class ResumeTransferFragment : Fragment() {
 
             btnFinish.setOnClickListener {
                 globalViewModel.getBankAccountFromDB().observe(requireActivity()) { bankAccount ->
+//                    val transfer = resumeTransferViewModel.movement ?: resumeTransferViewModel.reUseTransferArguments
                     val transfer = resumeTransferViewModel.movement!!
                     globalViewModel.getBankAccountFromDBbyIban(transfer.beneficiary_iban)
                         .observe(requireActivity()) { beneficiaryBankAccount ->
@@ -112,6 +115,7 @@ class ResumeTransferFragment : Fragment() {
 
         resumeTransferViewModel.navigateToHome.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
+                missionDoned()
                 showSuccessDialog()
             }
         }
@@ -137,6 +141,11 @@ class ResumeTransferFragment : Fragment() {
         }
     }
 
+    private fun missionDoned() {
+        globalViewModel.setUserMissionToDB(Constants.TRANSFER_MISSION)
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun setInfoAccount() {
         globalViewModel.getBankAccountFromDB().observe(requireActivity()) {
             binding.tvAccount.text = "Cuenta *${Methods.formatShortIban(it.iban)}"

@@ -1,13 +1,14 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -17,7 +18,7 @@ import com.bluemeth.simbank.databinding.FragmentTransferBinding
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.model.TransferFormModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.model.TransferFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function.ResumeTransferViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class TransferFragment : Fragment() {
 
     private lateinit var binding: FragmentTransferBinding
-    private val transferHistoryRVAdapter : TransferHistoryRVAdapter = TransferHistoryRVAdapter()
+    private val transferHistoryRVAdapter: TransferHistoryRVAdapter = TransferHistoryRVAdapter()
     private val globalViewModel: GlobalViewModel by viewModels()
     private val resumeTransferViewModel: ResumeTransferViewModel by activityViewModels()
 
@@ -67,10 +68,11 @@ class TransferFragment : Fragment() {
         observeTransfers()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeTransfers() {
         globalViewModel.getSendedMovementsFromDB().observe(requireActivity()) {
-            for(movement in it) {
-                if(movement.payment_type == PaymentType.Transfer)
+            for (movement in it) {
+                if (movement.payment_type == PaymentType.Transfer)
                     transferHistoryRVAdapter.setMovement(movement)
             }
             transferHistoryRVAdapter.notifyDataSetChanged()
@@ -80,20 +82,19 @@ class TransferFragment : Fragment() {
     private fun reUseTransfer(movement: Movement) {
         globalViewModel.getBankAccountFromDBbyIban(movement.beneficiary_iban)
             .observe(requireActivity()) {
-                globalViewModel.getUserByEmail(it.user_email)
-                    .observe(requireActivity()) { beneficiary ->
-                        resumeTransferViewModel.setTransferFormModel(
-                            TransferFormModel(
-                                iban = movement.beneficiary_iban,
-                                beneficiary = movement.beneficiary_name,
-                                import = movement.amount.toString(),
-                                subject = movement.subject,
-                            )
-                        )
 
-                        goToResumeTransfer()
-                    }
+                resumeTransferViewModel.setTransferFormModel(
+                    TransferFormModel(
+                        iban = movement.beneficiary_iban,
+                        beneficiary = movement.beneficiary_name,
+                        import = movement.amount.toString(),
+                        subject = movement.subject,
+                    )
+                )
+
+                goToResumeTransfer()
             }
+
     }
 
 
@@ -101,7 +102,7 @@ class TransferFragment : Fragment() {
         binding.llLastTransfers.isVisible = !binding.llLastTransfers.isVisible
         binding.rvTransferHistory.isVisible = !binding.rvTransferHistory.isVisible
 
-        if(binding.llLastTransfers.isVisible) {
+        if (binding.llLastTransfers.isVisible) {
             binding.ivExpand.setImageResource(R.drawable.ic_minus)
             binding.cvReuse.setCardBackgroundColor(Color.parseColor("#C8BFBDBD"))
 

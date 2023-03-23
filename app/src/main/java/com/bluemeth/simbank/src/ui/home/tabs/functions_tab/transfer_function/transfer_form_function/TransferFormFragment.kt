@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -20,7 +21,7 @@ import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.model.TransferFormModel
+import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.model.TransferFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function.ResumeTransferViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
@@ -184,6 +185,7 @@ class TransferFormFragment : Fragment() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         with(binding) {
             globalViewModel.getBankAccountFromDB().observe(requireActivity()) {

@@ -21,7 +21,7 @@ class SearchMovementsViewModel : ViewModel(){
     fun onSearchSelected(searchImportsModel: SearchImportsModel) {
         val viewState = searchImportsModel.toSearchMovementsViewState()
 
-        if (viewState.importsValidated() && searchImportsModel.isNotEmpty()) {
+        if (viewState.importsValidated()) {
             _navigateToMovementsList.value = Event(true)
         } else {
             onNameFieldsChanged(searchImportsModel)
@@ -32,7 +32,11 @@ class SearchMovementsViewModel : ViewModel(){
         _viewState.value = searchImportsModel.toSearchMovementsViewState()
     }
 
-    private fun isValidImports(sinceImport: Double, untilImport: Double) = untilImport > sinceImport
+    private fun isValidImports(sinceImport: String, untilImport: String) : Boolean {
+        if(untilImport.isEmpty() || sinceImport.isEmpty()) return true
+        return untilImport.toDouble() > sinceImport.toDouble()
+    }
+
 
     private fun SearchImportsModel.toSearchMovementsViewState(): SearchMovementsViewState {
         return SearchMovementsViewState(

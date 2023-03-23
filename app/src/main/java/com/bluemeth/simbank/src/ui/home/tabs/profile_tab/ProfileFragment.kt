@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.profile_tab
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
@@ -58,17 +59,22 @@ class ProfileFragment : Fragment() {
         loadNewImage()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setPersonalData() {
-        binding.pbLevel.progress = 36
         with(Editable.Factory.getInstance()) {
             globalViewModel.getUserFromDB().observe(requireActivity()) {
-                binding.inputProfileEmailText.text = newEditable(it.email)
-                binding.inputProfilePhoneText.text =
-                    newEditable(Methods.formatPhoneNumber(it.phone))
-                binding.inputProfilePasswordText.text = newEditable(it.password)
+                with(binding) {
+                    inputProfileEmailText.text = newEditable(it.email)
+                    inputProfilePhoneText.text =
+                        newEditable(Methods.formatPhoneNumber(it.phone))
+                    inputProfilePasswordText.text = newEditable(it.password)
+                    tvFullName.text = it.name
+                    tvCircleName.text = Methods.splitNameAndSurname(it.name)
+                    pbLevel.progress = it.exp
+                    tvLevel.text = it.level.toString()
+                    tvExp.text = "${it.exp}/100 EXP"
+                }
 
-                binding.tvFullName.text = it.name
-                binding.tvCircleName.text = Methods.splitNameAndSurname(it.name)
             }
         }
     }
