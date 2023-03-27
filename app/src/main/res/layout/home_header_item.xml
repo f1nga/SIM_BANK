@@ -35,13 +35,13 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/montserrat"
-            tools:text="Ver ahorro"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            android:textColor="@color/secondary_text"
+            android:textColor="@color/primary_button"
             android:textSize="16sp"
             card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
-            card_view:layout_constraintTop_toBottomOf="@+id/txtMoneyBank" />
+            card_view:layout_constraintTop_toBottomOf="@+id/txtMoneyBank"
+            tools:text="Ver ahorro" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

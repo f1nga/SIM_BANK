@@ -11,13 +11,17 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
 import com.bluemeth.simbank.src.utils.Methods
 import javax.inject.Inject
 
-class BizumHistoryRVAdapter @Inject constructor() :
+class BizumHistoryRVAdapter @Inject constructor(
+    private val userRepository: UserRepository
+) :
     RecyclerView.Adapter<BizumHistoryRVAdapter.BizumHolder>() {
     private lateinit var listener: OnItemClickListener
     private var listData = mutableListOf<Movement>()
+    private lateinit var beneficiaryName : String
 
     interface OnItemClickListener {
         fun onItemClick(movement: Movement)
@@ -73,13 +77,16 @@ class BizumHistoryRVAdapter @Inject constructor() :
             price.text = Methods.formatMoney(bizumHolder.amount)
 
             if (bizumHolder.isIncome) {
-                title.text =
-                    "Recibido de ${Methods.splitNameAndCapitalsSurnames(bizumHolder.beneficiary_name)}"
+                userRepository.findUserByEmail(bizumHolder.user_email).observeForever {
+                    title.text =
+                        "Recibido de ${Methods.splitNameAndCapitalsSurnames(it.name)}"
 
-                price.text = "+${Methods.formatMoney(bizumHolder.amount)}"
-                isIncome.setImageResource(R.drawable.arrow_win)
-                subject.text =
-                    if (bizumHolder.subject != "") bizumHolder.subject else "Recibido: sin concepto"
+                    price.text = "+${Methods.formatMoney(bizumHolder.amount)}"
+                    isIncome.setImageResource(R.drawable.arrow_win)
+                    subject.text =
+                        if (bizumHolder.subject != "") bizumHolder.subject else "Recibido: sin concepto"
+                }
+
             } else {
                 title.text =
                     "Enviado a ${Methods.splitNameAndCapitalsSurnames(bizumHolder.beneficiary_name)}"

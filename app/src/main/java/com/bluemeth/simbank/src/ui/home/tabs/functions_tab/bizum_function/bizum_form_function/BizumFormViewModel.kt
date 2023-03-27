@@ -31,15 +31,15 @@ class BizumFormViewModel @Inject constructor(
         get() = _navigateToBizumResum
 
     private var _bizumFormArguments: BizumFormModel? = null
-    val bizumFormArguments: BizumFormModel?
+    var bizumFormArgument: BizumFormModel? = null
         get() = _bizumFormArguments
 
     private var _reUseBizumArguments: BizumFormModel? = null
-    val reUseBizumArguments: BizumFormModel?
+    var reUseBizumArgument: BizumFormModel? = null
         get() = _reUseBizumArguments
 
     private var _bizumFormModel : BizumFormModel? = null
-    val bizumFormModel: BizumFormModel?
+    var bizumFormMdel: BizumFormModel? = null
         get() = _bizumFormModel
 
     fun setBizumFormModel(bizumFormModel: BizumFormModel) {
@@ -60,11 +60,11 @@ class BizumFormViewModel @Inject constructor(
         if (viewState.isBizumFormValidated() && bizumFormModel.isNotEmpty()) {
             _navigateToBizumResum.value = Event(true)
         } else {
-            onNameFieldsChanged(bizumFormModel)
+            onFieldsChanged(bizumFormModel)
         }
     }
 
-    fun onNameFieldsChanged(bizumFormModel: BizumFormModel) {
+    fun onFieldsChanged(bizumFormModel: BizumFormModel) {
         _viewState.value = bizumFormModel.toUpdateViewState()
     }
 

@@ -14,16 +14,6 @@
         android:layout_height="550dp"
         android:background="@color/backgroundColor">
 
-        <Button
-            android:id="@+id/btnContratar"
-            style="@style/PrimaryButton"
-            android:layout_width="wrap_content"
-            android:layout_height="40sp"
-            android:text="Contratar"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toStartOf="parent" />
-
         <ImageView
             android:id="@+id/cardImageView"
             android:layout_width="274dp"
@@ -38,6 +28,8 @@
             android:layout_height="wrap_content"
             android:padding="15sp"
             android:text="Tarjeta de credito"
+            android:textStyle="bold"
+            android:fontFamily="@font/montserrat"
             android:textColor="@color/cardview_light_background"
             android:textSize="20sp"
             card_view:layout_constraintEnd_toEndOf="parent"
@@ -51,6 +43,7 @@
             android:text="Perfecta para viajar por todo el mundo"
             android:textColor="@color/cardview_light_background"
             android:textSize="15sp"
+            android:fontFamily="@font/montserrat"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@id/cardType"/>
@@ -61,14 +54,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
+            android:fontFamily="@font/montserrat"
             android:text="Perfecta para viajar por todo el mundo"
             android:textColor="@color/cardview_light_background"
-            android:textSize="12sp"
+            android:textSize="11sp"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toBottomOf="@id/cardInfo"/>
 
-
+        <Button
+            android:id="@+id/btnContratar"
+            style="@style/PrimaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40sp"
+            android:text="Contratar"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>

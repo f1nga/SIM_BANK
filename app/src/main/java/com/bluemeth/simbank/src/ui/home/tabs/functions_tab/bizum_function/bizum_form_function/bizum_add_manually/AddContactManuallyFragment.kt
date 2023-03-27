@@ -79,7 +79,7 @@ class AddContactManuallyFragment : Fragment() {
                 addToAddressesList(
                     ContactBizum(
                         phoneNumber = binding.inputPhoneText.text.toString().toInt(),
-                        import = bizumFormViewModel.bizumFormArguments!!.let {
+                        import = bizumFormViewModel.bizumFormArgument!!.let {
                             if (it.import.isEmpty()) 0.0 else it.import.toDouble()
                         }
                     )

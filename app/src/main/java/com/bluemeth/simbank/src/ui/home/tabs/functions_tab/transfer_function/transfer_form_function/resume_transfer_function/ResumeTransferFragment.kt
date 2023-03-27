@@ -17,6 +17,7 @@ import com.bluemeth.simbank.databinding.FragmentResumTransferBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.dialog.SuccessDialog
+import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
@@ -32,6 +33,7 @@ class ResumeTransferFragment : Fragment() {
     private lateinit var binding: FragmentResumTransferBinding
     private val resumeTransferViewModel: ResumeTransferViewModel by activityViewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
+    private lateinit var movement: Movement
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
@@ -75,7 +77,7 @@ class ResumeTransferFragment : Fragment() {
             btnFinish.setOnClickListener {
                 globalViewModel.getBankAccountFromDB().observe(requireActivity()) { bankAccount ->
 //                    val transfer = resumeTransferViewModel.movement ?: resumeTransferViewModel.reUseTransferArguments
-                    val transfer = resumeTransferViewModel.movement!!
+                    val transfer = resumeTransferViewModel.movement ?: movement
                     globalViewModel.getBankAccountFromDBbyIban(transfer.beneficiary_iban)
                         .observe(requireActivity()) { beneficiaryBankAccount ->
                             resumeTransferViewModel.insertTransferToDB(
@@ -116,6 +118,7 @@ class ResumeTransferFragment : Fragment() {
         resumeTransferViewModel.navigateToHome.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
                 missionDoned()
+                clearArguments()
                 showSuccessDialog()
             }
         }
@@ -124,6 +127,7 @@ class ResumeTransferFragment : Fragment() {
     private fun setTextViews() {
         with(binding) {
             resumeTransferViewModel.movement?.let {
+                log("hool", it.subject)
                 tvCapitals.text = Methods.splitBeneficiaryName(it.beneficiary_name)
                 tvBeneficiary.text = it.beneficiary_name
                 tvIban.text = Methods.formatIbanNumber(it.beneficiary_iban)
@@ -132,11 +136,22 @@ class ResumeTransferFragment : Fragment() {
             }
 
             resumeTransferViewModel.reUseTransferArguments?.let {
+                log("hool", it.iban)
                 tvIban.text = it.iban
                 tvBeneficiary.text = it.beneficiary
                 tvCapitals.text = Methods.splitNameAndSurname(it.beneficiary)
                 tvMoney.text = Methods.formatMoney(Methods.roundOffDecimal(it.import.toDouble()))
                 tvSubject.text = it.subject
+
+                movement = Movement(
+                    beneficiary_iban = it.iban,
+                    beneficiary_name = it.beneficiary,
+                    amount = it.import.toDouble(),
+                    subject = it.subject,
+                    category = "Transferencia realizada",
+                    payment_type = PaymentType.Transfer,
+                    user_email = globalViewModel.getUserAuth().email!!
+                )
             }
         }
     }
@@ -152,6 +167,11 @@ class ResumeTransferFragment : Fragment() {
             binding.tvShortNumber.text = "· ${Methods.formatShortIban(it.iban)}"
             binding.tvMoneyAccount.text = Methods.formatMoney(it.money)
         }
+    }
+
+    private fun clearArguments() {
+        resumeTransferViewModel.movement = null
+        resumeTransferViewModel.reUseTransferArguments = null
     }
 
     private fun goToHome() {

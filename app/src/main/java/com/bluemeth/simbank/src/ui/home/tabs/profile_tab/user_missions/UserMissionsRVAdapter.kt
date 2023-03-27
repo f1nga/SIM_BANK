@@ -1,23 +1,19 @@
 package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.user_missions
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.data.models.Mission
 
 class UserMissionsRVAdapter :  RecyclerView.Adapter<UserMissionsRVAdapter.MissionsCardHolder>() {
 
-
     private lateinit var listener: OnItemClickListener
     private var listData = listOf<Mission>()
-
 
     interface OnItemClickListener {
         fun onItemClick(mission: Mission)
@@ -44,7 +40,7 @@ class UserMissionsRVAdapter :  RecyclerView.Adapter<UserMissionsRVAdapter.Missio
     }
 
     override fun getItemCount(): Int {
-        return if(listData.size > 0){
+        return if(listData.isNotEmpty()){
             listData.size
         }else{
             0
@@ -60,15 +56,12 @@ class UserMissionsRVAdapter :  RecyclerView.Adapter<UserMissionsRVAdapter.Missio
             val missionExp = itemView.findViewById<TextView>(R.id.tvMissionExp)
             missionExp.text = mission.exp.toString() + " EXP"
             val missionTick = itemView.findViewById<ImageView>(R.id.ivMissionTick)
-            missionTick.isVisible = mission.done
 
-
+            if(mission.done) missionTick.setImageResource(R.drawable.ic_tick)
 
             itemView.setOnClickListener {
                 listener.onItemClick(mission)
             }
         }
-
-
     }
 }

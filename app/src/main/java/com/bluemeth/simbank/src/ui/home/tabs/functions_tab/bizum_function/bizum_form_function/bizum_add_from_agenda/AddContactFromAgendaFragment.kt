@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -90,7 +91,7 @@ class AddContactFromAgendaFragment : Fragment() {
             AgendaRVAdapter.OnItemClickListener {
             override fun onItemClick(contactAgenda: ContactAgenda) {
 
-                val import = Methods.splitEuroWithDecimalDouble( bizumFormViewModel.bizumFormModel?.import ?: "0,00€")
+                val import = Methods.splitEuroWithDecimalDouble( bizumFormViewModel.bizumFormMdel?.import ?: "0,00€")
 
                 modifyAddresseList(
                     contactAgenda.isChecked,
@@ -104,6 +105,7 @@ class AddContactFromAgendaFragment : Fragment() {
         })
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun filterRecyclerView(searchText: Editable?) {
         addContactFromAgendaViewModel.getContactsFromDB(globalViewModel.getUserAuth().email!!)
             .observe(requireActivity()) { listContactAgenda ->
@@ -118,8 +120,8 @@ class AddContactFromAgendaFragment : Fragment() {
     }
 
     private fun getImportArguments(): Double {
-        if (bizumFormViewModel.bizumFormArguments?.import!! != "")
-            return bizumFormViewModel.bizumFormArguments?.import!!.toDouble()
+        if (bizumFormViewModel.bizumFormArgument?.import!! != "")
+            return bizumFormViewModel.bizumFormArgument?.import!!.toDouble()
 
         return 0.0
     }
@@ -130,6 +132,7 @@ class AddContactFromAgendaFragment : Fragment() {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeAgenda() {
         addContactFromAgendaViewModel.getContactsFromDB(globalViewModel.getUserAuth().email!!)
             .observe(requireActivity()) { listContactAgenda ->

@@ -18,11 +18,11 @@ class ResumeTransferViewModel @Inject constructor(
 ) : ViewModel() {
 
     private var _reUseTransferArguments: TransferFormModel? = null
-    val reUseTransferArguments: TransferFormModel?
+    var reUseTransferArguments: TransferFormModel? = null
         get() = _reUseTransferArguments
 
     private var _movement : Movement? = null
-    val movement: Movement?
+    var movement: Movement? = null
         get() = _movement
 
     fun setTransfer(movement: Movement) {

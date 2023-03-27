@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumFormBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
+import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.BizumFormModel
@@ -160,24 +161,23 @@ class BizumFormFragment : Fragment() {
             if (!hasFocus) {
                 val characters = 35 - inputSubjectText.text.toString().length
 
-                if (characters >= 0) {
-                    tvCharacters.setTextColor(Color.parseColor("#FFFFFF"))
-                    tvCharacters.text = "$characters caracteres"
-                } else {
-                    tvCharacters.setTextColor(Color.parseColor("#e84545"))
-                    tvCharacters.text = "Has sobrepasado el límite"
+                tvCharacters.apply {
+                    text = if (characters >= 0) {
+                        setTextColor(Color.parseColor("#FFFFFF"))
+                        "$characters caracteres"
+                    } else {
+                        setTextColor(Color.parseColor("#e84545"))
+                        "Has sobrepasado el límite"
+                    }
                 }
 
-                val newImport = if (inputImportText.text.toString().contains("€")) {
-                    Methods.splitEuro(inputImportText.text.toString())
-                } else {
-                    inputImportText.text.toString()
-                }
-
-                bizumFormViewModel.onNameFieldsChanged(
-
+                bizumFormViewModel.onFieldsChanged(
                     BizumFormModel(
-                        import = newImport,
+                        import = if (inputImportText.text.toString().contains("€")) {
+                            Methods.splitEuro(inputImportText.text.toString())
+                        } else {
+                            inputImportText.text.toString()
+                        },
                         subject = inputSubjectText.text.toString(),
                         addressesList = bizumFormViewModel.addressesRVAdapter.getListData()
                     )
@@ -187,20 +187,34 @@ class BizumFormFragment : Fragment() {
     }
 
     private fun getSavedArguments() {
-        bizumFormViewModel.reUseBizumArguments?.let {
+        bizumFormViewModel.reUseBizumArgument?.let {
             val inputText = Editable.Factory.getInstance()
-
-            binding.inputImportText.text =  inputText.newEditable(
-                Methods.formatMoney(
-                    Methods.roundOffDecimal(
-                        it.import.toDouble()
-                    )
-                )
-            )
+            log("hool", it.import)
 
             binding.inputSubjectText.text = inputText.newEditable(it.subject)
             bizumFormViewModel.addressesRVAdapter.setListData(it.addressesList!!)
+
+            if(bizumFormViewModel.addressesRVAdapter.getListData().size == 0)
+                binding.inputImportText.text = inputText.newEditable("")
+            else {
+                binding.inputImportText.text =  inputText.newEditable(
+                    Methods.formatMoney(
+                        Methods.roundOffDecimal(
+                            it.import.toDouble()
+                        )
+                    )
+                )
+            }
         }
+
+        val inputText = Editable.Factory.getInstance()
+
+//        bizumFormViewModel.bizumFormArgument?.let {
+//            binding.inputImportText.text = inputText.newEditable(it.import)
+//            binding.inputSubjectText.text = inputText.newEditable(it.subject)
+//        }
+//
+
     }
 
     private fun setUserBizumRecyclerView() {
@@ -269,11 +283,6 @@ class BizumFormFragment : Fragment() {
 
         binding.tvTitleForm.text = arguments?.getString("form_type")
 
-        val inputText = Editable.Factory.getInstance()
 
-        bizumFormViewModel.bizumFormArguments?.let {
-            binding.inputImportText.text = inputText.newEditable(it.import)
-            binding.inputSubjectText.text = inputText.newEditable(it.subject)
-        }
     }
 }

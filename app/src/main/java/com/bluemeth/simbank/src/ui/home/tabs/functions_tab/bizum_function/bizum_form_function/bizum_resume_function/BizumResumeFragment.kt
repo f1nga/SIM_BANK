@@ -70,13 +70,13 @@ class BizumResumeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initListeners() {
         binding.btnConfirm.setOnClickListener {
-            bizumFormViewModel.bizumFormModel?.let { bizumFormModel ->
+            bizumFormViewModel.bizumFormMdel?.let { bizumFormModel ->
 //                val beneficiaryIbans = mutableListOf<String>()
 //                val beneficiaryNames = mutableListOf<String>()
 //                val beneficiaryMoneys = mutableListOf<Double>()
 //                val beneficiaryRemainingMoneys = mutableListOf<Double>()
 //
-//                for (bizumForm in bizumFormModel.addressesList!!) {
+//                for (bizumForm in bizumFormMdel.addressesList!!) {
 //                    beneficiaryNames.add(bizumForm.name)
 //
 //                }
@@ -92,7 +92,7 @@ class BizumResumeFragment : Fragment() {
 //                            beneficiaryMoneys.add(account.money)
 //                            beneficiaryRemainingMoneys.add(
 //                                Methods.roundOffDecimal(
-//                                    account.money + bizumFormModel.addressesList!![0].import
+//                                    account.money + bizumFormMdel.addressesList!![0].import
 //                                )
 //                            )
 //                        }
@@ -106,11 +106,11 @@ class BizumResumeFragment : Fragment() {
 //                                    Bizum(
 //                                        beneficiary_iban = beneficiaryIbans,
 //                                        beneficiary_name = beneficiaryNames,
-//                                        amount = bizumFormModel.addressesList!![0].import,
-//                                        subject = bizumFormModel.subject,
+//                                        amount = bizumFormMdel.addressesList!![0].import,
+//                                        subject = bizumFormMdel.subject,
 //                                        category = "Pagos Bizum",
 //                                        payment_type = PaymentType.Bizum,
-//                                        remaining_money = Methods.roundOffDecimal(bankAccount.money - bizumFormModel.addressesList!![0].import),
+//                                        remaining_money = Methods.roundOffDecimal(bankAccount.money - bizumFormMdel.addressesList!![0].import),
 //                                        beneficiary_remaining_money = beneficiaryRemainingMoneys,
 //                                        user_email = globalViewModel.getUserAuth().email!!
 //                                    ),
@@ -162,6 +162,7 @@ class BizumResumeFragment : Fragment() {
             it.getContentIfNotHandled()?.let {
                 showSuccessDialog()
                 missionDoned()
+                clearArguments()
             }
         }
 
@@ -174,8 +175,9 @@ class BizumResumeFragment : Fragment() {
         globalViewModel.setUserMissionToDB(Constants.BIZUM_MISSION)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
-        bizumFormViewModel.bizumFormModel!!.apply {
+        bizumFormViewModel.bizumFormMdel!!.apply {
             binding.tvTotalImport.text = this.import
             binding.tvImportEveryAddresse.text = Methods.formatMoney(this.addressesList!![0].import)
             binding.tvComision.text = "0,00€"
@@ -210,7 +212,7 @@ class BizumResumeFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeAgenda() {
-        bizumFormViewModel.bizumFormModel!!.addressesList!!.forEach {
+        bizumFormViewModel.bizumFormMdel!!.addressesList!!.forEach {
             bizumResumeViewModel.agendaRVAdapter.addToListData(
                 ContactAgenda(
                     name = it.name,
@@ -219,6 +221,12 @@ class BizumResumeFragment : Fragment() {
             )
         }
         bizumResumeViewModel.agendaRVAdapter.notifyDataSetChanged()
+    }
+
+    private fun clearArguments() {
+        bizumFormViewModel.bizumFormMdel = null
+        bizumFormViewModel.reUseBizumArgument = null
+        bizumFormViewModel.bizumFormArgument = null
     }
 
     private fun showErrorDialog() {

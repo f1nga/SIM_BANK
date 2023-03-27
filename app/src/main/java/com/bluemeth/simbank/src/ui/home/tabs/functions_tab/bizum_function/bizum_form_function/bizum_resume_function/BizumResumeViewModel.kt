@@ -62,10 +62,6 @@ class BizumResumeViewModel @Inject constructor(
         }
     }
 
-    fun setBizumMissionToDB(email:String, ) {
-
-    }
-
     fun makeBizum(iban: String, movement: Bizum, beneficiariesMoney: List<Double>) {
         viewModelScope.launch {
 

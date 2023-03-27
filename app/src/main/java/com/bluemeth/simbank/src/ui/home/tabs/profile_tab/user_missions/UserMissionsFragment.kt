@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
@@ -73,6 +74,12 @@ class UserMissionsFragment : Fragment() {
 
     private fun goToBizum() {
         view?.findNavController()?.navigate(R.id.action_userMissionsFragment_to_bizumFragment)
+    }
 
+    override fun onStart() {
+        super.onStart()
+        val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+
+        tvTitle.text = getString(R.string.toolbar_missions)
     }
 }

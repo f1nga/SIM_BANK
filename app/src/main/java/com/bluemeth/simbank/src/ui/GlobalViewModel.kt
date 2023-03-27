@@ -208,7 +208,7 @@ class GlobalViewModel @Inject constructor(
                 if(isMissionCompleted(mission.name, listMissions) != "") {
                     val expSum = mission.exp + user.exp
 
-                    val exp = if (expSum > 100) {
+                    val exp = if (expSum >= 100) {
                         userRepository.updateUserLevel(getUserAuth().email!!, user.level+1)
                         expSum - 100
                     } else expSum

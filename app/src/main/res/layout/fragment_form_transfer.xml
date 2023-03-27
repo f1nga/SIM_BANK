@@ -384,7 +384,7 @@
                 android:id="@+id/input_asunto"
                 style="@style/FormTextInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="130dp"
                 android:layout_marginTop="10dp"
                 android:textColorHint="@color/white"
                 app:endIconMode="clear_text"
@@ -403,16 +403,29 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:id="@+id/tvCharacters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/montserrat"
+                android:text="@string/_35_characters"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/input_asunto"/>
+
             <Button
                 android:id="@+id/btnContinue"
                 style="@style/PrimaryButton"
                 android:layout_width="150dp"
                 android:layout_height="44dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/continue_mayus"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/input_asunto" />
+                app:layout_constraintTop_toBottomOf="@id/tvCharacters" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

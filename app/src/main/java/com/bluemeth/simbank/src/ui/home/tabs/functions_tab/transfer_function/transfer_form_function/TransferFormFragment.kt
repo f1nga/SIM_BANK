@@ -1,6 +1,7 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -65,6 +66,10 @@ class TransferFormFragment : Fragment() {
             inputImportText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
             inputImportText.setOnFocusChangeListener { _, hasFocus -> formatInputImport(hasFocus) }
             inputImportText.onTextChanged { onFieldChanged() }
+
+            inputAsuntoText.loseFocusAfterAction(EditorInfo.IME_ACTION_NEXT)
+            inputAsuntoText.setOnFocusChangeListener { _, hasFocus -> onFieldChanged(hasFocus) }
+            inputAsuntoText.onTextChanged { onFieldChanged() }
 
             btnContinue.setOnClickListener {
                 it.dismissKeyboard()
@@ -150,19 +155,34 @@ class TransferFormFragment : Fragment() {
 
         //autoSpacesIban()
 
+
         if (!hasFocus) {
-            val newImport = binding.inputImportText.text.toString().let {
-                if (it.contains("€")) {
-                    Methods.splitEuro(it)
-                } else it
+            val characters = 35 - binding.inputAsuntoText.text.toString().length
+
+            binding.tvCharacters.apply {
+                text = if (characters >= 0) {
+                    setTextColor(Color.parseColor("#FFFFFF"))
+                    "$characters caracteres"
+                } else {
+                    binding.inputAsunto.error = "hool"
+                    setTextColor(Color.parseColor("#e84545"))
+                    "Has sobrepasado el límite"
+                }
+
             }
+
+
 
 
             transferFormViewModel.onNameFieldsChanged(
                 TransferFormModel(
                     iban = binding.inputIbantext.text.toString(),
                     beneficiary = binding.inputBeneficiaryText.text.toString(),
-                    import = newImport
+                    import = binding.inputImportText.text.toString().let { inputImport ->
+                        if (inputImport.contains("€")) {
+                            Methods.splitEuro(inputImport)
+                        } else inputImport
+                    }
                 )
             )
         }

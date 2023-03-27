@@ -87,6 +87,7 @@
     <string name="toolbar_info_account">Información de la cuenta</string>
     <string name="toolbar_search_movements">Buscar movimientos</string>
     <string name="toolbar_movements_list">Lista de movimientos</string>
+    <string name="toolbar_missions">Misiones</string>
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
