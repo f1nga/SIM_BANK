@@ -37,7 +37,7 @@ class CreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<CreditCar
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CreditCardHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.credit_card_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_credit_card, parent, false)
 
         return CreditCardHolder(v)
     }

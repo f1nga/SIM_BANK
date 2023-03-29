@@ -29,7 +29,7 @@ class UserMissionsRVAdapter :  RecyclerView.Adapter<UserMissionsRVAdapter.Missio
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MissionsCardHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_mission_card, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_mission, parent, false)
 
         return MissionsCardHolder(v)
     }
@@ -58,6 +58,7 @@ class UserMissionsRVAdapter :  RecyclerView.Adapter<UserMissionsRVAdapter.Missio
             val missionTick = itemView.findViewById<ImageView>(R.id.ivMissionTick)
 
             if(mission.done) missionTick.setImageResource(R.drawable.ic_tick)
+            else missionTick.setImageResource(R.drawable.ic_arrow_right)
 
             itemView.setOnClickListener {
                 listener.onItemClick(mission)

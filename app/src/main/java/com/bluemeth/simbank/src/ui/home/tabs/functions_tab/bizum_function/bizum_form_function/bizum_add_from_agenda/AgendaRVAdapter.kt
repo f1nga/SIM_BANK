@@ -41,7 +41,7 @@ class AgendaRVAdapter @Inject constructor() :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserAgendaHolder {
         val v =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.add_from_agenda_item, parent, false)
+                .inflate(R.layout.item_add_from_agenda, parent, false)
 
         return UserAgendaHolder(v)
     }

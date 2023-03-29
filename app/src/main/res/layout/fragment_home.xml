@@ -30,7 +30,27 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvHeader"
                     android:layout_width="match_parent"
+                    android:visibility="gone"
                     android:layout_height="wrap_content" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:id="@+id/clHomeHeaderLoading"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/backgroundColor_secondary"
+                        app:layout_constraintTop_toBottomOf="@id/clAccount">
+
+                        <include layout="@layout/item_home_header_loading" />
+                        <include layout="@layout/item_home_header_loading" />
+                        <include layout="@layout/item_home_header_loading" />
+
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
 
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -121,7 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat"
-                        android:text="Cuenta *5081"
+                        tools:text="Cuenta *5081"
                         android:textColor="@color/primary_button"
                         android:textSize="19sp"
                         android:textStyle="bold"
@@ -133,7 +153,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat"
-                        android:text="6.820,68€"
+                        tools:text="6.820,68€"
                         android:textColor="@color/primary_text"
                         android:textSize="22sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/montserrat"
-                        android:text="· 5081"
+                        tools:text="· 5081"
                         android:textColor="@color/tertiary_text"
                         android:textSize="15sp"
                         android:textStyle="bold"
@@ -194,18 +214,18 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/clHistorial"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="250dp"
                         android:background="@color/backgroundColor_secondary"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        >
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvHistory"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvLastMovements"
+                            app:layout_constraintTop_toTopOf="parent"
                             tools:ignore="NotSibling" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -222,11 +242,11 @@
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/clAccount">
 
-                        <include layout="@layout/movement_loading_item" />
+                        <include layout="@layout/item_movement_loading" />
 
-                        <include layout="@layout/movement_loading_item" />
+                        <include layout="@layout/item_movement_loading" />
 
-                        <include layout="@layout/movement_loading_item" />
+                        <include layout="@layout/item_movement_loading" />
 
                     </LinearLayout>
 

@@ -56,7 +56,7 @@ class AddressesRVAdapter @Inject constructor() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddresseHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.bizum_address_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_bizum_address, parent, false)
 
         return AddresseHolder(v)
     }

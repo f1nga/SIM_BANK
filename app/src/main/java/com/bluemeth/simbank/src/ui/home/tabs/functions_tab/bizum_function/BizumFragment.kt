@@ -146,6 +146,7 @@ class BizumFragment : Fragment() {
         if (bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty())
             bizumFormViewModel.addressesRVAdapter.getListData().clear()
         bizumFormViewModel.bizumFormArgument?.import = ""
+        bizumFormViewModel.bizumFormArgument?.subject = ""
     }
 
     private fun goToBizumForm(formType: String) {

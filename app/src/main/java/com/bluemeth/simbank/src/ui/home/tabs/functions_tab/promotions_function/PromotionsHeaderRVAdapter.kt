@@ -30,7 +30,7 @@ class PromotionsHeaderRVAdapter :  RecyclerView.Adapter<PromotionsHeaderRVAdapte
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PromotionsCardHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.info_promotions_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_info_promotions, parent, false)
 
         return PromotionsCardHolder(v)
     }

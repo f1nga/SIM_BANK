@@ -301,7 +301,7 @@
             style="@style/resumText"
             android:textStyle="normal"/>
 
-        <include android:id="@+id/llAddNote" layout="@layout/add_note_item" android:visibility="gone"/>
+        <include android:id="@+id/llAddNote" layout="@layout/item_add_note" android:visibility="gone"/>
 
         <com.google.android.material.divider.MaterialDivider
             android:layout_width="wrap_content"

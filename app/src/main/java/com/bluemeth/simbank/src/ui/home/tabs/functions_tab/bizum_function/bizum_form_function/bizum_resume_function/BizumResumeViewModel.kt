@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.models.BankAccount
 import com.bluemeth.simbank.src.data.models.Bizum
-import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.Notification
 import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
@@ -44,14 +44,14 @@ class BizumResumeViewModel @Inject constructor(
 
     fun makeBizum(
         iban: String,
-        movement: Movement,
         beneficiaryMoney: Double,
-        beneficiaryIban: String
+        beneficiaryIban: String,
+        notification: Notification
     ) {
         viewModelScope.launch {
 
             val bizumCreated =
-                insertTransferUseCase(iban, movement, beneficiaryMoney, beneficiaryIban)
+                insertTransferUseCase(iban, beneficiaryMoney, beneficiaryIban, notification)
 
             if (bizumCreated) {
                 _navigateToHome.value = Event(true)

@@ -28,7 +28,7 @@ class AddCreditCardRVAdapter @Inject constructor() : RecyclerView.Adapter<AddCre
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InfoCardHolder {
         val v = LayoutInflater.from(parent.context)
-            .inflate(R.layout.add_credit_card_item, parent, false)
+            .inflate(R.layout.item_add_credit_card, parent, false)
 
         return InfoCardHolder(v)
     }

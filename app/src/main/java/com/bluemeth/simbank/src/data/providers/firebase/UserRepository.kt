@@ -21,6 +21,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         const val EXP_FIELD = "exp"
         const val IMAGE = "image"
         const val MISSIONS_COMPLETED_FIELD = "missions_completed"
+        const val CONTACTS_FIELD = "contacts"
     }
 
     suspend fun createUserTable(userSignIn: UserSignIn) = runCatching {
@@ -39,6 +40,59 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .set(user)
             .await()
     }.isSuccess
+
+    suspend fun getUsers(email: String): MutableLiveData<MutableList<User>> {
+        val mutableData = MutableLiveData<MutableList<User>>()
+
+        firebase.db
+            .collection(USER_COLLECTION)
+            .whereNotEqualTo(EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                val listData = mutableListOf<User>()
+
+                for (document in documents) {
+                    listData.add(getUser(document))
+                }
+                mutableData.value = listData
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error").w(exception, "Error getting documents: ")
+            }
+            .await()
+
+        return mutableData
+    }
+
+    suspend fun getUserContacts(email: String): MutableLiveData<MutableList<User>> {
+        val mutableData = MutableLiveData<MutableList<User>>()
+
+        firebase.db
+            .collection(USER_COLLECTION)
+            .whereEqualTo(EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                val listData = mutableListOf<User>()
+
+                for (contact in documents.first().get(CONTACTS_FIELD) as MutableList<String>) {
+                    firebase.db
+                        .collection(USER_COLLECTION)
+                        .whereEqualTo(EMAIL_FIELD, contact)
+                        .get()
+                        .addOnSuccessListener { user ->
+                            listData.add(getUser(user.first()))
+                        }
+                }
+
+                mutableData.value = listData
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error").w(exception, "Error getting documents: ")
+            }
+            .await()
+
+        return mutableData
+    }
 
     fun findUserByEmail(email: String): MutableLiveData<User> {
         val user = MutableLiveData<User>()
@@ -91,14 +145,14 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
     suspend fun findUserByNameList(names: List<String>): MutableLiveData<List<User>> {
         val users = MutableLiveData<List<User>>()
 
-        for(name in names) {
+        for (name in names) {
             firebase.db
                 .collection(USER_COLLECTION)
                 .whereEqualTo(NAME_FIELD, name)
                 .get()
                 .addOnSuccessListener { documents ->
                     val list = mutableListOf<User>()
-                    for(document in documents) {
+                    for (document in documents) {
                         list.add(
                             getUser(document)
                         )
@@ -159,12 +213,13 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         return user
     }
 
-    fun updateUserName(email: String, name: String) {
+    suspend fun updateUserName(email: String, name: String) = runCatching {
         firebase.db
             .collection(USER_COLLECTION)
             .document(email)
             .update(NAME_FIELD, name)
-    }
+            .await()
+    }.isSuccess
 
     fun updateUserPhone(email: String, phone: Int) {
         firebase.db
@@ -191,51 +246,107 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .set(newUser)
     }
 
-    fun updateUserImage(email:String, image: String){
+    suspend fun updateEmailContacts(oldEmail: String, newEmail: String) = runCatching {
+        firebase.db
+            .collection(USER_COLLECTION)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    val contactsList = document.get(CONTACTS_FIELD) as MutableList<String>
+                    val newList = mutableListOf<String>()
+                    for (contact in contactsList) {
+                        if (contact == oldEmail) {
+                            newList.add(newEmail)
+                        } else {
+                            newList.add(contact)
+                        }
+                    }
+
+                    firebase.db
+                        .collection(USER_COLLECTION)
+                        .document(document.id)
+                        .update(CONTACTS_FIELD, newList)
+                }
+            }
+            .await()
+    }.isSuccess
+
+    fun updateUserImage(email: String, image: String) {
         firebase.db
             .collection(USER_COLLECTION)
             .document(email)
             .update(IMAGE, image)
     }
 
-    fun updateUserMissionsCompleted(email:String, missionsCompleted: List<String>){
+    fun updateUserMissionsCompleted(email: String, missionsCompleted: List<String>) {
         firebase.db
             .collection(USER_COLLECTION)
             .document(email)
             .update(MISSIONS_COMPLETED_FIELD, missionsCompleted)
     }
 
-    fun updateUserLevel(email:String, level: Int){
+    fun updateUserLevel(email: String, level: Int) {
         firebase.db
             .collection(USER_COLLECTION)
             .document(email)
             .update(LEVEL_FIELD, level)
     }
 
-    fun updateUserExperience(email:String, exp: Int){
+    fun updateUserExperience(email: String, exp: Int) {
         firebase.db
             .collection(USER_COLLECTION)
             .document(email)
             .update(EXP_FIELD, exp)
     }
 
-     fun deleteUserByEmail(email: String) {
+    suspend fun updateUserContacts(email: String, contacts: List<String>) = runCatching {
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .update(CONTACTS_FIELD, contacts)
+            .await()
+    }.isSuccess
+
+    fun deleteUserByEmail(email: String) {
         firebase.db
             .collection(USER_COLLECTION)
             .document(email)
             .delete()
     }
 
-    private fun getUser(document: QueryDocumentSnapshot) : User {
+    suspend fun deleteUserContact(email: String, contactEmail: String) = runCatching {
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(email)
+            .get()
+            .addOnSuccessListener { document ->
+                val listData = mutableListOf<String>()
+
+                for(contact in document.get(CONTACTS_FIELD) as MutableList<String>) {
+                    if(contact != contactEmail) {
+                        listData.add(contact)
+                    }
+                }
+
+                firebase.db
+                    .collection(USER_COLLECTION)
+                    .document(email)
+                    .update(CONTACTS_FIELD, listData)
+            }
+            .await()
+    }.isSuccess
+
+    private fun getUser(document: QueryDocumentSnapshot): User {
         return User(
             document.getString(EMAIL_FIELD)!!,
             document.getString(PASSWORD_FIELD)!!,
             document.getString(NAME_FIELD)!!,
             document.getLong(PHONE_FIELD)!!.toInt(),
             document.getString(IMAGE)!!,
-            document.getDouble(LEVEL_FIELD)!!.toInt(),
-            document.getDouble(EXP_FIELD)!!.toInt(),
+            document.getLong(LEVEL_FIELD)!!.toInt(),
+            document.getLong(EXP_FIELD)!!.toInt(),
             document.get(MISSIONS_COMPLETED_FIELD) as MutableList<String>,
-            )
+            document.get(CONTACTS_FIELD) as MutableList<String>
+        )
     }
 }

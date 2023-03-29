@@ -3,19 +3,19 @@ package com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.u
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
-import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
-import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
+import com.bluemeth.simbank.src.domain.UpdateNameUseCase
 import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_name.model.UserNameUpdate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class UpdateNameViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-    private val authenticationRepository: AuthenticationRepository
+    private val updateNameUseCase: UpdateNameUseCase
 ) : ViewModel() {
 
     private companion object {
@@ -30,12 +30,20 @@ class UpdateNameViewModel @Inject constructor(
     val navigateToProfile: LiveData<Event<Boolean>>
         get() = _navigateToProfile
 
-    fun onChangeNameSelected(userUpdate: UserNameUpdate) {
+    fun changeNameFromDB(fullName: String, oldName: String) {
+        viewModelScope.launch {
+            updateNameUseCase(fullName, oldName)
+        }
+    }
+
+    fun onChangeNameSelected(userUpdate: UserNameUpdate, oldName: String) {
         val viewState = userUpdate.toUpdateNameViewState()
 
         if (viewState.fullNameValidated() && userUpdate.isNotEmpty()) {
             val fullName = userUpdate.name + " " + userUpdate.lastName + " " + userUpdate.secondName
-            userRepository.updateUserName(authenticationRepository.getCurrentUser().email!!, fullName)
+
+            changeNameFromDB(fullName, oldName)
+
             _navigateToProfile.value = Event(true)
         } else {
             onNameFieldsChanged(userUpdate)

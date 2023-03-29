@@ -10,8 +10,6 @@
     android:paddingTop="20dp"
     tools:context=".src.ui.home.tabs.profile_tab.ProfileFragment">
 
-
-
     <ScrollView
         android:id="@+id/formView"
         android:layout_width="match_parent"
@@ -45,7 +43,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <TextView
                 android:id="@+id/tvCircleName"
                 android:layout_width="wrap_content"
@@ -67,6 +64,7 @@
                 android:fontFamily="@font/montserrat"
                 android:textColor="@color/primary_text"
                 android:textSize="20sp"
+                tools:text="Didac Gros Labrador"
                 app:layout_constraintStart_toEndOf="@id/ivCircle"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -108,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
-                android:text="33"
+                tools:text="33"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/ivLevel"

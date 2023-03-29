@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -34,7 +35,7 @@ class TransferHistoryRVAdapter @Inject constructor() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransferHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.transfer_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_transfer, parent, false)
 
         return TransferHolder(v)
     }
@@ -54,6 +55,7 @@ class TransferHistoryRVAdapter @Inject constructor() :
     }
 
     inner class TransferHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        @SuppressLint("SetTextI18n")
         @RequiresApi(Build.VERSION_CODES.O)
         fun bindView(transferHolder: Movement) {
             val date = itemView.findViewById<TextView>(R.id.tvDate)
@@ -62,7 +64,7 @@ class TransferHistoryRVAdapter @Inject constructor() :
             val import = itemView.findViewById<TextView>(R.id.tvImport)
             val subject = itemView.findViewById<TextView>(R.id.tvSubject)
 
-            date.text = Methods.formateDateBizum(transferHolder.date.toDate())
+            date.text = Methods.formatLongDate(transferHolder.date.toDate())
             beneficiary.text = transferHolder.beneficiary_name
             iban.text = transferHolder.beneficiary_iban
             subject.text = if(transferHolder.subject != "") transferHolder.subject else "sin concepto"

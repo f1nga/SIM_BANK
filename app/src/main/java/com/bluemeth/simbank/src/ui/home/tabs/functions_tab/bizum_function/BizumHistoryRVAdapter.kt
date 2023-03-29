@@ -21,7 +21,6 @@ class BizumHistoryRVAdapter @Inject constructor(
     RecyclerView.Adapter<BizumHistoryRVAdapter.BizumHolder>() {
     private lateinit var listener: OnItemClickListener
     private var listData = mutableListOf<Movement>()
-    private lateinit var beneficiaryName : String
 
     interface OnItemClickListener {
         fun onItemClick(movement: Movement)
@@ -44,7 +43,7 @@ class BizumHistoryRVAdapter @Inject constructor(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BizumHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.bizum_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_bizum, parent, false)
 
         return BizumHolder(v)
     }
@@ -73,7 +72,7 @@ class BizumHistoryRVAdapter @Inject constructor(
             val subject = itemView.findViewById<TextView>(R.id.tvSubject)
             val isIncome = itemView.findViewById<ImageView>(R.id.ivArrowIncome)
 
-            date.text = Methods.formateDateBizum(bizumHolder.date.toDate())
+            date.text = Methods.formatLongDate(bizumHolder.date.toDate())
             price.text = Methods.formatMoney(bizumHolder.amount)
 
             if (bizumHolder.isIncome) {

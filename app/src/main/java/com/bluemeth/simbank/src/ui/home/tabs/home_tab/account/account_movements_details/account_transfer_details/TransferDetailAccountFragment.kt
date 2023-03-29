@@ -92,7 +92,7 @@ class TransferDetailAccountFragment : Fragment() {
     private fun setTextViews() {
 
         with(binding) {
-            tvDate.text = Methods.formateDateBizum(movement.date.toDate())
+            tvDate.text = Methods.formatLongDate(movement.date.toDate())
 
             if (movement.isIncome) {
                 tvTitle.text = "Transferencia recibida"
@@ -116,7 +116,7 @@ class TransferDetailAccountFragment : Fragment() {
             }
 
             tvFechaCargo.text = Methods.formateFechaCargo(movement.date.toDate())
-            tvFechaAbono.text = Methods.formateDateBizum(movement.date.toDate())
+            tvFechaAbono.text = Methods.formatLongDate(movement.date.toDate())
             tvBeneficiary.text = movement.beneficiary_name
             tvBeneficiaryAccount.text = movement.beneficiary_iban
 

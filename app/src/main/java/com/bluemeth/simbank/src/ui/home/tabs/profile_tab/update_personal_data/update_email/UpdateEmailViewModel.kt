@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UpdateEmailViewModel @Inject constructor(
     private val updateEmailUseCase: UpdateEmailUseCase
-) : ViewModel(){
+) : ViewModel() {
 
     private val _viewState = MutableStateFlow(UpdateEmailViewState())
     val viewState: StateFlow<UpdateEmailViewState>
@@ -28,18 +28,32 @@ class UpdateEmailViewModel @Inject constructor(
     val showDialog: LiveData<Boolean>
         get() = _showDialog
 
-    fun onChangeSelected(userEmailUpdate: UserEmailUpdate, newUser: User, iban: String) {
+    fun onChangeSelected(
+        userEmailUpdate: UserEmailUpdate,
+        newUser: User,
+        iban: String,
+        password: String
+    ) {
         val viewState = userEmailUpdate.toUpdateEmailState()
 
         if (viewState.emailValidated() && userEmailUpdate.isNotEmpty()) {
             viewModelScope.launch {
-                val user = User(userEmailUpdate.email, newUser.password, newUser.name, newUser.phone, newUser.image)
-                val emailUpdated = updateEmailUseCase(userEmailUpdate.email, iban, user)
+                val user = User(
+                    userEmailUpdate.email,
+                    newUser.password,
+                    newUser.name,
+                    newUser.phone,
+                    newUser.image,
+                    newUser.level,
+                    newUser.exp,
+                    newUser.missions_completed
+                )
+                val emailUpdated = updateEmailUseCase(userEmailUpdate.email, iban, user, password)
 
-                if(emailUpdated) {
+                if (emailUpdated) {
                     _showDialog.value = true
                 } else {
-                    Timber.tag("ERROR",) .e("Email not updated" )
+                    Timber.tag("ERROR").e("Email not updated")
                 }
             }
         } else {

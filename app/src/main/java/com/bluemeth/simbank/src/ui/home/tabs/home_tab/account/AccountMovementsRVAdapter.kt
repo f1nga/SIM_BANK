@@ -41,7 +41,7 @@ class AccountMovementsRVAdapter @Inject constructor() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransfersHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.account_movements_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_account_movements, parent, false)
 
         return TransfersHolder(v)
     }
@@ -71,7 +71,7 @@ class AccountMovementsRVAdapter @Inject constructor() :
             val arrow = itemView.findViewById<ImageView>(R.id.ivArrowIncome)
             val tvRemainingMoney = itemView.findViewById<TextView>(R.id.tvRemainingMoney)
 
-            date.text = Methods.formateDateBizum(movementHolder.date.toDate())
+            date.text = Methods.formatLongDate(movementHolder.date.toDate())
 
             title.text = when(movementHolder.payment_type) {
                 PaymentType.Bizum -> "Bizum"

@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +33,7 @@ class MovementsRVAdapter @Inject constructor() :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransfersHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.movement_item, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.item_movements, parent, false)
 
         return TransfersHolder(v)
     }
@@ -52,6 +53,7 @@ class MovementsRVAdapter @Inject constructor() :
     }
 
     inner class TransfersHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        @SuppressLint("SetTextI18n")
         @RequiresApi(Build.VERSION_CODES.O)
         fun bindView(movementHolder: Movement) {
             val title = itemView.findViewById<TextView>(R.id.tvTitle)

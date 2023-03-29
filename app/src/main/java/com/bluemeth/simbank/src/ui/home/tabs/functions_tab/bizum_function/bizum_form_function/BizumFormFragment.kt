@@ -209,10 +209,10 @@ class BizumFormFragment : Fragment() {
 
         val inputText = Editable.Factory.getInstance()
 
-//        bizumFormViewModel.bizumFormArgument?.let {
-//            binding.inputImportText.text = inputText.newEditable(it.import)
-//            binding.inputSubjectText.text = inputText.newEditable(it.subject)
-//        }
+        bizumFormViewModel.bizumFormArgument?.let {
+            binding.inputImportText.text = inputText.newEditable(it.import)
+            binding.inputSubjectText.text = inputText.newEditable(it.subject)
+        }
 //
 
     }

@@ -11,7 +11,6 @@ import javax.inject.Inject
 
 
 class CreditCardRepository @Inject constructor(private val firebase: FirebaseClient) {
-
     companion object {
         const val CREDIT_CARDS_COLLECTION = "credit_cards"
 

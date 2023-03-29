@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/backgroundColor"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context=".src.ui.drawer.notifications.contact_request_detail.ContactRequestDetailFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/ivCircle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/defaultprofile"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="15dp"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvNameSendNoti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TitleText"
+                tools:text="Didac Gros Labrador"/>
+
+            <TextView
+                android:id="@+id/tvPhoneSendNoti"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/BodyText"
+                android:textSize="16sp"
+                android:textColor="@color/tertiary_text"
+                tools:text="654653422"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/BodyText"
+        android:layout_marginTop="30dp"
+        android:textSize="16sp"
+        android:textColor="@color/tertiary_text"
+        android:text="@string/wants_to_be_friend"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+
+        <Button
+            android:id="@+id/btnDeclineRequest"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:text="@string/declinar"
+            style="@style/DeleteButton"/>
+
+        <Space
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btnAcceptRequest"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            style="@style/AcceptButton"
+            android:text="@string/accept"/>
+    </LinearLayout>
+
+</LinearLayout>

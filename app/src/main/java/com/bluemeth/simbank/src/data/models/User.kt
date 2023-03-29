@@ -9,5 +9,6 @@ data class User(
     val level: Int = 1,
     val exp: Int = 0,
     val missions_completed : MutableList<String> = mutableListOf(),
+    val contacts : MutableList<String> = mutableListOf(),
 
 )

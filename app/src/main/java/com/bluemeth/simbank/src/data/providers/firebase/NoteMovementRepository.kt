@@ -61,4 +61,17 @@ class NoteMovementRepository @Inject constructor(private val firebase: FirebaseC
 
         return noteFinded
     }
+
+    fun updateNoteMovementUserEmail(email: String, newEmail: String) {
+        firebase.db.collection(NOTE_MOVEMENTS_COLLECTION)
+            .whereEqualTo(USER_EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                for(document in documents) {
+                    firebase.db.collection(NOTE_MOVEMENTS_COLLECTION)
+                        .document(document.id)
+                        .update(USER_EMAIL_FIELD, newEmail)
+                }
+            }
+    }
 }

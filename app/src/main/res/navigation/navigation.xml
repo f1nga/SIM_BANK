@@ -383,5 +383,49 @@
             android:id="@+id/action_userMissionsFragment_to_transferFragment"
             app:destination="@id/transferFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/contactsFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.contacts.ContactsFragment"
+        android:label="fragment_contacts"
+        tools:layout="@layout/fragment_contacts" >
+        <action
+            android:id="@+id/action_contactsFragment_to_addContactFragment"
+            app:destination="@id/addContactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addContactFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.contacts.add_contact.AddContactFragment"
+        android:label="fragment_add_contact"
+        tools:layout="@layout/fragment_add_contact" >
+        <action
+            android:id="@+id/action_addContactFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.notifications.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" >
+        <action
+            android:id="@+id/action_notificationsFragment_to_contactRequestDetailFragment"
+            app:destination="@id/contactRequestDetailFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_bizumDetailAccountFragment"
+            app:destination="@id/bizumDetailAccountFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_transferDetailAccountFragment"
+            app:destination="@id/transferDetailAccountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactRequestDetailFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.notifications.contact_request_detail.ContactRequestDetailFragment"
+        android:label="fragment_contact_request_detail"
+        tools:layout="@layout/fragment_contact_request_detail"
+        app:popUpToInclusive="false">
+        <action
+            android:id="@+id/action_contactRequestDetailFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment"
+            app:popUpTo="@id/homeFragment"/>
+    </fragment>
 
 </navigation>

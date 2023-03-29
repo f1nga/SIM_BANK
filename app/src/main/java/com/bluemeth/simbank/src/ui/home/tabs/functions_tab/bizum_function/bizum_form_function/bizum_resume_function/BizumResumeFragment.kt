@@ -20,6 +20,8 @@ import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.dialog.SuccessDialog
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.Notification
+import com.bluemeth.simbank.src.data.models.utils.NotificationType
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
@@ -28,9 +30,6 @@ import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_
 import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.bizum_address_item.*
-import kotlinx.android.synthetic.main.fragment_bizum_resume.*
-import kotlinx.android.synthetic.main.fragment_resum_transfer.*
 import javax.inject.Inject
 
 
@@ -57,7 +56,6 @@ class BizumResumeFragment : Fragment() {
         return binding.root
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initUI() {
         setTextViews()
@@ -70,7 +68,7 @@ class BizumResumeFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initListeners() {
         binding.btnConfirm.setOnClickListener {
-            bizumFormViewModel.bizumFormMdel?.let { bizumFormModel ->
+            sendBizum()
 //                val beneficiaryIbans = mutableListOf<String>()
 //                val beneficiaryNames = mutableListOf<String>()
 //                val beneficiaryMoneys = mutableListOf<Double>()
@@ -120,40 +118,61 @@ class BizumResumeFragment : Fragment() {
 //                    }
 
 
+        }
+    }
 
-                bizumFormModel.addressesList!!.forEach { contactBizum ->
-                    globalViewModel.getBankAccountFromDBbyPhone(contactBizum.phoneNumber)
-                        .observe(requireActivity()) { beneficiaryAccount ->
-                            globalViewModel.getBankAccountFromDB()
-                                .observe(requireActivity()) { bankAccount ->
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendBizum() {
+        bizumFormViewModel.bizumFormMdel?.let { bizumFormModel ->
+            bizumFormModel.addressesList!!.forEach { contactBizum ->
+                globalViewModel.getBankAccountFromDBbyPhone(contactBizum.phoneNumber)
+                    .observe(requireActivity()) { beneficiaryAccount ->
+                        globalViewModel.getBankAccountFromDB()
+                            .observe(requireActivity()) { bankAccount ->
+                                globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
                                     bizumResumeViewModel.makeBizum(
                                         bankAccount.iban,
-                                        Movement(
-                                            beneficiary_iban = beneficiaryAccount.iban,
-                                            beneficiary_name = contactBizum.name,
-                                            amount = contactBizum.import,
-                                            subject = bizumFormModel.subject,
-                                            category = "Pagos Bizum",
-                                            payment_type = PaymentType.Bizum,
-                                            remaining_money = Methods.roundOffDecimal(bankAccount.money - contactBizum.import),
-                                            beneficiary_remaining_money = Methods.roundOffDecimal(
-                                                beneficiaryAccount.money + contactBizum.import
-                                            ),
-                                            user_email = globalViewModel.getUserAuth().email!!
-                                        ),
                                         beneficiaryAccount.money,
-                                        beneficiaryAccount.iban
+                                        beneficiaryAccount.iban,
+                                        Notification(
+                                            title = getString(R.string.noti_bizum_received_title),
+                                            description = getString(R.string.noti_bizum_received_description) + " ${user.name}",
+                                            type = NotificationType.BizumReceived,
+                                            movement = Movement(
+                                                beneficiary_iban = beneficiaryAccount.iban,
+                                                beneficiary_name = contactBizum.name,
+                                                amount = contactBizum.import,
+                                                subject = bizumFormModel.subject,
+                                                category = "Pagos Bizum",
+                                                payment_type = PaymentType.Bizum,
+                                                remaining_money = Methods.roundOffDecimal(
+                                                    bankAccount.money - contactBizum.import
+                                                ),
+                                                beneficiary_remaining_money = Methods.roundOffDecimal(
+                                                    beneficiaryAccount.money + contactBizum.import
+                                                ),
+                                                user_email = user.email
+                                            ),
+                                            user_send_email = user.email,
+                                            user_receive_email = beneficiaryAccount.user_email
+                                        )
                                     )
-                                    Methods.sendNotification(
-                                        "SIMBANK",
-                                        "Has enviado un bizum de ${tvTotalImport.text}",
-                                        requireContext()
-                                    )
+
+                                    sendNotification()
                                 }
-                        }
-                }
+                            }
+                    }
             }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendNotification() {
+        Methods.sendNotification(
+            "SIMBANK",
+            "Has enviado un bizum de ${binding.tvTotalImport.text}",
+            requireContext()
+        )
     }
 
 

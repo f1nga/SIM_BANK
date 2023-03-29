@@ -14,10 +14,7 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentUpdateEmailBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.SuccessDialog
-import com.bluemeth.simbank.src.core.ex.dismissKeyboard
-import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
-import com.bluemeth.simbank.src.core.ex.onTextChanged
-import com.bluemeth.simbank.src.core.ex.show
+import com.bluemeth.simbank.src.core.ex.*
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.auth.verification.VerificationActivity
 import com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_email.model.UserEmailUpdate
@@ -71,7 +68,8 @@ class UpdateEmailFragment : Fragment() {
                             binding.inputNewRepeatEmailText.text.toString(),
                         ),
                         user,
-                        iban
+                        iban,
+                        user.password
                     )
                 }
             }
@@ -105,7 +103,7 @@ class UpdateEmailFragment : Fragment() {
         binding.inputNewEmail.error =
             if (viewState.isValidEmail) null else getString(R.string.signin_error_mail)
         binding.inputNewRepeatEmail.error =
-            if (viewState.isValidEmailConfirm) null else getString(R.string.signin_error_password)
+            if (viewState.isValidEmailConfirm) null else getString(R.string.emails_not_matach)
 
     }
 

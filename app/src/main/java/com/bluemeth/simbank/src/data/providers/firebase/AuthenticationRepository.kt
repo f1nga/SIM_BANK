@@ -1,11 +1,9 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
+import android.content.ContentValues.TAG
 import android.util.Log
 import com.bluemeth.simbank.src.data.response.LoginResult
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.*
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -74,6 +72,32 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
             }.await()
     }.isSuccess
 
+    suspend fun updateEmail2(email: String, password: String) = runCatching {
+        val user = FirebaseAuth.getInstance().currentUser
+        // Get auth credentials from the user for re-authentication
+        // Get auth credentials from the user for re-authentication
+
+        val credential = EmailAuthProvider
+            .getCredential(getCurrentUser().email!!, password) // Current Login Credentials \\
+
+        // Prompt the user to re-provide their sign-in credentials
+        // Prompt the user to re-provide their sign-in credentials
+        user!!.reauthenticate(credential)
+            .addOnCompleteListener {
+                Log.d(TAG, "User re-authenticated.")
+                //Now change your email address \\
+                //----------------Code for Changing Email Address----------\\
+                val user = FirebaseAuth.getInstance().currentUser
+                user!!.updateEmail(email)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d(TAG, "User email address updated.")
+                        }
+                    }
+                //----------------------------------------------------------\\
+            }.await()
+    }.isSuccess
+
     suspend fun updatePassword(password: String) = runCatching {
         firebase.auth.currentUser!!.updatePassword(password)
             .addOnCompleteListener { task ->
@@ -87,7 +111,7 @@ class AuthenticationRepository @Inject constructor(private val firebase: Firebas
         firebase.auth.currentUser!!.delete().await()
     }.isSuccess
 
-    suspend fun googleLogin(credential: AuthCredential,) = runCatching{
+    suspend fun googleLogin(credential: AuthCredential) = runCatching{
         FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener {
             if(it.isSuccessful){
                 Log.i("bien","bien")

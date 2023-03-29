@@ -141,4 +141,31 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
         return transfersList
 
     }
+
+     suspend fun updateBeneficiaryName(name: String, newName: String) = runCatching {
+        firebase.db.collection(MOVEMENTS_COLLECTION)
+            .whereEqualTo(BENEFICIARY_NAME_FIELD, name)
+            .get()
+            .addOnSuccessListener { documents ->
+                for(document in documents) {
+                    firebase.db.collection(MOVEMENTS_COLLECTION)
+                        .document(document.id)
+                        .update(BENEFICIARY_NAME_FIELD, newName)
+                }
+            }
+            .await()
+    }.isSuccess
+
+    fun updateMovementUserEmail(email: String, newEmail: String) {
+        firebase.db.collection(MOVEMENTS_COLLECTION)
+            .whereEqualTo(USER_EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                for(document in documents) {
+                    firebase.db.collection(MOVEMENTS_COLLECTION)
+                        .document(document.id)
+                        .update(USER_EMAIL_FIELD, newEmail)
+                }
+            }
+    }
 }

@@ -94,7 +94,7 @@ class BizumDetailAccountFragment : Fragment() {
     private fun setTextViews() {
 
         with(binding) {
-            tvDate.text = Methods.formateDateBizum(movement.date.toDate())
+            tvDate.text = Methods.formatLongDate(movement.date.toDate())
 
             if (movement.isIncome) {
                 tvSubject.text =

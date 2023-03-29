@@ -16,7 +16,7 @@ class SettingsRVAdapter :  RecyclerView.Adapter<SettingsRVAdapter.SettingsCardHo
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SettingsCardHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.settings_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_settings, parent, false)
 
         return SettingsCardHolder(v)
     }

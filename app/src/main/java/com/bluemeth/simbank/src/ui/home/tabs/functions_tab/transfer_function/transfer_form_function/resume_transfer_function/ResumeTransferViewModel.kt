@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.Notification
 import com.bluemeth.simbank.src.domain.InsertTransferUseCase
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.model.TransferFormModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,7 @@ class ResumeTransferViewModel @Inject constructor(
     var reUseTransferArguments: TransferFormModel? = null
         get() = _reUseTransferArguments
 
-    private var _movement : Movement? = null
+    private var _movement: Movement? = null
     var movement: Movement? = null
         get() = _movement
 
@@ -29,7 +30,7 @@ class ResumeTransferViewModel @Inject constructor(
         _movement = movement
     }
 
-    fun setTransferFormModel (transferFormModel: TransferFormModel) {
+    fun setTransferFormModel(transferFormModel: TransferFormModel) {
         _reUseTransferArguments = transferFormModel
     }
 
@@ -41,10 +42,20 @@ class ResumeTransferViewModel @Inject constructor(
     val navigateToHome: LiveData<Event<Boolean>>
         get() = _navigateToHome
 
-    fun insertTransferToDB(iban: String, movement: Movement, beneficiaryMoney: Double, beneficiaryIban: String) {
+    fun insertTransferToDB(
+        iban: String,
+        beneficiaryMoney: Double,
+        beneficiaryIban: String,
+        notification: Notification
+    ) {
         viewModelScope.launch() {
-            val transferInserted = insertTransferUseCase(iban, movement, beneficiaryMoney, beneficiaryIban)
-            if(transferInserted) {
+            val transferInserted = insertTransferUseCase(
+                iban,
+                beneficiaryMoney,
+                beneficiaryIban,
+                notification
+            )
+            if (transferInserted) {
                 _navigateToHome.value = Event(true)
             } else {
                 _showErrorDialog.value = true

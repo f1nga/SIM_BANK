@@ -91,7 +91,11 @@ class HomeFragment : Fragment() {
     private fun observeHeader() {
         globalViewModel.getBankMoney().observe(requireActivity()) {
             homeTabViewModel.headerAdapter.setListData(HomeHeaderProvider.getListHeader(it))
-            homeTabViewModel.headerAdapter.notifyDataSetChanged()
+            homeTabViewModel.transfersAdapter.notifyDataSetChanged()
+            Handler(Looper.getMainLooper()).postDelayed({
+                binding.clHomeHeaderLoading.isVisible = false
+                binding.rvHeader.isVisible = true
+            }, 300)
         }
     }
 
@@ -127,10 +131,13 @@ class HomeFragment : Fragment() {
 
                     homeTabViewModel.transfersAdapter.setListData(movementsList)
                     homeTabViewModel.transfersAdapter.notifyDataSetChanged()
-                    Handler(Looper.getMainLooper()).postDelayed({
+
+                    Methods.setTimeout(
+                        {
                         binding.clHistorialLoading.isVisible = false
                         binding.clHistorial.isVisible = true
-                    }, 300)
+                        }, 300
+                    )
 
                 }
         }

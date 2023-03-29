@@ -3,7 +3,6 @@ package com.bluemeth.simbank.src.ui.auth.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.inputmethod.EditorInfo
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +22,7 @@ import com.bluemeth.simbank.src.ui.auth.login.model.UserLogin
 import com.bluemeth.simbank.src.ui.auth.signin.SignInActivity
 import com.bluemeth.simbank.src.ui.auth.verification.VerificationActivity
 import com.bluemeth.simbank.src.ui.home.HomeActivity
+import com.bluemeth.simbank.src.ui.splash.SplashViewModel
 import com.bluemeth.simbank.src.ui.steps.StepsActivity
 import com.bluemeth.simbank.src.ui.steps.complete_register.CompleteRegisterActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn

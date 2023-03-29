@@ -60,13 +60,17 @@ class UpdateNameFragment : Fragment() {
 
         binding.btnChange.setOnClickListener {
             it.dismissKeyboard()
-            updateNameViewModel.onChangeNameSelected(
-                UserNameUpdate(
-                    name = binding.inputNewNameText.text.toString(),
-                    lastName = binding.inputNewLastNameText.text.toString(),
-                    secondName = binding.inputNewSecondNameText.text.toString()
+            globalViewModel.getUserName().observe(requireActivity()) {
+                updateNameViewModel.onChangeNameSelected(
+                    UserNameUpdate(
+                        name = binding.inputNewNameText.text.toString(),
+                        lastName = binding.inputNewLastNameText.text.toString(),
+                        secondName = binding.inputNewSecondNameText.text.toString()
+                    ),
+                    it
                 )
-            )
+            }
+
         }
 
     }

@@ -29,7 +29,7 @@ class HorizontalListRVAdapter @Inject constructor() :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeHeaderHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.home_header_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_home_header, parent, false)
 
         return HomeHeaderHolder(v)
     }

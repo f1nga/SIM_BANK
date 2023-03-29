@@ -29,7 +29,7 @@ class PromotionsFeaturesRVAdapter :  RecyclerView.Adapter<PromotionsFeaturesRVAd
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FeaturesCardHolder {
         val v =
-            LayoutInflater.from(parent.context).inflate(R.layout.featured_promotions_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_featured_promotions, parent, false)
 
         return FeaturesCardHolder(v)
     }

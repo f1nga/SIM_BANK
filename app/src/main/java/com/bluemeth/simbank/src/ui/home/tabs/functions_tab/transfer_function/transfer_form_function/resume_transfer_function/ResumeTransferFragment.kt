@@ -20,6 +20,8 @@ import com.bluemeth.simbank.src.core.dialog.SuccessDialog
 import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.data.models.Movement
+import com.bluemeth.simbank.src.data.models.Notification
+import com.bluemeth.simbank.src.data.models.utils.NotificationType
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.utils.Constants
@@ -74,15 +76,27 @@ class ResumeTransferFragment : Fragment() {
                     .navigate(R.id.action_resumeTransferFragment_to_transferFragment)
             }
 
-            btnFinish.setOnClickListener {
-                globalViewModel.getBankAccountFromDB().observe(requireActivity()) { bankAccount ->
-//                    val transfer = resumeTransferViewModel.movement ?: resumeTransferViewModel.reUseTransferArguments
-                    val transfer = resumeTransferViewModel.movement ?: movement
-                    globalViewModel.getBankAccountFromDBbyIban(transfer.beneficiary_iban)
-                        .observe(requireActivity()) { beneficiaryBankAccount ->
-                            resumeTransferViewModel.insertTransferToDB(
-                                bankAccount.iban,
-                                Movement(
+            btnFinish.setOnClickListener { sendTransfer() }
+
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendTransfer() {
+        globalViewModel.getBankAccountFromDB().observe(requireActivity()) { bankAccount ->
+            val transfer = resumeTransferViewModel.movement ?: movement
+            globalViewModel.getBankAccountFromDBbyIban(transfer.beneficiary_iban)
+                .observe(requireActivity()) { beneficiaryBankAccount ->
+                    globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+                        resumeTransferViewModel.insertTransferToDB(
+                            bankAccount.iban,
+                            beneficiaryBankAccount.money,
+                            beneficiaryBankAccount.iban,
+                            Notification(
+                                title = getString(R.string.noti_transfer_received_title),
+                                description = getString(R.string.noti_transfer_received_description) + " ${user.name}",
+                                type = NotificationType.TransferReceived,
+                                movement = Movement(
                                     beneficiary_iban = transfer.beneficiary_iban,
                                     beneficiary_name = transfer.beneficiary_name,
                                     amount = transfer.amount,
@@ -93,21 +107,28 @@ class ResumeTransferFragment : Fragment() {
                                     beneficiary_remaining_money = Methods.roundOffDecimal(
                                         beneficiaryBankAccount.money + transfer.amount
                                     ),
-                                    user_email = globalViewModel.getUserAuth().email!!
+                                    user_email = user.email
                                 ),
-                                beneficiaryBankAccount.money,
-                                beneficiaryBankAccount.iban
+                                user_send_email = user.email,
+                                user_receive_email = beneficiaryBankAccount.user_email
                             )
-                            Methods.sendNotification(
-                                "SIMBANK",
-                                "Has realizado una transferencia",
-                                requireContext()
-                            )
-                        }
-                }
-            }
+                        )
 
+                        sendNotification()
+
+                    }
+
+                }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun sendNotification() {
+        Methods.sendNotification(
+            "SIMBANK",
+            "Has realizado una transferencia",
+            requireContext()
+        )
     }
 
     private fun initObservers() {

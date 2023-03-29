@@ -80,7 +80,7 @@ class BizumDetailFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         with(binding) {
-            tvDate.text = Methods.formateDateBizum(movement.date.toDate())
+            tvDate.text = Methods.formatLongDate(movement.date.toDate())
 
             if (movement.isIncome) {
                 globalViewModel.getUserByEmail(movement.user_email).observe(requireActivity()) {

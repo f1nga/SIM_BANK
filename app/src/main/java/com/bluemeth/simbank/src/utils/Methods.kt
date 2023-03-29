@@ -12,7 +12,6 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.view.isVisible
 import com.bluemeth.simbank.R
 import com.google.firebase.Timestamp
 import java.math.RoundingMode
@@ -82,7 +81,7 @@ object Methods {
         }
     }
 
-    fun formateDateBizum(date: Date): String {
+    fun formatLongDate(date: Date): String {
 
         val month = when (if (date.month == 0) 12 else date.month + 1) {
             1 -> "enero"
