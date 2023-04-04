@@ -8,6 +8,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
@@ -126,7 +127,7 @@ class HomeFragment : Fragment() {
     private fun observeMovements() {
 
         globalViewModel.getBankIban().observe(requireActivity()) {
-            globalViewModel.getMovementsFromDB(globalViewModel.getUserAuth().email!!, it)
+            globalViewModel.getAllMovementsFromDB(globalViewModel.getUserAuth().email!!, it)
                 .observe(requireActivity()) { movementsList ->
 
                     homeTabViewModel.transfersAdapter.setListData(movementsList)
@@ -184,9 +185,17 @@ class HomeFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onStart() {
         super.onStart()
-        globalViewModel.getUserName().observe(this) {
+        globalViewModel.getUserFromDB().observe(this) {
             val tvTitle = requireActivity().findViewById<TextView>(R.id.tvNameBar)
-            tvTitle.text = "Hola, ${Methods.splitName(it)}"
+            tvTitle.text = "Hola, ${Methods.splitName(it.name)}"
+
+            requireActivity().findViewById<ImageView>(R.id.ivNotifications).let { imgNoti ->
+                imgNoti.setOnClickListener { view?.findNavController()?.navigate(R.id.action_homeFragment_to_notificationsFragment) }
+
+                globalViewModel.isEveryNotificationReadedFromDB(it.email).observe(requireActivity()) {isReaded ->
+                    imgNoti.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+                }
+            }
         }
     }
 }

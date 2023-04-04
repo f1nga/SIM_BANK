@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -171,5 +172,14 @@ class AccountFragment : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
         tvTitle.text = getString(R.string.toolbar_account)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_accountFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
+
     }
 }

@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -7,11 +8,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +24,7 @@ import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
+import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.BizumFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
 import com.bluemeth.simbank.src.utils.Methods
@@ -32,6 +36,7 @@ class BizumFormFragment : Fragment() {
 
     private lateinit var binding: FragmentBizumFormBinding
     private val bizumFormViewModel: BizumFormViewModel by activityViewModels()
+    private val globalViewModel: GlobalViewModel by viewModels()
 
     @Inject
     lateinit var dialogLauncher: DialogFragmentLauncher
@@ -80,7 +85,7 @@ class BizumFormFragment : Fragment() {
             btnContinue.setOnClickListener {
                 lifecycleScope.launchWhenStarted {
                     bizumFormViewModel.viewState.collect { viewState ->
-                        if (!viewState.isValidAddressesList) tvErrorAddresses.isVisible = true
+                        if (!viewState.isValidAddresse) tvErrorAddresses.isVisible = true
                     }
                 }
 
@@ -92,7 +97,7 @@ class BizumFormFragment : Fragment() {
                     BizumFormModel(
                         import = newImport,
                         subject = inputSubjectText.text.toString(),
-                        addressesList = bizumFormViewModel.addressesRVAdapter.getListData()
+                        addresse = if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty()) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
                     )
                 )
             }
@@ -130,7 +135,7 @@ class BizumFormFragment : Fragment() {
                 BizumFormModel(
                     import = binding.tvTotalEnvio.text.toString(),
                     subject = binding.inputSubjectText.text.toString(),
-                    addressesList = bizumFormViewModel.addressesRVAdapter.getListData()
+                    addresse = if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty()) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
                 )
             )
 
@@ -150,7 +155,7 @@ class BizumFormFragment : Fragment() {
         with(binding) {
             inputSubject.error =
                 if (viewState.isValidSubject) null else "El asunto es demasiado largo"
-            if (viewState.isValidAddressesList) tvErrorAddresses.isVisible = false
+            if (viewState.isValidAddresse) tvErrorAddresses.isVisible = false
             if (viewState.isValidImport) inputImport.error =
                 null else inputImport.error = "Error"
         }
@@ -179,7 +184,7 @@ class BizumFormFragment : Fragment() {
                             inputImportText.text.toString()
                         },
                         subject = inputSubjectText.text.toString(),
-                        addressesList = bizumFormViewModel.addressesRVAdapter.getListData()
+                        addresse = if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty()) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
                     )
                 )
             }
@@ -192,7 +197,7 @@ class BizumFormFragment : Fragment() {
             log("hool", it.import)
 
             binding.inputSubjectText.text = inputText.newEditable(it.subject)
-            bizumFormViewModel.addressesRVAdapter.setListData(it.addressesList!!)
+            bizumFormViewModel.addressesRVAdapter.setListData(mutableListOf(it.addresse!!))
 
             if(bizumFormViewModel.addressesRVAdapter.getListData().size == 0)
                 binding.inputImportText.text = inputText.newEditable("")
@@ -234,6 +239,7 @@ class BizumFormFragment : Fragment() {
         observeAddresses()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeAddresses() {
         binding.tvTotalEnvio.text =
             Methods.formatMoney(bizumFormViewModel.addressesRVAdapter.getTotalImport())
@@ -266,13 +272,14 @@ class BizumFormFragment : Fragment() {
             BizumFormModel(
                 import = Methods.splitEuro(binding.inputImportText.text.toString()).ifEmpty { "" },
                 subject = binding.inputSubjectText.text.toString().ifEmpty { "" },
-                addressesList = bizumFormViewModel.addressesRVAdapter.getListData().ifEmpty { null }
+                addresse = if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty()) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
             )
         )
     }
 
     private fun goToBizumResume() {
-        view?.findNavController()?.navigate(R.id.action_bizumFormFragment_to_bizumResumeFragment)
+        val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
+        view?.findNavController()?.navigate(R.id.action_bizumFormFragment_to_bizumResumeFragment, bundle)
     }
 
     override fun onStart() {
@@ -283,6 +290,12 @@ class BizumFormFragment : Fragment() {
 
         binding.tvTitleForm.text = arguments?.getString("form_type")
 
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_bizumFormFragment_to_notificationsFragment) }
 
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

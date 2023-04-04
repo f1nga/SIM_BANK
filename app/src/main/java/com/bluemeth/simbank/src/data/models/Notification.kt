@@ -10,8 +10,8 @@ data class Notification(
     val description: String,
     val date: Timestamp = Timestamp.now(),
     val type: NotificationType,
-    val movement: Movement? = null,
-    val readed: Boolean = false,
+    val movementID: String? = null,
+    var readed: Boolean = false,
     val user_send_email: String? = null,
     val user_receive_email: String
 )

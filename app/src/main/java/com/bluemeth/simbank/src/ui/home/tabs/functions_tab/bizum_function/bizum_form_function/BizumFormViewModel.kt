@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluemeth.simbank.src.core.Event
+import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.BizumFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -42,6 +43,9 @@ class BizumFormViewModel @Inject constructor(
     var bizumFormMdel: BizumFormModel? = null
         get() = _bizumFormModel
 
+    private var _movement : Movement? = null
+    val movement: Movement? get() = _movement
+
     fun setBizumFormModel(bizumFormModel: BizumFormModel) {
         _bizumFormModel = bizumFormModel
     }
@@ -52,6 +56,10 @@ class BizumFormViewModel @Inject constructor(
 
     fun setReUseBizumArguments(reUseBizumArguments: BizumFormModel) {
         _reUseBizumArguments = reUseBizumArguments
+    }
+
+    fun setMovement(movement: Movement) {
+        _movement = movement
     }
 
     fun onContinueSelected(bizumFormModel: BizumFormModel) {
@@ -78,15 +86,15 @@ class BizumFormViewModel @Inject constructor(
     private fun isValidSubject(subject: String) =
         subject.length <= SUBJECT_MAX_LENGTH || subject.isEmpty()
 
-    private fun isValidAddressesList(addressesList: MutableList<ContactBizum>): Boolean {
-        return addressesList.isNotEmpty()
+    private fun isValidAddressesList(addresse: ContactBizum?): Boolean {
+        return addresse != null
     }
 
     private fun BizumFormModel.toUpdateViewState(): BizumFormViewState {
         return BizumFormViewState(
             isValidImport = isValidImport(import),
             isValidSubject = isValidSubject(subject),
-            isValidAddressesList = isValidAddressesList(addressesList!!),
+            isValidAddresse = isValidAddressesList(addresse),
         )
     }
 }

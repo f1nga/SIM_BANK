@@ -3,7 +3,7 @@ package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum
 data class BizumFormViewState(
     val isValidImport: Boolean = true,
     val isValidSubject: Boolean = true,
-    val isValidAddressesList: Boolean = true
+    val isValidAddresse: Boolean = true
 ) {
-    fun isBizumFormValidated() = isValidImport && isValidSubject && isValidAddressesList
+    fun isBizumFormValidated() = isValidImport && isValidSubject && isValidAddresse
 }

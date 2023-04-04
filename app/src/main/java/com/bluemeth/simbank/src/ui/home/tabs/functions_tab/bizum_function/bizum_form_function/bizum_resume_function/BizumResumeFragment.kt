@@ -6,29 +6,29 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumResumeBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.ErrorDialog
 import com.bluemeth.simbank.src.core.dialog.SuccessDialog
 import com.bluemeth.simbank.src.core.ex.show
-import com.bluemeth.simbank.src.data.models.Movement
-import com.bluemeth.simbank.src.data.models.Notification
+import com.bluemeth.simbank.src.data.models.*
 import com.bluemeth.simbank.src.data.models.utils.NotificationType
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.AgendaRVAdapter
-import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.BizumFormModel
 import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -61,109 +61,180 @@ class BizumResumeFragment : Fragment() {
         setTextViews()
         initListeners()
         initObservers()
-        setAgendaRecyclerView()
-        observeAgenda()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun initListeners() {
-        binding.btnConfirm.setOnClickListener {
-            sendBizum()
-//                val beneficiaryIbans = mutableListOf<String>()
-//                val beneficiaryNames = mutableListOf<String>()
-//                val beneficiaryMoneys = mutableListOf<Double>()
-//                val beneficiaryRemainingMoneys = mutableListOf<Double>()
-//
-//                for (bizumForm in bizumFormMdel.addressesList!!) {
-//                    beneficiaryNames.add(bizumForm.name)
-//
-//                }
-//
-//                log("hool0", beneficiaryNames.toString())
-//
-//                bizumResumeViewModel.getBeneficiarysAccount(beneficiaryNames)
-//                    .observe(requireActivity()) { listBeneficiariesAccounts ->
-//                        log("hool1", listBeneficiariesAccounts[0].user_email)
-//                        for (account in listBeneficiariesAccounts) {
-//                            log("hool2", account.toString())
-//                            beneficiaryIbans.add(account.iban)
-//                            beneficiaryMoneys.add(account.money)
-//                            beneficiaryRemainingMoneys.add(
-//                                Methods.roundOffDecimal(
-//                                    account.money + bizumFormMdel.addressesList!![0].import
-//                                )
-//                            )
-//                        }
-//                        log("hool3", "hol")
-//
-//                        globalViewModel.getBankAccountFromDB()
-//                            .observe(requireActivity()) { bankAccount ->
-//                                log("hool4", bankAccount.user_email)
-//                                bizumResumeViewModel.makeBizum(
-//                                    bankAccount.iban,
-//                                    Bizum(
-//                                        beneficiary_iban = beneficiaryIbans,
-//                                        beneficiary_name = beneficiaryNames,
-//                                        amount = bizumFormMdel.addressesList!![0].import,
-//                                        subject = bizumFormMdel.subject,
-//                                        category = "Pagos Bizum",
-//                                        payment_type = PaymentType.Bizum,
-//                                        remaining_money = Methods.roundOffDecimal(bankAccount.money - bizumFormMdel.addressesList!![0].import),
-//                                        beneficiary_remaining_money = beneficiaryRemainingMoneys,
-//                                        user_email = globalViewModel.getUserAuth().email!!
-//                                    ),
-//                                    beneficiaryMoneys,
-//                                )
-//                            }
-//                    }
-
-
-        }
+        binding.btnConfirm.setOnClickListener { makeBizum() }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun sendBizum() {
-        bizumFormViewModel.bizumFormMdel?.let { bizumFormModel ->
-            bizumFormModel.addressesList!!.forEach { contactBizum ->
-                globalViewModel.getBankAccountFromDBbyPhone(contactBizum.phoneNumber)
-                    .observe(requireActivity()) { beneficiaryAccount ->
-                        globalViewModel.getBankAccountFromDB()
-                            .observe(requireActivity()) { bankAccount ->
-                                globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
-                                    bizumResumeViewModel.makeBizum(
-                                        bankAccount.iban,
-                                        beneficiaryAccount.money,
-                                        beneficiaryAccount.iban,
-                                        Notification(
-                                            title = getString(R.string.noti_bizum_received_title),
-                                            description = getString(R.string.noti_bizum_received_description) + " ${user.name}",
-                                            type = NotificationType.BizumReceived,
-                                            movement = Movement(
-                                                beneficiary_iban = beneficiaryAccount.iban,
-                                                beneficiary_name = contactBizum.name,
-                                                amount = contactBizum.import,
-                                                subject = bizumFormModel.subject,
-                                                category = "Pagos Bizum",
-                                                payment_type = PaymentType.Bizum,
-                                                remaining_money = Methods.roundOffDecimal(
-                                                    bankAccount.money - contactBizum.import
-                                                ),
-                                                beneficiary_remaining_money = Methods.roundOffDecimal(
-                                                    beneficiaryAccount.money + contactBizum.import
-                                                ),
-                                                user_email = user.email
-                                            ),
-                                            user_send_email = user.email,
-                                            user_receive_email = beneficiaryAccount.user_email
-                                        )
-                                    )
-
-                                    sendNotification()
-                                }
+    private fun makeBizum() {
+        globalViewModel.getBankAccountFromDB()
+            .observe(requireActivity()) { bankAccount ->
+                globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+                    bizumFormViewModel.movement?.let { movement ->
+                        globalViewModel.getBankAccountFromDBbyIban(movement.beneficiary_iban)
+                            .observe(requireActivity()) { beneficiaryAccount ->
+//                                bizumResumeViewModel.makeBizum(
+//                                    iban = bankAccount.iban,
+//                                    movement = movement,
+//                                    beneficiaryMoney = beneficiaryAccount.money,
+//                                    beneficiaryIban = beneficiaryAccount.iban,
+//                                    notification = Notification(
+//                                        title = getString(R.string.noti_bizum_received_title),
+//                                        description = getString(R.string.noti_bizum_received_description) + " ${user.name}",
+//                                        type = NotificationType.BizumReceived,
+//                                        movementID = movement.id,
+//                                        user_send_email = user.email,
+//                                        user_receive_email = beneficiaryAccount.user_email
+//                                    )
+//                                )
+                                createBizum(bankAccount, movement, beneficiaryAccount, user)
                             }
                     }
+
+                    bizumFormViewModel.bizumFormMdel?.let { bizumFormModel ->
+                        globalViewModel.getBankAccountFromDBbyPhone(bizumFormModel.addresse!!.phoneNumber)
+                            .observe(requireActivity()) { beneficiaryAccount ->
+                                if (arguments?.getString("form_type") == "Enviar dinero") {
+                                    sendBizum(bizumFormModel, beneficiaryAccount, bankAccount, user)
+                                } else {
+                                    requestBizum(
+                                        bizumFormModel,
+                                        beneficiaryAccount,
+                                        bankAccount,
+                                        user
+                                    )
+                                }
+                                sendNotification()
+                            }
+                    }
+                }
             }
-        }
+
+//        bizumFormViewModel.movement?.let { movement ->
+//            globalViewModel.getBankAccountFromDB()
+//                .observe(requireActivity()) { bankAccount ->
+//                    globalViewModel.getBankAccountFromDBbyIban(movement.beneficiary_iban)
+//                        .observe(requireActivity()) { beneficiaryAccount ->
+//                            globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+//                                globalViewModel.getBankAccountFromDB()
+//                                bizumResumeViewModel.makeBizum(
+//                                    iban = bankAccount.iban,
+//                                    movement = movement,
+//                                    beneficiaryMoney = beneficiaryAccount.money,
+//                                    beneficiaryIban = beneficiaryAccount.iban,
+//                                    notification = Notification(
+//                                        title = getString(R.string.noti_bizum_received_title),
+//                                        description = getString(R.string.noti_bizum_received_description) + " ${user.name}",
+//                                        type = NotificationType.BizumReceived,
+//                                        movementID = movement.id,
+//                                        user_send_email = user.email,
+//                                        user_receive_email = beneficiaryAccount.user_email
+//                                    )
+//                                )
+//                            }
+//                        }
+//                }
+//        }
+//
+//        bizumFormViewModel.bizumFormMdel?.let { bizumFormModel ->
+//            globalViewModel.getBankAccountFromDBbyPhone(bizumFormModel.addresse!!.phoneNumber)
+//                .observe(requireActivity()) { beneficiaryAccount ->
+//                    globalViewModel.getBankAccountFromDB()
+//                        .observe(requireActivity()) { bankAccount ->
+//                            globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+//                                if (arguments?.getString("form_type") == "Enviar dinero") {
+//                                    sendBizum(bizumFormModel, beneficiaryAccount, bankAccount, user)
+//                                } else {
+//                                    requestBizum(
+//                                        bizumFormModel,
+//                                        beneficiaryAccount,
+//                                        bankAccount,
+//                                        user
+//                                    )
+//                                }
+//                                sendNotification()
+//                            }
+//
+//                        }
+//                }
+//        }
+    }
+
+    private fun sendBizum(
+        bizumFormModel: BizumFormModel,
+        beneficiaryAccount: BankAccount,
+        bankAccount: BankAccount,
+        user: User
+    ) {
+        val movement = Movement(
+            beneficiary_iban = beneficiaryAccount.iban,
+            beneficiary_name = bizumFormModel.addresse!!.name,
+            amount = bizumFormModel.addresse!!.import,
+            subject = bizumFormModel.subject,
+            category = "Pagos Bizum",
+            payment_type = PaymentType.Bizum,
+            remaining_money = Methods.roundOffDecimal(
+                bankAccount.money - bizumFormModel.addresse!!.import
+            ),
+            beneficiary_remaining_money = Methods.roundOffDecimal(
+                beneficiaryAccount.money + bizumFormModel.addresse!!.import
+            ),
+            user_email = user.email
+        )
+
+        createBizum(bankAccount, movement, beneficiaryAccount, user)
+
+    }
+
+    private fun requestBizum(
+        bizumFormModel: BizumFormModel,
+        beneficiaryAccount: BankAccount,
+        bankAccount: BankAccount,
+        user: User
+    ) {
+        val requestedBizum = RequestedBizum(
+            beneficiary_iban = bankAccount.iban,
+            beneficiary_name = user.name,
+            amount = bizumFormModel.addresse!!.import,
+            subject = bizumFormModel.subject,
+            user_email = beneficiaryAccount.user_email
+        )
+        bizumResumeViewModel.requestBizum(
+            Notification(
+                title = getString(R.string.noti_bizum_request_title),
+                description = getString(R.string.noti_bizum_request_description) + " ${user.name}",
+                type = NotificationType.BizumRequested,
+                movementID = requestedBizum.id,
+                user_send_email = user.email,
+                user_receive_email = beneficiaryAccount.user_email
+            ),
+            requestedBizum
+        )
+    }
+
+    private fun createBizum(
+        bankAccount: BankAccount,
+        movement: Movement,
+        beneficiaryAccount: BankAccount,
+        user: User
+    ) {
+        bizumResumeViewModel.makeBizum(
+            bankAccount.iban,
+            movement = movement,
+            beneficiaryAccount.money,
+            beneficiaryAccount.iban,
+            Notification(
+                title = getString(R.string.noti_bizum_received_title),
+                description = getString(R.string.noti_bizum_received_description) + " ${user.name}",
+                type = NotificationType.BizumReceived,
+                movementID = movement.id,
+                user_send_email = user.email,
+                user_receive_email = beneficiaryAccount.user_email
+            )
+        )
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -196,14 +267,35 @@ class BizumResumeFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun setTextViews() {
-        bizumFormViewModel.bizumFormMdel!!.apply {
-            binding.tvTotalImport.text = this.import
-            binding.tvImportEveryAddresse.text = Methods.formatMoney(this.addressesList!![0].import)
+        bizumFormViewModel.bizumFormMdel?.let {
+            binding.tvTotalImport.text = it.import
+            binding.tvImportEveryAddresse.text = Methods.formatMoney(it.addresse!!.import)
             binding.tvComision.text = "0,00€"
-            if (this.subject != "") {
+            if (it.subject != "") {
                 binding.tvTitleSubject.isVisible = true
                 binding.tvSubject.isVisible = true
-                binding.tvSubject.text = this.subject
+                binding.tvSubject.text = it.subject
+            }
+            binding.tvPhoneNumber.text = it.addresse!!.phoneNumber.toString()
+            binding.tvContactName.text = it.addresse!!.name
+            globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+                Picasso.get().load(user.image).into(binding.ivCircle)
+            }
+        }
+
+        bizumFormViewModel.movement?.let {
+            binding.tvTotalImport.text = Methods.formatMoney(it.amount)
+            binding.tvImportEveryAddresse.text = Methods.formatMoney(it.amount)
+            binding.tvComision.text = "0,00€"
+            if (it.subject != "") {
+                binding.tvTitleSubject.isVisible = true
+                binding.tvSubject.isVisible = true
+                binding.tvSubject.text = it.subject
+            }
+            binding.tvContactName.text = it.beneficiary_name
+            globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+                binding.tvPhoneNumber.text = user.phone.toString()
+                Picasso.get().load(user.image).into(binding.ivCircle)
             }
         }
 
@@ -211,35 +303,6 @@ class BizumResumeFragment : Fragment() {
             binding.tvAccount.text = "Cuenta *${Methods.formatShortIban(it)}"
         }
 
-    }
-
-    private fun setAgendaRecyclerView() {
-        val addressesRecycler = binding.rvAddressesResum
-        addressesRecycler.layoutManager = LinearLayoutManager(requireContext())
-        addressesRecycler.setHasFixedSize(true)
-        addressesRecycler.adapter = bizumResumeViewModel.agendaRVAdapter
-
-        bizumResumeViewModel.agendaRVAdapter.showCheckBox = false
-
-        bizumResumeViewModel.agendaRVAdapter.setItemListener(object :
-            AgendaRVAdapter.OnItemClickListener {
-            override fun onItemClick(contactAgenda: ContactAgenda) {
-
-            }
-        })
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun observeAgenda() {
-        bizumFormViewModel.bizumFormMdel!!.addressesList!!.forEach {
-            bizumResumeViewModel.agendaRVAdapter.addToListData(
-                ContactAgenda(
-                    name = it.name,
-                    phoneNumber = it.phoneNumber
-                )
-            )
-        }
-        bizumResumeViewModel.agendaRVAdapter.notifyDataSetChanged()
     }
 
     private fun clearArguments() {
@@ -268,6 +331,25 @@ class BizumResumeFragment : Fragment() {
 
     private fun goToHome() {
         view?.findNavController()?.navigate(R.id.action_bizumResumeFragment_to_homeFragment)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+
+        tvTitle.text = getString(R.string.toolbar_bizum_resume)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener {
+                view?.findNavController()
+                    ?.navigate(R.id.action_bizumResumeFragment_to_notificationsFragment)
+            }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!)
+                .observe(requireActivity()) { isReaded ->
+                    it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+                }
+        }
     }
 
 }

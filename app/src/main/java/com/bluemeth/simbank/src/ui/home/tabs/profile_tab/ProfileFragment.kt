@@ -8,6 +8,7 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -218,8 +219,16 @@ class ProfileFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
+        val tvTitle = requireActivity().findViewById<TextView>(R.id.tvNameBar)
 
         tvTitle.text = getString(R.string.toolbar_profile)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_profileFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

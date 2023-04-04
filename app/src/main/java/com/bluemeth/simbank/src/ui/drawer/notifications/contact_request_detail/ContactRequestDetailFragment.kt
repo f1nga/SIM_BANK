@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -117,5 +119,20 @@ class ContactRequestDetailFragment : Fragment() {
                 binding.tvNameSendNoti.text = userReceive.name
                 binding.tvPhoneSendNoti.text = userReceive.phone.toString()
             }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val tvTitle = requireActivity().findViewById<TextView>(R.id.tvNameBar)
+        tvTitle.text = getString(R.string.toolbar_contact_request)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_contactRequestDetailFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

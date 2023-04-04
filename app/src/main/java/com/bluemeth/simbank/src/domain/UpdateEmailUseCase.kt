@@ -12,7 +12,7 @@ class UpdateEmailUseCase @Inject constructor(
     private val bankAccountRepository: BankAccountRepository,
     private val movementRepository: MovementRepository,
     private val noteMovementRepository: NoteMovementRepository,
-    private val notificationsRepository: NotificationsRepository
+    private val notificationRepository: NotificationRepository
 ) {
 
     suspend operator fun invoke(newEmail: String, iban: String, newUser: User, password: String) : Boolean{
@@ -26,7 +26,7 @@ class UpdateEmailUseCase @Inject constructor(
             bankAccountRepository.updateOwnerEmail(iban, newUser.email)
             movementRepository.updateMovementUserEmail(oldEmail, newEmail)
             noteMovementRepository.updateNoteMovementUserEmail(oldEmail, newEmail)
-            notificationsRepository.updateUserEmail(oldEmail, newEmail)
+            notificationRepository.updateUserEmail(oldEmail, newEmail)
             prefs.saveEmail(newEmail)
             true
         } else {

@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.models.User
-import com.bluemeth.simbank.src.data.providers.firebase.NotificationsRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
+import com.bluemeth.simbank.src.domain.DeleteUserContactUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -16,11 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ContactsViewModel @Inject constructor(
     private val userRepository: UserRepository,
+    private val deleteUserContactUseCase: DeleteUserContactUseCase
 ) : ViewModel() {
-
-    private val _navigateToHome = MutableLiveData<Event<Boolean>>()
-    val navigateToHome: LiveData<Event<Boolean>>
-        get() = _navigateToHome
 
     private val _contactDeleted = MutableLiveData<User>()
     val contactDeleted: LiveData<User>
@@ -40,13 +36,10 @@ class ContactsViewModel @Inject constructor(
 
     fun deleteUserContactFromDB(email: String, deleteUser: User) {
         viewModelScope.launch {
-            val userContactDeleted = userRepository.deleteUserContact(email, deleteUser.email)
+            val userContactDeleted = deleteUserContactUseCase(email, deleteUser.email)
 
-            if(userContactDeleted) {
-                _contactDeleted.value = deleteUser
-            } else {
-                Timber.tag("Error").e("Notification not sended")
-            }
+            if(userContactDeleted) _contactDeleted.value = deleteUser
+            else Timber.tag("Error").e("Notification not sended")
         }
     }
 }

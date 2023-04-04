@@ -1,12 +1,12 @@
 package com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
@@ -66,6 +66,7 @@ class CreditCardFragment() : Fragment() {
         observeCard()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeCard() {
         globalViewModel.getBankIban().observe(requireActivity()) {
             creditCardViewModel.getCreditsCardsFromDB(it).observe(requireActivity()) { creditCardList ->
@@ -94,5 +95,13 @@ class CreditCardFragment() : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
         tvTitle.text = getString(R.string.toolbar_cards)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_cardFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

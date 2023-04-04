@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -88,27 +89,29 @@ class ResumeTransferFragment : Fragment() {
             globalViewModel.getBankAccountFromDBbyIban(transfer.beneficiary_iban)
                 .observe(requireActivity()) { beneficiaryBankAccount ->
                     globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
+                        val movement = Movement(
+                            beneficiary_iban = transfer.beneficiary_iban,
+                            beneficiary_name = transfer.beneficiary_name,
+                            amount = transfer.amount,
+                            subject = transfer.subject,
+                            category = transfer.category,
+                            payment_type = PaymentType.Transfer,
+                            remaining_money = Methods.roundOffDecimal(bankAccount.money - transfer.amount),
+                            beneficiary_remaining_money = Methods.roundOffDecimal(
+                                beneficiaryBankAccount.money + transfer.amount
+                            ),
+                            user_email = user.email
+                        )
                         resumeTransferViewModel.insertTransferToDB(
                             bankAccount.iban,
+                            movement = movement,
                             beneficiaryBankAccount.money,
                             beneficiaryBankAccount.iban,
                             Notification(
                                 title = getString(R.string.noti_transfer_received_title),
                                 description = getString(R.string.noti_transfer_received_description) + " ${user.name}",
                                 type = NotificationType.TransferReceived,
-                                movement = Movement(
-                                    beneficiary_iban = transfer.beneficiary_iban,
-                                    beneficiary_name = transfer.beneficiary_name,
-                                    amount = transfer.amount,
-                                    subject = transfer.subject,
-                                    category = transfer.category,
-                                    payment_type = PaymentType.Transfer,
-                                    remaining_money = Methods.roundOffDecimal(bankAccount.money - transfer.amount),
-                                    beneficiary_remaining_money = Methods.roundOffDecimal(
-                                        beneficiaryBankAccount.money + transfer.amount
-                                    ),
-                                    user_email = user.email
-                                ),
+                                movementID = movement.id,
                                 user_send_email = user.email,
                                 user_receive_email = beneficiaryBankAccount.user_email
                             )
@@ -222,5 +225,13 @@ class ResumeTransferFragment : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
         tvTitle.text = getString(R.string.toolbar_transfer_resume)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_resumeTransferFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

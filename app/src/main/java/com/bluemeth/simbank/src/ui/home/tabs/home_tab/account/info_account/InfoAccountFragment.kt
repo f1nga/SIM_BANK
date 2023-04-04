@@ -1,20 +1,19 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.info_account
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -90,6 +89,7 @@ class InfoAccountFragment : Fragment() {
         observeCard()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeCard() {
         globalViewModel.getBankIban().observe(requireActivity()) {
             creditCardViewModel.getCreditsCardsFromDB(it).observe(requireActivity()) { creditCardList ->
@@ -156,5 +156,13 @@ class InfoAccountFragment : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
         tvTitle.text = getString(R.string.toolbar_info_account)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_infoAccountFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

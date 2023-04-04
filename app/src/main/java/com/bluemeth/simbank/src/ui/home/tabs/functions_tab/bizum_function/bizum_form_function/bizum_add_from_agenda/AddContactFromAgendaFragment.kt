@@ -6,6 +6,7 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentAddContactFromAgendaBinding
 import com.bluemeth.simbank.src.ui.GlobalViewModel
+import com.bluemeth.simbank.src.ui.drawer.contacts.ContactsViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
@@ -107,7 +109,7 @@ class AddContactFromAgendaFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun filterRecyclerView(searchText: Editable?) {
-        addContactFromAgendaViewModel.getContactsFromDB(globalViewModel.getUserAuth().email!!)
+        addContactFromAgendaViewModel.getUserContactsFromDB(globalViewModel.getUserAuth().email!!)
             .observe(requireActivity()) { listContactAgenda ->
 
                 val listFiltered =
@@ -134,13 +136,8 @@ class AddContactFromAgendaFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeAgenda() {
-        addContactFromAgendaViewModel.getContactsFromDB(globalViewModel.getUserAuth().email!!)
+        addContactFromAgendaViewModel.getUserContactsFromDB(globalViewModel.getUserAuth().email!!)
             .observe(requireActivity()) { listContactAgenda ->
-
-                listContactAgenda.add(ContactAgenda("Jaume Pescador", 342432243))
-                listContactAgenda.add(ContactAgenda("Pere Cullera", 342432243))
-                listContactAgenda.add(ContactAgenda("Radamel Pinetell", 342432243))
-                listContactAgenda.add(ContactAgenda("Pep Gamarus", 342432243))
 
                 listContactAgenda.forEach { contactAgenda ->
                     bizumFormViewModel.addressesRVAdapter.getListData().forEach { addressContact ->
@@ -166,5 +163,13 @@ class AddContactFromAgendaFragment : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
         tvTitle.text = getString(R.string.toolbar_add_from_agenda)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_addContactFromAgendaFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

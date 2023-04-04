@@ -3,7 +3,9 @@ package com.bluemeth.simbank.src.ui.drawer.notifications
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.src.data.models.Notification
@@ -13,13 +15,23 @@ import javax.inject.Inject
 class NotificationsRVAdapter @Inject constructor() :
     RecyclerView.Adapter<NotificationsRVAdapter.NotificationHolder>() {
     private lateinit var listener: OnItemClickListener
-    private var listData = listOf<Notification>()
+    private var listData = mutableListOf<Notification>()
 
     interface OnItemClickListener {
         fun onItemClick(notification: Notification)
+        fun onDeleteClick(notification: Notification)
+        fun onMarkAsReadedClick(notification: Notification)
     }
 
-    fun setListData(data: List<Notification>) {
+    fun removeNotification(notification: Notification) {
+        listData.remove(notification)
+    }
+
+    fun setNotification(notification: Notification) {
+        listData.add(notification)
+    }
+
+    fun setListData(data: MutableList<Notification>) {
         listData = data
     }
 
@@ -51,14 +63,20 @@ class NotificationsRVAdapter @Inject constructor() :
             val date = itemView.findViewById<TextView>(R.id.tvNotiDate)
             val title = itemView.findViewById<TextView>(R.id.tvNotiTitle)
             val description = itemView.findViewById<TextView>(R.id.tvNotiDescription)
+            val deleteNoti = itemView.findViewById<ImageView>(R.id.ivDeleteNoti)
+            val notiReaded = itemView.findViewById<ImageView>(R.id.tvNotiReaded)
+            val markAsReaded = itemView.findViewById<TextView>(R.id.tvNotiMarkAsReaded)
 
             date.text = Methods.formatLongDate(notification.date.toDate())
             title.text = notification.title
             description.text = notification.description
+            markAsReaded.text = if(notification.readed) "Marcar como no leído" else "Marcar como leído"
 
-            itemView.setOnClickListener {
-                listener.onItemClick(notification)
-            }
+            notiReaded.isVisible = !notification.readed
+
+            itemView.setOnClickListener { listener.onItemClick(notification) }
+            deleteNoti.setOnClickListener { listener.onDeleteClick(notification) }
+            markAsReaded.setOnClickListener { listener.onMarkAsReadedClick(notification) }
         }
     }
 }

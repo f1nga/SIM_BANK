@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
@@ -20,15 +22,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FormPrepaidCardFragment : Fragment() {
+
     private lateinit var binding: FragmentFormPrepaidCardBinding
     private val formPrepaidCardViewModel: FormPrepaidCardViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentFormPrepaidCardBinding.inflate(inflater, container, false)
+
 
         initUI()
         return binding.root
@@ -106,4 +110,18 @@ class FormPrepaidCardFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+
+        val tvTitle = requireActivity().findViewById<TextView>(R.id.tvNameBar)
+        tvTitle.text = getString(R.string.toolbar_prepaid_card)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_formPrepaidCardFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
+    }
 }

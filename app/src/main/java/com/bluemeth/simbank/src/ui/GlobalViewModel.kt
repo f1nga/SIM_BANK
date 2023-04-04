@@ -7,16 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.data.models.*
-import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
-import com.bluemeth.simbank.src.data.providers.firebase.BankAccountRepository
-import com.bluemeth.simbank.src.data.providers.firebase.MovementRepository
-import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
-import com.bluemeth.simbank.src.utils.Methods
+import com.bluemeth.simbank.src.data.providers.firebase.*
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,7 +18,8 @@ class GlobalViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val bankAccountRepository: BankAccountRepository,
     private val authenticationRepository: AuthenticationRepository,
-    private val movementsRepository: MovementRepository
+    private val movementsRepository: MovementRepository,
+    private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
     fun getUserAuth(): FirebaseUser {
@@ -147,26 +142,13 @@ class GlobalViewModel @Inject constructor(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getMovementsFromDB(email: String, iban: String): MutableLiveData<MutableList<Movement>> {
+    fun getAllMovementsFromDB(email: String, iban: String): MutableLiveData<MutableList<Movement>> {
         val mutableData = MutableLiveData<MutableList<Movement>>()
 
         viewModelScope.launch {
-            var listData = mutableListOf<Movement>()
-            movementsRepository.getSendedMovements(email).observeForever {
-                listData = it
+            movementsRepository.getAllMovements(email, iban).observeForever {
+                mutableData.value = it
             }
-            movementsRepository.getReceivedMovements(iban).observeForever {
-                for (movement in it) {
-                    listData.add(movement)
-                }
-            }
-
-            val dateTimeFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
-            listData.sortByDescending {
-                LocalDate.parse(Methods.parseDateToString(it.date.toDate()), dateTimeFormatter)
-            }
-
-            mutableData.value = listData
         }
 
         return mutableData
@@ -227,5 +209,17 @@ class GlobalViewModel @Inject constructor(
         }
 
         return mission
+    }
+
+     fun isEveryNotificationReadedFromDB(email: String) : MutableLiveData<Boolean> {
+        val isReaded = MutableLiveData<Boolean>()
+        viewModelScope.launch {
+            notificationRepository.isEveryNotificationReaded(email).observeForever {
+                isReaded.value = it
+
+            }
+        }
+
+        return isReaded
     }
 }

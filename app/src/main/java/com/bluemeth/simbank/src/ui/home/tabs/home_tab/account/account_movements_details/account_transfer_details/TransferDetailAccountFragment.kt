@@ -1,10 +1,12 @@
 package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_transfer_details
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -12,6 +14,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentTransferDetailAccountBinding
 import com.bluemeth.simbank.src.core.ex.dismissKeyboard
@@ -89,6 +92,7 @@ class TransferDetailAccountFragment : Fragment() {
         requireActivity().findViewById<LinearLayout>(R.id.llAddNote).isVisible = false
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setTextViews() {
 
         with(binding) {
@@ -135,5 +139,13 @@ class TransferDetailAccountFragment : Fragment() {
 
         val tvTitle = requireActivity().findViewById<TextView>(R.id.tvNameBar)
         tvTitle.text = getString(R.string.toolbar_account_transfer_detail)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_transferDetailAccountFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

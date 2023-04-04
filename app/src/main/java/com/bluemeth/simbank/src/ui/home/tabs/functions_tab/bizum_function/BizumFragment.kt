@@ -1,10 +1,12 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -96,6 +98,7 @@ class BizumFragment : Fragment() {
         observeMovements(false)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeMovements(isIncome: Boolean) {
         bizumViewModel.bizumHistoryRVAdapter.clearListData()
         bizumViewModel.bizumHistoryRVAdapter.notifyDataSetChanged()
@@ -163,5 +166,13 @@ class BizumFragment : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
         tvTitle.text = getString(R.string.toolbar_bizum)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_bizumFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
     }
 }

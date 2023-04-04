@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.models.Notification
 import com.bluemeth.simbank.src.data.models.User
-import com.bluemeth.simbank.src.data.providers.firebase.NotificationsRepository
+import com.bluemeth.simbank.src.data.providers.firebase.NotificationRepository
 import com.bluemeth.simbank.src.domain.AcceptContactRequestUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ContactRequestDetailViewModel  @Inject constructor(
     private val acceptContactRequestUseCase: AcceptContactRequestUseCase,
-    private val notificationsRepository: NotificationsRepository
+    private val notificationRepository: NotificationRepository
 ) : ViewModel() {
 
     private lateinit var _notification : Notification
@@ -51,7 +51,7 @@ class ContactRequestDetailViewModel  @Inject constructor(
 
     fun declineContactRequest() {
         viewModelScope.launch {
-            val notificationDeleted = notificationsRepository.deleteNotification(_notification)
+            val notificationDeleted = notificationRepository.deleteNotification(_notification.id)
 
             if(notificationDeleted) {
                 _declineRequest.value = Event(true)
@@ -60,5 +60,4 @@ class ContactRequestDetailViewModel  @Inject constructor(
             }
         }
     }
-
 }

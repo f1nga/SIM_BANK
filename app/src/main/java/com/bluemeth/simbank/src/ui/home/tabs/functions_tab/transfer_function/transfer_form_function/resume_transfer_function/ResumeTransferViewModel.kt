@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.Notification
-import com.bluemeth.simbank.src.domain.InsertTransferUseCase
+import com.bluemeth.simbank.src.domain.InsertMovementUseCase
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.model.TransferFormModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ResumeTransferViewModel @Inject constructor(
-    private val insertTransferUseCase: InsertTransferUseCase,
+    private val insertMovementUseCase: InsertMovementUseCase,
 ) : ViewModel() {
 
     private var _reUseTransferArguments: TransferFormModel? = null
@@ -44,13 +44,15 @@ class ResumeTransferViewModel @Inject constructor(
 
     fun insertTransferToDB(
         iban: String,
+        movement: Movement,
         beneficiaryMoney: Double,
         beneficiaryIban: String,
         notification: Notification
     ) {
         viewModelScope.launch() {
-            val transferInserted = insertTransferUseCase(
+            val transferInserted = insertMovementUseCase(
                 iban,
+                movement,
                 beneficiaryMoney,
                 beneficiaryIban,
                 notification

@@ -146,8 +146,8 @@
     </style>
 
     <style name="CardViewWithICon">
-        <item name="android:layout_height">40dp</item>
-        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">45dp</item>
         <item name="cardCornerRadius">50dp</item>
         <item name="cardBackgroundColor">@color/primary_button</item>
 

@@ -80,7 +80,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.settingsIcon -> navController.navigate(R.id.settingsFragment)
-            R.id.notificationsIcon -> navController.navigate(R.id.notificationsFragment)
+//            R.id.notificationsIcon -> navController.navigate(R.id.notificationsFragment)
+
             android.R.id.home -> {
 
             }

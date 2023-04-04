@@ -13,7 +13,7 @@
         style="@style/TitleText"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@color/secondary_text"
+        android:background="@color/primary_button"
         android:textStyle="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="@string/maximum_10_addresses"
+                    android:text="No puedes añadir más de un destinatario"
                     android:textColor="@color/tertiary_text"
                     android:textSize="14sp" />
 
@@ -209,17 +209,15 @@
 
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:backgroundTint="@color/secondary_text"
+                    style="@style/CardViewWithICon"
                     app:cardCornerRadius="50dp">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="2dp"
-                        android:src="@drawable/ic_address_book" />
+                        android:src="@drawable/ic_address_book_white" />
 
                 </androidx.cardview.widget.CardView>
 
@@ -230,8 +228,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginTop="15dp"
-                    android:text="@string/add_from_address"
+                    android:text="@string/contactos_simbank"
+                    android:layout_gravity="center"
                     android:textColor="@color/primary_button" />
 
             </LinearLayout>
@@ -245,14 +243,11 @@
                 android:orientation="horizontal">
 
                 <androidx.cardview.widget.CardView
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:backgroundTint="@color/secondary_text"
-                    app:cardCornerRadius="50dp">
+                    style="@style/CardViewWithICon">
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_marginStart="2dp"
                         android:src="@drawable/ic_pencil_edit" />
@@ -264,7 +259,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_gravity="center"
                     android:text="@string/add_manually"
                     android:textColor="@color/primary_button" />
             </LinearLayout>

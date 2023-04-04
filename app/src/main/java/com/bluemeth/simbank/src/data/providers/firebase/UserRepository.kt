@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
@@ -40,6 +41,23 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .set(user)
             .await()
     }.isSuccess
+
+    suspend fun getUserRecord(email: String): MutableLiveData<User> {
+        val mutableData = MutableLiveData<User>()
+        firebase.db
+            .collection(USER_COLLECTION)
+            .whereEqualTo(EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                mutableData.value = getUser(documents.first())
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error").w(exception, "Error getting documents: ")
+            }
+            .await()
+
+        return mutableData
+    }
 
     suspend fun getUsers(email: String): MutableLiveData<MutableList<User>> {
         val mutableData = MutableLiveData<MutableList<User>>()
@@ -140,33 +158,6 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             }.await()
 
         return user
-    }
-
-    suspend fun findUserByNameList(names: List<String>): MutableLiveData<List<User>> {
-        val users = MutableLiveData<List<User>>()
-
-        for (name in names) {
-            firebase.db
-                .collection(USER_COLLECTION)
-                .whereEqualTo(NAME_FIELD, name)
-                .get()
-                .addOnSuccessListener { documents ->
-                    val list = mutableListOf<User>()
-                    for (document in documents) {
-                        list.add(
-                            getUser(document)
-                        )
-                    }
-
-                    users.value = list
-
-                }
-                .addOnFailureListener { exception ->
-                    Timber.tag("Failure").w(exception, "Error getting documents: ")
-                }.await()
-        }
-
-        return users
     }
 
     fun getContactUsers(email: String): MutableLiveData<MutableList<ContactAgenda>> {
@@ -322,8 +313,8 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .addOnSuccessListener { document ->
                 val listData = mutableListOf<String>()
 
-                for(contact in document.get(CONTACTS_FIELD) as MutableList<String>) {
-                    if(contact != contactEmail) {
+                for (contact in document.get(CONTACTS_FIELD) as MutableList<String>) {
+                    if (contact != contactEmail) {
                         listData.add(contact)
                     }
                 }

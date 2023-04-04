@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_homeFragment_to_bizumDetailAccountFragment"
             app:destination="@id/bizumDetailAccountFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/functionsFragment"
@@ -40,6 +43,9 @@
         <action
             android:id="@+id/action_functionsFragment_to_addCreditCardFragment"
             app:destination="@id/addCreditCardFragment" />
+        <action
+            android:id="@+id/action_functionsFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
@@ -65,6 +71,9 @@
         <action
             android:id="@+id/action_profileFragment_to_userMissionsFragment"
             app:destination="@id/userMissionsFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/cardFragment"
@@ -77,6 +86,9 @@
             android:id="@+id/action_cardFragment_to_infoCardFragment"
             app:destination="@id/infoCardFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_cardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addCreditCardFragment"
@@ -92,27 +104,46 @@
         <action
             android:id="@+id/action_addCreditCardFragment_to_formPrepaidCardFragment"
             app:destination="@id/formPrepaidCardFragment" />
+        <action
+            android:id="@+id/action_addCreditCardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.bluemeth.simbank.src.ui.drawer.settings.SettingsFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
         android:name="com.bluemeth.simbank.src.ui.drawer.PrivacyPolicyFragment"
         android:label="fragment_privacy_policy"
-        tools:layout="@layout/fragment_privacy_policy" />
+        tools:layout="@layout/fragment_privacy_policy" >
+        <action
+            android:id="@+id/action_privacyPolicyFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/step1Fragment"
         android:name="com.bluemeth.simbank.src.ui.steps.step1.Step1Fragment"
         android:label="fragment_step1"
-        tools:layout="@layout/fragment_step1" />
+        tools:layout="@layout/fragment_step1" >
+        <action
+            android:id="@+id/action_step1Fragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/infoCardFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.credit_cards_tab.info_card.InfoCardFragment"
         android:label="fragment_info_card"
-        tools:layout="@layout/fragment_info_card" />
+        tools:layout="@layout/fragment_info_card" >
+        <action
+            android:id="@+id/action_infoCardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <action
         android:id="@+id/action_infoCardFragment_to_cardFragment"
         app:destination="@id/cardFragment"
@@ -121,7 +152,11 @@
     <fragment
         android:id="@+id/updatePhoneFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.profile_tab.update_personal_data.update_phone.UpdatePhoneFragment"
-        android:label="UpdatePhoneFragment" />
+        android:label="UpdatePhoneFragment" >
+        <action
+            android:id="@+id/action_updatePhoneFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <action
         android:id="@+id/action_updatePhoneFragment_to_profileFragment"
         app:destination="@id/profileFragment"
@@ -135,6 +170,9 @@
             android:id="@+id/action_updateNameFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/homeFragment" />
+        <action
+            android:id="@+id/action_updateNameFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <action
         android:id="@+id/action_updateNameFragment_to_profileFragment"
@@ -149,6 +187,9 @@
             android:id="@+id/action_updateEmailFragment_to_profileFragment"
             app:destination="@id/profileFragment"
             app:popUpTo="@id/homeFragment"/>
+        <action
+            android:id="@+id/action_updateEmailFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
 
     <fragment
@@ -161,6 +202,9 @@
             app:destination="@id/profileFragment"
             app:popUpTo="@id/homeFragment"
             />
+        <action
+            android:id="@+id/action_updatePasswordFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/formCreditCardFragment"
@@ -172,6 +216,9 @@
             app:destination="@id/cardFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_formCreditCardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/formDebidCardFragment"
@@ -183,6 +230,9 @@
             app:destination="@id/cardFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_formDebidCardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/formPrepaidCardFragment"
@@ -194,6 +244,9 @@
             app:destination="@id/cardFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_formPrepaidCardFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/transferFormFragment"
@@ -204,6 +257,9 @@
             app:destination="@id/resumeTransferFragment"
             app:popUpTo="@+id/functionsFragment"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_transferFormFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/resumeTransferFragment"
@@ -216,6 +272,9 @@
         <action
             android:id="@+id/action_resumeTransferFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_resumeTransferFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/bizumFragment"
@@ -228,8 +287,9 @@
         <action
             android:id="@+id/action_bizumFragment_to_bizumDetailFragment"
             app:destination="@id/bizumDetailFragment" />
-        <!--            app:popUpTo="@+id/functionsFragment"-->
-<!--            app:popUpToInclusive="false"-->
+        <action
+            android:id="@+id/action_bizumFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
 
     </fragment>
     <fragment
@@ -248,6 +308,9 @@
             app:destination="@id/bizumResumeFragment"
             app:popUpTo="@+id/bizumFragment"
             app:popUpToInclusive="false"/>
+        <action
+            android:id="@+id/action_bizumFormFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addContactManuallyFragment"
@@ -259,6 +322,10 @@
             app:destination="@id/bizumFormFragment"
             app:popUpTo="@+id/bizumFragment"
             app:popUpToInclusive="false"/>
+
+        <action
+            android:id="@+id/action_addContactManuallyFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addContactFromAgendaFragment"
@@ -270,6 +337,9 @@
             app:destination="@id/bizumFormFragment"
             app:popUpTo="@+id/bizumFragment"
             app:popUpToInclusive="false"/>
+        <action
+            android:id="@+id/action_addContactFromAgendaFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/bizumResumeFragment"
@@ -282,6 +352,9 @@
         <action
             android:id="@+id/action_bizumResumeFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_bizumResumeFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"
@@ -306,20 +379,35 @@
         <action
             android:id="@+id/action_accountFragment_to_searchMovementsFragment"
             app:destination="@id/searchMovementsFragment" />
+        <action
+            android:id="@+id/action_accountFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment"/>
     </fragment>
     <fragment
         android:id="@+id/bizumDetailAccountFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_bizum_details.BizumDetailAccountFragment"
-        android:label="BizumDetailAccountFragment" />
+        android:label="BizumDetailAccountFragment" >
+        <action
+            android:id="@+id/action_bizumDetailAccountFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/transferDetailAccountFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.account_transfer_details.TransferDetailAccountFragment"
-        android:label="TransferDetailAccountFragment" />
+        android:label="TransferDetailAccountFragment" >
+        <action
+            android:id="@+id/action_transferDetailAccountFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/promotionsFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.PromotionsFragment"
         android:label="fragment_promotions"
-        tools:layout="@layout/fragment_promotions" />
+        tools:layout="@layout/fragment_promotions" >
+        <action
+            android:id="@+id/action_promotionsFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bizumDetailFragment"
         android:name="com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_details.BizumDetailFragment"
@@ -328,6 +416,9 @@
         <action
             android:id="@+id/action_bizumDetailFragment_to_bizumFormFragment"
             app:destination="@id/bizumFormFragment" />
+        <action
+            android:id="@+id/action_bizumDetailFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/transferFragment"
@@ -340,6 +431,9 @@
         <action
             android:id="@+id/action_transferFragment_to_resumeTransferFragment"
             app:destination="@id/resumeTransferFragment" />
+        <action
+            android:id="@+id/action_transferFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/infoAccountFragment"
@@ -349,6 +443,9 @@
         <action
             android:id="@+id/action_infoAccountFragment_to_infoCardFragment"
             app:destination="@id/infoCardFragment" />
+        <action
+            android:id="@+id/action_infoAccountFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/searchMovementsFragment"
@@ -358,6 +455,9 @@
         <action
             android:id="@+id/action_searchMovementsFragment_to_accountMovementsFilteredFragment"
             app:destination="@id/accountMovementsFilteredFragment" />
+        <action
+            android:id="@+id/action_searchMovementsFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountMovementsFilteredFragment"
@@ -370,6 +470,10 @@
         <action
             android:id="@+id/action_accountMovementsFilteredFragment_to_transferDetailAccountFragment"
             app:destination="@id/transferDetailAccountFragment" />
+        <action
+            android:id="@+id/action_accountMovementsFilteredFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/userMissionsFragment"
@@ -382,6 +486,9 @@
         <action
             android:id="@+id/action_userMissionsFragment_to_transferFragment"
             app:destination="@id/transferFragment" />
+        <action
+            android:id="@+id/action_userMissionsFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"
@@ -391,6 +498,9 @@
         <action
             android:id="@+id/action_contactsFragment_to_addContactFragment"
             app:destination="@id/addContactFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addContactFragment"
@@ -400,6 +510,9 @@
         <action
             android:id="@+id/action_addContactFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_addContactFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -415,6 +528,9 @@
         <action
             android:id="@+id/action_notificationsFragment_to_transferDetailAccountFragment"
             app:destination="@id/transferDetailAccountFragment" />
+        <action
+            android:id="@+id/action_notificationsFragment_to_bizumResumeFragment"
+            app:destination="@id/bizumResumeFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactRequestDetailFragment"

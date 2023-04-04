@@ -3,12 +3,7 @@ package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum
 data class BizumFormModel(
     var import: String,
     var subject: String,
-    var addressesList: MutableList<ContactBizum>? = null
+    var addresse: ContactBizum? = null
 ) {
-    fun isNotEmpty() = import.isNotEmpty() && addressesList!!.isNotEmpty()
-    fun clearArguments() {
-        import = ""
-        subject = ""
-        addressesList?.clear()
-    }
+    fun isNotEmpty() = import.isNotEmpty()
 }

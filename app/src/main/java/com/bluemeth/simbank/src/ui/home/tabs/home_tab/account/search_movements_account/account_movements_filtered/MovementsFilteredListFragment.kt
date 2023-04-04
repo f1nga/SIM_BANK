@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
@@ -80,7 +81,7 @@ class MovementsFilteredListFragment : Fragment() {
         when (searchMovementsModel.type) {
             SearchMovementsType.ALL -> {
                 globalViewModel.getBankIban().observe(requireActivity()) {
-                    globalViewModel.getMovementsFromDB(globalViewModel.getUserAuth().email!!, it)
+                    globalViewModel.getAllMovementsFromDB(globalViewModel.getUserAuth().email!!, it)
                         .observe(requireActivity()) { movementsList ->
                             addToAdapterList(movementsList)
                         }
@@ -184,67 +185,14 @@ class MovementsFilteredListFragment : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
         tvTitle.text = getString(R.string.toolbar_movements_list)
-    }
 
-//    private fun datesCoincide(sinceDate: Date, untilDate: Date, movementDate: Date): Boolean {
-//        movementDate.year += 1900
-//        log("year", "${movementDate.year} -- ${sinceDate.year} -- ${untilDate.year}")
-//        log("month", "${movementDate.month} -- ${sinceDate.month} -- ${untilDate.month}")
-//
-//        if (movementDate.year in sinceDate.year +1 until untilDate.year) {
-//            log("hool","1")
-//
-//            return true
-//        }
-//        else if(movementDate.year == sinceDate.year && movementDate.year == untilDate.year) {
-//            log("hool","2")
-//
-//            if(movementDate.month in sinceDate.month +1 until untilDate.month) {
-//                log("hool","3")
-//                return true
-//            } else if(movementDate.month == sinceDate.month && movementDate.month != untilDate.month) {
-//                log("hool","4")
-//                if(movementDate.date >= sinceDate.date) {
-//                    log("hool","5")
-//                    return true
-//                }
-//            } else if(movementDate.month != sinceDate.month && movementDate.month == untilDate.month) {
-//                log("hool","6")
-//                if(movementDate.date <= untilDate.date) {
-//                    log("hool","7")
-//                    return true
-//                }
-//            } else if(movementDate.month == sinceDate.month && movementDate.month == untilDate.month) {
-//                log("hool","8")
-//                if(movementDate.date in sinceDate.date  .. untilDate.date) {
-//                    log("hool","9")
-//                    return true
-//                }
-//            }
-//
-//        }
-//
-//        else if(movementDate.year == sinceDate.year && movementDate.year != untilDate.year) {
-//            log("hool","10")
-//            if(movementDate.month >= sinceDate.month) {
-//                log("hool","11")
-//                if(movementDate.date >= sinceDate.date){
-//                    log("hool","12")
-//                    return true
-//                }
-//            }
-//        } else if(movementDate.year != sinceDate.year && movementDate.year == untilDate.year) {
-//            log("hool","13")
-//            if(movementDate.month <= untilDate.month) {
-//                log("hool","14")
-//                if(movementDate.date <= untilDate.date) {
-//                    log("hool","15")
-//                    return true
-//                }
-//            }
-//        }
-//
-//        return false
-//    }
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_accountMovementsFilteredFragment_to_notificationsFragment) }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
+                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            }
+        }
+    }
 
 }

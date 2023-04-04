@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.drawer.contacts
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +27,7 @@ class ContactsRVAdapter @Inject constructor() :
     }
 
     fun setListData(data: MutableList<User>) {
+
         listData = data
     }
 
@@ -57,6 +59,7 @@ class ContactsRVAdapter @Inject constructor() :
     }
 
     inner class ContactHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        @SuppressLint("SetTextI18n")
         fun bindView(user: User) {
             val img = itemView.findViewById<ImageView>(R.id.ivCircle)
             val name = itemView.findViewById<TextView>(R.id.tvName)

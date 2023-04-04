@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -59,20 +60,17 @@ class BizumDetailFragment : Fragment() {
                             BizumFormModel(
                                 import = movement.amount.toString(),
                                 subject = movement.subject,
-                                addressesList = mutableListOf(
-                                    ContactBizum(
-                                        name = movement.beneficiary_name,
-                                        import = movement.amount,
-                                        phoneNumber = beneficiary.phone
-                                    )
+                                addresse = ContactBizum(
+                                    name = movement.beneficiary_name,
+                                    import = movement.amount,
+                                    phoneNumber = beneficiary.phone
+
                                 )
 
                             )
                         )
 
-                        goToBizumForm(
-                            bundleOf("form_type" to arguments?.getString(formType))
-                        )
+                        goToBizumForm(bundleOf("form_type" to formType))
                     }
             }
     }
@@ -109,11 +107,12 @@ class BizumDetailFragment : Fragment() {
                 ivArrowIncome.setImageResource(R.drawable.arrow_lose)
                 tvAccount.text = "Cuenta ordenante"
 
-                globalViewModel.getUserByName(movement.beneficiary_name).observe(requireActivity()) {
-                    tvContactName.text = it.name
-                    tvPhoneNumber.text = it.phone.toString()
-                    tvCapitals.text = it.name[0].toString()
-                }
+                globalViewModel.getUserByName(movement.beneficiary_name)
+                    .observe(requireActivity()) {
+                        tvContactName.text = it.name
+                        tvPhoneNumber.text = it.phone.toString()
+                        tvCapitals.text = it.name[0].toString()
+                    }
             }
 
             globalViewModel.getBankIban().observe(requireActivity()) {
@@ -134,6 +133,18 @@ class BizumDetailFragment : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
 
         tvTitle.text = getString(R.string.toolbar_bizum_detail)
+
+        requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
+            it.setOnClickListener {
+                view?.findNavController()
+                    ?.navigate(R.id.action_bizumDetailFragment_to_notificationsFragment)
+            }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!)
+                .observe(requireActivity()) { isReaded ->
+                    it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+                }
+        }
     }
 
 }

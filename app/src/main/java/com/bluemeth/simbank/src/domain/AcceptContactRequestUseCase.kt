@@ -2,13 +2,13 @@ package com.bluemeth.simbank.src.domain
 
 import com.bluemeth.simbank.src.data.models.Notification
 import com.bluemeth.simbank.src.data.models.User
-import com.bluemeth.simbank.src.data.providers.firebase.NotificationsRepository
+import com.bluemeth.simbank.src.data.providers.firebase.NotificationRepository
 import com.bluemeth.simbank.src.data.providers.firebase.UserRepository
 import javax.inject.Inject
 
 class AcceptContactRequestUseCase @Inject constructor(
     private val userRepository: UserRepository,
-    private val notificationsRepository: NotificationsRepository
+    private val notificationRepository: NotificationRepository
 ) {
 
     suspend operator fun invoke(currentUser: User, newContact: User, notification: Notification): Boolean {
@@ -16,7 +16,7 @@ class AcceptContactRequestUseCase @Inject constructor(
 
         return if (contactsUpdated) {
             userRepository.updateUserContacts(newContact.email, newContact.contacts)
-            notificationsRepository.deleteNotification(notification)
+            notificationRepository.deleteNotification(notification.id)
         } else {
             false
         }

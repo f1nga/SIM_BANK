@@ -7,7 +7,7 @@ import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
 
-class NotificationsRepository @Inject constructor(val firebase: FirebaseClient) {
+class NotificationRepository @Inject constructor(val firebase: FirebaseClient) {
 
     private companion object {
         const val NOTIFICATIONS_COLLECTION = "notifications"
@@ -19,11 +19,12 @@ class NotificationsRepository @Inject constructor(val firebase: FirebaseClient) 
         const val TYPE_FIELD = "type"
         const val USER_RECEIVE_EMAIL_FIELD = "user_receive_email"
         const val USER_SEND_EMAIL_FIELD = "user_send_email"
-        const val MOVEMENT_FIELD = "movement"
+        const val MOVEMENT_ID_FIELD = "movementID"
+
     }
 
-    suspend fun getNotificationsByEmail(email: String): MutableLiveData<List<Notification>> {
-        val notificationsList = MutableLiveData<List<Notification>>()
+    suspend fun getNotificationsByEmail(email: String): MutableLiveData<MutableList<Notification>> {
+        val notificationsList = MutableLiveData<MutableList<Notification>>()
 
         firebase.db
             .collection(NOTIFICATIONS_COLLECTION)
@@ -42,9 +43,10 @@ class NotificationsRepository @Inject constructor(val firebase: FirebaseClient) 
                             type = when (document.getString(TYPE_FIELD)!!) {
                                 "BizumReceived" -> NotificationType.BizumReceived
                                 "TransferReceived" -> NotificationType.TransferReceived
+                                "BizumRequested" -> NotificationType.BizumRequested
                                 else -> NotificationType.ContactRequest
                             },
-//                            movement = document.get(MOVEMENT_FIELD) as Movement?,
+                            movementID = document.getString(MOVEMENT_ID_FIELD),
                             readed = document.getBoolean(READED_FIELD)!!,
                             user_send_email = document.getString(USER_SEND_EMAIL_FIELD),
                             user_receive_email = document.getString(USER_RECEIVE_EMAIL_FIELD)!!
@@ -62,6 +64,30 @@ class NotificationsRepository @Inject constructor(val firebase: FirebaseClient) 
         return notificationsList
     }
 
+    suspend fun isEveryNotificationReaded(email: String): MutableLiveData<Boolean> {
+        val isEveryNotificationReaded = MutableLiveData<Boolean>()
+
+        firebase.db
+            .collection(NOTIFICATIONS_COLLECTION)
+            .whereEqualTo(USER_RECEIVE_EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                isEveryNotificationReaded.value = true
+
+                for (document in documents) {
+                    if(!document.getBoolean(READED_FIELD)!!) {
+                        isEveryNotificationReaded.value = false
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error").w(exception, "Error getting documents: ")
+            }
+            .await()
+
+        return isEveryNotificationReaded
+    }
+
     suspend fun insertNotification(notification: Notification) = runCatching {
         firebase.db
             .collection(NOTIFICATIONS_COLLECTION)
@@ -70,11 +96,33 @@ class NotificationsRepository @Inject constructor(val firebase: FirebaseClient) 
             .await()
     }.isSuccess
 
-    suspend fun deleteNotification(notification: Notification) = runCatching {
+    suspend fun deleteNotification(id: String) = runCatching {
+        firebase.db
+            .collection(NOTIFICATIONS_COLLECTION)
+            .document(id)
+            .delete()
+            .await()
+    }.isSuccess
+
+    suspend fun deleteNotificationByMovementID(movementId: String) = runCatching {
+        firebase.db
+            .collection(NOTIFICATIONS_COLLECTION)
+            .whereEqualTo(MOVEMENT_ID_FIELD, movementId)
+            .get()
+            .addOnSuccessListener {
+                firebase.db
+                    .collection(NOTIFICATIONS_COLLECTION)
+                    .document(it.first().id)
+                    .delete()
+            }
+            .await()
+    }.isSuccess
+
+    suspend fun updateReadedNotification(notification: Notification, readed: Boolean) = runCatching {
         firebase.db
             .collection(NOTIFICATIONS_COLLECTION)
             .document(notification.id)
-            .delete()
+            .update(READED_FIELD, readed)
             .await()
     }.isSuccess
 

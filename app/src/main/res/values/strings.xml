@@ -84,6 +84,7 @@
     <string name="toolbar_request_bizum">Solicitar bizum</string>
     <string name="toolbar_add_manually">Añadir manualmente</string>
     <string name="toolbar_add_from_agenda">Añadir desde agenda</string>
+    <string name="toolbar_bizum_resume">Resumen del bizum</string>
     <string name="toolbar_bizum_detail">Detalle del bizum</string>
     <string name="toolbar_account">Cuenta</string>
     <string name="toolbar_info_account">Información de la cuenta</string>
@@ -92,6 +93,15 @@
     <string name="toolbar_missions">Misiones</string>
     <string name="toolbar_contacts">Contactos</string>
     <string name="toolbar_add_contact">Añadir un contacto</string>
+    <string name="toolbar_notifications">Notificaciones</string>
+    <string name="toolbar_contact_request">Solicitud de amistad</string>
+    <string name="toolbar_settings">Ajustes</string>
+    <string name="toolbar_credit_card">Targeta de crédito</string>
+    <string name="toolbar_debit_card">Targeta de débito</string>
+    <string name="toolbar_prepaid_card">Targeta prepago</string>
+    <string name="toolbar_promotions">Promociones</string>
+    <string name="toolbar_privacy_policy">Politica de privacidad</string>
+
 
     <string name="dialog_error_oops">¡Vaya!</string>
     <string name="dialog_error_sure">¿Estas seguro de que quieres cerrar sesión?</string>
@@ -168,10 +178,9 @@
 
     <string name="import_and_concept">Importe y concepto</string>
     <string name="import_every_destiny">Importe (a cada destinatario)</string>
-    <string name="addressess">DESTINATARIO/S</string>
+    <string name="addressess">DESTINATARIO</string>
     <string name="_35_characters">35 caracteres</string>
     <string name="add_manually">Añadir manualmente</string>
-    <string name="add_from_address">Añadir desde agenda</string>
     <string name="maximum_10_addresses">Puedes añadir un máximo de 10 destinatarios</string>
     <string name="confirm_phone">Confirmar teléfono móvil</string>
     <string name="phone_number">Número de movil</string>
@@ -249,6 +258,9 @@
 
     <string name="noti_bizum_received_title">Bizum recibido</string>
     <string name="noti_bizum_received_description">Has recibido un bizum de</string>
+
+    <string name="noti_bizum_request_title">Solicitud de bizum</string>
+    <string name="noti_bizum_request_description">Has recibido una solicitud de bizum de</string>
 
     <string name="declinar">Declinar</string>
     <string name="wants_to_be_friend">Este usuario quiere ser tu amigo</string>
