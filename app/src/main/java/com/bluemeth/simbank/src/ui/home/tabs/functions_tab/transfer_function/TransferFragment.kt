@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -19,7 +20,7 @@ import com.bluemeth.simbank.databinding.FragmentTransferBinding
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.model.TransferFormModel
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.models.TransferFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function.ResumeTransferViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,6 +53,7 @@ class TransferFragment : Fragment() {
     private fun initListeners() {
         binding.llReUse.setOnClickListener { changeHistorialVisibility() }
         binding.llNewDestiny.setOnClickListener { goToTransferForm() }
+        binding.llContacts.setOnClickListener { goToAddContactFromAgenda() }
     }
 
     private fun setTransfersRecyclerView() {
@@ -127,6 +129,12 @@ class TransferFragment : Fragment() {
 
     private fun goToTransferForm() {
         view?.findNavController()?.navigate(R.id.action_transferFragment_to_transferFormFragment)
+    }
+
+    private fun goToAddContactFromAgenda() {
+        val bundle = bundleOf("coming_from" to arguments?.getString("transfer_form"))
+
+        view?.findNavController()?.navigate(R.id.action_transferFragment_to_addContactFromAgendaFragment, bundle)
     }
 
     private fun goToResumeTransfer() {

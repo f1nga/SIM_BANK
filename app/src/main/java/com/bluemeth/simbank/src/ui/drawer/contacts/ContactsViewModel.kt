@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.drawer.contacts
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,7 @@ class ContactsViewModel @Inject constructor(
 
         viewModelScope.launch {
             userRepository.getUserContacts(email).observeForever {
+
                 mutableData.value = it
             }
         }

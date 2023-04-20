@@ -97,7 +97,9 @@ class BizumFormFragment : Fragment() {
                     BizumFormModel(
                         import = newImport,
                         subject = inputSubjectText.text.toString(),
-                        addresse = if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty()) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
+                        addresse = if (bizumFormViewModel.addressesRVAdapter.getListData()
+                                .isNotEmpty()
+                        ) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
                     )
                 )
             }
@@ -135,7 +137,9 @@ class BizumFormFragment : Fragment() {
                 BizumFormModel(
                     import = binding.tvTotalEnvio.text.toString(),
                     subject = binding.inputSubjectText.text.toString(),
-                    addresse = if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty()) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
+                    addresse = if (bizumFormViewModel.addressesRVAdapter.getListData()
+                            .isNotEmpty()
+                    ) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
                 )
             )
 
@@ -184,7 +188,9 @@ class BizumFormFragment : Fragment() {
                             inputImportText.text.toString()
                         },
                         subject = inputSubjectText.text.toString(),
-                        addresse = if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty()) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
+                        addresse = if (bizumFormViewModel.addressesRVAdapter.getListData()
+                                .isNotEmpty()
+                        ) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
                     )
                 )
             }
@@ -194,22 +200,18 @@ class BizumFormFragment : Fragment() {
     private fun getSavedArguments() {
         bizumFormViewModel.reUseBizumArgument?.let {
             val inputText = Editable.Factory.getInstance()
-            log("hool", it.import)
 
             binding.inputSubjectText.text = inputText.newEditable(it.subject)
             bizumFormViewModel.addressesRVAdapter.setListData(mutableListOf(it.addresse!!))
 
-            if(bizumFormViewModel.addressesRVAdapter.getListData().size == 0)
-                binding.inputImportText.text = inputText.newEditable("")
-            else {
-                binding.inputImportText.text =  inputText.newEditable(
-                    Methods.formatMoney(
-                        Methods.roundOffDecimal(
-                            it.import.toDouble()
-                        )
+            binding.inputImportText.text = inputText.newEditable(
+                Methods.formatMoney(
+                    Methods.roundOffDecimal(
+                        it.import.toDouble()
                     )
                 )
-            }
+            )
+
         }
 
         val inputText = Editable.Factory.getInstance()
@@ -218,8 +220,6 @@ class BizumFormFragment : Fragment() {
             binding.inputImportText.text = inputText.newEditable(it.import)
             binding.inputSubjectText.text = inputText.newEditable(it.subject)
         }
-//
-
     }
 
     private fun setUserBizumRecyclerView() {
@@ -262,7 +262,10 @@ class BizumFormFragment : Fragment() {
     }
 
     private fun goToAddContactFromAgenda() {
-        val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
+        val bundle = bundleOf(
+            "form_type" to arguments?.getString("form_type"),
+            "coming_from" to "bizum_form"
+        )
         view?.findNavController()
             ?.navigate(R.id.action_bizumFormFragment_to_addContactFromAgendaFragment, bundle)
     }
@@ -272,14 +275,17 @@ class BizumFormFragment : Fragment() {
             BizumFormModel(
                 import = Methods.splitEuro(binding.inputImportText.text.toString()).ifEmpty { "" },
                 subject = binding.inputSubjectText.text.toString().ifEmpty { "" },
-                addresse = if(bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty()) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
+                addresse = if (bizumFormViewModel.addressesRVAdapter.getListData()
+                        .isNotEmpty()
+                ) bizumFormViewModel.addressesRVAdapter.getListData()[0] else null
             )
         )
     }
 
     private fun goToBizumResume() {
         val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
-        view?.findNavController()?.navigate(R.id.action_bizumFormFragment_to_bizumResumeFragment, bundle)
+        view?.findNavController()
+            ?.navigate(R.id.action_bizumFormFragment_to_bizumResumeFragment, bundle)
     }
 
     override fun onStart() {
@@ -291,11 +297,15 @@ class BizumFormFragment : Fragment() {
         binding.tvTitleForm.text = arguments?.getString("form_type")
 
         requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
-            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_bizumFormFragment_to_notificationsFragment) }
-
-            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
-                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            it.setOnClickListener {
+                view?.findNavController()
+                    ?.navigate(R.id.action_bizumFormFragment_to_notificationsFragment)
             }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!)
+                .observe(requireActivity()) { isReaded ->
+                    it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+                }
         }
     }
 }

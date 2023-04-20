@@ -1,5 +1,6 @@
 package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,9 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddContactFromAgendaViewModel @Inject constructor(
-    val agendaRVAdapter: AgendaRVAdapter,
-    private val userRepository: UserRepository
-)  : ViewModel() {
+    private val userRepository: UserRepository,
+) : ViewModel() {
 
     private val _navigateToBizumForm = MutableLiveData<Event<Boolean>>()
     val navigateToBizumForm: LiveData<Event<Boolean>>
@@ -25,16 +25,24 @@ class AddContactFromAgendaViewModel @Inject constructor(
         val mutableData = MutableLiveData<MutableList<ContactAgenda>>()
 
         viewModelScope.launch {
-            userRepository.getUserContacts(email).observeForever {
-                val contactAgendaList = mutableListOf<ContactAgenda>()
+            userRepository.getUsers(email).observeForever { listContacts ->
+                userRepository.getUserRecord(email).observeForever { user ->
+                    val contactAgendaList = mutableListOf<ContactAgenda>()
 
-                for(user in it) {
-                    contactAgendaList.add(
-                        ContactAgenda(user.name, user.phone)
-                    )
+                    for (contact in listContacts) {
+                        for (emailUserContact in user.contacts) {
+                            if (contact.email == emailUserContact) {
+                                contactAgendaList.add(
+                                    ContactAgenda(contact.name, contact.phone)
+                                )
+                            }
+
+                        }
+                    }
+
+                    mutableData.value = contactAgendaList
                 }
 
-                mutableData.value = contactAgendaList
             }
         }
 

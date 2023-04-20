@@ -17,6 +17,7 @@ import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentContactsBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.QuestionDialog
+import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.core.ex.toast
 import com.bluemeth.simbank.src.data.models.User
@@ -97,6 +98,7 @@ class ContactsFragment : Fragment() {
     private fun observeContacts() {
         contactsViewModel.getUserContactsFromDB(globalViewModel.getUserAuth().email!!)
             .observe(requireActivity()) { contactsList ->
+                log("hoolcontactsFragment", contactsList.toString())
                 adapter.setListData(contactsList)
                 adapter.notifyDataSetChanged()
 

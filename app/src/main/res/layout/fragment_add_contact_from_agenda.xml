@@ -49,35 +49,59 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/tvAgenda"
-        style="@style/TitleText"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="@string/agenda"
-        android:textAllCaps="true"
-        android:textColor="@color/tertiary_text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/llSearch" />
-
-    <ScrollView
-        android:id="@+id/formView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/llSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAgenda">
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvAgenda"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvAgenda"
+            style="@style/TitleText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tvAgenda" />
+            android:layout_marginTop="25dp"
+            android:text="@string/agenda"
+            android:textAllCaps="true"
+            android:textColor="@color/tertiary_text" />
 
-    </ScrollView>
+        <ScrollView
+            android:id="@+id/formView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAgenda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/sflContacts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:id="@+id/clHistorialLoading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/backgroundColor_secondary"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/clAccount">
+
+                <include layout="@layout/item_contact_loading" />
+
+                <include layout="@layout/item_contact_loading" />
+
+                <include layout="@layout/item_contact_loading" />
+
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btnAccept"

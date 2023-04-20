@@ -43,8 +43,16 @@ class BizumFormViewModel @Inject constructor(
     var bizumFormMdel: BizumFormModel? = null
         get() = _bizumFormModel
 
+    private var _contactBizum : ContactBizum? = null
+    val contactBizum: ContactBizum?
+        get() = _contactBizum
+
     private var _movement : Movement? = null
     val movement: Movement? get() = _movement
+
+    fun setContactBizum(contactBizum: ContactBizum?) {
+        _contactBizum = contactBizum
+    }
 
     fun setBizumFormModel(bizumFormModel: BizumFormModel) {
         _bizumFormModel = bizumFormModel

@@ -337,6 +337,12 @@
             app:destination="@id/bizumFormFragment"
             app:popUpTo="@+id/bizumFragment"
             app:popUpToInclusive="false"/>
+
+        <action
+            android:id="@+id/action_addContactFromAgendaFragment_to_TransferFormFragment"
+            app:destination="@id/transferFormFragment"
+            app:popUpTo="@+id/transferFragment"
+            app:popUpToInclusive="false"/>
         <action
             android:id="@+id/action_addContactFromAgendaFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
@@ -428,6 +434,9 @@
         <action
             android:id="@+id/action_transferFragment_to_transferFormFragment"
             app:destination="@id/transferFormFragment" />
+        <action
+            android:id="@+id/action_transferFragment_to_addContactFromAgendaFragment"
+            app:destination="@id/addContactFromAgendaFragment" />
         <action
             android:id="@+id/action_transferFragment_to_resumeTransferFragment"
             app:destination="@id/resumeTransferFragment" />

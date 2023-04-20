@@ -48,22 +48,28 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        navController = this.findNavController(R.id.myNavHostFragment)
+        initUI()
+    }
 
-        drawerLayout = binding.drawerLayout
-
-        toolbar = binding.toolbar
+    private fun initUI() {
+        initVariables()
 
         hideBottomBar()
         setHeaderDrawer()
         setCustomToolbar()
 
-        NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
-        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
-        NavigationUI.setupWithNavController(binding.navView, navController)
+        setNavController()
 
         initObservers()
         itemMenu()
+    }
+
+    private fun initVariables() {
+        navController = this.findNavController(R.id.myNavHostFragment)
+
+        drawerLayout = binding.drawerLayout
+
+        toolbar = binding.toolbar
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -144,6 +150,12 @@ class HomeActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun setNavController() {
+        NavigationUI.setupActionBarWithNavController(this,navController,drawerLayout)
+        NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
+        NavigationUI.setupWithNavController(binding.navView, navController)
     }
 
     private fun goToLogin() {

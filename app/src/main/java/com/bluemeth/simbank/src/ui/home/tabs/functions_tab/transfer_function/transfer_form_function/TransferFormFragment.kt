@@ -23,7 +23,7 @@ import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.model.TransferFormModel
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.models.TransferFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function.ResumeTransferViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +33,7 @@ class TransferFormFragment : Fragment() {
 
     private lateinit var binding: FragmentFormTransferBinding
     private val globalViewModel: GlobalViewModel by viewModels()
-    private val transferFormViewModel: TransferFormViewModel by viewModels()
+    private val transferFormViewModel: TransferFormViewModel by activityViewModels()
     private val resumeTransferViewModel: ResumeTransferViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -172,9 +172,6 @@ class TransferFormFragment : Fragment() {
 
             }
 
-
-
-
             transferFormViewModel.onNameFieldsChanged(
                 TransferFormModel(
                     iban = binding.inputIbantext.text.toString(),
@@ -209,20 +206,27 @@ class TransferFormFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun setTextViews() {
         with(binding) {
+            val inputText = Editable.Factory.getInstance()
+
             globalViewModel.getBankAccountFromDB().observe(requireActivity()) {
                 tvAccount.text = "Cuenta *${Methods.formatShortIban(it.iban)}"
                 tvShortNumber.text = "· ${Methods.formatShortIban(it.iban)}"
                 tvMoneyAccount.text = Methods.formatMoney(it.money)
             }
 
-            if (resumeTransferViewModel.movement != null) {
-                val transfer = resumeTransferViewModel.movement!!
-                val inputText = Editable.Factory.getInstance()
+            resumeTransferViewModel.movement?.let {
 
-                inputIbantext.text = inputText.newEditable(transfer.beneficiary_iban)
-                inputBeneficiaryText.text = inputText.newEditable(transfer.beneficiary_name)
-                inputImportText.text = inputText.newEditable(transfer.amount.toString())
-                inputAsuntoText.text = inputText.newEditable(transfer.subject)
+                inputIbantext.text = inputText.newEditable(it.beneficiary_iban)
+                inputBeneficiaryText.text = inputText.newEditable(it.beneficiary_name)
+                inputImportText.text = inputText.newEditable(it.amount.toString())
+                inputAsuntoText.text = inputText.newEditable(it.subject)
+            }
+
+            transferFormViewModel.contactTransfer?.let {
+                globalViewModel.getBankAccountFromDBbyName(it).observe(requireActivity()) { bankAccount ->
+                    inputIbantext.text = inputText.newEditable(bankAccount.iban)
+                    inputBeneficiaryText.text = inputText.newEditable(it)
+                }
             }
         }
     }

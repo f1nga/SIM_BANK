@@ -42,7 +42,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .await()
     }.isSuccess
 
-    suspend fun getUserRecord(email: String): MutableLiveData<User> {
+    fun getUserRecord(email: String): MutableLiveData<User> {
         val mutableData = MutableLiveData<User>()
         firebase.db
             .collection(USER_COLLECTION)
@@ -54,7 +54,6 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .addOnFailureListener { exception ->
                 Timber.tag("Error").w(exception, "Error getting documents: ")
             }
-            .await()
 
         return mutableData
     }
@@ -98,6 +97,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                         .whereEqualTo(EMAIL_FIELD, contact)
                         .get()
                         .addOnSuccessListener { user ->
+
                             listData.add(getUser(user.first()))
                         }
                 }

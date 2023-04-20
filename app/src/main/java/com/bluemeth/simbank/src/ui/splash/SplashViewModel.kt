@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.data.providers.firebase.NotificationRepository
 import com.bluemeth.simbank.src.data.response.LoginResult
-import com.bluemeth.simbank.src.domain.InsertCreditCardUseCase
 import com.bluemeth.simbank.src.domain.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

@@ -111,7 +111,7 @@ class AddContactManuallyFragment : Fragment() {
     }
 
     private fun addToAddressesList(contactBizum: ContactBizum) {
-        bizumFormViewModel.addressesRVAdapter.setUserBizum(contactBizum)
+        bizumFormViewModel.setContactBizum(contactBizum)
     }
 
     private fun goToBizumForm() {

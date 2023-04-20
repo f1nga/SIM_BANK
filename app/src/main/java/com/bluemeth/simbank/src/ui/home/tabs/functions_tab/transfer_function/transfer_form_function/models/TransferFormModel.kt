@@ -1,4 +1,4 @@
-package com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.model
+package com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.models
 
 data class TransferFormModel(
     val iban: String,

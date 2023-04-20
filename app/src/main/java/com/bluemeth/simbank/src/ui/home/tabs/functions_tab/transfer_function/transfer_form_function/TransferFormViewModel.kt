@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluemeth.simbank.src.core.Event
-import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.search_movements_account.model.model.TransferFormModel
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.models.TransferFormModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +24,14 @@ class TransferFormViewModel @Inject constructor() : ViewModel() {
     private val _navigateToTransferResum = MutableLiveData<Event<Boolean>>()
     val navigateToTransferResum: LiveData<Event<Boolean>>
         get() = _navigateToTransferResum
+
+    private var _contactTransfer: String? = null
+    val contactTransfer: String?
+        get() = _contactTransfer
+
+     fun setContactTransfer(contactTransfer: String?) {
+        _contactTransfer = contactTransfer
+    }
 
     fun onContinueSelected(transferFormModel: TransferFormModel) {
         val viewState = transferFormModel.toUpdateViewState()

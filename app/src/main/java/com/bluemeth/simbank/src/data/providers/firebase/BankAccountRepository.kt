@@ -46,22 +46,6 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
         return bankAccount
     }
 
-     fun findBankAccountByEmail2(email: String): MutableLiveData<BankAccount> {
-        val bankAccount = MutableLiveData<BankAccount>()
-
-        firebase.db.collection(BANK_COLLECTION)
-            .whereEqualTo(USER_EMAIL_FIELD, email)
-            .get()
-            .addOnSuccessListener { documents ->
-                bankAccount.value = getBankAccount(documents)
-            }
-            .addOnFailureListener { exception ->
-                Timber.tag("Error").w(exception, "Error getting documents: ")
-            }
-
-        return bankAccount
-    }
-
     fun findBankAccountByIban(iban: String): MutableLiveData<BankAccount> {
         val bankAccount = MutableLiveData<BankAccount>()
 
@@ -124,19 +108,5 @@ class BankAccountRepository @Inject constructor(private val firebase: FirebaseCl
             .document(beneficiaryIban)
             .update(MONEY_FIELD, Methods.roundOffDecimal(beneficiaryMoney + movementImport))
             .await()
-    }.isSuccess
-
-    suspend fun movementReceived( beneficiaryIban: List<String>, beneficiaryMoney: List<Double>, movementImport: Double) = runCatching {
-
-        for(iban in beneficiaryIban) {
-            for(money in beneficiaryMoney) {
-                firebase.db
-                    .collection(BANK_COLLECTION)
-                    .document(iban)
-                    .update(MONEY_FIELD, Methods.roundOffDecimal(money + movementImport))
-                    .await()
-            }
-        }
-
     }.isSuccess
 }

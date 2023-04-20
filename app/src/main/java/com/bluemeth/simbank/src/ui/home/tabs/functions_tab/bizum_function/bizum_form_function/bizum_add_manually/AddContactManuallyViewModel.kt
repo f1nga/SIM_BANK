@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bluemeth.simbank.src.core.Event
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_manually.model.ContactManually
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -24,6 +25,14 @@ class AddContactManuallyViewModel @Inject constructor() : ViewModel(){
     private val _viewState = MutableStateFlow(AddContactManuallyViewState())
     val viewState: StateFlow<AddContactManuallyViewState>
         get() = _viewState
+
+    private var _comeFromBizum : Boolean = false
+    val comeFromBizum: Boolean
+        get() = _comeFromBizum
+
+    private fun setComeFromBizum(comingFromBizum: Boolean) {
+        _comeFromBizum = comingFromBizum
+    }
 
     fun onAddContactSelected(contactManually: ContactManually) {
         val viewState = contactManually.toUpdateViewState()

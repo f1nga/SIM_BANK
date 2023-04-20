@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -17,11 +18,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentAddContactFromAgendaBinding
+import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.ui.GlobalViewModel
-import com.bluemeth.simbank.src.ui.drawer.contacts.ContactsViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
+import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.TransferFormViewModel
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -32,7 +34,9 @@ class AddContactFromAgendaFragment : Fragment() {
     private lateinit var binding: FragmentAddContactFromAgendaBinding
     private val addContactFromAgendaViewModel: AddContactFromAgendaViewModel by viewModels()
     private val globalViewModel: GlobalViewModel by viewModels()
+    private val transferFormViewModel: TransferFormViewModel by activityViewModels()
     private val bizumFormViewModel: BizumFormViewModel by activityViewModels()
+    private val adapter: AgendaRVAdapter = AgendaRVAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,7 +68,7 @@ class AddContactFromAgendaFragment : Fragment() {
     private fun initObservers() {
         addContactFromAgendaViewModel.navigateToBizumForm.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
-                addContactFromAgendaViewModel.agendaRVAdapter.listData.forEach { contactAgenda ->
+                adapter.listData.forEach { contactAgenda ->
                     val newContact = ContactBizum(
                         name = contactAgenda.name,
                         import = getImportArguments(),
@@ -72,12 +76,21 @@ class AddContactFromAgendaFragment : Fragment() {
                     )
 
                     if (contactAgenda.isChecked) {
-                        bizumFormViewModel.addressesRVAdapter.setUserBizum(newContact)
+                        if (arguments?.getString("coming_from") == "bizum_form") {
+                            bizumFormViewModel.addressesRVAdapter.setUserBizum(newContact)
+                        } else {
+                            transferFormViewModel.setContactTransfer(contactAgenda.name)
+                        }
                     } else {
                         bizumFormViewModel.addressesRVAdapter.deleteUserBizum(newContact)
+                        transferFormViewModel.setContactTransfer(null)
                     }
                 }
-                goToBizumForm()
+                if (arguments?.getString("coming_from") == "bizum_form") {
+                    goToBizumForm()
+                } else {
+                    goToTransferForm()
+                }
             }
         }
 
@@ -87,22 +100,11 @@ class AddContactFromAgendaFragment : Fragment() {
         val addressesRecycler = binding.rvAgenda
         addressesRecycler.layoutManager = LinearLayoutManager(requireContext())
         addressesRecycler.setHasFixedSize(true)
-        addressesRecycler.adapter = addContactFromAgendaViewModel.agendaRVAdapter
+        addressesRecycler.adapter = adapter
 
-        addContactFromAgendaViewModel.agendaRVAdapter.setItemListener(object :
+        adapter.setItemListener(object :
             AgendaRVAdapter.OnItemClickListener {
             override fun onItemClick(contactAgenda: ContactAgenda) {
-
-                val import = Methods.splitEuroWithDecimalDouble( bizumFormViewModel.bizumFormMdel?.import ?: "0,00€")
-
-                modifyAddresseList(
-                    contactAgenda.isChecked,
-                    ContactBizum(
-                        name = contactAgenda.name,
-                        import = import,
-                        phoneNumber = contactAgenda.phoneNumber
-                    ),
-                )
             }
         })
     }
@@ -114,24 +116,21 @@ class AddContactFromAgendaFragment : Fragment() {
 
                 val listFiltered =
                     listContactAgenda.filter { contactBizum ->
-                        contactBizum.name.lowercase(Locale.ROOT).contains(searchText.toString().lowercase(Locale.ROOT))
+                        contactBizum.name.lowercase(Locale.ROOT)
+                            .contains(searchText.toString().lowercase(Locale.ROOT))
                     }
-                addContactFromAgendaViewModel.agendaRVAdapter.setListData(listFiltered as MutableList<ContactAgenda>)
-                addContactFromAgendaViewModel.agendaRVAdapter.notifyDataSetChanged()
+                adapter.setListData(listFiltered as MutableList<ContactAgenda>)
+                adapter.notifyDataSetChanged()
             }
     }
 
     private fun getImportArguments(): Double {
-        if (bizumFormViewModel.bizumFormArgument?.import!! != "")
-            return bizumFormViewModel.bizumFormArgument?.import!!.toDouble()
+        bizumFormViewModel.bizumFormMdel?.let {
+            return it.import.toDouble()
+
+        }
 
         return 0.0
-    }
-
-    private fun modifyAddresseList(isChecked: Boolean, newContact: ContactBizum) {
-        if (isChecked) bizumFormViewModel.addressesRVAdapter.setUserBizum(newContact)
-        else bizumFormViewModel.addressesRVAdapter.deleteUserBizum(newContact)
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -147,8 +146,15 @@ class AddContactFromAgendaFragment : Fragment() {
                     }
                 }
 
-                addContactFromAgendaViewModel.agendaRVAdapter.setListData(listContactAgenda)
-                addContactFromAgendaViewModel.agendaRVAdapter.notifyDataSetChanged()
+                adapter.setListData(listContactAgenda)
+                adapter.notifyDataSetChanged()
+
+                Methods.setTimeout(
+                    {
+                        binding.sflContacts.isVisible = false
+                        binding.formView.isVisible = true
+                    }, 300
+                )
             }
     }
 
@@ -158,6 +164,11 @@ class AddContactFromAgendaFragment : Fragment() {
             ?.navigate(R.id.action_addContactFromAgendaFragment_to_bizumFormFragment, bundle)
     }
 
+    private fun goToTransferForm() {
+        view?.findNavController()
+            ?.navigate(R.id.action_addContactFromAgendaFragment_to_TransferFormFragment)
+    }
+
     override fun onStart() {
         super.onStart()
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
@@ -165,11 +176,15 @@ class AddContactFromAgendaFragment : Fragment() {
         tvTitle.text = getString(R.string.toolbar_add_from_agenda)
 
         requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
-            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_addContactFromAgendaFragment_to_notificationsFragment) }
-
-            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
-                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            it.setOnClickListener {
+                view?.findNavController()
+                    ?.navigate(R.id.action_addContactFromAgendaFragment_to_notificationsFragment)
             }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!)
+                .observe(requireActivity()) { isReaded ->
+                    it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+                }
         }
     }
 }
