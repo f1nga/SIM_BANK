@@ -52,8 +52,12 @@ class UserMissionsFragment : Fragment() {
 
             override fun onItemClick(mission: Mission) {
                 when (mission.name) {
-                    Constants.BIZUM_NAME_MISSION -> goToBizum()
-                    else -> goToTransfer()
+                    Constants.TRANSFER_MISSION.name -> goToTransfer()
+                    Constants.REUSE_TRANSFER_MISSION.name -> goToTransfer()
+                    Constants.PROMOTION_MISSION.name -> goToPromotions()
+                    Constants.ADD_CONTACT_MISSION.name -> goToAddContact()
+
+                    else -> goToBizum()
                 }
             }
         })
@@ -75,6 +79,14 @@ class UserMissionsFragment : Fragment() {
 
     private fun goToBizum() {
         view?.findNavController()?.navigate(R.id.action_userMissionsFragment_to_bizumFragment)
+    }
+
+    private fun goToAddContact() {
+        view?.findNavController()?.navigate(R.id.action_userMissionsFragment_to_addContactFragment)
+    }
+
+    private fun goToPromotions() {
+        view?.findNavController()?.navigate(R.id.action_userMissionsFragment_to_promotionsFragment)
     }
 
     override fun onStart() {

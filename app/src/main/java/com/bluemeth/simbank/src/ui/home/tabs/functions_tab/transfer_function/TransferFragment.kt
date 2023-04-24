@@ -75,6 +75,7 @@ class TransferFragment : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun observeTransfers() {
+        transferHistoryRVAdapter.getListData().clear()
         globalViewModel.getSendedMovementsFromDB().observe(requireActivity()) {
             for (movement in it) {
                 if (movement.payment_type == PaymentType.Transfer)

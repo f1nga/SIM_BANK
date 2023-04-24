@@ -38,8 +38,8 @@ class ResumeTransferViewModel @Inject constructor(
     val showErrorDialog: LiveData<Boolean>
         get() = _showErrorDialog
 
-    private val _navigateToHome = MutableLiveData<Event<Boolean>>()
-    val navigateToHome: LiveData<Event<Boolean>>
+    private val _navigateToHome = MutableLiveData<Boolean>()
+    val navigateToHome: LiveData<Boolean>
         get() = _navigateToHome
 
     fun insertTransferToDB(
@@ -58,7 +58,7 @@ class ResumeTransferViewModel @Inject constructor(
                 notification
             )
             if (transferInserted) {
-                _navigateToHome.value = Event(true)
+                _navigateToHome.value = true
             } else {
                 _showErrorDialog.value = true
             }

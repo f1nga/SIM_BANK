@@ -118,9 +118,10 @@ class ResumeTransferFragment : Fragment() {
                         )
 
                         sendNotification()
-
+                        missionDoned()
+                        clearArguments()
+                        showSuccessDialog()
                     }
-
                 }
         }
     }
@@ -139,13 +140,13 @@ class ResumeTransferFragment : Fragment() {
             if (showDialog) showErrorDialog()
         }
 
-        resumeTransferViewModel.navigateToHome.observe(requireActivity()) {
-            it.getContentIfNotHandled()?.let {
-                missionDoned()
-                clearArguments()
-                showSuccessDialog()
-            }
-        }
+//        resumeTransferViewModel.navigateToHome.observe(requireActivity()) {
+//
+//            missionDoned()
+//            clearArguments()
+//            showSuccessDialog()
+//
+//        }
     }
 
     private fun setTextViews() {
@@ -227,11 +228,15 @@ class ResumeTransferFragment : Fragment() {
         tvTitle.text = getString(R.string.toolbar_transfer_resume)
 
         requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
-            it.setOnClickListener { view?.findNavController()?.navigate(R.id.action_resumeTransferFragment_to_notificationsFragment) }
-
-            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!).observe(requireActivity()) {isReaded ->
-                it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+            it.setOnClickListener {
+                view?.findNavController()
+                    ?.navigate(R.id.action_resumeTransferFragment_to_notificationsFragment)
             }
+
+            globalViewModel.isEveryNotificationReadedFromDB(globalViewModel.getUserAuth().email!!)
+                .observe(requireActivity()) { isReaded ->
+                    it.setImageResource(if (isReaded) R.drawable.ic_notifications else R.drawable.ic_notifications_red)
+                }
         }
     }
 }

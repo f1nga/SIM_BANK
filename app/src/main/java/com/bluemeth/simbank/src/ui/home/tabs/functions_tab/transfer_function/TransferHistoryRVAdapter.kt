@@ -26,6 +26,10 @@ class TransferHistoryRVAdapter @Inject constructor() :
         listData = data
     }
 
+    fun getListData(): MutableList<Movement> {
+        return listData
+    }
+
     fun setMovement(data: Movement) {
         listData.add(data)
     }

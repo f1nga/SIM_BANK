@@ -32,7 +32,6 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             userSignIn.password,
             userSignIn.nickName,
             userSignIn.phoneNumber.toInt(),
-            userSignIn.image
         )
 
         firebase.db

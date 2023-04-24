@@ -76,20 +76,6 @@ class BizumResumeFragment : Fragment() {
                     bizumFormViewModel.movement?.let { movement ->
                         globalViewModel.getBankAccountFromDBbyIban(movement.beneficiary_iban)
                             .observe(requireActivity()) { beneficiaryAccount ->
-//                                bizumResumeViewModel.makeBizum(
-//                                    iban = bankAccount.iban,
-//                                    movement = movement,
-//                                    beneficiaryMoney = beneficiaryAccount.money,
-//                                    beneficiaryIban = beneficiaryAccount.iban,
-//                                    notification = Notification(
-//                                        title = getString(R.string.noti_bizum_received_title),
-//                                        description = getString(R.string.noti_bizum_received_description) + " ${user.name}",
-//                                        type = NotificationType.BizumReceived,
-//                                        movementID = movement.id,
-//                                        user_send_email = user.email,
-//                                        user_receive_email = beneficiaryAccount.user_email
-//                                    )
-//                                )
                                 createBizum(bankAccount, movement, beneficiaryAccount, user)
                             }
                     }
@@ -112,55 +98,6 @@ class BizumResumeFragment : Fragment() {
                     }
                 }
             }
-
-//        bizumFormViewModel.movement?.let { movement ->
-//            globalViewModel.getBankAccountFromDB()
-//                .observe(requireActivity()) { bankAccount ->
-//                    globalViewModel.getBankAccountFromDBbyIban(movement.beneficiary_iban)
-//                        .observe(requireActivity()) { beneficiaryAccount ->
-//                            globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
-//                                globalViewModel.getBankAccountFromDB()
-//                                bizumResumeViewModel.makeBizum(
-//                                    iban = bankAccount.iban,
-//                                    movement = movement,
-//                                    beneficiaryMoney = beneficiaryAccount.money,
-//                                    beneficiaryIban = beneficiaryAccount.iban,
-//                                    notification = Notification(
-//                                        title = getString(R.string.noti_bizum_received_title),
-//                                        description = getString(R.string.noti_bizum_received_description) + " ${user.name}",
-//                                        type = NotificationType.BizumReceived,
-//                                        movementID = movement.id,
-//                                        user_send_email = user.email,
-//                                        user_receive_email = beneficiaryAccount.user_email
-//                                    )
-//                                )
-//                            }
-//                        }
-//                }
-//        }
-//
-//        bizumFormViewModel.bizumFormMdel?.let { bizumFormModel ->
-//            globalViewModel.getBankAccountFromDBbyPhone(bizumFormModel.addresse!!.phoneNumber)
-//                .observe(requireActivity()) { beneficiaryAccount ->
-//                    globalViewModel.getBankAccountFromDB()
-//                        .observe(requireActivity()) { bankAccount ->
-//                            globalViewModel.getUserFromDB().observe(requireActivity()) { user ->
-//                                if (arguments?.getString("form_type") == "Enviar dinero") {
-//                                    sendBizum(bizumFormModel, beneficiaryAccount, bankAccount, user)
-//                                } else {
-//                                    requestBizum(
-//                                        bizumFormModel,
-//                                        beneficiaryAccount,
-//                                        bankAccount,
-//                                        user
-//                                    )
-//                                }
-//                                sendNotification()
-//                            }
-//
-//                        }
-//                }
-//        }
     }
 
     private fun sendBizum(
@@ -213,6 +150,7 @@ class BizumResumeFragment : Fragment() {
             ),
             requestedBizum
         )
+        missionDoned(Constants.REQUEST_BIZUM_MISSION)
     }
 
     private fun createBizum(
@@ -235,6 +173,7 @@ class BizumResumeFragment : Fragment() {
                 user_receive_email = beneficiaryAccount.user_email
             )
         )
+        missionDoned(Constants.SEND_BIZUM_MISSION)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -251,7 +190,6 @@ class BizumResumeFragment : Fragment() {
         bizumResumeViewModel.navigateToHome.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
                 showSuccessDialog()
-                missionDoned()
                 clearArguments()
             }
         }
@@ -261,8 +199,8 @@ class BizumResumeFragment : Fragment() {
         }
     }
 
-    private fun missionDoned() {
-        globalViewModel.setUserMissionToDB(Constants.BIZUM_MISSION)
+    private fun missionDoned(mission: Mission) {
+        globalViewModel.setUserMissionToDB(mission)
     }
 
     @SuppressLint("SetTextI18n")

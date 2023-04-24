@@ -493,11 +493,17 @@
             android:id="@+id/action_userMissionsFragment_to_bizumFragment"
             app:destination="@id/bizumFragment" />
         <action
+            android:id="@+id/action_userMissionsFragment_to_addContactFragment"
+            app:destination="@id/addContactFragment" />
+        <action
             android:id="@+id/action_userMissionsFragment_to_transferFragment"
             app:destination="@id/transferFragment" />
         <action
             android:id="@+id/action_userMissionsFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_userMissionsFragment_to_promotionsFragment"
+            app:destination="@id/promotionsFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactsFragment"

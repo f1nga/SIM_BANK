@@ -198,8 +198,9 @@ class BizumFormFragment : Fragment() {
     }
 
     private fun getSavedArguments() {
+        val inputText = Editable.Factory.getInstance()
+
         bizumFormViewModel.reUseBizumArgument?.let {
-            val inputText = Editable.Factory.getInstance()
 
             binding.inputSubjectText.text = inputText.newEditable(it.subject)
             bizumFormViewModel.addressesRVAdapter.setListData(mutableListOf(it.addresse!!))
@@ -211,10 +212,7 @@ class BizumFormFragment : Fragment() {
                     )
                 )
             )
-
         }
-
-        val inputText = Editable.Factory.getInstance()
 
         bizumFormViewModel.bizumFormArgument?.let {
             binding.inputImportText.text = inputText.newEditable(it.import)

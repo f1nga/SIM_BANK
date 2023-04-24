@@ -20,6 +20,7 @@ import com.bluemeth.simbank.src.data.providers.PromotionsHeaderProvider
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.models.PromotionsFeatures
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.promotions_function.models.PromotionsHeader
+import com.bluemeth.simbank.src.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -52,7 +53,12 @@ class PromotionsFragment : Fragment() {
     private fun participate(){
         binding.btnParticipate.setOnClickListener{
             showParticipateDialog()
+            missionDoned()
         }
+    }
+
+    private fun missionDoned() {
+        globalViewModel.setUserMissionToDB(Constants.PROMOTION_MISSION)
     }
 
     private fun setRecyclerViewHeader() {

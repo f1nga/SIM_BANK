@@ -24,6 +24,7 @@ import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.data.models.utils.NotificationType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.drawer.contacts.ContactsRVAdapter
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -59,6 +60,7 @@ class AddContactFragment : Fragment() {
         addContactViewModel.navigateToHome.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
                 toast("Se ha enviado la solicitud")
+                missionDoned()
                 goToHome()
             }
         }
@@ -117,6 +119,10 @@ class AddContactFragment : Fragment() {
                 user_receive_email = newContact.email
             )
         )
+    }
+
+    private fun missionDoned() {
+        globalViewModel.setUserMissionToDB(Constants.ADD_CONTACT_MISSION)
     }
 
     private fun showQuestionDialog(newContact: User) {
