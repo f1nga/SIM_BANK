@@ -28,21 +28,21 @@
                 android:id="@+id/tvGenerarDinero"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Dinero de la tarjeta"
-                android:layout_marginTop="30dp"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+                app:layout_constraintTop_toBottomOf="@+id/inputAlias" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputMoney"
                 style="@style/FormTextInputLayout"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textColorHint="@color/white"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="Dinero de la tarjeta"
+                    android:hint="Dinero"
                     android:imeOptions="actionNext"
                     android:inputType="number" />
 
@@ -67,21 +67,21 @@
                 android:id="@+id/tvAlias"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="3dp"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Ponle un nombre a tu tarjeta"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/inputMoney" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputAlias"
                 style="@style/FormTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:textColorHint="@color/white"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
@@ -95,7 +95,7 @@
                     style="@style/FormEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre de la cuenta"
+                    android:hint="Nombre de la tarjeta de crédito"
                     android:imeOptions="actionNext" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -105,20 +105,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat"
                 android:text="Introduzca un pin"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:fontFamily="@font/montserrat"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputAlias" />
+                app:layout_constraintTop_toBottomOf="@+id/inputMoney" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputPin"
                 style="@style/FormTextInputLayout"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textColorHint="@color/white"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
@@ -133,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="Numero PIN"
+                    android:hint="PIN"
                     android:imeOptions="actionNext"
                     android:inputType="number" />
 

@@ -264,6 +264,7 @@
 
     <string name="declinar">Declinar</string>
     <string name="wants_to_be_friend">Este usuario quiere ser tu amigo</string>
+    <string name="dinero_prepago_text">Cuánto dinero le quieres poner a esta tarjeta</string>
 
 
     <string-array name="movement_type_array">

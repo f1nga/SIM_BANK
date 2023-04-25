@@ -19,6 +19,9 @@
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
+    <style name="BackgroundPrimaryColor">
+        <item name="android:background">@color/backgroundColor</item>
+    </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <!-- Customize color of navigation drawer icon and back arrow -->

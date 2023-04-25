@@ -41,7 +41,7 @@
                 style="@style/FormTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textColorHint="@color/white"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
@@ -64,21 +64,21 @@
                 android:id="@+id/tvPinDebit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat"
                 android:text="Introduzca un pin"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                android:fontFamily="@font/montserrat"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputAlias" />
+                app:layout_constraintTop_toBottomOf="@+id/inputMoney" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputPin"
                 style="@style/FormTextInputLayout"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textColorHint="@color/white"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:hint="Numero PIN"
+                    android:hint="PIN"
                     android:imeOptions="actionNext"
                     android:inputType="number" />
 
@@ -104,21 +104,22 @@
                 android:id="@+id/tvDineroIngreso"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="Cuánto dinero le quieres poner a esta tarjeta"
-                android:textColor="@color/white"
-                android:textSize="16sp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/montserrat"
+                android:text="@string/dinero_prepago_text"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputPin" />
+                app:layout_constraintTop_toBottomOf="@+id/inputAlias" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputMoney"
                 style="@style/FormTextInputLayout"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:textColorHint="@color/white"
                 app:endIconMode="clear_text"
                 app:endIconTint="@color/white"
@@ -145,14 +146,15 @@
                 style="@style/PrimaryButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:text="Solicitar"
-                android:layout_marginTop="30dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/inputMoney"/>
+                app:layout_constraintTop_toBottomOf="@+id/inputPin"
+                app:layout_constraintVertical_bias="1.0" />
 
             <ImageView
                 android:id="@+id/imageView7"

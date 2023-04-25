@@ -4,8 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.inputmethod.EditorInfo
+import android.widget.ImageView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_NO
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.bluemeth.simbank.R
@@ -28,6 +32,7 @@ import com.bluemeth.simbank.src.ui.steps.complete_register.CompleteRegisterActiv
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -53,6 +58,17 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         prefs.saveSteps()
+        val swDarkMode = findViewById<SwitchMaterial>(R.id.swDarkMode)
+        val logoSimBank = findViewById<ImageView>(R.id.ivLogo)
+        swDarkMode.setOnCheckedChangeListener { _, isSelected ->
+            if (isSelected){
+                logoSimBank.setImageResource(R.drawable.logosimbankwhite)
+                enableLightMode()
+            }else{
+                logoSimBank.setImageResource(R.drawable.logosimbank)
+                disableLightMode()
+            }
+        }
         initUI()
     }
 
@@ -194,6 +210,17 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun enableLightMode(){
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+        delegate.applyDayNight()
+    }
+
+    private fun disableLightMode(){
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_NO)
+        delegate.applyDayNight()
+    }
+
 
     private fun goToForgotPassword() {
         startActivity(ForgotPasswordActivity.create(this))
