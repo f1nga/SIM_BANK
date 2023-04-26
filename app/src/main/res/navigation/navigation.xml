@@ -585,6 +585,9 @@
         <action
             android:id="@+id/action_viewContactProfileFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_viewContactProfileFragment_to_addContactFragment"
+            app:destination="@id/addContactFragment" />
     </fragment>
 
 </navigation>
