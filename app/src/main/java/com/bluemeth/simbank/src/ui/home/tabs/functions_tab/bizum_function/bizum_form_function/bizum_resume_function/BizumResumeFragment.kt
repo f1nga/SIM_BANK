@@ -83,7 +83,7 @@ class BizumResumeFragment : Fragment() {
                     bizumFormViewModel.bizumFormMdel?.let { bizumFormModel ->
                         globalViewModel.getBankAccountFromDBbyPhone(bizumFormModel.addresse!!.phoneNumber)
                             .observe(requireActivity()) { beneficiaryAccount ->
-                                if (arguments?.getString("form_type") == "Enviar dinero") {
+                                if (arguments?.getString(Constants.FORM_TYPE) == Constants.SEND_MONEY) {
                                     sendBizum(bizumFormModel, beneficiaryAccount, bankAccount, user)
                                 } else {
                                     requestBizum(
@@ -200,7 +200,11 @@ class BizumResumeFragment : Fragment() {
     }
 
     private fun missionDoned(mission: Mission) {
-        globalViewModel.setUserMissionToDB(mission)
+        if(arguments?.getBoolean(Constants.REUSE) == true) {
+            globalViewModel.setUserMissionToDB(Constants.REUSE_BIZUM_MISSION)
+        } else {
+            globalViewModel.setUserMissionToDB(mission)
+        }
     }
 
     @SuppressLint("SetTextI18n")

@@ -24,6 +24,7 @@ import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_from_agenda.model.ContactAgenda
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.TransferFormViewModel
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -119,6 +120,7 @@ class AddContactFromAgendaFragment : Fragment() {
                         contactBizum.name.lowercase(Locale.ROOT)
                             .contains(searchText.toString().lowercase(Locale.ROOT))
                     }
+
                 adapter.setListData(listFiltered as MutableList<ContactAgenda>)
                 adapter.notifyDataSetChanged()
             }
@@ -159,7 +161,7 @@ class AddContactFromAgendaFragment : Fragment() {
     }
 
     private fun goToBizumForm() {
-        val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
+        val bundle = bundleOf(Constants.FORM_TYPE to arguments?.getString(Constants.FORM_TYPE))
         view?.findNavController()
             ?.navigate(R.id.action_addContactFromAgendaFragment_to_bizumFormFragment, bundle)
     }

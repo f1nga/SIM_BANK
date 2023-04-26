@@ -1,6 +1,7 @@
 package com.bluemeth.simbank.src.ui.drawer.contacts
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,29 +11,36 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bluemeth.simbank.R
+import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.data.models.User
+import com.bluemeth.simbank.src.data.providers.firebase.AuthenticationRepository
+import com.bluemeth.simbank.src.data.providers.firebase.NotificationRepository
+import com.bluemeth.simbank.src.utils.Constants
+import com.bluemeth.simbank.src.utils.Methods
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class ContactsRVAdapter @Inject constructor() :
-    RecyclerView.Adapter<ContactsRVAdapter.ContactHolder>() {
+class ContactsRVAdapter @Inject constructor(
+    private val notificationRepository: NotificationRepository,
+    private val authenticationRepository: AuthenticationRepository
+) : RecyclerView.Adapter<ContactsRVAdapter.ContactHolder>() {
+
     private lateinit var listener: OnItemsClickListener
     private var listData = mutableListOf<User>()
+    val getListData get() = listData
     var addContact = false
 
     interface OnItemsClickListener {
         fun onViewProfileClick(user: User)
         fun onActionClick(user: User)
+        fun onCancelRequestClick(user: User)
         fun onBlockClick(user: User)
     }
 
     fun setListData(data: MutableList<User>) {
-
         listData = data
-    }
-
-    fun deleteContact(user: User) {
-        listData.remove(user)
     }
 
     fun setItemListener(listener: OnItemsClickListener) {
@@ -62,6 +70,7 @@ class ContactsRVAdapter @Inject constructor() :
         @SuppressLint("SetTextI18n")
         fun bindView(user: User) {
             val img = itemView.findViewById<ImageView>(R.id.ivCircle)
+            val capitals = itemView.findViewById<TextView>(R.id.tvCircleName)
             val name = itemView.findViewById<TextView>(R.id.tvName)
             val phone = itemView.findViewById<TextView>(R.id.tvPhone)
             val action = itemView.findViewById<TextView>(R.id.tvAction)
@@ -74,12 +83,36 @@ class ContactsRVAdapter @Inject constructor() :
 
             Picasso.get().load(user.image).into(img)
 
-            name.text = user.name
-            phone.text = user.phone.toString()
+            if (user.image == Constants.DEFAULT_PROFILE_IMAGE) {
+                capitals.text = Methods.splitNameAndSurname(user.name)
+            }
 
-            if(addContact) {
-                action.text = "Añadir"
-                iconAction.setImageResource(R.drawable.ic_add_contact)
+            name.text = user.name
+            phone.text = Methods.formatPhoneNumber(user.phone)
+
+            if (addContact) {
+                runBlocking {
+                    notificationRepository.getContactRequests(
+                        authenticationRepository.getCurrentUser().email!!,
+                        user.email
+                    ).observeForever {
+                        if(it != null) {
+                            action.text = "Cancelar solicitud"
+                            iconAction.setImageResource(R.drawable.ic_remove_contact)
+
+                            llActionContact.setOnClickListener {
+                                listener.onCancelRequestClick(user)
+                            }
+                        } else {
+                            action.text = "Añadir"
+                            iconAction.setImageResource(R.drawable.ic_add_contact)
+
+                            llActionContact.setOnClickListener {
+                                listener.onActionClick(user)
+                            }
+                        }
+                    }
+                }
             } else {
                 action.text = "Eliminar"
                 iconAction.setImageResource(R.drawable.ic_remove_contact)
@@ -93,13 +126,13 @@ class ContactsRVAdapter @Inject constructor() :
                 listener.onViewProfileClick(user)
             }
 
-            llActionContact.setOnClickListener {
-                listener.onActionClick(user)
-            }
+
 
             llBlockContact.setOnClickListener {
                 listener.onBlockClick(user)
             }
+
+
         }
     }
 }

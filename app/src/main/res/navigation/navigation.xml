@@ -514,8 +514,14 @@
             android:id="@+id/action_contactsFragment_to_addContactFragment"
             app:destination="@id/addContactFragment" />
         <action
+            android:id="@+id/action_contactsFragment_to_blockedContactsFragment"
+            app:destination="@id/blockedContactsFragment" />
+        <action
             android:id="@+id/action_contactsFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_contactsFragment_to_viewContactProfileFragment"
+            app:destination="@id/viewContactProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/addContactFragment"
@@ -528,6 +534,9 @@
         <action
             android:id="@+id/action_addContactFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_addContactFragment_to_viewContactProfileFragment"
+            app:destination="@id/viewContactProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/notificationsFragment"
@@ -557,6 +566,25 @@
             android:id="@+id/action_contactRequestDetailFragment_to_notificationsFragment"
             app:destination="@id/notificationsFragment"
             app:popUpTo="@id/homeFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/blockedContactsFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.contacts.blocked_contacts.BlockedContactsFragment"
+        android:label="BlockedContactsFragment" />
+    <fragment
+        android:id="@+id/viewContactProfileFragment"
+        android:name="com.bluemeth.simbank.src.ui.drawer.contacts.view_contact_profile.ViewContactProfileFragment"
+        android:label="fragment_view_contact_profile"
+        tools:layout="@layout/fragment_view_contact_profile" >
+        <action
+            android:id="@+id/action_viewContactProfileFragment_to_bizumFormFragment"
+            app:destination="@id/bizumFormFragment" />
+        <action
+            android:id="@+id/action_viewContactProfileFragment_to_transferFormFragment"
+            app:destination="@id/transferFormFragment" />
+        <action
+            android:id="@+id/action_viewContactProfileFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
 </navigation>

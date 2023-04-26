@@ -24,6 +24,7 @@ import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.drawer.notifications.contact_request_detail.ContactRequestDetailViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.home_tab.account.account_movements_details.MovementsDetailsViewModel
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -193,7 +194,7 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun goToBizumResume() {
-        val bundle = bundleOf("form_type" to "Solicitar dinero")
+        val bundle = bundleOf(Constants.FORM_TYPE to Constants.REQUEST_MONEY)
 
         view?.findNavController()
             ?.navigate(R.id.action_notificationsFragment_to_bizumResumeFragment, bundle)

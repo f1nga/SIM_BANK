@@ -21,6 +21,7 @@ import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.bizum_add_manually.model.ContactManually
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
+import com.bluemeth.simbank.src.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -115,7 +116,7 @@ class AddContactManuallyFragment : Fragment() {
     }
 
     private fun goToBizumForm() {
-        val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
+        val bundle = bundleOf(Constants.FORM_TYPE to arguments?.getString(Constants.FORM_TYPE))
         view?.findNavController()
             ?.navigate(R.id.action_addContactManuallyFragment_to_bizumFormFragment, bundle)
     }

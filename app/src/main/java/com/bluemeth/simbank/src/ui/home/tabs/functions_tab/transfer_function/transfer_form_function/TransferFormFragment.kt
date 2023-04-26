@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -25,6 +26,7 @@ import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.models.TransferFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function.ResumeTransferViewModel
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -155,8 +157,6 @@ class TransferFormFragment : Fragment() {
     private fun onFieldChanged(hasFocus: Boolean = false) {
 
         //autoSpacesIban()
-
-
         if (!hasFocus) {
             val characters = 35 - binding.inputAsuntoText.text.toString().length
 
@@ -169,7 +169,6 @@ class TransferFormFragment : Fragment() {
                     setTextColor(Color.parseColor("#e84545"))
                     "Has sobrepasado el límite"
                 }
-
             }
 
             transferFormViewModel.onNameFieldsChanged(
@@ -232,7 +231,8 @@ class TransferFormFragment : Fragment() {
     }
 
     private fun goToTransferResum() {
-        view?.findNavController()?.navigate(R.id.action_transferFormFragment_to_resumeTransferFragment)
+        val bundle = bundleOf(Constants.REUSE to arguments?.getBoolean(Constants.REUSE))
+        view?.findNavController()?.navigate(R.id.action_transferFormFragment_to_resumeTransferFragment, bundle)
     }
 
     override fun onStart() {

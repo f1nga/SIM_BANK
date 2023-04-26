@@ -11,6 +11,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.os.bundleOf
+import kotlin.collections.emptyList
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,12 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumFormBinding
 import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
-import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.core.ex.loseFocusAfterAction
 import com.bluemeth.simbank.src.core.ex.onTextChanged
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.BizumFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -205,13 +206,17 @@ class BizumFormFragment : Fragment() {
             binding.inputSubjectText.text = inputText.newEditable(it.subject)
             bizumFormViewModel.addressesRVAdapter.setListData(mutableListOf(it.addresse!!))
 
-            binding.inputImportText.text = inputText.newEditable(
-                Methods.formatMoney(
-                    Methods.roundOffDecimal(
-                        it.import.toDouble()
+
+            if(it.import.isNotEmpty()) {
+                binding.inputImportText.text = inputText.newEditable(
+                    Methods.formatMoney(
+                        Methods.roundOffDecimal(
+                            it.import.toDouble()
+                        )
                     )
                 )
-            )
+            }
+
         }
 
         bizumFormViewModel.bizumFormArgument?.let {
@@ -254,14 +259,14 @@ class BizumFormFragment : Fragment() {
     }
 
     private fun goToAddContactManually() {
-        val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
+        val bundle = bundleOf(Constants.FORM_TYPE to arguments?.getString(Constants.FORM_TYPE))
         view?.findNavController()
             ?.navigate(R.id.action_bizumFormFragment_to_addContactManuallyFragment, bundle)
     }
 
     private fun goToAddContactFromAgenda() {
         val bundle = bundleOf(
-            "form_type" to arguments?.getString("form_type"),
+            Constants.FORM_TYPE to arguments?.getString(Constants.FORM_TYPE),
             "coming_from" to "bizum_form"
         )
         view?.findNavController()
@@ -281,7 +286,10 @@ class BizumFormFragment : Fragment() {
     }
 
     private fun goToBizumResume() {
-        val bundle = bundleOf("form_type" to arguments?.getString("form_type"))
+        val bundle = bundleOf(
+            Constants.FORM_TYPE to arguments?.getString(Constants.FORM_TYPE),
+            Constants.REUSE to arguments?.getBoolean(Constants.REUSE)
+        )
         view?.findNavController()
             ?.navigate(R.id.action_bizumFormFragment_to_bizumResumeFragment, bundle)
     }
@@ -292,7 +300,7 @@ class BizumFormFragment : Fragment() {
         val tvTitle = requireActivity().findViewById<View>(R.id.tvNameBar) as TextView
         tvTitle.text = getString(R.string.toolbar_bizum_form)
 
-        binding.tvTitleForm.text = arguments?.getString("form_type")
+        binding.tvTitleForm.text = arguments?.getString(Constants.FORM_TYPE)
 
         requireActivity().findViewById<ImageView>(R.id.ivNotifications).let {
             it.setOnClickListener {

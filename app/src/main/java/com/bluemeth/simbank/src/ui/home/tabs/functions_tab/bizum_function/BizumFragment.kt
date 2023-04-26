@@ -21,6 +21,7 @@ import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_details.BizumDetailViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
+import com.bluemeth.simbank.src.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -63,13 +64,13 @@ class BizumFragment : Fragment() {
     private fun initListeners() {
         bizumViewModel.navigateToRequestBizum.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
-                goToBizumForm("Solicitar dinero")
+                goToBizumForm(Constants.REQUEST_MONEY)
             }
         }
 
         bizumViewModel.navigateToSendBizum.observe(requireActivity()) {
             it.getContentIfNotHandled()?.let {
-                goToBizumForm("Enviar dinero")
+                goToBizumForm(Constants.SEND_MONEY)
             }
         }
         binding.cvBizumsSended.setOnClickListener {
@@ -146,14 +147,22 @@ class BizumFragment : Fragment() {
     }
 
     private fun clearBizumForm() {
-        if (bizumFormViewModel.addressesRVAdapter.getListData().isNotEmpty())
-            bizumFormViewModel.addressesRVAdapter.getListData().clear()
-        bizumFormViewModel.bizumFormArgument?.import = ""
-        bizumFormViewModel.bizumFormArgument?.subject = ""
+        with(bizumFormViewModel) {
+            if (addressesRVAdapter.getListData().isNotEmpty())
+                addressesRVAdapter.getListData().clear()
+            bizumFormArgument?.import = ""
+            bizumFormArgument?.subject = ""
+            bizumFormArgument?.addresse = null
+            reUseBizumArgument?.import= ""
+            reUseBizumArgument?.subject = ""
+            bizumFormMdel?.import = ""
+            bizumFormMdel?.subject = ""
+            bizumFormMdel?.addresse = null
+        }
     }
 
     private fun goToBizumForm(formType: String) {
-        val bundle = bundleOf("form_type" to formType)
+        val bundle = bundleOf(Constants.FORM_TYPE to formType, Constants.REUSE to false)
         view?.findNavController()?.navigate(R.id.action_bizumFragment_to_bizumFormFragment, bundle)
     }
 

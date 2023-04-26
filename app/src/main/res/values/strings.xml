@@ -93,6 +93,8 @@
     <string name="toolbar_missions">Misiones</string>
     <string name="toolbar_contacts">Contactos</string>
     <string name="toolbar_add_contact">Añadir un contacto</string>
+    <string name="toolbar_contact_profile">Perfil del contacto</string>
+    <string name="toolbar_blocked_contacts">Contactos bloqueados</string>
     <string name="toolbar_notifications">Notificaciones</string>
     <string name="toolbar_contact_request">Solicitud de amistad</string>
     <string name="toolbar_settings">Ajustes</string>
@@ -265,6 +267,7 @@
     <string name="declinar">Declinar</string>
     <string name="wants_to_be_friend">Este usuario quiere ser tu amigo</string>
     <string name="dinero_prepago_text">Cuánto dinero le quieres poner a esta tarjeta</string>
+    <string name="blocked_users">Usuarios bloqueados</string>
 
 
     <string-array name="movement_type_array">

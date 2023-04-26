@@ -182,7 +182,11 @@ class ResumeTransferFragment : Fragment() {
     }
 
     private fun missionDoned() {
-        globalViewModel.setUserMissionToDB(Constants.TRANSFER_MISSION)
+        if(arguments?.getBoolean(Constants.REUSE) == true) {
+            globalViewModel.setUserMissionToDB(Constants.REUSE_TRANSFER_MISSION)
+        } else {
+            globalViewModel.setUserMissionToDB(Constants.TRANSFER_MISSION)
+        }
     }
 
     @SuppressLint("SetTextI18n")

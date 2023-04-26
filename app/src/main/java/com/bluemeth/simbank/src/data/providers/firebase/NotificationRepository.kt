@@ -1,8 +1,11 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.Notification
+import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.data.models.utils.NotificationType
+import com.google.firebase.firestore.QueryDocumentSnapshot
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -35,22 +38,7 @@ class NotificationRepository @Inject constructor(val firebase: FirebaseClient) {
 
                 for (document in documents) {
                     listData.add(
-                        Notification(
-                            id = document.getString(ID_FIELD)!!,
-                            title = document.getString(TITLE_FIELD)!!,
-                            description = document.getString(DESCRIPTION_FIELD)!!,
-                            date = document.getTimestamp(DATE_FIELD)!!,
-                            type = when (document.getString(TYPE_FIELD)!!) {
-                                "BizumReceived" -> NotificationType.BizumReceived
-                                "TransferReceived" -> NotificationType.TransferReceived
-                                "BizumRequested" -> NotificationType.BizumRequested
-                                else -> NotificationType.ContactRequest
-                            },
-                            movementID = document.getString(MOVEMENT_ID_FIELD),
-                            readed = document.getBoolean(READED_FIELD)!!,
-                            user_send_email = document.getString(USER_SEND_EMAIL_FIELD),
-                            user_receive_email = document.getString(USER_RECEIVE_EMAIL_FIELD)!!
-                        )
+                        getNotification(document)
                     )
                 }
 
@@ -62,6 +50,52 @@ class NotificationRepository @Inject constructor(val firebase: FirebaseClient) {
             .await()
 
         return notificationsList
+    }
+
+    suspend fun getContactRequests(email: String, contactEmail: String): MutableLiveData<Notification?> {
+        val notification = MutableLiveData<Notification?>()
+        var notificationExists = false
+
+        firebase.db
+            .collection(NOTIFICATIONS_COLLECTION)
+            .whereEqualTo(USER_RECEIVE_EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                for(document in documents) {
+                    if(document.getString(USER_SEND_EMAIL_FIELD) == contactEmail && document.getString(
+                            TYPE_FIELD) == NotificationType.ContactRequest.toString()) {
+                        notification.value = getNotification(document)
+                        notificationExists = true
+                    }
+                }
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error").w(exception, "Error getting documents: ")
+            }
+            .await()
+
+        firebase.db
+            .collection(NOTIFICATIONS_COLLECTION)
+            .whereEqualTo(USER_SEND_EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+
+                for(document in documents) {
+                    if(document.getString(USER_RECEIVE_EMAIL_FIELD) == contactEmail && document.getString(
+                            TYPE_FIELD) == NotificationType.ContactRequest.toString()) {
+                        notification.value = getNotification(document)
+                        notificationExists = true
+                    }
+                }
+
+                if(!notificationExists) notification.value = null
+            }
+            .addOnFailureListener { exception ->
+                Timber.tag("Error").w(exception, "Error getting documents: ")
+            }
+            .await()
+
+        return notification
     }
 
     suspend fun isEveryNotificationReaded(email: String): MutableLiveData<Boolean> {
@@ -159,4 +193,23 @@ class NotificationRepository @Inject constructor(val firebase: FirebaseClient) {
                 Timber.tag("Error").w(exception, "Error getting documents: ")
             }
     }.isSuccess
+
+    private fun getNotification(document: QueryDocumentSnapshot): Notification {
+        return Notification(
+            id = document.getString(ID_FIELD)!!,
+            title = document.getString(TITLE_FIELD)!!,
+            description = document.getString(DESCRIPTION_FIELD)!!,
+            date = document.getTimestamp(DATE_FIELD)!!,
+            type = when (document.getString(TYPE_FIELD)!!) {
+                "BizumReceived" -> NotificationType.BizumReceived
+                "TransferReceived" -> NotificationType.TransferReceived
+                "BizumRequested" -> NotificationType.BizumRequested
+                else -> NotificationType.ContactRequest
+            },
+            movementID = document.getString(MOVEMENT_ID_FIELD),
+            readed = document.getBoolean(READED_FIELD)!!,
+            user_send_email = document.getString(USER_SEND_EMAIL_FIELD),
+            user_receive_email = document.getString(USER_RECEIVE_EMAIL_FIELD)!!
+        )
+    }
 }

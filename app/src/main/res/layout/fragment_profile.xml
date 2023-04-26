@@ -308,6 +308,20 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tvCompletedMissions"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="7/7"
+                        android:textSize="14sp"
+                        android:textColor="@color/primary_button"
+                        android:layout_marginStart="10dp"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginTop="1.5dp"
+                        app:layout_constraintStart_toEndOf="@+id/textView8"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
                         android:id="@+id/textView9"
                         style="@style/BodyText"
                         android:layout_width="wrap_content"

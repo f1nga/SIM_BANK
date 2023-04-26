@@ -52,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginEnd="11dp"
         android:layout_marginTop="20dp">
 
         <LinearLayout
@@ -64,7 +65,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/all_users"
+                android:text="@string/blocked_users"
                 android:textAllCaps="true"
                 android:gravity="start"
                 android:layout_gravity="end"
@@ -79,7 +80,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginEnd="11dp"
             android:layout_weight="1">
 
 
@@ -89,22 +89,22 @@
                 android:layout_height="wrap_content"
                 android:text="5"
                 android:layout_gravity="end"
-                android:textStyle="normal"
-                style="@style/TitleText" />
+                style="@style/TitleText"
+                android:textStyle="normal"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvContacts"
+        android:id="@+id/rvBlockedContacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:visibility="gone"/>
 
     <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/sflContacts"
+        android:id="@+id/sflBlockedContacts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

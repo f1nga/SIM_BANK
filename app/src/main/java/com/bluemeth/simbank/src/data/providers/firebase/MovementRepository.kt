@@ -160,6 +160,28 @@ class MovementRepository @Inject constructor(private val firebase: FirebaseClien
             }
     }
 
+    suspend fun getTotalMovementsByUser(email: String, name: String): MutableLiveData<Int> {
+        val totalMovements = MutableLiveData<Int>()
+
+        firebase.db.collection(MOVEMENTS_COLLECTION)
+            .whereEqualTo(USER_EMAIL_FIELD, email)
+            .get()
+            .addOnSuccessListener { documents ->
+                var total = documents.size()
+                firebase.db.collection(MOVEMENTS_COLLECTION)
+                    .whereEqualTo(BENEFICIARY_NAME_FIELD, name)
+                    .get()
+                    .addOnSuccessListener { documents2 ->
+                        total += documents2.size()
+                        totalMovements.value = total
+                    }
+                totalMovements.value = documents.size()
+            }
+            .await()
+
+        return totalMovements
+    }
+
     private fun getMovement(document: QueryDocumentSnapshot, isIncome: Boolean): Movement {
         val paymentType =
             when (document.getString(PAYMENT_TYPE_FIELD)) {

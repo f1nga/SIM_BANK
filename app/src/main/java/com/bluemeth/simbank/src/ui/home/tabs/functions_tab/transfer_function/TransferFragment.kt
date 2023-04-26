@@ -22,6 +22,7 @@ import com.bluemeth.simbank.src.data.models.utils.PaymentType
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.models.TransferFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.transfer_function.transfer_form_function.resume_transfer_function.ResumeTransferViewModel
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -139,7 +140,8 @@ class TransferFragment : Fragment() {
     }
 
     private fun goToResumeTransfer() {
-        view?.findNavController()?.navigate(R.id.action_transferFragment_to_resumeTransferFragment)
+        val bundle = bundleOf(Constants.REUSE to true)
+        view?.findNavController()?.navigate(R.id.action_transferFragment_to_resumeTransferFragment, bundle)
     }
 
     override fun onStart() {

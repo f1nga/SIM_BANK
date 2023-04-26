@@ -222,4 +222,16 @@ class GlobalViewModel @Inject constructor(
 
         return isReaded
     }
+
+    fun getUsersFromDB(email: String): MutableLiveData<MutableList<User>> {
+        val mutableData = MutableLiveData<MutableList<User>>()
+
+        viewModelScope.launch {
+            userRepository.getUsers(email).observeForever {
+                mutableData.value = it
+            }
+        }
+
+        return mutableData
+    }
 }

@@ -9,8 +9,10 @@ object MissionsProvider {
             Constants.SEND_BIZUM_MISSION,
             Constants.TRANSFER_MISSION,
             Constants.ADD_CONTACT_MISSION,
+            Constants.REQUEST_BIZUM_MISSION,
             Constants.PROMOTION_MISSION,
-            Constants.REQUEST_BIZUM_MISSION
+            Constants.REUSE_BIZUM_MISSION,
+            Constants.REUSE_TRANSFER_MISSION
         )
     }
 }

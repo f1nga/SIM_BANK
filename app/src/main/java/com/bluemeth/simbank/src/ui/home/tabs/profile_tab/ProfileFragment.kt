@@ -21,6 +21,7 @@ import com.bluemeth.simbank.src.core.dialog.DialogFragmentLauncher
 import com.bluemeth.simbank.src.core.dialog.QuestionDialog
 import com.bluemeth.simbank.src.core.ex.show
 import com.bluemeth.simbank.src.core.ex.toast
+import com.bluemeth.simbank.src.data.providers.MissionsProvider
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.auth.login.LoginActivity
 import com.bluemeth.simbank.src.ui.welcome.WelcomeActivity
@@ -74,8 +75,8 @@ class ProfileFragment : Fragment() {
                     pbLevel.progress = it.exp
                     tvLevel.text = it.level.toString()
                     tvExp.text = "${it.exp}/100 EXP"
+                    tvCompletedMissions.text = "${it.missions_completed.size}/${MissionsProvider.getListMissions().size}"
                 }
-
             }
         }
     }

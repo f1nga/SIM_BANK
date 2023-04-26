@@ -14,11 +14,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.bluemeth.simbank.R
 import com.bluemeth.simbank.databinding.FragmentBizumDetailBinding
+import com.bluemeth.simbank.src.core.ex.log
 import com.bluemeth.simbank.src.data.models.Movement
 import com.bluemeth.simbank.src.ui.GlobalViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.BizumFormViewModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.BizumFormModel
 import com.bluemeth.simbank.src.ui.home.tabs.functions_tab.bizum_function.bizum_form_function.models.ContactBizum
+import com.bluemeth.simbank.src.utils.Constants
 import com.bluemeth.simbank.src.utils.Methods
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,8 +49,8 @@ class BizumDetailFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.llReUseSend.setOnClickListener { reUseBizum("Enviar dinero") }
-        binding.llReUseSolicitud.setOnClickListener { reUseBizum("Solicitar dinero") }
+        binding.llReUseSend.setOnClickListener { reUseBizum(Constants.SEND_MONEY) }
+        binding.llReUseSolicitud.setOnClickListener { reUseBizum(Constants.REQUEST_MONEY) }
     }
 
     private fun reUseBizum(formType: String) {
@@ -56,6 +58,8 @@ class BizumDetailFragment : Fragment() {
             .observe(requireActivity()) {
                 globalViewModel.getUserByEmail(it.user_email)
                     .observe(requireActivity()) { beneficiary ->
+                        log("hoool", movement.amount.toString())
+
                         bizumFormViewModel.setReUseBizumArguments(
                             BizumFormModel(
                                 import = movement.amount.toString(),
@@ -70,7 +74,7 @@ class BizumDetailFragment : Fragment() {
                             )
                         )
 
-                        goToBizumForm(bundleOf("form_type" to formType))
+                        goToBizumForm(bundleOf(Constants.FORM_TYPE to formType, Constants.REUSE to true))
                     }
             }
     }

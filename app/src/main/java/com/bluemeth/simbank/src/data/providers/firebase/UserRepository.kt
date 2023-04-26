@@ -1,6 +1,5 @@
 package com.bluemeth.simbank.src.data.providers.firebase
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.bluemeth.simbank.src.data.models.User
 import com.bluemeth.simbank.src.ui.auth.signin.model.UserSignIn
@@ -23,6 +22,7 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
         const val IMAGE = "image"
         const val MISSIONS_COMPLETED_FIELD = "missions_completed"
         const val CONTACTS_FIELD = "contacts"
+        const val BLOCKED_CONTACTS_FIELD = "blocked_contacts"
     }
 
     suspend fun createUserTable(userSignIn: UserSignIn) = runCatching {
@@ -107,6 +107,51 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
                 Timber.tag("Error").w(exception, "Error getting documents: ")
             }
             .await()
+
+        return mutableData
+    }
+
+    suspend fun getCommonUserContacts(
+        currentUserEmail: String,
+        contactEmail: String
+    ): MutableLiveData<Int> {
+        val mutableData = MutableLiveData<Int>()
+
+        getUserContacts(currentUserEmail).observeForever { currentUserContacts ->
+            firebase.db
+                .collection(USER_COLLECTION)
+                .whereEqualTo(EMAIL_FIELD, contactEmail)
+                .get()
+                .addOnSuccessListener { documents ->
+                    var totalContacts = 0
+                    val contactsList = documents.first().get(CONTACTS_FIELD) as MutableList<String>
+
+                    if(contactsList.size >= currentUserContacts.size) {
+                        for (contact in documents.first().get(CONTACTS_FIELD) as MutableList<String>) {
+                            for (currentContact in currentUserContacts) {
+                                if (contact == currentContact.email) {
+                                    totalContacts++
+                                }
+                            }
+                        }
+                    } else {
+                        for (currentContact in currentUserContacts) {
+                            for (contact in contactsList) {
+                                if (contact == currentContact.email) {
+                                    totalContacts++
+                                }
+                            }
+                        }
+                    }
+
+
+                    mutableData.value = totalContacts
+                }
+                .addOnFailureListener { exception ->
+                    Timber.tag("Error").w(exception, "Error getting documents: ")
+                }
+        }
+
 
         return mutableData
     }
@@ -297,6 +342,14 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             .await()
     }.isSuccess
 
+    suspend fun updateUserBlockedContacts(user: User) = runCatching {
+        firebase.db
+            .collection(USER_COLLECTION)
+            .document(user.email)
+            .update(BLOCKED_CONTACTS_FIELD, user.blocked_contacts)
+            .await()
+    }.isSuccess
+
     fun deleteUserByEmail(email: String) {
         firebase.db
             .collection(USER_COLLECTION)
@@ -336,7 +389,8 @@ class UserRepository @Inject constructor(private val firebase: FirebaseClient) {
             document.getLong(LEVEL_FIELD)!!.toInt(),
             document.getLong(EXP_FIELD)!!.toInt(),
             document.get(MISSIONS_COMPLETED_FIELD) as MutableList<String>,
-            document.get(CONTACTS_FIELD) as MutableList<String>
+            document.get(CONTACTS_FIELD) as MutableList<String>,
+            document.get(BLOCKED_CONTACTS_FIELD) as MutableList<String>
         )
     }
 }
